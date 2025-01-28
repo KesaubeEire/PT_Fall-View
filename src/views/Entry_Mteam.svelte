@@ -2,6 +2,7 @@
   import { Launch_Hijack } from '@/lib/hijack.js';
   import MteamFall from './Mteam_Fall.svelte';
   import { mount, onMount, unmount } from 'svelte';
+  import { notyf_lt } from '@/lib/notyf.js';
 
   // ------------------------------------------
 
@@ -32,6 +33,8 @@
         _ORIGIN_TL_Node = document.querySelector('div.app-content__inner');
       }
       _ORIGIN_TL_Node.style.display = 'none';
+
+      notyf_lt.success('捕获到 /search !');
 
       // ## 整理 response 数据并格式化
       infoList = rawObject.data;
