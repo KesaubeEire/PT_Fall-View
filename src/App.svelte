@@ -13,38 +13,33 @@
 -->
 <script>
   import { mount } from 'svelte';
-  import { Tool_Watch_Dom } from './lib/tools.js';
   import EntryMteam from './views/Entry_Mteam.svelte';
 
-  // NOTE: 假设这里是 m-team 专用流程
+  // ------------------------------------------------
+
+  /** main.js dom */
+  export let _app;
+
+  // ------------------------------------------------
+
+  let ifMteam;
 
   //  -----------⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇ 主流程 ⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇-----------
 
-  // ## m-team 专用流程
-  // 拿到主列表 div
-  const _ORIGIN_TL_Node = document.querySelector('div.app-content__inner');
-  // 创建瀑布流 div
-  const TL_Node = document.createElement('div');
-  // 加上同等的瀑布流 div
-  Tool_Watch_Dom('div.app-content__inner', insertSibling);
+  // ## 根据域名判断走哪些流程
+  //  ###  域名检测
+
+  // NOTE: 强制走 m-team 专用流程
+  ifMteam = true;
+  if (ifMteam) {
+    // ## m-team 专用流程
+    const app = mount(EntryMteam, {
+      target: _app
+    });
+  }
 
   //  -----------⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆ 主流程 ⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆-----------
 
-  // 封装插入逻辑
-  function insertSibling(el) {
-    // 插入到目标元素之前
-    if (el.parentNode) {
-      console.log('元素已找到，正在插入兄弟节点:', el);
-      el.parentNode.insertBefore(TL_Node, el);
-      const app = mount(EntryMteam, {
-        target: TL_Node,
-        props: { _ORIGIN_TL_Node }
-      });
-    } else {
-      console.error('无法插入：目标元素没有父节点');
-    }
-  }
-
   // Log
-  console.log('-------------->  ' + new Date() + '  <--------------');
+  console.log('-------------->  PT_Fall Launch   <--------------');
 </script>
