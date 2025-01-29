@@ -63,5 +63,9 @@
 
 <!-- 容器元素 -->
 <div bind:this={container} class="entry_mteam">
-  <div style="text-align: center; padding: 10px 0;">这里是瀑布流位置~~</div>
+  <div style="text-align: center; padding: 10px 0;">
+    这里是瀑布流位置~~
+    <br />
+    如果没有生效可能是浏览器缓存了请求, 尝试使用 Ctrl(Command)+Shift+R / Ctrl+F5 来强制刷新页面
+  </div>
 </div>
