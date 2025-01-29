@@ -40,7 +40,6 @@
    * @param infoList
    */
   export function updateList(newInfoList) {
-    viewFocus(fallContainer);
     clearList();
     let list = newInfoList.data;
     Object.keys(list).forEach((key, index) => {
@@ -60,10 +59,14 @@
    */
   function viewFocus(dom) {
     dom.scrollIntoView({
-      // behavior: 'smooth', // 平滑滚动
+      behavior: 'smooth' // 平滑滚动
       // block: 'center', // 垂直居中
-      // inline: 'nearest' // 水平对齐最近边缘}
+      // inline: 'nearest' // 水平对齐最近边缘
     });
+  }
+
+  export function focusFall() {
+    viewFocus(fallContainer);
   }
 </script>
 
@@ -96,7 +99,7 @@
 
   <div class="fall_holder" style="background-color:{_current_bgColor}">
     {#if items.length}
-      <Masonry {items} minColWidth={$_card_layout.min} maxColWidth={$_card_layout.max} gap={$_card_layout.gap} let:item>
+      <Masonry animate={true} {items} minColWidth={$_card_layout.min} maxColWidth={$_card_layout.max} gap={$_card_layout.gap} let:item>
         <MteamCard torrentInfo={item}></MteamCard>
       </Masonry>
     {:else}

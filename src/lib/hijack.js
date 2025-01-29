@@ -37,11 +37,17 @@ export function Launch_Hijack(param = { path: '/search', method: 'POST' }) {
         originalOnLoad?.call(this, e);
       };
 
-      // 记录请求体
-      console.log(`<PT-Fall>[Request]  (${param.method} -> ${param.path})\n`, {
+      const reqBody = {
         url: this._requestMetadata.url,
         body: body instanceof Document ? body.documentElement.outerHTML : body
-      });
+      };
+
+      // 记录请求体
+      // console.log(`<PT-Fall>[Request]  (${param.method} -> ${param.path})\n`, reqBody);
+
+      // 触发自定义事件（使用）
+      const event = new CustomEvent(`req>${param.method}->${param.path}`, { detail: reqBody });
+      window.dispatchEvent(event);
     }
 
     return nativeSend.apply(this, arguments);
@@ -62,7 +68,7 @@ export function Launch_Hijack(param = { path: '/search', method: 'POST' }) {
         // console.log(`<PT-Fall>[Response] (${param.method} -> ${param.path})\n`, JSON.parse(data));
 
         // 触发自定义事件（使用）
-        const event = new CustomEvent(`${param.method}->${param.path}`, { detail: responseData });
+        const event = new CustomEvent(`res>${param.method}->${param.path}`, { detail: responseData });
         window.dispatchEvent(event);
       } catch (e) {
         console.error('<PT-Fall> Capture failed:', e);
