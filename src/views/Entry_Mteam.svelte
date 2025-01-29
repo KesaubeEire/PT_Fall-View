@@ -42,11 +42,21 @@
       // ## 判断是增页触发还是切换触发
       //    区别在于需不需要重置瀑布流
       // NOTE: 此阶段暂时只处理切换触发
-      if (MteamFall_Svelte) unmount(MteamFall_Svelte, { outro: false });
-      MteamFall_Svelte = mount(MteamFall, {
-        target: container,
-        props: { infoList }
-      });
+      if (MteamFall_Svelte) {
+        // ------------------
+        // NOTE: 卸载组件重新安装, 我觉得不如直接重载瀑布流组件信息
+        // unmount(MteamFall_Svelte, { outro: false });
+        // ------------------
+
+        // 重载瀑布流组件信息
+        MteamFall_Svelte.updateList(infoList);
+      } else {
+        // 初次启动加载瀑布流组件
+        MteamFall_Svelte = mount(MteamFall, {
+          target: container,
+          props: { infoList }
+        });
+      }
     });
   });
 </script>

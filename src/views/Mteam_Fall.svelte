@@ -15,14 +15,37 @@
     listContent[key].index = index + 1;
   });
 
+  // ## 更新 list
   $: items = [...listContent];
 
+  // log 一下
   console.log('Mteam_Fall');
   console.log(listContent);
+
+  // -----------------------------
+  /**
+   * 整体更新列表信息
+   * @param infoList
+   */
+  export function updateList(newInfoList) {
+    clearList();
+    let list = newInfoList.data;
+    Object.keys(list).forEach((key, index) => {
+      list[key].index = index + 1;
+    });
+    console.log('new list');
+    console.log(list);
+    listContent = [...list];
+  }
+  /** 清空列表信息 */
+  export function clearList() {
+    listContent = [];
+  }
 </script>
 
 <main>
   <div class="debug">
+    <button on:click={clearList}> reset </button>
     <div>
       <input type="range" bind:value={$_card_layout.min} min="200" max={Math.max(400, $_card_layout.max)} step="1" list="values" />
       最小宽度: {$_card_layout.min}
