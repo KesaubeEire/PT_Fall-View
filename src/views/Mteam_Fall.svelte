@@ -19,7 +19,7 @@
   $: items = [...listContent];
 
   // log 一下
-  console.log('Mteam_Fall');
+  console.log('Mteam_Fall:First');
   console.log(listContent);
 
   // -----------------------------
@@ -33,7 +33,7 @@
     Object.keys(list).forEach((key, index) => {
       list[key].index = index + 1;
     });
-    console.log('new list');
+    console.log('Mteam_Fall:New');
     console.log(list);
     listContent = [...list];
   }

@@ -7,3 +7,11 @@
 
 [svelte-bricks](https://bricks.janosh.dev/)  
 [Notyf](https://github.com/caroso1222/notyf)
+
+## TODO List
+
+1. flowPanel + sidePanel
+2. iframeInsight
+3. 切换 瀑布流 和 原列表 显示
+4. 加更多的卡片信息配置
+5. ...
