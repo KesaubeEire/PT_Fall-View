@@ -4,13 +4,16 @@
   //---------------------------------------------
   /** 父传值: 种子信息*/
   export let torrentInfo;
-  // console.log(torrentInfo.id);
 
   //---------------------------------------------
   // ## 图片懒加载
-  const picSrc = torrentInfo.imageList[0];
+  // 默认pic
   const placeholder = 'https://static.m-team.cc/static/media/logo.80b63235eaf702e44a8d.png';
+  // 真实pic
+  let picSrc = torrentInfo.imageList[0] || placeholder;
+  // pic dom
   let imgElement;
+  // observer
   let observer;
 
   // 加载真实图片
@@ -19,7 +22,7 @@
       imgElement.src = picSrc;
       // imgElement.classList.add('loaded'); // NOTE: 这里没起作用, 强行改 opacity 了
       imgElement.style.opacity = 1;
-      console.log(torrentInfo.id + ` Loaded.`);
+      // console.log(torrentInfo.id + ` Loaded.`);
     }
   };
 
@@ -49,7 +52,8 @@
 </script>
 
 <div class="card_holder">
-  <div class="card_title">{`<${torrentInfo.index}> ` + torrentInfo.name}</div>
+  <!-- <div class="card_title">{`<${torrentInfo.index}> ` + torrentInfo.name}</div> -->
+  <div class="card_title">{`<${torrentInfo.index}> ` + torrentInfo.smallDescr}</div>
   <div class="card_pic">
     <!-- <img src={torrentInfo.imageList[0]} alt={torrentInfo.imageList[0]} /> -->
 
@@ -58,10 +62,15 @@
       src={placeholder}
       data-src={picSrc}
       on:error={() => {
-        imgElement.src = placeholder; // 错误处理
+        // 错误处理
+        // console.log(torrentInfo.index);
+        if (imgElement) imgElement.src = placeholder;
+        else {
+          console.log(`<${torrentInfo.index}>[${torrentInfo.id}] imgElement 丢失.`);
+        }
       }}
       class="lazy-image"
-      alt={picSrc}
+      alt={torrentInfo.id}
     />
   </div>
 </div>
