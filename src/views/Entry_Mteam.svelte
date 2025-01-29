@@ -28,6 +28,9 @@
       const rawObject = JSON.parse(e.detail.data);
       console.log(`<PT-Fall>[Response] (${param.method}->${param.path})[通过事件捕获]:\n`, rawObject);
 
+      if (!_ORIGIN_TL_Node) {
+        _ORIGIN_TL_Node = document.querySelector('div.app-content__inner');
+      }
       _ORIGIN_TL_Node.style.display = 'none';
 
       // ## 整理 response 数据并格式化
