@@ -51,6 +51,10 @@ const persistStore = (key, initialValue) => {
 };
 
 // ----------------------------------------------------------------
+
+/** 拖拽边栏位置 */
+export const _panelPos = persistStore('_panelPos', { x: 0, y: 0 });
+
 /** 卡片布置 */
 export const _card_layout = persistStore('_card_layout', {
   // 最小宽度

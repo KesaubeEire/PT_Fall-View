@@ -14,7 +14,7 @@
 <script>
   import { mount } from 'svelte';
   import EntryMteam from './views/Entry_Mteam.svelte';
-
+  import FlowPanel from './component/flowPanel.svelte';
   // ------------------------------------------------
 
   /** main.js dom */
@@ -37,6 +37,11 @@
       target: _app
     });
   }
+
+  // ## 侧边栏
+  const app = mount(FlowPanel, {
+    target: _app
+  });
 
   //  -----------⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆ 主流程 ⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆-----------
 
