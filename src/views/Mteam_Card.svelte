@@ -113,7 +113,7 @@ let _torrentInfo =  {
     if (targetButtons.length) {
       // 7. 去重处理 (同一行可能有多个按钮)
       const uniqueButtons = [...new Set(targetButtons)];
-      console.log('找到的按钮:', uniqueButtons);
+      // console.log('找到的按钮:', uniqueButtons);
 
       // 8. 安在 holder 上
       // 将按钮放到容器
@@ -212,11 +212,17 @@ let _torrentInfo =  {
     <!-- 种子信息_下载&收藏 -->
     <div class="card_info__dl_and_cl" bind:this={dlclElement}>
       <button
-        on:click={() => {
+        on:click={e => {
           get__DOWN_and_COLLET__Dom(torrentInfo.id);
+
+          // NOTE: 记得提醒用户 => 原列表的这玩意儿会消失
+          // 记得让这玩意儿消失
+          e.target.style.display = 'none';
+          // console.log(e);
         }}
+        title="(原列表的这俩按钮会消失)"
       >
-        下载&收藏(原列表的这俩按钮会消失)
+        下载 & 收藏
       </button>
     </div>
   </div>
@@ -233,5 +239,18 @@ let _torrentInfo =  {
   /* FIXME: 不知道为啥这里不起作用 */
   .lazy-image.loaded {
     opacity: 1;
+  }
+  .card_info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & .card_info__dl_and_cl {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      height: 32px;
+    }
   }
 </style>
