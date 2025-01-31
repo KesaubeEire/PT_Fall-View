@@ -77,6 +77,9 @@ let _torrentInfo =  {
   /** 父传值: 种子信息*/
   export let torrentInfo;
 
+  /** 卡片 dom */
+  let card_holder;
+
   //---------------------------------------------
   // ## 下载收藏操作
   /** 下载和收藏按钮 holder 的 dom */
@@ -161,8 +164,14 @@ let _torrentInfo =  {
         rootMargin: '100px' // 提前100px加载
       }
     );
-
     if (imgElement) observer.observe(imgElement);
+
+    // 视图聚焦每次加载的第一个图片
+    if (torrentInfo.ptfall_highlight) {
+      card_holder.scrollIntoView({
+        behavior: 'smooth' // 平滑滚动
+      });
+    }
   });
 
   onDestroy(() => {
@@ -171,7 +180,7 @@ let _torrentInfo =  {
   });
 </script>
 
-<div class="card_holder">
+<div class="card_holder" bind:this={card_holder}>
   <!-- 种子标题 -->
   <div class="card_title">
     <!-- 

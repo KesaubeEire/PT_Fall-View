@@ -37,17 +37,32 @@
 
   // -----------------------------
   /** 整体更新列表信息
-   * @param infoList
+   * @param newInfoList
+   * @param clearPage 是否清空已有瀑布流视图
    */
-  export function updateList(newInfoList) {
-    clearList();
+  export function updateList(newInfoList, clearPage = true) {
     let list = newInfoList.data;
-    Object.keys(list).forEach((key, index) => {
-      list[key].index = index + 1;
-    });
     console.log('Mteam_Fall:New');
     console.log(list);
-    listContent = [...list];
+
+    // 切页: 清空后加载
+    if (clearPage) {
+      clearList();
+      Object.keys(list).forEach((key, index) => {
+        list[key].index = index + 1;
+      });
+      listContent = [...list];
+    }
+    // 不清空: 直接继续加载
+    else {
+      Object.keys(list).forEach((key, index) => {
+        list[key].index = index + 1 + listContent.length;
+
+        // 切换页面时聚焦到新的页面的第一个
+        if (index == 0) list[key].ptfall_highlight = true;
+      });
+      listContent = [...listContent, ...list];
+    }
   }
   /** 清空列表信息 */
   export function clearList() {
@@ -56,17 +71,43 @@
 
   /** 视图聚焦到某 dom
    * @param dom
+   * @param {'top'|'bottom'} pos - 方向（仅允许 'top' 或 'bottom'）
    */
-  function viewFocus(dom) {
-    dom.scrollIntoView({
-      behavior: 'smooth' // 平滑滚动
-      // block: 'center', // 垂直居中
-      // inline: 'nearest' // 水平对齐最近边缘
-    });
+  function viewFocus(dom, pos) {
+    if (pos == 'top') {
+      dom.scrollIntoView({
+        behavior: 'smooth' // 平滑滚动
+        // block: 'center', // 垂直居中
+        // inline: 'nearest' // 水平对齐最近边缘
+      });
+    }
+
+    // 看下一页时多加几个滚屏防止懒加载干扰视图高度
+    if (pos == 'bottom') {
+      dom.scrollIntoView({
+        behavior: 'auto', // 可选 "smooth" 平滑滚动
+        block: 'end', // 垂直方向对齐到视口底部
+        inline: 'nearest' // 水平方向保持默认
+      });
+      dom.scrollIntoView({
+        behavior: 'auto', // 可选 "smooth" 平滑滚动
+        block: 'end', // 垂直方向对齐到视口底部
+        inline: 'nearest' // 水平方向保持默认
+      });
+      dom.scrollIntoView({
+        behavior: 'auto', // 可选 "smooth" 平滑滚动
+        block: 'end', // 垂直方向对齐到视口底部
+        inline: 'nearest' // 水平方向保持默认
+      });
+    }
   }
 
-  export function focusFall() {
-    viewFocus(fallContainer);
+  /**
+   * 瀑布流对外封装: 视图聚焦
+   * @param {'top'|'bottom'} pos - 方向（仅允许 'top' 或 'bottom'）
+   */
+  export function focusFall(pos = 'top') {
+    viewFocus(fallContainer, pos);
   }
 </script>
 

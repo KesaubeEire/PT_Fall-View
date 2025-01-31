@@ -10,8 +10,13 @@
 
   /** MteamFall_Svelte */
   let MteamFall_Svelte;
-  /** 要传下去的种子信息列表*/
+  /** 要传下去的种子信息列表 */
   let infoList;
+
+  /** 记录最后一次请求的 payload => 判断是否切页 */
+  let lastRequestPayload;
+  /** 是否切页 */
+  let isClearPage = true;
 
   // ------------------------------------------
 
@@ -38,8 +43,25 @@
       /** 劫持请求 */
       window.addEventListener('req>POST->/search', e => {
         console.log(`<PT-Fall>[Request]  (${param.method} -> ${param.path})\n`, e.detail);
-        // 切页时滚动到最上方
-        if (MteamFall_Svelte) MteamFall_Svelte.focusFall();
+
+        // 请求体示例: "{"mode":"adult","categories":[],"visible":1,"pageNumber":1,"pageSize":100}"
+
+        // 判断是否切页
+        const payload = JSON.parse(e.detail.body);
+        if (lastRequestPayload) {
+          isClearPage = !compareRequestPayload(lastRequestPayload, payload);
+        }
+        lastRequestPayload = payload;
+        if (isClearPage) {
+          // 切页时滚动到最上方
+          if (MteamFall_Svelte) MteamFall_Svelte.focusFall();
+        } else {
+          // 不切页时滚动到最下方
+          if (MteamFall_Svelte) MteamFall_Svelte.focusFall('bottom');
+        }
+
+        // NOTE: 是否切页的 Notyf Log, 记得注释了
+        // isClearPage ? notyf_lt.success('切') : notyf_lt.error('不切');
       });
 
       /** 劫持响应 */
@@ -59,10 +81,9 @@
 
         // ## 判断是增页触发还是切换触发
         //    区别在于需不需要重置瀑布流
-        // NOTE: 此阶段暂时只处理切换触发
         if (MteamFall_Svelte) {
           // 重载瀑布流组件信息
-          MteamFall_Svelte.updateList(infoList);
+          MteamFall_Svelte.updateList(infoList, isClearPage);
         } else {
           // 初次启动加载瀑布流组件
           MteamFall_Svelte = mount(MteamFall, {
@@ -75,5 +96,22 @@
       notyf_lt.error('找不到指定节点\n若总是如此请报告bug');
       console.error('无法插入：目标元素没有父节点');
     }
+  }
+
+  /** 比较两次提交 payload => 用以判断是否需要切页还是往下继续生成 bricks
+   * @param last
+   * @param current
+   */
+  function compareRequestPayload(last, current) {
+    // 比较 mode 和 categories 是否严格相同
+    const isSameMode = last.mode === current.mode;
+
+    // 使用 JSON.stringify 比较数组内容（包含顺序）
+    const isSameCategories = JSON.stringify(last.categories) === JSON.stringify(current.categories);
+
+    // 比较 pageNumber 是否不同
+    const isDifferentPage = last.pageNumber !== current.pageNumber;
+
+    return isSameMode && isSameCategories && isDifferentPage;
   }
 </script>
