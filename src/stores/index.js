@@ -51,6 +51,8 @@ const persistStore = (key, initialValue) => {
 };
 
 // ----------------------------------------------------------------
+/** 是否为瀑布流视图 */
+export const _isFallView = persistStore('_isFallView', true);
 
 /** 拖拽边栏位置 */
 export const _panelPos = persistStore('_panelPos', { x: 0, y: 0 });

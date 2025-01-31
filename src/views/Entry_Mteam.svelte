@@ -5,6 +5,7 @@
   import { notyf_lt } from '@/lib/notyf.js';
   import { Tool_Watch_Dom } from '@/lib/tools.js';
   import { CONFIG } from '@/siteConfig/mteam.js';
+  import { _isFallView } from '@/stores';
 
   // ------------------------------------------
 
@@ -98,7 +99,9 @@
         if (!_ORIGIN_TL_Node) {
           _ORIGIN_TL_Node = document.querySelector('div.app-content__inner');
         }
-        _ORIGIN_TL_Node.style.display = 'none';
+
+        // 根据 $_isFallView 切换视图
+        changeFallView($_isFallView);
 
         notyf_lt.success('捕获到 /search !');
 
@@ -123,6 +126,16 @@
       console.error('无法插入：目标元素没有父节点');
     }
   }
+
+  /** 切换瀑布流视图
+   * @param isFallView
+   */
+  function changeFallView(isFallView) {
+    // 切换瀑布流视图
+    _ORIGIN_TL_Node.style.display = isFallView ? 'none' : 'block';
+    Fall_DOM.style.display = isFallView ? 'block' : 'none';
+  }
+  window.changeFallView = changeFallView;
 
   /** 比较两次提交 payload => 用以判断是否需要切页还是往下继续生成 bricks
    * @param last

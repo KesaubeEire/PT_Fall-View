@@ -1,6 +1,11 @@
 <script>
   import { onMount } from 'svelte';
   import { _panelPos } from '../stores';
+  import { _isFallView } from '../stores';
+
+  // ------------------------------------------------
+  // ## 侧边栏功能配置
+  // ------------------------------------------------
 
   // ------------------------------------------------
   // ## 配置拖拽侧边栏
@@ -69,9 +74,15 @@
 
 <!-- 悬浮按钮:可拖拽  -->
 <div class="flowPanel" bind:this={flowPanel} style="top:{$_panelPos.y}px; left:{$_panelPos.x}px;}">
-  <div class="flowPanelDrager" on:mousedown={onMouseDown} aria-hidden="true"></div>
-  <div aria-hidden="true" class="flowPanelHolder">
-    <button class="flowBtn">切换显示</button>
+  <div class="flowPanelDrager" on:mousedown={onMouseDown} role="button" tabindex="0" aria-hidden="true"></div>
+  <div class="flowPanelHolder">
+    <button
+      class="flowBtn"
+      on:click={() => {
+        $_isFallView = !$_isFallView;
+        window.changeFallView($_isFallView);
+      }}>切换显示</button
+    >
     <button class="flowBtn">配置菜单</button>
     <button class="flowBtn">debug01</button>
     <button class="flowBtn">debug02</button>
