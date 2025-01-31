@@ -113,14 +113,6 @@
 
 <!-- 容器元素 -->
 <main bind:this={fallContainer}>
-  <div class="entry_mteam">
-    <div class="text_center">
-      这里是瀑布流位置~~
-      <br />
-      如果没有生效可能是浏览器缓存了请求, 尝试使用 Ctrl(Command)+Shift+R / Ctrl+F5 来强制刷新页面
-    </div>
-  </div>
-
   <div class="debug">
     <button on:click={clearList}> reset </button>
     <div>

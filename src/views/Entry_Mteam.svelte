@@ -25,12 +25,38 @@
   /** 瀑布流 dom */
   const Fall_DOM = document.createElement('div');
   Fall_DOM.classList.add('Fall_DOM');
-  // 加上同等的瀑布流 dom
+
+  // ------------------------------------------
+  // ## 主流程: 加载瀑布流 dom
   Tool_Watch_Dom(CONFIG.TL_Selector, launchFallView);
 
   // ------------------------------------------
-  /** 主流程: 启动瀑布流视图
-   */
+  // ## 主流程 PT-Fall 网页顶部提示插件加载
+  Tool_Watch_Dom('a[href="/index"][target="_self"]', el => {
+    if (el && !document.querySelector('.ptFallReadme')) {
+      // 使用 insertAdjacentHTML 在元素后插入新内容
+      el.insertAdjacentHTML(
+        'afterend',
+        `
+          <div class="ptFallReadme">
+            <div class="entry_mteam">
+              <div style="line-height: 1.5; text-align: center;" class="text_center">
+                PT-Fall 插件 <b style="color: green; background-color: #fff8; border-radius: 5px; padding: 2px 5px;">'已启用~'</b>
+                <br />
+                如果没有生效可能是浏览器缓存了请求, 尝试使用 Ctrl(Command)+Shift+R / Ctrl+F5 来强制刷新页面 ~
+              </div>
+            </div>
+          </div>
+        `
+      );
+    } else {
+      notyf_lt.error('未找到目标链接元素');
+      console.warn('未找到目标链接元素');
+    }
+  });
+
+  // ------------------------------------------
+  /** 主流程: 加载瀑布流视图 */
   function launchFallView(el) {
     if (el.parentNode) {
       // ## 插入到目标元素之上
