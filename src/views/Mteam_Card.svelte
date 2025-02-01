@@ -197,7 +197,8 @@ let _torrentInfo =  {
         rel="noreferrer"	隐藏来源页面的 Referer 信息（增强隐私保护）
     -->
     <a href={'/detail/' + torrentInfo.id} target="_blank" rel="noopener noreferrer">
-      {`<${torrentInfo.index}> ` + torrentInfo.smallDescr}
+      <!-- NOTE: 暂且是种子描述优先 -->
+      {`<${torrentInfo.index}> ` + (torrentInfo.smallDescr ? '[des] ' + torrentInfo.smallDescr : '[name] ' + torrentInfo.name)}
     </a>
   </div>
 
