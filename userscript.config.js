@@ -2,7 +2,7 @@
  * 油猴头信息
  */
 // NOTE: 经常修改这里就行了
-export let version = '0.0.2';
+export let version = '0.2.2';
 
 export function config(mode) {
   console.log('<-------------------------- [userscript.config.js]');
@@ -12,8 +12,8 @@ export function config(mode) {
   return {
     version,
     name: {
-      '': 'PT瀑布流视图' + (mode == 'development' ? `[测试 v${version}]` : ''),
-      en: 'PT_Fall-View' + (mode == 'development' ? `[test v${version}]` : '')
+      '': 'PT瀑布流视图' + (mode == 'development' ? `[测试]` : ''),
+      en: 'PT_Fall-View' + (mode == 'development' ? `[test]` : '')
     },
     icon: 'https://avatars.githubusercontent.com/u/23617963',
     // namespace: 'https://github.com/KesaubeEire/PT_Masonry_View_Svelte',

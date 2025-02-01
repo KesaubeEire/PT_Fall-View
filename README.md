@@ -10,8 +10,18 @@
 
 ## TODO List
 
-1. flowPanel + sidePanel
-2. iframeInsight
-3. 切换 瀑布流 和 原列表 显示
-4. 加更多的卡片信息配置
-5. ...
+### 模块
+
+- [x] flowPanel  
+- [ ] sidePanel  
+- [ ] iframeInsight  
+- [ ] 切换 瀑布流 和 原列表 显示  
+- [ ] 加更多的卡片信息配置  
+- ...
+
+### 功能
+
+- [ ] 下载收藏在翻页下丢失原 dom (预先存储 or 虚拟按键)
+- [ ] 卡片信息配置
+- [ ] ...
+
