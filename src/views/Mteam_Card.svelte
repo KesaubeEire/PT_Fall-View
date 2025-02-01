@@ -138,39 +138,45 @@ let _torrentInfo =  {
   let imgElement;
   /** lazy_load: observer */
   let observer;
+  /** lazy_load: pic 是否已加载 */
+  let isLoaded = false;
 
   /** lazy_load: 加载真实图片 */
   const loadRealImage = () => {
-    if (picSrc) {
+    if (picSrc && !isLoaded) {
       imgElement.src = picSrc;
-      // imgElement.classList.add('loaded'); // NOTE: 这里没起作用, 强行改 opacity 了
+      imgElement.classList.add('loaded'); // NOTE: 这里没起作用, 强行改 opacity 了
       imgElement.style.opacity = 1;
       // console.log(torrentInfo.id + ` Loaded.`);
+
+      isLoaded = true;
     }
   };
 
   onMount(() => {
     // lazy_load: 初始化观察器
-    observer = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            loadRealImage();
-            observer.unobserve(imgElement); // 加载后停止观察
-          }
-        });
-      },
-      {
-        rootMargin: '100px' // 提前100px加载
-      }
-    );
-    if (imgElement) observer.observe(imgElement);
+    if (!isLoaded) {
+      observer = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              loadRealImage();
+              observer.unobserve(imgElement); // 加载后停止观察
+            }
+          });
+        },
+        {
+          rootMargin: '100px' // 提前100px加载
+        }
+      );
+      if (imgElement && !isLoaded) observer.observe(imgElement);
 
-    // 视图聚焦每次加载的第一个图片
-    if (torrentInfo.ptfall_highlight) {
-      card_holder.scrollIntoView({
-        behavior: 'smooth' // 平滑滚动
-      });
+      // 视图聚焦每次加载的第一个图片
+      if (torrentInfo.ptfall_highlight) {
+        card_holder.scrollIntoView({
+          behavior: 'smooth' // 平滑滚动
+        });
+      }
     }
   });
 
@@ -201,7 +207,7 @@ let _torrentInfo =  {
 
     <img
       bind:this={imgElement}
-      src={placeholder}
+      src={isLoaded ? picSrc : placeholder}
       data-src={picSrc}
       on:error={() => {
         // 错误处理
