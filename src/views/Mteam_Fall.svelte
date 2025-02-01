@@ -113,23 +113,6 @@
 
 <!-- 容器元素 -->
 <main bind:this={fallContainer}>
-  <div class="debug">
-    <button on:click={clearList}> reset </button>
-    <div>
-      <input type="range" bind:value={$_card_layout.min} min="200" max={Math.max(400, $_card_layout.max)} step="1" list="values" />
-      最小宽度: {$_card_layout.min}
-    </div>
-    <div>
-      <input type="range" bind:value={$_card_layout.max} min={Math.min(200, $_card_layout.min)} max={Math.max(800, $_card_layout.min * 2)} step="1" list="values" />
-      最大宽度: {$_card_layout.max}
-    </div>
-    <div>
-      <input type="range" bind:value={$_card_layout.gap} min="0" max="100" step="1" list="values" />
-      间隔: {$_card_layout.gap}
-    </div>
-  </div>
-  <!-- <div class="inserted-sibling">我是新插入的兄弟节点</div> -->
-
   <div class="fall_holder" style="background-color:{_current_bgColor}">
     {#if items.length}
       <Masonry animate={true} {items} minColWidth={$_card_layout.min} maxColWidth={$_card_layout.max} gap={$_card_layout.gap} let:item>

@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { _panelPos, _isFallView } from '../stores';
+  import { _panelPos, _isFallView, _card_layout } from '@/stores';
   import { getSiteConfig } from '@/siteConfig';
   import { fade } from 'svelte/transition';
 
@@ -104,14 +104,29 @@
 
 <!-- 配置菜单 -->
 {#if isConfigMenuVisible}
-  <div class="config-menu-overlay" transition:fade={{ duration: 100 }} on:click|self={() => (isConfigMenuVisible = false)} role="button" tabindex="0" aria-hidden="true" inert>
+  <!-- svelte-ignore a11y_no_static_element_interactions -->
+  <!-- svelte-ignore a11y_click_events_have_key_events -->
+  <div class="config-menu-overlay" transition:fade={{ duration: 100 }} on:click|self={() => (isConfigMenuVisible = false)}>
     <div class="config-menu" style="background-color: {getSiteConfig(location.hostname).get_bg_color()};">
       <div class="config-menu-header">
-        <h3>配置菜单</h3>
+        <span style="font-size: 18px; font-weight: bold;">配置菜单</span>
         <button class="close-btn" on:click={() => (isConfigMenuVisible = false)}>&times;</button>
       </div>
       <div class="config-menu-content">
         <!-- 这里添加你的配置项 -->
+        <h3>卡片布局</h3>
+        <div class="config-item">
+          <span>最小宽度: {$_card_layout.min} px</span>
+          <input type="range" bind:value={$_card_layout.min} min="200" max={Math.max(400, $_card_layout.max)} step="1" list="values" />
+        </div>
+        <div class="config-item">
+          <span>最大宽度: {$_card_layout.max} px</span>
+          <input type="range" bind:value={$_card_layout.max} min={Math.min(200, $_card_layout.min)} max={Math.max(800, $_card_layout.min * 2)} step="1" list="values" />
+        </div>
+        <div class="config-item">
+          <span>卡片间隔: {$_card_layout.gap} px</span>
+          <input type="range" bind:value={$_card_layout.gap} min="0" max="100" step="1" list="values" />
+        </div>
         <!-- 添加更多配置项 -->
       </div>
     </div>
@@ -224,14 +239,6 @@
     z-index: 20000;
   }
 
-  :global(.config-menu-overlay:not(:global(:first-child))) {
-    opacity: 0;
-    transform: translateX(10px);
-    transition:
-      opacity 0.3s ease-in-out,
-      transform 0.3s ease-in-out;
-  }
-
   .config-menu {
     background-color: #ffffff;
     width: 300px;
@@ -245,7 +252,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
   }
 
   .close-btn {
@@ -254,28 +261,24 @@
     font-size: 24px;
     cursor: pointer;
     padding: 0 8px;
+    transform: translateY(-4px);
   }
 
   .config-menu-content {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 4px;
+
+    font-size: 14px;
   }
 
   .config-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-  }
-
-  .config-item label {
-    width: 100px;
+    justify-content: space-between;
   }
 
   .config-item input {
-    flex: 1;
-    padding: 6px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    width: 120px;
   }
 </style>
