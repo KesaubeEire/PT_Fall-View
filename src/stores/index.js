@@ -57,7 +57,7 @@ export const _isFallView = persistStore('_isFallView', true);
 /** 拖拽边栏位置 */
 export const _panelPos = persistStore('_panelPos', { x: 0, y: 0 });
 
-/** 卡片布置 */
+/** 卡片布局参数 */
 export const _card_layout = persistStore('_card_layout', {
   // 最小宽度
   min: 240,
@@ -65,4 +65,25 @@ export const _card_layout = persistStore('_card_layout', {
   max: 400,
   // 间距
   gap: 12
+});
+
+/** 卡片显示参数 */
+export const _card_detail = persistStore('_card_detail', {
+  // 全局总开关
+  all: false,
+
+  // 显示标题
+  title: true,
+  // 显示置顶和免费
+  free: false,
+  // 显示副标题
+  sub_title: false,
+  // 显示标签
+  tags: false,
+  // 显示大小&下载&收藏
+  size_download_collect: false,
+  // 显示上传时间
+  upload_time: false,
+  // 显示评论/上传/下载/完成
+  statistics: false
 });
