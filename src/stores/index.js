@@ -74,7 +74,9 @@ export const _card_detail = persistStore('_card_detail', {
 
   // 显示标题
   title: true,
-  // 显示置顶和免费
+  // 显示置顶
+  topping: false,
+  // 显示免费
   free: false,
   // 显示副标题
   sub_title: false,

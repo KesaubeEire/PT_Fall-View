@@ -59,7 +59,7 @@
         list[key].index = index + 1 + listContent.length;
 
         // 切换页面时聚焦到新的页面的第一个
-        if (index == 0) list[key].ptfall_highlight = true;
+        if (index == 0) list[key].pt_fall_highlight = true;
       });
       listContent = [...listContent, ...list];
     }

@@ -1,8 +1,9 @@
 <script>
   import { onMount } from 'svelte';
-  import { _panelPos, _isFallView, _card_layout } from '@/stores';
+  import { _panelPos, _isFallView, _card_layout, _card_detail } from '@/stores';
   import { getSiteConfig } from '@/siteConfig';
   import { fade } from 'svelte/transition';
+  import Switch from '@/component/switch.svelte';
 
   // ------------------------------------------------
   // ## 侧边栏功能配置
@@ -127,7 +128,71 @@
           <span>卡片间隔: {$_card_layout.gap} px</span>
           <input type="range" bind:value={$_card_layout.gap} min="0" max="100" step="1" list="values" />
         </div>
+
+        <h3>卡片信息</h3>
         <!-- 添加更多配置项 -->
+        <!-- // 显示标题
+        title: true,
+        // 显示置顶和免费
+        free: false,
+        // 显示副标题
+        sub_title: false,
+        // 显示标签
+        tags: false,
+        // 显示大小&下载&收藏
+        size_download_collect: false,
+        // 显示上传时间
+        upload_time: false,
+        // 显示评论/上传/下载/完成
+        statistics: false -->
+
+        <!-- 显示标题 -->
+        <div class="config-item">
+          <span>显示标题: {$_card_detail.title}</span>
+          <Switch bind:checked={$_card_detail.title} />
+        </div>
+
+        <!-- 显示置顶 -->
+        <div class="config-item">
+          <span>显示置顶: {$_card_detail.topping}</span>
+          <Switch bind:checked={$_card_detail.topping} />
+        </div>
+        
+        <!-- 显示免费 -->
+        <div class="config-item">
+          <span>显示免费: {$_card_detail.free}</span>
+          <Switch bind:checked={$_card_detail.free} />
+        </div>
+
+        <!-- 显示副标题 -->
+        <div class="config-item">
+          <span>显示副标题: {$_card_detail.sub_title}</span>
+          <Switch bind:checked={$_card_detail.sub_title} />
+        </div>
+
+        <!-- 显示标签 -->
+        <div class="config-item">
+          <span>显示标签: {$_card_detail.tags}</span>
+          <Switch bind:checked={$_card_detail.tags} />
+        </div>
+
+        <!-- 显示大小&下载&收藏 -->
+        <div class="config-item">
+          <span>显示大小&下载&收藏: {$_card_detail.size_download_collect}</span>
+          <Switch bind:checked={$_card_detail.size_download_collect} />
+        </div>
+
+        <!-- 显示上传时间 -->
+        <div class="config-item">
+          <span>显示上传时间: {$_card_detail.upload_time}</span>
+          <Switch bind:checked={$_card_detail.upload_time} />
+        </div>
+
+        <!-- 显示评论/上传/下载/完成 -->
+        <div class="config-item">
+          <span>显示评论/上传/下载/完成: {$_card_detail.statistics}</span>
+          <Switch bind:checked={$_card_detail.statistics} />
+        </div>
       </div>
     </div>
   </div>
@@ -270,6 +335,10 @@
     gap: 4px;
 
     font-size: 14px;
+
+    & h3 {
+      margin-top: 8px;
+    }
   }
 
   .config-item {

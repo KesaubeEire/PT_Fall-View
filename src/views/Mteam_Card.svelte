@@ -72,10 +72,34 @@ let _torrentInfo =  {
 <script>
   import { notyf_lt } from '@/lib/notyf';
   import { onMount, onDestroy } from 'svelte';
+  import { _card_detail } from '@/stores';
+  import { CONFIG } from '@/siteConfig/mteam';
+  import IconComment from '@/assets/icon_comment.svelte';
 
   //---------------------------------------------
   /** 父传值: 种子信息*/
   export let torrentInfo;
+
+  // 置顶相关
+  let toppingLevelArray;
+  if (torrentInfo.status.toppingLevel) {
+    toppingLevelArray = Array(Number(torrentInfo.status.toppingLevel)).fill();
+  }
+
+  // 下载免费打折相关
+  const _discount = torrentInfo.status.discount;
+  const _discountEndTime = torrentInfo.status.discountEndTime;
+  const _discountText = {
+    FREE: '免费',
+    PERCENT_50: '50%'
+  };
+  const _discountCalcTime = () => {
+    const now = new Date();
+    const end = new Date(_discountEndTime);
+    const res = Math.floor((end.getTime() - now.getTime()) / (1000 * 3600));
+    // console.log(res);
+    return res;
+  };
 
   /** 卡片 dom */
   let card_holder;
@@ -172,7 +196,7 @@ let _torrentInfo =  {
       if (imgElement && !isLoaded) observer.observe(imgElement);
 
       // 视图聚焦每次加载的第一个图片
-      if (torrentInfo.ptfall_highlight) {
+      if (torrentInfo.pt_fall_highlight) {
         card_holder.scrollIntoView({
           behavior: 'smooth' // 平滑滚动
         });
@@ -187,6 +211,11 @@ let _torrentInfo =  {
 </script>
 
 <div class="card_holder" bind:this={card_holder}>
+  <!-- 切页第一个种子高亮 -->
+  {#if torrentInfo.pt_fall_highlight}
+    <div class="card_new_page_highlight">新页面 ({torrentInfo.index}+)</div>
+  {/if}
+
   <!-- 种子标题 -->
   <div class="card_title">
     <!-- 
@@ -196,10 +225,12 @@ let _torrentInfo =  {
         rel="noopener"	  阻断新页面通过 window.opener 访问原页面（现代浏览器默认行为）
         rel="noreferrer"	隐藏来源页面的 Referer 信息（增强隐私保护）
     -->
-    <a href={'/detail/' + torrentInfo.id} target="_blank" rel="noopener noreferrer">
-      <!-- NOTE: 暂且是种子描述优先 -->
-      {`<${torrentInfo.index}> ` + (torrentInfo.smallDescr ? '[des] ' + torrentInfo.smallDescr : '[name] ' + torrentInfo.name)}
-    </a>
+    {#if $_card_detail.title}
+      <a href={'/detail/' + torrentInfo.id} target="_blank" rel="noopener noreferrer">
+        <!-- NOTE: 暂且是种子描述优先 -->
+        {`<${torrentInfo.index}> ` + (torrentInfo.smallDescr ? '[des] ' + torrentInfo.smallDescr : '[name] ' + torrentInfo.name)}
+      </a>
+    {/if}
   </div>
 
   <!-- 种子图片 -->
@@ -224,32 +255,145 @@ let _torrentInfo =  {
 
     <!-- 种子索引 index -->
     <div class="card-index">
+      <!-- 置顶情况 -->
+      {#if $_card_detail.topping && torrentInfo.status.toppingLevel != '0'}
+        <!-- <div>置顶:{torrentInfo.status.toppingLevel}</div> -->
+        <div class="card_info__topping">
+          <!-- <div class="_tag">{torrentInfo.status.toppingLevel}</div> -->
+          {#each toppingLevelArray as _, index}
+            <img
+              style="
+            background: url(/static/media/icons.8bb5446ebbbd07050285.gif) 0 -202px;
+            height: 14px;
+            width: 14px;"
+              src={CONFIG.ICON.PIN}
+              alt="PIN"
+            />
+          {/each}
+        </div>
+        &nbsp;
+      {/if}
+
+      <!-- 索引 -->
       {torrentInfo.index}
+
+      &nbsp;
+
+      <!-- 种子打折情况 -->
+      {#if $_card_detail.free && _discount != 'NORMAL'}
+        <div class="_tag" class:_tag_discount_free={_discount == 'FREE'} class:_tag_discount_50={_discount == 'PERCENT_50'}>
+          {_discountText[_discount]}{_discountEndTime ? ':' + _discountCalcTime() + '小时' : ''}
+        </div>
+      {/if}
     </div>
   </div>
 
   <!-- 种子信息 -->
   <div class="card_info">
-    <!-- 种子信息_下载&收藏 -->
-    <div class="card_info__dl_and_cl" bind:this={dlclElement}>
-      <button
-        on:click={e => {
-          get__DOWN_and_COLLET__Dom(torrentInfo.id);
+    <!-- // 显示置顶和免费
+    free: false,
+    // 显示副标题
+    sub_title: false,
+    // 显示标签
+    tags: false,
+    // 显示大小&下载&收藏
+    size_download_collect: false,
+    // 显示上传时间
+    upload_time: false,
+    // 显示评论/上传/下载/完成
+    statistics: false -->
 
-          // NOTE: 记得提醒用户 => 原列表的这玩意儿会消失
-          // 记得让这玩意儿消失
-          e.target.style.display = 'none';
-          // console.log(e);
-        }}
-        title="(原列表的这俩按钮会消失)"
-      >
-        下载 & 收藏
-      </button>
-    </div>
+    <!-- NOTE: 显示置顶和免费在图片 index 处 -->
+
+    <!-- 种子信息_副标题 -->
+    {#if $_card_detail.sub_title}
+      <div class="card_info-item card_info__sub_title">
+        <div>副标题:{torrentInfo.smallDescr}</div>
+      </div>
+    {/if}
+
+    <!-- 种子信息_标签 -->
+    <!-- 来自开发者的介绍:
+        if ((val & 1) === 1) { ret.push("diy"); DIV }
+        if ((val & 2) === 2) { ret.push("dub"); 国配 }
+        if ((val & 4) === 4) { ret.push("sub"); 中字 } 
+      -->
+    {#if torrentInfo.labels != 0}
+      <div class="cl-tags">
+        <!--  标签 Tags -->
+        {#if (torrentInfo.labels & 1) === 1}
+          <div class="_tag _tag_diy">DIY</div>
+        {/if}
+        {#if (torrentInfo.labels & 2) === 2}
+          <div class="_tag _tag_dub">国配</div>
+        {/if}
+        {#if (torrentInfo.labels & 4) === 4}
+          <div class="_tag _tag_sub">中字</div>
+        {/if}
+      </div>
+    {/if}
+
+    <!-- 种子信息_下载&收藏 -->
+    {#if $_card_detail.size_download_collect}
+      <div class="card_info-item card_info__dl_and_cl" bind:this={dlclElement}>
+        <button
+          on:click={e => {
+            get__DOWN_and_COLLET__Dom(torrentInfo.id);
+
+            // NOTE: 记得提醒用户 => 原列表的这玩意儿会消失
+            // 记得让这玩意儿消失
+            e.target.style.display = 'none';
+            // console.log(e);
+          }}
+          title="(原列表的这俩按钮会消失)"
+        >
+          下载 & 收藏
+        </button>
+      </div>
+    {/if}
+
+    <!-- 种子信息_上传时间 -->
+    {#if $_card_detail.upload_time}
+      <div class="card_info-item card_info__upload_time">
+        <div>上传时间:{torrentInfo.createdDate}</div>
+      </div>
+    {/if}
+
+    <!-- 种子信息_评论/上传/下载/完成 -->
+    {#if $_card_detail.statistics}
+      <div class="card_info-item card_info__statistics">
+        <!-- <div>评论:{torrentInfo.status.comments}</div> -->
+        <!-- <div>上传:{torrentInfo.status.seeders}</div> -->
+        <!-- <div>下载:{torrentInfo.status.leechers}</div> -->
+        <!-- <div>完成:{torrentInfo.status.timesCompleted}</div> -->
+
+        <IconComment></IconComment>
+        &nbsp;
+        <b>{torrentInfo.status.comments}</b>
+        &nbsp;&nbsp;
+        <img src={CONFIG.ICON.SEEDERS} alt="SVG_Seeders" />
+        &nbsp;
+        <b>{torrentInfo.status.seeders}</b>
+        &nbsp;&nbsp;
+        <img src={CONFIG.ICON.LEECHERS} alt="SVG_Leechers" />
+        &nbsp;
+        <b>{torrentInfo.status.leechers}</b>
+      </div>
+    {/if}
   </div>
 </div>
 
 <style scoped>
+  .card_new_page_highlight {
+    /* position: absolute; */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(8, 68, 0, 0.5);
+    color: white;
+    text-align: center;
+  }
   .card_pic img {
     width: 100%;
   }
@@ -265,6 +409,18 @@ let _torrentInfo =  {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+
+    padding: 4px 8px;
+
+    & .card_info-item {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+
+      /* min-height: 32px; */
+      width: 100%;
+    }
 
     & .card_info__dl_and_cl {
       display: flex;
@@ -273,6 +429,61 @@ let _torrentInfo =  {
 
       height: 32px;
     }
+
+    & .card_info__statistics {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .card_info__topping {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+  }
+
+  /* 标签 */
+
+  .cl-tags {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 2px;
+
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+  ._tag {
+    /* padding: 1px 6px; */
+    height: 1.3em;
+    line-height: 1.3em;
+    padding: 0 0.5em;
+    border-radius: 6px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    font-size: 12px;
+  }
+  ._tag_diy {
+    color: #ffffff;
+    background-color: rgb(90, 189, 72);
+  }
+  ._tag_dub {
+    color: #ffffff;
+    background-color: rgb(90, 59, 20);
+  }
+  ._tag_sub {
+    color: #ffffff;
+    background-color: rgb(59, 74, 127);
+  }
+  ._tag_discount_50 {
+    background-color: rgb(255, 85, 0);
+    color: #ffffff;
+  }
+  ._tag_discount_free {
+    background-color: rgb(16, 142, 233);
+    color: #ffffff;
   }
 
   .card_pic {
