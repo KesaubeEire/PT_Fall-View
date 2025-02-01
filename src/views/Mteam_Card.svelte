@@ -220,6 +220,11 @@ let _torrentInfo =  {
       class="lazy-image"
       alt={torrentInfo.id}
     />
+
+    <!-- 种子索引 index -->
+    <div class="card-index">
+      {torrentInfo.index}
+    </div>
   </div>
 
   <!-- 种子信息 -->
@@ -267,5 +272,32 @@ let _torrentInfo =  {
 
       height: 32px;
     }
+  }
+
+  .card_pic {
+    position: relative;
+  }
+
+  /* 卡片索引 */
+  .card-index {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 4px 9px 4px 9px;
+    margin: 0;
+    /* height: 20px; */
+    line-height: 16px;
+    font-size: 16px;
+    font-weight: bold;
+
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    /* border-top-right-radius: 100px; */
+    /* border-bottom-right-radius: 100px; */
+
+    display: flex;
+    align-items: center;
+
+    pointer-events: none;
   }
 </style>
