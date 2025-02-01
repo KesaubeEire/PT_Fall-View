@@ -218,6 +218,8 @@
     font-size: 14px;
 
     opacity: 0.7;
+
+    z-index: 15000;
     &:hover {
       /* background-color: #fffa; */
       opacity: 1;

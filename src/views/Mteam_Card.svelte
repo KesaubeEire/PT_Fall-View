@@ -5,7 +5,7 @@ let _torrentInfo =  {
     "id": "899862",
     "createdDate": "2025-01-30 00:06:23",
     "lastModifiedDate": "2025-01-30 00:07:08",
-    "name": "Oshi No Ko Cantonese S02E24 1080p Viu WEB-DL AAC2.0 H.264-MWeb",
+    "name": "xxx S02E24 1080p Viu WEB-DL AAC2.0 H.264-MWeb",
     "smallDescr": "【我推的孩子】 第二季/【推しの子】 第2期 | 2024 | 日本 | 动画 音乐 | 平牧大辅 橘纱央莉 仁科邦康 | 大塚刚央 伊驹百合绘 | 第2季第24集",
     "imdb": "https://www.imdb.com/title/tt28555741/",
     "imdbRating": "7.8",
@@ -107,12 +107,15 @@ let _torrentInfo =  {
   //---------------------------------------------
   // ## 下载收藏操作
   /** 下载和收藏按钮 holder 的 dom */
-  let dlclElement;
+  let dlclElement_inner;
+  let dlclElement_outer;
 
   /** 拿到下载和收藏按钮的 Dom
-   * @param torrentID
+   * @param torrentID 种子ID
+   * @param dlcl 下载和收藏按钮 holder 的 dom
    */
-  function get__DOWN_and_COLLET__Dom(torrentID) {
+  function get__DOWN_and_COLLET__Dom(torrentID, dlcl) {
+    // TODO: 拿到起作用的按钮, 生成代理按钮 / 切页后拿到代理按钮
     // 1. 匹配所有 /detail/数字id 的链接
     const detailLinks = document.querySelectorAll(`a[href^="/detail/${torrentID}"]`);
 
@@ -145,12 +148,20 @@ let _torrentInfo =  {
       // 8. 安在 holder 上
       // 将按钮放到容器
       uniqueButtons.forEach(button => {
-        dlclElement.appendChild(button);
+        dlcl.appendChild(button);
       });
     } else {
       notyf_lt.error('没找到捏, 建议在种子详情里下载收藏~');
     }
   }
+
+  //---------------------------------------------
+  // ## 悬浮显示
+  /** 悬浮显示 holder 的 dom */
+  let overlayHolder;
+
+  /** 悬浮显示 content 的 dom */
+  let overlayContent;
 
   //---------------------------------------------
   // ## lazy_load 图片懒加载
@@ -228,7 +239,7 @@ let _torrentInfo =  {
     {#if $_card_detail.title}
       <a href={'/detail/' + torrentInfo.id} target="_blank" rel="noopener noreferrer">
         <!-- NOTE: 暂且是种子描述优先 -->
-        {`<${torrentInfo.index}> ` + (torrentInfo.smallDescr ? '[des] ' + torrentInfo.smallDescr : '[name] ' + torrentInfo.name)}
+        {`<${torrentInfo.index}> ` + torrentInfo.name}
       </a>
     {/if}
   </div>
@@ -252,6 +263,94 @@ let _torrentInfo =  {
       class="lazy-image"
       alt={torrentInfo.id}
     />
+
+    <!-- 添加悬浮显示的 innerDOM -->
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
+    <div
+      bind:this={overlayHolder}
+      class="hover-overlay"
+      on:mouseenter={() => {
+        imgElement.style.filter = 'blur(2px)';
+        overlayHolder.style.opacity = '1';
+        // console.log('enter');
+      }}
+      on:mouseleave={() => {
+        imgElement.style.filter = 'none';
+        overlayHolder.style.opacity = '0';
+        // console.log('leave');
+      }}
+    >
+      <!-- 你可以在这里添加任何想要显示的内容 -->
+      <div class="overlay-content" bind:this={overlayContent}>
+        <!-- 种子信息_副标题 -->
+        <div style="width: 100%;" class="card_info-item card_info__sub_title">
+          <div class="__sub_title">{torrentInfo.smallDescr}</div>
+        </div>
+
+        <!-- 种子信息_标签 -->
+        <!-- 来自开发者的介绍:
+          if ((val & 1) === 1) { ret.push("diy"); DIV }
+          if ((val & 2) === 2) { ret.push("dub"); 国配 }
+          if ((val & 4) === 4) { ret.push("sub"); 中字 } 
+        -->
+        {#if torrentInfo.labels != 0}
+          <div class="cl-tags">
+            <!--  标签 Tags -->
+            {#if (torrentInfo.labels & 1) === 1}
+              <div class="_tag _tag_diy">DIY</div>
+            {/if}
+            {#if (torrentInfo.labels & 2) === 2}
+              <div class="_tag _tag_dub">国配</div>
+            {/if}
+            {#if (torrentInfo.labels & 4) === 4}
+              <div class="_tag _tag_sub">中字</div>
+            {/if}
+          </div>
+        {/if}
+
+        <!-- 种子信息_上传时间 -->
+        <div class="card_info-item card_info__upload_time">
+          <div>上传时间:{torrentInfo.createdDate}</div>
+        </div>
+
+        <!-- 种子信息_评论/上传/下载/完成 -->
+        <div class="card_info-item card_info__statistics" bind:this={dlclElement_inner}>
+          <!-- <div>评论:{torrentInfo.status.comments}</div> -->
+          <!-- <div>上传:{torrentInfo.status.seeders}</div> -->
+          <!-- <div>下载:{torrentInfo.status.leechers}</div> -->
+          <!-- <div>完成:{torrentInfo.status.timesCompleted}</div> -->
+          <div class="__center">
+            <IconComment></IconComment>
+            <b>{torrentInfo.status.comments}</b>
+          </div>
+
+          <div class="__center">
+            <img style="width: 14px; height: 14px;" src={CONFIG.ICON.SEEDERS} alt="SVG_Seeders" />
+            <b>{torrentInfo.status.seeders}</b>
+          </div>
+
+          <div class="__center">
+            <img style="width: 14px; height: 14px;" src={CONFIG.ICON.LEECHERS} alt="SVG_Leechers" />
+            <b>{torrentInfo.status.leechers}</b>
+          </div>
+
+          <!-- 种子信息_下载&收藏 -->
+          <button
+            on:click={e => {
+              get__DOWN_and_COLLET__Dom(torrentInfo.id, dlclElement_inner);
+
+              // NOTE: 记得提醒用户 => 原列表的这玩意儿会消失
+              // 记得让这玩意儿消失
+              e.target.style.display = 'none';
+              // console.log(e);
+            }}
+            title="(原列表的这俩按钮会消失)"
+          >
+            下载&收藏
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- 种子索引 index -->
     <div class="card-index">
@@ -290,25 +389,12 @@ let _torrentInfo =  {
 
   <!-- 种子信息 -->
   <div class="card_info">
-    <!-- // 显示置顶和免费
-    free: false,
-    // 显示副标题
-    sub_title: false,
-    // 显示标签
-    tags: false,
-    // 显示大小&下载&收藏
-    size_download_collect: false,
-    // 显示上传时间
-    upload_time: false,
-    // 显示评论/上传/下载/完成
-    statistics: false -->
-
     <!-- NOTE: 显示置顶和免费在图片 index 处 -->
 
     <!-- 种子信息_副标题 -->
     {#if $_card_detail.sub_title}
       <div class="card_info-item card_info__sub_title">
-        <div>副标题:{torrentInfo.smallDescr}</div>
+        <div>{torrentInfo.smallDescr}</div>
       </div>
     {/if}
 
@@ -333,12 +419,12 @@ let _torrentInfo =  {
       </div>
     {/if}
 
-    <!-- 种子信息_下载&收藏 -->
+    <!-- 种子信息_下载&收藏  outerDOM -->
     {#if $_card_detail.size_download_collect}
-      <div class="card_info-item card_info__dl_and_cl" bind:this={dlclElement}>
+      <div class="card_info-item card_info__dl_and_cl" bind:this={dlclElement_outer}>
         <button
           on:click={e => {
-            get__DOWN_and_COLLET__Dom(torrentInfo.id);
+            get__DOWN_and_COLLET__Dom(torrentInfo.id, dlclElement_outer);
 
             // NOTE: 记得提醒用户 => 原列表的这玩意儿会消失
             // 记得让这玩意儿消失
@@ -393,6 +479,7 @@ let _torrentInfo =  {
     background-color: rgba(8, 68, 0, 0.5);
     color: white;
     text-align: center;
+    padding: 8px 8px;
   }
   .card_pic img {
     width: 100%;
@@ -507,9 +594,74 @@ let _torrentInfo =  {
     /* border-top-right-radius: 100px; */
     /* border-bottom-right-radius: 100px; */
 
+    z-index: 2;
+
     display: flex;
     align-items: center;
 
     pointer-events: none;
+  }
+
+  /* 添加悬浮效果相关样式 */
+  .hover-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    /* pointer-events: none; */
+    z-index: 1;
+  }
+
+  .overlay-content {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9) 20%, transparent 100%);
+    background: rgba(255, 255, 255, 0.9);
+    /* background-color: rgba(0, 0, 0, 0.5); */
+
+    padding: 2px 8px;
+    /* border-radius: 4px; */
+    color: #333;
+    font-size: 14px;
+    white-space: nowrap;
+
+    display: flex;
+    flex-direction: column;
+
+    & .card_info-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      padding: 2px;
+    }
+
+    & .__sub_title {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    & .card_info__statistics {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+
+      height: 32px;
+    }
+  }
+
+  .__center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 </style>
