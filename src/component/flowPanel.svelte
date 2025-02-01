@@ -95,7 +95,7 @@
     position: fixed;
 
     width: 80px;
-    max-height: 200px;
+    max-height: 300px;
 
     border-radius: 12px;
     overflow: hidden;
@@ -105,8 +105,14 @@
 
     background-color: #fff4;
     transition: background-color 0.2s;
+    transition: opacity 0.2s;
+
+    font-size: 14px;
+
+    opacity: 0.7;
     &:hover {
-      background-color: #fffa;
+      /* background-color: #fffa; */
+      opacity: 1;
     }
   }
 
@@ -116,7 +122,7 @@
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
     &:hover {
-      cursor: grab; /* 设置鼠标悬停时的图标为移动 */
+      cursor: move; /* 设置鼠标悬停时的图标为移动 */
     }
   }
 
@@ -127,13 +133,53 @@
     gap: 4px;
   }
 
-  .flowBtn {
+  /* .flowBtn {
     padding: 4px;
     border-radius: 4px;
     background-color: #fff;
     transition: all 0.2s;
+
     &:hover {
       background-color: #fffa;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
+
+    &:active {
+      transform: translateY(10px);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    border: 2px solid rgba(255, 255, 255, 0.5);
+  } */
+
+  .flowBtn {
+    padding: 4px;
+    border-radius: 4px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    background-color: #fff;
+    opacity: 0.7;
+    color: #333;
+    transition: all 0.2s;
+
+    &:hover {
+      opacity: 1;
+      background-color: #fffa;
+      color: #444;
+    }
+
+    &:active {
+      transform: translateY(4px);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    /* @media (prefers-color-scheme: dark) {
+      background-color: #2a2a2a;
+      color: #ffffff;
+
+      &:hover {
+        background-color: #3a3a3a;
+        color: #ffffff;
+      }
+    } */
   }
 </style>
