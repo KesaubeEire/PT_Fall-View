@@ -6,6 +6,7 @@
   import { Tool_Watch_Dom } from '@/lib/tools.js';
   import { CONFIG } from '@/siteConfig/mteam.js';
   import { _isFallView } from '@/stores';
+  import { version } from '@/../userscript.config.js';
 
   // ------------------------------------------
 
@@ -42,7 +43,7 @@
           <div class="ptFallReadme">
             <div class="entry_mteam">
               <div style="line-height: 1.5; text-align: center;" class="text_center">
-                PT-Fall 插件 <b style="color: green; background-color: #fff8; border-radius: 5px; padding: 2px 5px;">'已启用~'</b>
+                PT-Fall 插件 <b style="color: green; background-color: #fff8; border-radius: 5px; padding: 2px 5px;">[v${version}]已启用~</b>
                 <br />
                 如果没有生效可能是浏览器缓存了请求, 尝试使用 Ctrl(Command)+Shift+R / Ctrl+F5 来强制刷新页面 ~
               </div>

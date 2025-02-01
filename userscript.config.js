@@ -2,7 +2,7 @@
  * 油猴头信息
  */
 // NOTE: 经常修改这里就行了
-let version = '0.0.2';
+export let version = '0.0.2';
 
 export function config(mode) {
   console.log('<-------------------------- [userscript.config.js]');
