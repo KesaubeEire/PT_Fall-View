@@ -318,7 +318,7 @@ let _torrentInfo =  {
         if ((val & 2) === 2) { ret.push("dub"); 国配 }
         if ((val & 4) === 4) { ret.push("sub"); 中字 } 
       -->
-    {#if torrentInfo.labels != 0}
+    {#if $_card_detail.tags && torrentInfo.labels != 0}
       <div class="cl-tags">
         <!--  标签 Tags -->
         {#if (torrentInfo.labels & 1) === 1}

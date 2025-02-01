@@ -78,7 +78,7 @@
 
 <!-- 悬浮按钮:可拖拽  -->
 <div class="flowPanel" bind:this={flowPanel} style="top:{$_panelPos.y}px; left:{$_panelPos.x}px;}">
-  <div class="flowPanelDrager" on:mousedown={onMouseDown} role="button" tabindex="0" aria-hidden="true"></div>
+  <div class="flowPanelDragger" on:mousedown={onMouseDown} role="button" tabindex="0" aria-hidden="true"></div>
   <div class="flowPanelHolder">
     <button
       class="flowBtn"
@@ -224,7 +224,7 @@
     }
   }
 
-  .flowPanelDrager {
+  .flowPanelDragger {
     height: 12px;
     background-color: #d9ff00a9;
     border-top-left-radius: 12px;
