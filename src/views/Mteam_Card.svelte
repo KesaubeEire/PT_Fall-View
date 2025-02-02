@@ -75,6 +75,7 @@ let _torrentInfo =  {
   import { _card_detail, _show_hover_pic } from '@/stores';
   import { CONFIG } from '@/siteConfig/mteam';
   import IconComment from '@/assets/icon_comment.svelte';
+  import HoverView from '@/lib/hoverView';
 
   //---------------------------------------------
   /** 父传值: 种子信息*/
@@ -181,11 +182,23 @@ let _torrentInfo =  {
   }
 
   //---------------------------------------------
-  // ## 悬浮显示
-  /** 悬浮显示 holder 的 dom */
+  // ## 悬浮大图
+  /** 悬浮大图是否在悬浮 */
+  let isHovered = false;
+  /** 悬浮大图是否在移动 */
+  let isMoving = false;
+  /** 悬浮大图的鼠标位置 */
+  let mouseX = 0;
+  let mouseY = 0;
+  /** 悬浮大图实例 */
+  let hoverView = new HoverView();
+
+  //---------------------------------------------
+  // ## 悬浮显示卡片内信息
+  /** 悬浮显示卡片内信息 holder 的 dom */
   let overlayHolder;
 
-  /** 悬浮显示 content 的 dom */
+  /** 悬浮显示卡片内信息 content 的 dom */
   let overlayContent;
 
   //---------------------------------------------
@@ -292,26 +305,53 @@ let _torrentInfo =  {
 
     <!-- 局部悬浮预览 -->
     {#if $_show_hover_pic}
-      <div class="hover-trigger">
+      <!-- svelte-ignore a11y_no_static_element_interactions -->
+      <!-- svelte-ignore a11y_mouse_events_have_key_events -->
+      <div
+        class="hover-trigger"
+        on:mouseover={e => {
+          // 悬浮大图
+          isHovered = true;
+          hoverView.handleMouseOver(e, imgElement);
+          // console.log(`<${torrentInfo.id}>isHovered: ${isHovered}, isMoving: ${isMoving}`);
+        }}
+      >
         <!-- {torrentInfo.torrentIndex + 1} -->
         <img style="pointer-events: none;" src={CONFIG.ICON.PREVIEW} alt="PREVIEW" />
       </div>
     {/if}
 
-    <!-- 添加悬浮显示的 innerDOM -->
+    <!-- 添加悬浮显示卡片内信息的 innerDOM -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
       bind:this={overlayHolder}
       class="hover-overlay"
       on:mouseenter={() => {
+        // 卡片内信息
         imgElement.style.filter = 'blur(2px)';
         overlayHolder.style.opacity = '1';
         // console.log('enter');
       }}
+      on:mousemove={e => {
+        // 悬浮大图
+        isMoving = true;
+        if (isHovered && isMoving) {
+          hoverView.handleMouseMove(e);
+        }
+      }}
       on:mouseleave={() => {
+        // 卡片内信息
         imgElement.style.filter = 'none';
         overlayHolder.style.opacity = '0';
         // console.log('leave');
+
+        // 悬浮大图
+        isMoving = false;
+        if (isHovered) {
+          isHovered = false;
+          hoverView.clearPreview();
+          // console.log(`<${torrentInfo.id}>isHovered: ${isHovered}, isMoving: ${isMoving}`);
+        }
       }}
     >
       <!-- 你可以在这里添加任何想要显示的内容 -->
