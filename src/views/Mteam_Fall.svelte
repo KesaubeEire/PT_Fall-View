@@ -50,6 +50,9 @@
       clearList();
       Object.keys(list).forEach((key, index) => {
         list[key].index = index + 1;
+
+        // 切换页面时聚焦到新的页面的第一个
+        if (index == 0) list[key].pt_fall_highlight = true;
       });
       listContent = [...list];
     }
@@ -129,8 +132,10 @@
     border: 2px dashed #6495ed;
     border-radius: 8px;
     /* background-color: rgb(188, 202, 214); */
-    padding: 12px;
+    /* padding: 12px; */
     margin-top: 16px;
+
+    overflow: hidden;
   }
 
   .text_center {
