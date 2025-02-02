@@ -17,8 +17,7 @@ export class HoverView {
    * 初始化悬浮窗口
    */
   init() {
-    let existingContainer = document.querySelector('.kp_container');
-    this.container = existingContainer || this.createPreview();
+    this.container = document.querySelector('.kp_container') || this.createPreview();
     document.body.appendChild(this.container);
   }
 
@@ -111,8 +110,9 @@ export class HoverView {
    */
   previewPosition(event) {
     // 获取图片的原始宽度和高度
-    let imgWidth = 0;
-    let imgHeight = 0;
+    let imgWidth = 0,
+      imgHeight = 0;
+
     try {
       imgWidth = this.imgElements.naturalWidth;
       imgHeight = this.imgElements.naturalHeight;
@@ -125,6 +125,10 @@ export class HoverView {
     let offsetX = 0;
     let offsetY = 0;
 
+    // 定义视口缓冲距离
+    const borderY = 10;
+    const borderX = 10;
+
     // 获取鼠标位置
     const mouseX = event.clientX;
     const mouseY = event.clientY;
@@ -133,38 +137,17 @@ export class HoverView {
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
 
-    // 定义视口缓冲距离
-    const borderY = 10;
-    const borderX = 10;
-
     // 获取鼠标位置到视口上下左右的距离
     const distanceToTop = mouseY;
     const distanceToBottom = viewportHeight - mouseY;
     const distanceToLeft = mouseX;
     const distanceToRight = viewportWidth - mouseX;
 
-    // 定义size对象
-    const picSize = {
-      width: imgWidth,
-      height: imgHeight
-    };
     const containerSize = {
-      bot: {
-        width: viewportWidth,
-        height: distanceToBottom
-      },
-      top: {
-        width: viewportWidth,
-        height: distanceToTop
-      },
-      right: {
-        width: distanceToRight,
-        height: viewportHeight
-      },
-      left: {
-        width: distanceToLeft,
-        height: viewportHeight
-      }
+      bot: { width: viewportWidth, height: window.innerHeight - mouseY },
+      top: { width: viewportWidth, height: mouseY },
+      right: { width: window.innerWidth - mouseX, height: viewportHeight },
+      left: { width: mouseX, height: viewportHeight }
     };
 
     /**定义可容纳最大比例 */
@@ -173,59 +156,29 @@ export class HoverView {
     let maxPosition = '';
 
     for (const key in containerSize) {
-      if (Object.hasOwnProperty.call(containerSize, key)) {
-        const element = containerSize[key];
-        const currentRatio = Math.min(element.width / picSize.width, element.height / picSize.height);
-        if (currentRatio > maxRatio) {
-          maxRatio = currentRatio;
-          maxPosition = key;
-        }
+      const currentRatio = Math.min(containerSize[key].width / imgWidth, containerSize[key].height / imgHeight);
+      if (currentRatio > maxRatio) {
+        maxRatio = currentRatio;
+        maxPosition = key;
       }
     }
 
     // 根据最大比例位置计算容器的位置和大小
-    const result = {
-      top: {
-        left: 0,
-        top: 0,
-        width: viewportWidth + 'px',
-        height: distanceToTop + 'px'
-      },
-      bot: {
-        left: 0,
-        top: distanceToTop + 'px',
-        width: viewportWidth + 'px',
-        height: distanceToBottom + 'px'
-      },
-      left: {
-        left: 0,
-        top: 0,
-        width: distanceToLeft + 'px',
-        height: viewportHeight + 'px'
-      },
-      right: {
-        left: distanceToLeft + 'px',
-        top: 0,
-        width: distanceToRight + 'px',
-        height: viewportHeight + 'px'
-      },
-      default: {
-        left: 0,
-        top: 0,
-        width: 0,
-        height: 0
-      }
-    };
-
-    return maxPosition ? result[maxPosition] : result.default;
+    return (
+      {
+        top: { left: 0, top: 0, width: viewportWidth + 'px', height: mouseY + 'px' },
+        bot: { left: 0, top: mouseY + 'px', width: viewportWidth + 'px', height: window.innerHeight - mouseY + 'px' },
+        left: { left: 0, top: 0, width: mouseX + 'px', height: viewportHeight + 'px' },
+        right: { left: mouseX + 'px', top: 0, width: window.innerWidth - mouseX + 'px', height: viewportHeight + 'px' }
+      }[maxPosition] || { left: 0, top: 0, width: 0, height: 0 }
+    );
   }
 
   /**
    * 清除预览
    */
   clearPreview() {
-    const kpImgElements = document.querySelectorAll('.kp_img');
-    kpImgElements.forEach(kpImg => {
+    document.querySelectorAll('.kp_img').forEach(kpImg => {
       kpImg.setAttribute('src', '');
     });
     this.container.style.display = 'none';
@@ -235,9 +188,7 @@ export class HoverView {
    * 销毁组件
    */
   destroy() {
-    if (this.buffer) {
-      clearTimeout(this.buffer);
-    }
+    if (this.buffer) clearTimeout(this.buffer);
     if (this.container) {
       this.container.style.display = 'none';
       this.clearPreview();
