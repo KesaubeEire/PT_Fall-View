@@ -72,7 +72,7 @@ let _torrentInfo =  {
 <script>
   import { notyf_lt } from '@/lib/notyf';
   import { onMount, onDestroy } from 'svelte';
-  import { _card_detail } from '@/stores';
+  import { _card_detail, _show_hover_pic } from '@/stores';
   import { CONFIG } from '@/siteConfig/mteam';
   import IconComment from '@/assets/icon_comment.svelte';
 
@@ -103,6 +103,31 @@ let _torrentInfo =  {
 
   /** 卡片 dom */
   let card_holder;
+
+  //---------------------------------------------
+  // ## 分类颜色
+  /** 本地: 分类颜色*/
+  const _categoryColor = CONFIG.CATEGORY_COLOR[torrentInfo.category];
+  const _defaultColor = 'rgba(255, 255, 255, 0.5)';
+
+  /** 根据背景颜色动态调整文字黑白
+   * @param background 背景颜色(带#)
+   */
+  function getTextColor(background) {
+    // 移除颜色字符串中的 '#'
+    const color = background.replace('#', '');
+
+    // 提取红、绿、蓝通道的值
+    const red = parseInt(color.substr(0, 2), 16);
+    const green = parseInt(color.substr(2, 2), 16);
+    const blue = parseInt(color.substr(4, 2), 16);
+
+    // 计算亮度
+    const brightness = (red * 299 + green * 587 + blue * 114) / 1000;
+
+    // 如果亮度低于阈值128，则返回白色；否则返回黑色
+    return brightness < 128 ? 'white' : 'black';
+  }
 
   //---------------------------------------------
   // ## 下载收藏操作
@@ -248,6 +273,7 @@ let _torrentInfo =  {
   <div class="card_pic">
     <!-- <img src={torrentInfo.imageList[0]} alt={torrentInfo.imageList[0]} /> -->
 
+    <!-- 图片 -->
     <img
       bind:this={imgElement}
       src={isLoaded ? picSrc : placeholder}
@@ -263,6 +289,14 @@ let _torrentInfo =  {
       class="lazy-image"
       alt={torrentInfo.id}
     />
+
+    <!-- 局部悬浮预览 -->
+    {#if $_show_hover_pic}
+      <div class="hover-trigger">
+        <!-- {torrentInfo.torrentIndex + 1} -->
+        <img style="pointer-events: none;" src={CONFIG.ICON.PREVIEW} alt="PREVIEW" />
+      </div>
+    {/if}
 
     <!-- 添加悬浮显示的 innerDOM -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -385,88 +419,97 @@ let _torrentInfo =  {
         </div>
       {/if}
     </div>
+
+    <!-- 种子大小 -->
+    {#if $_card_detail.size}
+      <div class="card-index card-index-right" style="background-color: {_categoryColor ?? 'transparent'}; color:{_categoryColor ? getTextColor(_categoryColor) : 'black'}">
+        {(Number(torrentInfo.size) / 1024 / 1024 / 1024).toFixed(2) + ' G'}
+      </div>
+    {/if}
   </div>
 
   <!-- 种子信息 -->
-  <div class="card_info">
-    <!-- NOTE: 显示置顶和免费在图片 index 处 -->
+  {#if $_card_detail.sub_title || $_card_detail.tags || $_card_detail.download_collect || $_card_detail.upload_time || $_card_detail.statistics}
+    <div class="card_info">
+      <!-- NOTE: 显示置顶和免费在图片 index 处 -->
 
-    <!-- 种子信息_副标题 -->
-    {#if $_card_detail.sub_title}
-      <div class="card_info-item card_info__sub_title">
-        <div>{torrentInfo.smallDescr}</div>
-      </div>
-    {/if}
+      <!-- 种子信息_副标题 -->
+      {#if $_card_detail.sub_title}
+        <div class="card_info-item card_info__sub_title">
+          <div>{torrentInfo.smallDescr}</div>
+        </div>
+      {/if}
 
-    <!-- 种子信息_标签 -->
-    <!-- 来自开发者的介绍:
+      <!-- 种子信息_标签 -->
+      <!-- 来自开发者的介绍:
         if ((val & 1) === 1) { ret.push("diy"); DIV }
         if ((val & 2) === 2) { ret.push("dub"); 国配 }
         if ((val & 4) === 4) { ret.push("sub"); 中字 } 
       -->
-    {#if $_card_detail.tags && torrentInfo.labels != 0}
-      <div class="cl-tags">
-        <!--  标签 Tags -->
-        {#if (torrentInfo.labels & 1) === 1}
-          <div class="_tag _tag_diy">DIY</div>
-        {/if}
-        {#if (torrentInfo.labels & 2) === 2}
-          <div class="_tag _tag_dub">国配</div>
-        {/if}
-        {#if (torrentInfo.labels & 4) === 4}
-          <div class="_tag _tag_sub">中字</div>
-        {/if}
-      </div>
-    {/if}
+      {#if $_card_detail.tags && torrentInfo.labels != 0}
+        <div class="cl-tags">
+          <!--  标签 Tags -->
+          {#if (torrentInfo.labels & 1) === 1}
+            <div class="_tag _tag_diy">DIY</div>
+          {/if}
+          {#if (torrentInfo.labels & 2) === 2}
+            <div class="_tag _tag_dub">国配</div>
+          {/if}
+          {#if (torrentInfo.labels & 4) === 4}
+            <div class="_tag _tag_sub">中字</div>
+          {/if}
+        </div>
+      {/if}
 
-    <!-- 种子信息_下载&收藏  outerDOM -->
-    {#if $_card_detail.size_download_collect}
-      <div class="card_info-item card_info__dl_and_cl" bind:this={dlclElement_outer}>
-        <button
-          on:click={e => {
-            get__DOWN_and_COLLET__Dom(torrentInfo.id, dlclElement_outer);
+      <!-- 种子信息_下载&收藏  outerDOM -->
+      {#if $_card_detail.download_collect}
+        <div class="card_info-item card_info__dl_and_cl" bind:this={dlclElement_outer}>
+          <button
+            on:click={e => {
+              get__DOWN_and_COLLET__Dom(torrentInfo.id, dlclElement_outer);
 
-            // NOTE: 记得提醒用户 => 原列表的这玩意儿会消失
-            // 记得让这玩意儿消失
-            e.target.style.display = 'none';
-            // console.log(e);
-          }}
-          title="(原列表的这俩按钮会消失)"
-        >
-          下载 & 收藏
-        </button>
-      </div>
-    {/if}
+              // NOTE: 记得提醒用户 => 原列表的这玩意儿会消失
+              // 记得让这玩意儿消失
+              e.target.style.display = 'none';
+              // console.log(e);
+            }}
+            title="(原列表的这俩按钮会消失)"
+          >
+            下载 & 收藏
+          </button>
+        </div>
+      {/if}
 
-    <!-- 种子信息_上传时间 -->
-    {#if $_card_detail.upload_time}
-      <div class="card_info-item card_info__upload_time">
-        <div>上传时间:{torrentInfo.createdDate}</div>
-      </div>
-    {/if}
+      <!-- 种子信息_上传时间 -->
+      {#if $_card_detail.upload_time}
+        <div class="card_info-item card_info__upload_time">
+          <div>上传时间:{torrentInfo.createdDate}</div>
+        </div>
+      {/if}
 
-    <!-- 种子信息_评论/上传/下载/完成 -->
-    {#if $_card_detail.statistics}
-      <div class="card_info-item card_info__statistics">
-        <!-- <div>评论:{torrentInfo.status.comments}</div> -->
-        <!-- <div>上传:{torrentInfo.status.seeders}</div> -->
-        <!-- <div>下载:{torrentInfo.status.leechers}</div> -->
-        <!-- <div>完成:{torrentInfo.status.timesCompleted}</div> -->
+      <!-- 种子信息_评论/上传/下载/完成 -->
+      {#if $_card_detail.statistics}
+        <div class="card_info-item card_info__statistics">
+          <!-- <div>评论:{torrentInfo.status.comments}</div> -->
+          <!-- <div>上传:{torrentInfo.status.seeders}</div> -->
+          <!-- <div>下载:{torrentInfo.status.leechers}</div> -->
+          <!-- <div>完成:{torrentInfo.status.timesCompleted}</div> -->
 
-        <IconComment></IconComment>
-        &nbsp;
-        <b>{torrentInfo.status.comments}</b>
-        &nbsp;&nbsp;
-        <img src={CONFIG.ICON.SEEDERS} alt="SVG_Seeders" />
-        &nbsp;
-        <b>{torrentInfo.status.seeders}</b>
-        &nbsp;&nbsp;
-        <img src={CONFIG.ICON.LEECHERS} alt="SVG_Leechers" />
-        &nbsp;
-        <b>{torrentInfo.status.leechers}</b>
-      </div>
-    {/if}
-  </div>
+          <IconComment></IconComment>
+          &nbsp;
+          <b>{torrentInfo.status.comments}</b>
+          &nbsp;&nbsp;
+          <img src={CONFIG.ICON.SEEDERS} alt="SVG_Seeders" />
+          &nbsp;
+          <b>{torrentInfo.status.seeders}</b>
+          &nbsp;&nbsp;
+          <img src={CONFIG.ICON.LEECHERS} alt="SVG_Leechers" />
+          &nbsp;
+          <b>{torrentInfo.status.leechers}</b>
+        </div>
+      {/if}
+    </div>
+  {/if}
 </div>
 
 <style scoped>
@@ -531,7 +574,6 @@ let _torrentInfo =  {
   }
 
   /* 标签 */
-
   .cl-tags {
     display: flex;
     justify-content: center;
@@ -600,6 +642,55 @@ let _torrentInfo =  {
     align-items: center;
 
     pointer-events: none;
+  }
+
+  /* 卡片索引_右 */
+  .card-index-right {
+    left: initial;
+    right: 0;
+    padding: 4px 4px 4px 8px;
+
+    background-color: rgb(0, 0, 0);
+    color: white;
+
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+  }
+
+  /* 悬浮预览: 局部触发器 */
+  .hover-trigger {
+    position: absolute;
+    top: 28px;
+    right: 8px;
+    /* padding-right: 19px; */
+    /* padding-left: 2px; */
+    padding: 0;
+    width: 42px;
+    margin: 0;
+    height: 40px;
+    line-height: 16px;
+    font-size: 16px;
+
+    /* background-color: rgb(255, 187, 16); */
+
+    opacity: 0.5;
+
+    /* color: yellow; */
+    /* border-top-right-radius: 0px; */
+    /* border-bottom-left-radius: 100px; */
+    border-radius: 9999px;
+
+    display: flex;
+    align-items: center;
+
+    /* pointer-events: none; */
+
+    z-index: 2;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      opacity: 0.8;
+    }
   }
 
   /* 添加悬浮效果相关样式 */
