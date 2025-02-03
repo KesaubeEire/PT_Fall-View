@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { _panelPos, _isFallView, _card_layout, _card_detail, _show_hover_pic } from '@/stores';
+  import { _panelPos, _isFallView, _card_layout, _card_detail, _show_hover_pic, _iframe_switch, _side_panel_switch } from '@/stores';
   import { getSiteConfig } from '@/siteConfig';
   import { fade } from 'svelte/transition';
   import Switch from '@/component/switch.svelte';
@@ -9,7 +9,7 @@
   // ## 侧边栏功能配置
   // ------------------------------------------------
   /** 是否显示配置菜单 */
-  let isConfigMenuVisible = false;
+  // let isConfigMenuVisible = false;
 
   // ------------------------------------------------
   // ## 配置拖拽侧边栏
@@ -92,7 +92,7 @@
     <button
       class="flowBtn"
       on:click={() => {
-        isConfigMenuVisible = !isConfigMenuVisible;
+        $_side_panel_switch = !$_side_panel_switch;
       }}
     >
       配置菜单
@@ -101,22 +101,31 @@
       class="flowBtn"
       on:click={() => {
         window.__clearPreview();
-      }}>清除悬浮预览图</button
+      }}
     >
-    <button class="flowBtn">debug<br />03</button>
+      清除悬浮预览图
+    </button>
+    <button
+      class="flowBtn"
+      on:click={() => {
+        $_iframe_switch = Number(!$_iframe_switch);
+      }}
+    >
+      iframe
+    </button>
     <button class="flowBtn">debug<br />03</button>
   </div>
 </div>
 
 <!-- 配置菜单 -->
-{#if isConfigMenuVisible}
+{#if $_side_panel_switch}
   <!-- svelte-ignore a11y_no_static_element_interactions -->
   <!-- svelte-ignore a11y_click_events_have_key_events -->
-  <div class="config-menu-overlay" transition:fade={{ duration: 100 }} on:click|self={() => (isConfigMenuVisible = false)}>
+  <div class="config-menu-overlay" transition:fade={{ duration: 100 }} on:click|self={() => ($_side_panel_switch = false)}>
     <div class="config-menu" style="background-color: {getSiteConfig(location.hostname).get_bg_color()};">
       <div class="config-menu-header">
         <span style="font-size: 18px; font-weight: bold;">配置菜单</span>
-        <button class="close-btn" on:click={() => (isConfigMenuVisible = false)}>&times;</button>
+        <button class="close-btn" on:click={() => ($_side_panel_switch = false)}>&times;</button>
       </div>
       <div class="config-menu-content">
         <!-- 这里添加你的配置项 -->

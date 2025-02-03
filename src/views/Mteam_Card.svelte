@@ -72,7 +72,7 @@ let _torrentInfo =  {
 <script>
   import { notyf_lt } from '@/lib/notyf';
   import { onMount, onDestroy } from 'svelte';
-  import { _card_detail, _show_hover_pic } from '@/stores';
+  import { _card_detail, _iframe_switch, _iframe_url, _show_hover_pic } from '@/stores';
   import { CONFIG } from '@/siteConfig/mteam';
   import IconComment from '@/assets/icon_comment.svelte';
   import HoverView from '@/lib/hoverView';
@@ -296,9 +296,9 @@ let _torrentInfo =  {
         rel="noreferrer"	隐藏来源页面的 Referer 信息（增强隐私保护）
     -->
     {#if $_card_detail.title}
-      <a href={'/detail/' + torrentInfo.id} target="_blank" rel="noopener noreferrer">
+      <a class="__main_title" href={'/detail/' + torrentInfo.id} target="_blank" rel="noopener noreferrer">
         <!-- NOTE: 暂且是种子描述优先 -->
-        {`<${torrentInfo.index}> ` + torrentInfo.name}
+        {torrentInfo.name}
       </a>
     {/if}
   </div>
@@ -374,6 +374,11 @@ let _torrentInfo =  {
           // console.log(`<${torrentInfo.id}>isHovered: ${isHovered}, isMoving: ${isMoving}`);
         }
       }}
+      on:mousedown={() => {
+        $_iframe_url = 'https://' + location.host + '/detail/' + torrentInfo.id;
+        $_iframe_switch = 1;
+        // console.log($_iframe_url);
+      }}
     >
       <!-- NOTE: 种子内信息 你可以在这里添加任何想要显示的内容 -->
       <div class="overlay-content" bind:this={overlayContent}>
@@ -439,7 +444,9 @@ let _torrentInfo =  {
 
         <!-- 种子内信息_主标题 -->
         <div style="width: 100%;" class="card_info-item card_info__sub_title">
-          <div class="__main_title">{torrentInfo.name}</div>
+          <a class="__main_title" href={'/detail/' + torrentInfo.id} target="_blank" rel="noopener noreferrer">
+            {torrentInfo.name}
+          </a>
         </div>
 
         <!-- 种子内信息_副标题 -->
@@ -737,6 +744,19 @@ let _torrentInfo =  {
     align-items: center;
   }
 
+  .__main_title {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+
+    /* font-size: 16px; */
+    font-weight: bold;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
   /* 标签 */
   .cl-tags {
     display: flex;
@@ -903,12 +923,17 @@ let _torrentInfo =  {
     }
 
     & .__main_title {
+      text-align: center;
       white-space: pre-wrap;
       word-wrap: break-word;
       overflow-wrap: break-word;
 
       /* font-size: 16px; */
       font-weight: bold;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
 
     & .__sub_title {

@@ -12,9 +12,12 @@
     1.3 拿到种子列表详细数据, 填成 bricks 放进瀑布流 div 里
 -->
 <script>
+  import { fade } from 'svelte/transition';
+  import { _iframe_switch, _iframe_url, _side_panel_switch } from './stores';
   import { mount } from 'svelte';
   import EntryMteam from './views/Entry_Mteam.svelte';
   import FlowPanel from './component/flowPanel.svelte';
+  import IconRoundClose from '@/assets/icon_roundClose.svelte';
   // ------------------------------------------------
 
   /** main.js dom */
@@ -23,6 +26,22 @@
   // ------------------------------------------------
 
   let ifMteam;
+
+  // ------------------------------------------------
+  /** 关闭 iframe */
+  function closeIframe() {
+    $_iframe_switch = 0;
+  }
+
+  /** esc 控制关闭所有面板 */
+  function key_closePanels(event) {
+    // console.log(event);
+    if (event.key === 'Escape') {
+      console.log(event);
+      $_iframe_switch = 0;
+      $_side_panel_switch = false;
+    }
+  }
 
   //  -----------⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇ 主流程 ⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇-----------
 
@@ -48,3 +67,81 @@
   // Log
   console.log('-------------->  PT_Fall Launch   <--------------');
 </script>
+
+<!-- iframe 详情 -->
+{#if $_iframe_switch}
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <!-- svelte-ignore a11y_no_static_element_interactions -->
+  <div id="_iframe" on:click={closeIframe} transition:fade={{ duration: 300 }}>
+    <div class="_iframe">
+      <!-- svelte-ignore element_invalid_self_closing_tag -->
+      <iframe
+        src={$_iframe_url}
+        frameborder="0"
+        title={$_iframe_url}
+        style="width: 1000px;"
+        on:click|stopPropagation={e => {
+          e.stopPropagation();
+        }}
+      />
+      <div class="_iframeCloseBtn" on:click={closeIframe}>
+        <!-- svg 关闭 icon -->
+        <IconRoundClose></IconRoundClose>
+      </div>
+    </div>
+  </div>
+{/if}
+
+<!-- NOTE: svelte 绑定 window -> 按 escape 退出各种子面板 -->
+<svelte:window on:keydown|capture={key_closePanels} />
+
+<style>
+  div#_iframe {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 38, 38, 0.607);
+    z-index: 30000;
+
+    display: flex;
+  }
+
+  div._iframe {
+    position: relative;
+    /* width: 1246px; */
+    height: 96%;
+    margin: auto;
+  }
+
+  div._iframe iframe {
+    height: 100%;
+    border-radius: 20px;
+  }
+
+  ._iframeCloseBtn {
+    width: 40px;
+    height: 40px;
+    background: white;
+
+    position: absolute;
+
+    top: 10px;
+    right: 10px;
+
+    border-radius: 40px;
+    transition: all 0.5s;
+
+    /* 悬浮 */
+    &:hover {
+      opacity: 0.7;
+      transform: scale(1.2);
+    }
+    /* 点击(长按才明显) */
+    &:active {
+      opacity: 0.9;
+      transform: scale(1.9);
+    }
+  }
+</style>

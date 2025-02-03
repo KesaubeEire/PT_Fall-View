@@ -51,8 +51,18 @@ const persistStore = (key, initialValue) => {
 };
 
 // ----------------------------------------------------------------
+/** iframe 开关 */
+export const _iframe_switch = writable(0);
+/** iframe 网址 */
+export const _iframe_url = writable('');
+
+// ----------------------------------------------------------------
 /** 是否为瀑布流视图 */
 export const _isFallView = persistStore('_isFallView', true);
+
+// ----------------------------------------------------------------
+/** 测边栏 toggle */
+export const _side_panel_switch = writable(0);
 
 /** 拖拽边栏位置 */
 export const _panelPos = persistStore('_panelPos', { x: 0, y: 0 });
