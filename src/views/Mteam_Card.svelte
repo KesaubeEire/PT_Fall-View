@@ -274,13 +274,14 @@ let _torrentInfo =  {
     class="card-category"
     data-href={`https://${location.host}/browse?cat=` + torrentInfo.category}
     style="
-      background-color: 
-        {_categoryColor ?? 'transparent'};
-      color:
-        {_categoryColor ? getTextColor(_categoryColor) : 'black'}"
+      background-color: {_categoryColor ?? 'transparent'};
+      color: {_categoryColor ? getTextColor(_categoryColor) : 'black'}"
   >
     <!-- 分类图标 -->
     <img class="card_category-img" src={CONFIG.CATEGORY[torrentInfo.category].src} alt={CONFIG.CATEGORY[torrentInfo.category].alt} />
+
+    &nbsp;&nbsp;
+
     <!-- 分类名称 -->
     {CONFIG.CATEGORY[torrentInfo.category].alt}
   </div>
@@ -424,13 +425,14 @@ let _torrentInfo =  {
           data-href={`https://${location.host}/browse?cat=` + torrentInfo.category}
           style="
             height: 40px;
-            background-color: 
-              {_categoryColor ?? 'transparent'};
-            color:
-              {_categoryColor ? getTextColor(_categoryColor) : 'black'}"
+            background-color: {_categoryColor ?? 'transparent'};
+            color: {_categoryColor ? getTextColor(_categoryColor) : 'black'}"
         >
           <!-- 分类图标 -->
           <img class="card_category-img card_cate_square" style="width: 38px;height: 40px;transform: translateY(-3px);" src={CONFIG.CATEGORY[torrentInfo.category].src} alt={CONFIG.CATEGORY[torrentInfo.category].alt} />
+
+          &nbsp;&nbsp;
+
           <!-- 分类名称 -->
           {CONFIG.CATEGORY[torrentInfo.category].alt}
         </div>
