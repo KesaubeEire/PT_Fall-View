@@ -97,9 +97,9 @@
     >
       配置菜单
     </button>
-    <button class="flowBtn">debug01</button>
-    <button class="flowBtn">debug02</button>
-    <button class="flowBtn">debug03</button>
+    <button class="flowBtn">debug<br>01</button>
+    <button class="flowBtn">debug<br>02</button>
+    <button class="flowBtn">debug<br>03</button>
   </div>
 </div>
 
@@ -135,7 +135,7 @@
           <Switch bind:checked={$_show_hover_pic} />
         </div>
 
-        <h3>卡片详细信息展示</h3>
+        <h3>卡片常驻信息展示</h3>
         <!-- 添加更多配置项 -->
         <!-- 标题 -->
         <div class="config-item">
@@ -212,7 +212,7 @@
     transition: background-color 0.2s;
     transition: opacity 0.2s;
 
-    font-size: 14px;
+    font-size: 16px;
 
     opacity: 0.7;
 
@@ -262,11 +262,14 @@
   .flowBtn {
     padding: 4px;
     border-radius: 4px;
-    border: 2px solid rgba(255, 255, 255, 0.5);
+    border: 2px solid rgba(255, 255, 255);
     background-color: #fff;
     opacity: 0.7;
     color: #333;
     transition: all 0.2s;
+
+    font-size: 15px;
+    font-weight: bold;
 
     &:hover {
       opacity: 1;
@@ -276,7 +279,7 @@
 
     &:active {
       transform: translateY(4px);
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     }
 
     /* @media (prefers-color-scheme: dark) {

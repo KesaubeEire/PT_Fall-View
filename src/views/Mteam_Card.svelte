@@ -81,6 +81,8 @@ let _torrentInfo =  {
   /** 父传值: 种子信息*/
   export let torrentInfo;
 
+  // 内部信息显示
+  let _inner_info_show = false;
   // 置顶相关
   let toppingLevelArray;
   if (torrentInfo.status.toppingLevel) {
@@ -108,7 +110,7 @@ let _torrentInfo =  {
   //---------------------------------------------
   // ## 分类颜色
   /** 本地: 分类颜色*/
-  const _categoryColor = CONFIG.CATEGORY_COLOR[torrentInfo.category];
+  const _categoryColor = CONFIG.CATEGORY[torrentInfo.category].color;
   const _defaultColor = 'rgba(255, 255, 255, 0.5)';
 
   /** 根据背景颜色动态调整文字黑白
@@ -167,6 +169,8 @@ let _torrentInfo =  {
     });
 
     if (targetButtons.length) {
+      targetButtons[0].style.margin = 0;
+
       // 7. 去重处理 (同一行可能有多个按钮)
       const uniqueButtons = [...new Set(targetButtons)];
       // console.log('找到的按钮:', uniqueButtons);
@@ -265,6 +269,22 @@ let _torrentInfo =  {
     <div class="card_new_page_highlight">新页面 ({torrentInfo.index}+)</div>
   {/if}
 
+  <!-- 分区类别 -->
+  <div
+    class="card-category"
+    data-href={`https://${location.host}/browse?cat=` + torrentInfo.category}
+    style="
+      background-color: 
+        {_categoryColor ?? 'transparent'};
+      color:
+        {_categoryColor ? getTextColor(_categoryColor) : 'black'}"
+  >
+    <!-- 分类图标 -->
+    <img class="card_category-img" src={CONFIG.CATEGORY[torrentInfo.category].src} alt={CONFIG.CATEGORY[torrentInfo.category].alt} />
+    <!-- 分类名称 -->
+    {CONFIG.CATEGORY[torrentInfo.category].alt}
+  </div>
+
   <!-- 种子标题 -->
   <div class="card_title">
     <!-- 
@@ -330,7 +350,7 @@ let _torrentInfo =  {
         // 卡片内信息
         imgElement.style.filter = 'blur(2px)';
         overlayHolder.style.opacity = '1';
-        // console.log('enter');
+        _inner_info_show = true;
       }}
       on:mousemove={e => {
         // 悬浮大图
@@ -343,7 +363,7 @@ let _torrentInfo =  {
         // 卡片内信息
         imgElement.style.filter = 'none';
         overlayHolder.style.opacity = '0';
-        // console.log('leave');
+        _inner_info_show = false;
 
         // 悬浮大图
         isMoving = false;
@@ -354,14 +374,78 @@ let _torrentInfo =  {
         }
       }}
     >
-      <!-- 你可以在这里添加任何想要显示的内容 -->
+      <!-- NOTE: 种子内信息 你可以在这里添加任何想要显示的内容 -->
       <div class="overlay-content" bind:this={overlayContent}>
-        <!-- 种子信息_副标题 -->
+        <!-- 种子内信息_索引和大小 -->
+        <div class="__inner_index_and_size">
+          <!-- 种子索引 index -->
+          <div class="card-index __inner_index" style="background-color:black; color:white">
+            <!-- 置顶情况 -->
+            {#if torrentInfo.status.toppingLevel != '0'}
+              <!-- <div>置顶:{torrentInfo.status.toppingLevel}</div> -->
+              <div class="card_info__topping">
+                <!-- <div class="_tag">{torrentInfo.status.toppingLevel}</div> -->
+                {#each toppingLevelArray as _, index}
+                  <img
+                    style="
+                    background: url(/static/media/icons.8bb5446ebbbd07050285.gif) 0 -202px;
+                    height: 14px;
+                    width: 14px;"
+                    src={CONFIG.ICON.PIN}
+                    alt="PIN"
+                  />
+                {/each}
+              </div>
+              &nbsp;
+            {/if}
+
+            <!-- 索引 -->
+            {torrentInfo.index}
+
+            &nbsp;
+
+            <!-- 种子打折情况 -->
+            {#if _discount != 'NORMAL'}
+              <div class="_tag" class:_tag_discount_free={_discount == 'FREE'} class:_tag_discount_50={_discount == 'PERCENT_50'}>
+                {_discountText[_discount]}{_discountEndTime ? ':' + _discountCalcTime() + '小时' : ''}
+              </div>
+            {/if}
+          </div>
+
+          <!-- 种子大小 -->
+          <div class="card-index card-index-right __inner_index __inner_size" style="background-color: {_categoryColor ?? 'transparent'}; color:{_categoryColor ? getTextColor(_categoryColor) : 'black'}">
+            {(Number(torrentInfo.size) / 1024 / 1024 / 1024).toFixed(2) + ' G'}
+          </div>
+        </div>
+
+        <!-- 种子内信息_分区类别 -->
+        <div
+          class="card-category card_info-item"
+          data-href={`https://${location.host}/browse?cat=` + torrentInfo.category}
+          style="
+            height: 40px;
+            background-color: 
+              {_categoryColor ?? 'transparent'};
+            color:
+              {_categoryColor ? getTextColor(_categoryColor) : 'black'}"
+        >
+          <!-- 分类图标 -->
+          <img class="card_category-img card_cate_square" style="width: 38px;height: 40px;transform: translateY(-3px);" src={CONFIG.CATEGORY[torrentInfo.category].src} alt={CONFIG.CATEGORY[torrentInfo.category].alt} />
+          <!-- 分类名称 -->
+          {CONFIG.CATEGORY[torrentInfo.category].alt}
+        </div>
+
+        <!-- 种子内信息_主标题 -->
+        <div style="width: 100%;" class="card_info-item card_info__sub_title">
+          <div class="__main_title">{torrentInfo.name}</div>
+        </div>
+
+        <!-- 种子内信息_副标题 -->
         <div style="width: 100%;" class="card_info-item card_info__sub_title">
           <div class="__sub_title">{torrentInfo.smallDescr}</div>
         </div>
 
-        <!-- 种子信息_标签 -->
+        <!-- 种子内信息_标签 -->
         <!-- 来自开发者的介绍:
           if ((val & 1) === 1) { ret.push("diy"); DIV }
           if ((val & 2) === 2) { ret.push("dub"); 国配 }
@@ -382,12 +466,12 @@ let _torrentInfo =  {
           </div>
         {/if}
 
-        <!-- 种子信息_上传时间 -->
+        <!-- 种子内信息_上传时间 -->
         <div class="card_info-item card_info__upload_time">
           <div>上传时间:{torrentInfo.createdDate}</div>
         </div>
 
-        <!-- 种子信息_评论/上传/下载/完成 -->
+        <!-- 种子内信息_评论/上传/下载/完成 -->
         <div class="card_info-item card_info__statistics" bind:this={dlclElement_inner}>
           <!-- <div>评论:{torrentInfo.status.comments}</div> -->
           <!-- <div>上传:{torrentInfo.status.seeders}</div> -->
@@ -408,7 +492,7 @@ let _torrentInfo =  {
             <b>{torrentInfo.status.leechers}</b>
           </div>
 
-          <!-- 种子信息_下载&收藏 -->
+          <!-- 种子内信息_下载&收藏 -->
           <button
             on:click={e => {
               get__DOWN_and_COLLET__Dom(torrentInfo.id, dlclElement_inner);
@@ -427,41 +511,43 @@ let _torrentInfo =  {
     </div>
 
     <!-- 种子索引 index -->
-    <div class="card-index">
-      <!-- 置顶情况 -->
-      {#if $_card_detail.topping && torrentInfo.status.toppingLevel != '0'}
-        <!-- <div>置顶:{torrentInfo.status.toppingLevel}</div> -->
-        <div class="card_info__topping">
-          <!-- <div class="_tag">{torrentInfo.status.toppingLevel}</div> -->
-          {#each toppingLevelArray as _, index}
-            <img
-              style="
-            background: url(/static/media/icons.8bb5446ebbbd07050285.gif) 0 -202px;
-            height: 14px;
-            width: 14px;"
-              src={CONFIG.ICON.PIN}
-              alt="PIN"
-            />
-          {/each}
-        </div>
+    {#if !_inner_info_show}
+      <div class="card-index">
+        <!-- 置顶情况 -->
+        {#if $_card_detail.topping && torrentInfo.status.toppingLevel != '0'}
+          <!-- <div>置顶:{torrentInfo.status.toppingLevel}</div> -->
+          <div class="card_info__topping">
+            <!-- <div class="_tag">{torrentInfo.status.toppingLevel}</div> -->
+            {#each toppingLevelArray as _, index}
+              <img
+                style="
+                  background: url(/static/media/icons.8bb5446ebbbd07050285.gif) 0 -202px;
+                  height: 14px;
+                  width: 14px;"
+                src={CONFIG.ICON.PIN}
+                alt="PIN"
+              />
+            {/each}
+          </div>
+          &nbsp;
+        {/if}
+
+        <!-- 索引 -->
+        {torrentInfo.index}
+
         &nbsp;
-      {/if}
 
-      <!-- 索引 -->
-      {torrentInfo.index}
-
-      &nbsp;
-
-      <!-- 种子打折情况 -->
-      {#if $_card_detail.free && _discount != 'NORMAL'}
-        <div class="_tag" class:_tag_discount_free={_discount == 'FREE'} class:_tag_discount_50={_discount == 'PERCENT_50'}>
-          {_discountText[_discount]}{_discountEndTime ? ':' + _discountCalcTime() + '小时' : ''}
-        </div>
-      {/if}
-    </div>
+        <!-- 种子打折情况 -->
+        {#if $_card_detail.free && _discount != 'NORMAL'}
+          <div class="_tag" class:_tag_discount_free={_discount == 'FREE'} class:_tag_discount_50={_discount == 'PERCENT_50'}>
+            {_discountText[_discount]}{_discountEndTime ? ':' + _discountCalcTime() + '小时' : ''}
+          </div>
+        {/if}
+      </div>
+    {/if}
 
     <!-- 种子大小 -->
-    {#if $_card_detail.size}
+    {#if $_card_detail.size && !_inner_info_show}
       <div class="card-index card-index-right" style="background-color: {_categoryColor ?? 'transparent'}; color:{_categoryColor ? getTextColor(_categoryColor) : 'black'}">
         {(Number(torrentInfo.size) / 1024 / 1024 / 1024).toFixed(2) + ' G'}
       </div>
@@ -553,6 +639,42 @@ let _torrentInfo =  {
 </div>
 
 <style scoped>
+  /* 卡片分类 */
+  .card-category {
+    height: 20px;
+    padding: 0 2px;
+    border: 1px;
+    background: black;
+    color: white;
+    font-weight: 900;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 卡片种类tag预览图 */
+  .card_category-img {
+    /* height: 18px; */
+    height: 35px;
+    width: 28px;
+
+    background-size: 100% 141%;
+    background-position: center top;
+
+    /* padding-left: 5%; */
+    padding-top: 6px;
+  }
+
+  .card_cate_square {
+    width: 40px;
+    height: 40px;
+    transform: translateY(-3px);
+  }
+
   .card_new_page_highlight {
     /* position: absolute; */
     top: 0;
@@ -581,7 +703,7 @@ let _torrentInfo =  {
     align-items: center;
     flex-direction: column;
 
-    padding: 4px 8px;
+    padding: 0px 8px;
 
     & .card_info-item {
       display: flex;
@@ -693,8 +815,8 @@ let _torrentInfo =  {
     background-color: rgb(0, 0, 0);
     color: white;
 
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
+    /* border-top-left-radius: 20px; */
+    /* border-bottom-left-radius: 20px; */
   }
 
   /* 悬浮预览: 局部触发器 */
@@ -758,7 +880,7 @@ let _torrentInfo =  {
     background: rgba(255, 255, 255, 0.9);
     /* background-color: rgba(0, 0, 0, 0.5); */
 
-    padding: 2px 8px;
+    padding: 0 0px 2px;
     /* border-radius: 4px; */
     color: #333;
     font-size: 14px;
@@ -773,6 +895,18 @@ let _torrentInfo =  {
       align-items: center;
 
       padding: 2px;
+
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+
+    & .__main_title {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+
+      /* font-size: 16px; */
+      font-weight: bold;
     }
 
     & .__sub_title {
@@ -793,6 +927,34 @@ let _torrentInfo =  {
   .__center {
     display: flex;
     justify-content: center;
+    align-items: center;
+  }
+
+  .__inner_index_and_size {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: -24px;
+  }
+
+  .__inner_index {
+    position: relative;
+    width: fit-content;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .__inner_size {
+    position: relative;
+    width: fit-content;
+
+    display: flex;
+    justify-content: flex-end;
     align-items: center;
   }
 </style>

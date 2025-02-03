@@ -129,7 +129,7 @@
 
 <style>
   .fall_holder {
-    border: 2px dashed #6495ed;
+    border: 0px solid #6495ed;
     border-radius: 8px;
     /* background-color: rgb(188, 202, 214); */
     /* padding: 12px; */

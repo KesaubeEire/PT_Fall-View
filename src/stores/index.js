@@ -70,7 +70,7 @@ export const _card_layout = persistStore('_card_layout', {
   gap: 12
 });
 
-/** 卡片显示参数 */
+/** 卡片常驻显示参数 */
 export const _card_detail = persistStore('_card_detail', {
   // 全局总开关
   all: false,

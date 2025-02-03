@@ -88,6 +88,194 @@ export const CONFIG = {
     /** 预览图标 */
     PREVIEW: SVG_Preview
   },
+  CATEGORY:
+    // 普通分类
+    {
+      401: {
+        src: 'https://static.m-team.cc/static/cate/moviesd.png',
+        alt: '電影/SD',
+        color: '#c74854'
+      },
+      402: {
+        src: 'https://static.m-team.cc/static/cate/tvhd.png',
+        alt: '影劇/綜藝/HD',
+        color: '#276fb8'
+      },
+      403: {
+        src: 'https://static.m-team.cc/static/cate/tvsd.png',
+        alt: '影劇/綜藝/SD',
+        color: '#c74854'
+      },
+      404: {
+        src: 'https://static.m-team.cc/static/cate/bbc.png',
+        alt: '紀錄',
+        color: '#23ac38'
+      },
+      405: {
+        src: 'https://static.m-team.cc/static/cate/anime.png',
+        alt: '動畫',
+        color: '#996c34'
+      },
+      406: {
+        src: 'https://static.m-team.cc/static/cate/mv.png',
+        alt: '演唱',
+        color: '#8a57a1'
+      },
+      407: {
+        src: 'https://static.m-team.cc/static/cate/sport.png',
+        alt: '運動',
+        color: '#23ac38'
+      },
+      409: {
+        src: 'https://static.m-team.cc/static/cate/other.png',
+        alt: 'Misc(其他)',
+        color: '#996c34'
+      },
+      419: {
+        src: 'https://static.m-team.cc/static/cate/moviehd.png',
+        alt: '電影/HD',
+        color: '#c01a20'
+      },
+      420: {
+        src: 'https://static.m-team.cc/static/cate/moviedvd.png',
+        alt: '電影/DVDiSo',
+        color: '#c74854'
+      },
+      421: {
+        src: 'https://static.m-team.cc/static/cate/moviebd.png',
+        alt: '電影/Blu-Ray',
+        color: '#00a0e9'
+      },
+      422: {
+        src: 'https://static.m-team.cc/static/cate/software.png',
+        alt: '軟體',
+        color: '#f39800'
+      },
+      423: {
+        src: 'https://static.m-team.cc/static/cate/game-pc-3.jpeg',
+        alt: 'PC遊戲',
+        color: '#f39800'
+      },
+      427: {
+        src: 'https://static.m-team.cc/static/cate/Study.png',
+        alt: '教育(書面)',
+        color: '#7FC269'
+      },
+      434: {
+        src: 'https://static.m-team.cc/static/cate/flac.png',
+        alt: 'Music(無損)',
+        color: '#8a57a1'
+      },
+      435: {
+        src: 'https://static.m-team.cc/static/cate/tvdvd.png',
+        alt: '影劇/綜藝/DVDiSo',
+        color: '#4dbebd'
+      },
+      438: {
+        src: 'https://static.m-team.cc/static/cate/tvbd.png',
+        alt: '影劇/綜藝/BD',
+        color: '#1897d6'
+      },
+      439: {
+        src: 'https://static.m-team.cc/static/cate/movieremux.png',
+        alt: '電影/Remux',
+        color: '#1b2a51'
+      },
+      441: {
+        src: 'https://static.m-team.cc/static/cate/Study_Video.png',
+        alt: '教育(影片)',
+        color: '#7FC269'
+      },
+      442: {
+        src: 'https://static.m-team.cc/static/cate/Study_Audio.png',
+        alt: '有聲書',
+        color: '#7FC269'
+      },
+      448: {
+        src: 'https://static.m-team.cc/static/cate/pcgame.png',
+        alt: 'TV遊戲',
+        color: '#f39800'
+      },
+
+      // 成人分类
+      410: {
+        src: 'https://static.m-team.cc/static/cate/cenhd.png',
+        alt: 'AV(有碼)/HD Censored',
+        // color: '#db55a9',
+        color: '#F520CB'
+      },
+      411: {
+        src: 'https://static.m-team.cc/static/cate/hgame.png',
+        alt: 'H-遊戲',
+        color: '#f49800'
+      },
+      412: {
+        src: 'https://static.m-team.cc/static/cate/hanime.png',
+        alt: 'H-動畫',
+        color: '#f49800'
+      },
+      413: {
+        src: 'https://static.m-team.cc/static/cate/hcomic.png',
+        alt: 'H-漫畫',
+        color: '#f49800'
+      },
+      424: {
+        src: 'https://static.m-team.cc/static/cate/censd.png',
+        alt: 'AV(有碼)/SD Censored',
+        // color: '#F520CB',
+        color: '#DA55A9',
+      },
+      425: {
+        src: 'https://static.m-team.cc/static/cate/ivvideo.png',
+        alt: 'IV(寫真影集)',
+        color: '#bb1e9a'
+      },
+      426: {
+        src: 'https://static.m-team.cc/static/cate/uendvd.png',
+        alt: 'AV(無碼)/DVDiSo Uncensored',
+        color: '#f77afa'
+      },
+      429: {
+        src: 'https://static.m-team.cc/static/cate/uenhd.png',
+        alt: 'AV(無碼)/HD Uncensored',
+        color: '#f52bcb'
+      },
+      430: {
+        src: 'https://static.m-team.cc/static/cate/uensd.png',
+        alt: 'AV(無碼)/SD Uncensored',
+        color: '#db55a9'
+      },
+      431: {
+        src: 'https://static.m-team.cc/static/cate/cenbd.png',
+        alt: 'AV(有碼)/Blu-Ray Censored',
+        color: '#19a7ec'
+      },
+      432: {
+        src: 'https://static.m-team.cc/static/cate/uenbd.png',
+        alt: 'AV(無碼)/Blu-Ray Uncensored',
+        color: '#19a7ec'
+      },
+      433: {
+        src: 'https://static.m-team.cc/static/cate/ivpic.png',
+        alt: 'IV(寫真圖集)',
+        color: '#bb1e9a'
+      },
+      436: {
+        src: 'https://static.m-team.cc/static/cate/adult0day.png',
+        alt: 'AV(網站)/0Day',
+        color: '#bb1e9a'
+      },
+      437: {
+        src: 'https://static.m-team.cc/static/cate/cendvd.png',
+        alt: 'AV(有碼)/DVDiSo Censored',
+        color: '#f77afa'
+      },
+      440: {
+        src: 'https://static.m-team.cc/static/cate/gayhd.gif',
+        alt: 'AV(Gay)/HD',
+        color: '#f52bcb'
+      }
+    },
 
   /**如果站点有必要设置分类颜色, 可以用自定义的 */
   CATEGORY_COLOR: {
@@ -97,7 +285,7 @@ export const CONFIG = {
 
     410: '#f52bcb', // 有码 HD
     429: '#f52bcb', // 无码 HD
-    424: '#db55a9', // 有码 Xvid
+    424: '#DA55A9', // 有码 Xvid
     430: '#db55a9', // 无码 Xvid
     437: '#f77afa', // 有码 DVD
     426: '#f77afa', // 无码 DVD
