@@ -97,9 +97,14 @@
     >
       配置菜单
     </button>
-    <button class="flowBtn">debug<br>01</button>
-    <button class="flowBtn">debug<br>02</button>
-    <button class="flowBtn">debug<br>03</button>
+    <button
+      class="flowBtn"
+      on:click={() => {
+        window.__clearPreview();
+      }}>清除悬浮预览图</button
+    >
+    <button class="flowBtn">debug<br />03</button>
+    <button class="flowBtn">debug<br />03</button>
   </div>
 </div>
 

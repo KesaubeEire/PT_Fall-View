@@ -191,10 +191,23 @@ export class HoverView {
     if (this.buffer) clearTimeout(this.buffer);
     if (this.container) {
       this.container.style.display = 'none';
-      this.clearPreview();
+      clearPreview();
     }
   }
 }
+
+/**
+ * export: 清除预览
+ */
+export function __clearPreview() {
+  document.querySelectorAll('.kp_img').forEach(kpImg => {
+    kpImg.setAttribute('src', '');
+  });
+  const _container = document.querySelector('.kp_container');
+  _container.style.display = 'none';
+}
+
+window.__clearPreview = __clearPreview;
 
 // 导出组件
 export default HoverView;
