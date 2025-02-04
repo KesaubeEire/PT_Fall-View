@@ -18,6 +18,7 @@
   import EntryMteam from './views/Entry_Mteam.svelte';
   import FlowPanel from './component/flowPanel.svelte';
   import IconRoundClose from '@/assets/icon_roundClose.svelte';
+  import { notyf_lt } from '@/lib/notyf';
   // ------------------------------------------------
 
   /** main.js dom */
@@ -80,6 +81,34 @@
         frameborder="0"
         title={$_iframe_url}
         style="width: 1000px;"
+        on:load={e => {
+          // 获取iframe的内容文档
+          const iframeContent = e.target.contentDocument || e.target.contentWindow.document;
+
+          if (!iframeContent) {
+            console.error('无法访问iframe内容文档, 可能是由于跨域限制。');
+            notyf_lt.error('无法访问iframe内容文档, 可能是由于跨域限制。');
+            return;
+          }
+
+          // 轮询检查目标元素
+          const checkElement = () => {
+            const targetElement = iframeContent.querySelector('.ant-card.detail-view');
+
+            if (targetElement) {
+              // 滚动到目标元素
+              targetElement.scrollIntoView({ behavior: 'smooth' });
+              console.log('成功滚动到目标元素！');
+              clearInterval(checkInterval);
+            }
+          };
+
+          // 每500ms检查一次，直到找到元素
+          const checkInterval = setInterval(checkElement, 500);
+
+          // 首次立即检查
+          checkElement();
+        }}
         on:click|stopPropagation={e => {
           e.stopPropagation();
         }}
