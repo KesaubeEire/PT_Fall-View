@@ -133,6 +133,27 @@ let _torrentInfo =  {
   }
 
   //---------------------------------------------
+  // ## 文件大小整理
+  function getFileSize(size) {
+    if (size === 0) {
+      return '0 B';
+    }
+
+    const units = ['B', 'KB', 'MB', 'GB', 'TB'];
+    let i = 0;
+    let sizeCopy = size;
+
+    while (sizeCopy >= 1024 && i < units.length - 1) {
+      sizeCopy /= 1024;
+      i++;
+    }
+
+    // 保留两位小数，但去掉末尾的零和点
+    const formattedSize = sizeCopy.toFixed(2).replace(/\.?0+$/, '');
+    return `${formattedSize} ${units[i]}`;
+  }
+
+  //---------------------------------------------
   // ## 下载收藏操作
   /** 下载和收藏按钮 holder 的 dom */
   let dlclElement_inner;
@@ -421,7 +442,7 @@ let _torrentInfo =  {
 
           <!-- 种子大小 -->
           <div class="card-index card-index-right __inner_index __inner_size" style="background-color: {_categoryColor ?? 'transparent'}; color:{_categoryColor ? getTextColor(_categoryColor) : 'black'}">
-            {(Number(torrentInfo.size) / 1024 / 1024 / 1024).toFixed(2) + ' G'}
+            {getFileSize(torrentInfo.size)}
           </div>
         </div>
 
@@ -569,7 +590,7 @@ let _torrentInfo =  {
     <!-- 种子大小 -->
     {#if $_card_detail.size && !_inner_info_show}
       <div class="card-index card-index-right" style="background-color: {_categoryColor ?? 'transparent'}; color:{_categoryColor ? getTextColor(_categoryColor) : 'black'}">
-        {(Number(torrentInfo.size) / 1024 / 1024 / 1024).toFixed(2) + ' G'}
+        {getFileSize(torrentInfo.size)}
       </div>
     {/if}
   </div>
