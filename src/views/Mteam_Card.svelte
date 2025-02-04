@@ -375,6 +375,7 @@ let _torrentInfo =  {
         }
       }}
       on:mousedown={() => {
+        // 打开种子详情 iframe
         $_iframe_url = 'https://' + location.host + '/detail/' + torrentInfo.id;
         $_iframe_switch = 1;
         // console.log($_iframe_url);
@@ -443,7 +444,13 @@ let _torrentInfo =  {
         </div>
 
         <!-- 种子内信息_主标题 -->
-        <div style="width: 100%;" class="card_info-item card_info__sub_title">
+        <div
+          style="width: 100%;"
+          class="card_info-item card_info__sub_title"
+          on:mousedown|stopPropagation={e => {
+            e.stopPropagation();
+          }}
+        >
           <a class="__main_title" href={'/detail/' + torrentInfo.id} target="_blank" rel="noopener noreferrer">
             {torrentInfo.name}
           </a>
@@ -503,7 +510,11 @@ let _torrentInfo =  {
 
           <!-- 种子内信息_下载&收藏 -->
           <button
+            on:mousedown|stopPropagation={e => {
+              e.stopPropagation();
+            }}
             on:click={e => {
+              e.stopPropagation();
               get__DOWN_and_COLLET__Dom(torrentInfo.id, dlclElement_inner);
 
               // NOTE: 记得提醒用户 => 原列表的这玩意儿会消失
