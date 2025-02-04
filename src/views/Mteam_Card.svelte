@@ -70,6 +70,7 @@ let _torrentInfo =  {
 -->
 
 <script>
+  import { fade } from 'svelte/transition';
   import { notyf_lt } from '@/lib/notyf';
   import { onMount, onDestroy } from 'svelte';
   import { _card_detail, _iframe_switch, _iframe_url, _show_hover_pic } from '@/stores';
@@ -251,6 +252,10 @@ let _torrentInfo =  {
     }
   };
 
+  //---------------------------------------------
+  /** 新页面高亮 */
+  let showHighlight = true;
+
   onMount(() => {
     // lazy_load: 初始化观察器
     if (!isLoaded) {
@@ -275,6 +280,11 @@ let _torrentInfo =  {
           behavior: 'smooth' // 平滑滚动
         });
       }
+
+      // 新页面高亮3秒后消失
+      setTimeout(() => {
+        showHighlight = false;
+      }, 3000);
     }
   });
 
@@ -286,8 +296,8 @@ let _torrentInfo =  {
 
 <div class="card_holder" bind:this={card_holder}>
   <!-- 切页第一个种子高亮 -->
-  {#if torrentInfo.pt_fall_highlight}
-    <div class="card_new_page_highlight">新页面 ({torrentInfo.index}+)</div>
+  {#if torrentInfo.pt_fall_highlight && showHighlight}
+    <div transition:fade={{ duration: 500 }} class="card_new_page_highlight">新页面 ({torrentInfo.index}+)</div>
   {/if}
 
   <!-- 分区类别 -->
