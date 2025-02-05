@@ -32,8 +32,8 @@
   $: items = [...listContent];
 
   // log 一下
-  console.log('Mteam_Fall:First');
-  console.log(listContent);
+  console.log('Mteam_Fall:First\t' + listContent.length);
+  // console.log(listContent);
 
   // -----------------------------
   /** 整体更新列表信息
@@ -42,8 +42,8 @@
    */
   export function updateList(newInfoList, clearPage = true) {
     let list = newInfoList.data;
-    console.log('Mteam_Fall:New');
-    console.log(list);
+    console.log('Mteam_Fall:New:\t' + list.length);
+    // console.log(list);
 
     // 切页: 清空后加载
     if (clearPage) {
