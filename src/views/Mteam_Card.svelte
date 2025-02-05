@@ -253,6 +253,14 @@ let _torrentInfo =  {
   };
 
   //---------------------------------------------
+  /** 打开种子详情 iframe */
+  function openIframe() {
+    $_iframe_url = 'https://' + location.host + '/detail/' + torrentInfo.id;
+    $_iframe_switch = 1;
+    // console.log($_iframe_url);
+  }
+
+  //---------------------------------------------
   /** 新页面高亮 */
   let showHighlight = true;
 
@@ -405,12 +413,7 @@ let _torrentInfo =  {
           // console.log(`<${torrentInfo.id}>isHovered: ${isHovered}, isMoving: ${isMoving}`);
         }
       }}
-      on:mousedown={() => {
-        // 打开种子详情 iframe
-        $_iframe_url = 'https://' + location.host + '/detail/' + torrentInfo.id;
-        $_iframe_switch = 1;
-        // console.log($_iframe_url);
-      }}
+      on:mousedown|self={openIframe}
     >
       <!-- NOTE: 种子内信息 你可以在这里添加任何想要显示的内容 -->
       <div class="overlay-content" bind:this={overlayContent}>
@@ -450,6 +453,9 @@ let _torrentInfo =  {
             {/if}
           </div>
 
+          <!-- 打开种子详情 iframe -->
+          <button class="__iframe_button" style="background-color: {_categoryColor ?? 'transparent'}; color:{_categoryColor ? getTextColor(_categoryColor) : 'black'}" on:click={openIframe}> 打开 iframe </button>
+
           <!-- 种子大小 -->
           <div class="card-index card-index-right __inner_index __inner_size" style="background-color: {_categoryColor ?? 'transparent'}; color:{_categoryColor ? getTextColor(_categoryColor) : 'black'}">
             {getFileSize(torrentInfo.size)}
@@ -466,7 +472,7 @@ let _torrentInfo =  {
             color: {_categoryColor ? getTextColor(_categoryColor) : 'black'}"
         >
           <!-- 分类图标 -->
-          <img class="card_category-img card_cate_square" style="width: 38px;height: 40px;transform: translateY(-3px);" src={CONFIG.CATEGORY[torrentInfo.category].src} alt={CONFIG.CATEGORY[torrentInfo.category].alt} />
+          <img class="card_category-img card_category_square" style="width: 36px;height: 36px;" src={CONFIG.CATEGORY[torrentInfo.category].src} alt={CONFIG.CATEGORY[torrentInfo.category].alt} />
 
           &nbsp;&nbsp;
 
@@ -482,7 +488,7 @@ let _torrentInfo =  {
             e.stopPropagation();
           }}
         >
-          <a class="__main_title" href={'/detail/' + torrentInfo.id} target="_blank" rel="noopener noreferrer">
+          <a class="__main_title __straight" href={'/detail/' + torrentInfo.id} target="_blank" rel="noopener noreferrer" title={torrentInfo.name}>
             {torrentInfo.name}
           </a>
         </div>
@@ -544,8 +550,7 @@ let _torrentInfo =  {
             on:mousedown|stopPropagation={e => {
               e.stopPropagation();
             }}
-            on:click={e => {
-              e.stopPropagation();
+            on:click|stopPropagation={e => {
               get__DOWN_and_COLLET__Dom(torrentInfo.id, dlclElement_inner);
 
               // NOTE: 记得提醒用户 => 原列表的这玩意儿会消失
@@ -713,17 +718,18 @@ let _torrentInfo =  {
     height: 35px;
     width: 28px;
 
-    background-size: 100% 141%;
+    /* background-size: 100% 141%; */
     background-position: center top;
 
     /* padding-left: 5%; */
     padding-top: 6px;
   }
 
-  .card_cate_square {
+  .card_category_square {
     width: 40px;
     height: 40px;
-    transform: translateY(-3px);
+    padding-top: 0;
+    border-radius: 10px;
   }
 
   .card_new_page_highlight {
@@ -1025,5 +1031,17 @@ let _torrentInfo =  {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+  }
+
+  .__iframe_button {
+    flex: 1;
+    padding: 4px 8px;
+    margin: 0;
+    border: none;
+    background: none;
+    outline: none;
+    appearance: none;
+    box-sizing: border-box;
+    white-space: nowrap;
   }
 </style>
