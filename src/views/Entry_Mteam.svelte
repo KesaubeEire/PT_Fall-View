@@ -1,7 +1,7 @@
 <script>
   import { Launch_Hijack } from '@/lib/hijack.js';
   import MteamFall from './Mteam_Fall.svelte';
-  import { mount } from 'svelte';
+  import { mount, onMount } from 'svelte';
   import { notyf_lt } from '@/lib/notyf.js';
   import { Tool_Watch_Dom } from '@/lib/tools.js';
   import { CONFIG } from '@/siteConfig/mteam.js';
@@ -57,6 +57,13 @@
       notyf_lt.error('未找到目标链接元素');
       console.warn('未找到目标链接元素');
     }
+  });
+
+  onMount(() => {
+    // ------------------------------------------
+    // ## 主流程 劫持 pushState 方法
+    console.log('=====> 启动劫持 pushState 方法 <=====');
+    OverWritePushState();
   });
 
   // ------------------------------------------
@@ -155,5 +162,34 @@
     const isDifferentPage = last.pageNumber !== current.pageNumber;
 
     return isSameMode && isSameCategories && isDifferentPage;
+  }
+
+  // 保存原始的 pushState 方法
+  const originalPushState = history.pushState;
+  /**劫持pushState方法*/
+  function OverWritePushState() {
+    // 重写 pushState 方法
+    // @ts-ignore
+    history.pushState = function (state, title, path) {
+      // 在这里执行自定义逻辑
+      // NOTE: 获取目标 URL Path
+      // console.log("pushState ---> state:", state);
+      // console.log("pushState ---> title:", title);
+      console.log(`%c ====> URL跳转劫持: %c${path}`, 'color: cyan', 'color: white');
+
+      // 判读是否在 /browse path 内, 在就进行 search api 筛选
+      // @ts-ignore
+      if (path.includes('/browse') || path == '/waterfall') {
+        console.log(`--->属于 browse 范围: ${path}`);
+        // 在 /browse 内即显示 waterfallParentNode
+      } else {
+        console.warn(`--->不属于 browse 范围: ${path}`);
+        changeFallView(false);
+      }
+
+      // FIXME: 别动这个就行
+      // 调用原始的 pushState 方法
+      originalPushState.apply(history, arguments);
+    };
   }
 </script>
