@@ -2,7 +2,7 @@
  * 油猴头信息
  */
 // NOTE: 经常修改这里就行了
-export let version = '0.2.4';
+export let version = '0.2.5';
 
 export function config(mode) {
   console.log('<-------------------------- [userscript.config.js]');
@@ -23,7 +23,8 @@ export function config(mode) {
     },
     author: 'Kesa',
     match: [
-      'https://kamept.com/*',
+      // 暂不考虑其他站点
+      // 'https://kamept.com/*',
       // "https://pterclub.com/*",
 
       // M-Team 全系列域名
@@ -42,7 +43,9 @@ export function config(mode) {
       '*/seek.php*',
 
       // M-Team
-      '*m-team*/detail/*'
+      '*m-team*/detail/*',
+      '*m-team*/showcase*',
+      '*m-team*/showcaseDetail*'
     ],
 
     // 暂时弃用这个设计, 可能没啥用还容易导致 bug
