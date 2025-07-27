@@ -77,7 +77,7 @@
 </script>
 
 <!-- 悬浮按钮:可拖拽  -->
-<div class="flowP" bind:this={flowP} style="top:{$_panelPos.y}px; left:{$_panelPos.x}px;}">
+<div class="flowP" style:--isFallView={$_isFallView ? '#4ff74f' : 'yellow'} bind:this={flowP} style="top:{$_panelPos.y}px; left:{$_panelPos.x}px;">
   <div class="flowPDragger" on:mousedown={onMouseDown} role="button" tabindex="0" aria-hidden="true"></div>
   <div class="flowPHolder ant-typography">
     <button
@@ -224,8 +224,9 @@
 
     /* background-color: #fff4; */
     background-color: var(--bg-1);
-    transition: background-color 0.2s;
-    transition: opacity 0.2s;
+    transition:
+      opacity 0.3s,
+      border 0.3s;
 
     font-size: 16px;
 
@@ -235,15 +236,15 @@
 
     border: 2px solid transparent;
     &:hover {
-      /* background-color: #fffa; */
       opacity: 1;
-      border: 2px solid yellow;
+      border: 2px solid var(--isFallView);
     }
   }
 
   .flowPDragger {
     height: 12px;
-    background-color: yellow;
+    transition: background-color 0.3s ease-in-out;
+    background-color: var(--isFallView);
 
     &:hover {
       cursor: move; /* 设置鼠标悬停时的图标为移动 */
