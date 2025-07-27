@@ -1,15 +1,17 @@
 <script>
   import { Launch_Hijack } from '@/lib/hijack.js';
   import MteamFall from './Mteam_Fall.svelte';
+  import Readme from '@/component/readme.svelte';
   import { mount, onMount } from 'svelte';
   import { notyf_lt } from '@/lib/notyf.js';
   import { Tool_Watch_Dom } from '@/lib/tools.js';
   import { CONFIG } from '@/siteConfig/mteam.js';
   import { _isFallView } from '@/stores';
-  import { version } from '@/../userscript.config.js';
 
   // ------------------------------------------
 
+  /** readme */
+  let Readme_Svelte;
   /** MteamFall_Svelte */
   let MteamFall_Svelte;
   /** 要传下去的种子信息列表 */
@@ -35,24 +37,12 @@
   // ------------------------------------------
   // ## 主流程 PT-Fall 网页顶部提示插件加载
   Tool_Watch_Dom('a[href="/index"][target="_self"]', el => {
-    if (el && !document.querySelector('.ptFallReadme')) {
-      // 使用 insertAdjacentHTML 在元素后插入新内容
-      el.insertAdjacentHTML(
-        'afterend',
-        `
-          <div class="ptFallReadme">
-            <div class="entry_mteam">
-              <div style="line-height: 1.5; text-align: center;" class="text_center">
-                PT-Fall 插件 <b style="color: green; background-color: #fff8; border-radius: 5px; padding: 2px 5px;">[v${version}]</b>
-                <br />
-                如果没有生效可能是浏览器缓存了请求
-                <br />
-                尝试使用 Ctrl(Command)+Shift+R / Ctrl+F5 来强制刷新页面 ~
-              </div>
-            </div>
-          </div>
-        `
-      );
+    if (!Readme_Svelte) {
+      el.insertAdjacentHTML('afterend', '<div class="ptFallReadme"></div>');
+      const readmeNode = el.parentNode.querySelector('.ptFallReadme');
+      Readme_Svelte = mount(Readme, {
+        target: readmeNode
+      });
     } else {
       notyf_lt.error('未找到目标链接元素');
       console.warn('未找到目标链接元素');
