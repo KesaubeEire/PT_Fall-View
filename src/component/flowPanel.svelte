@@ -209,6 +209,17 @@
   </div>
 {/if}
 
+<!-- NOTE: x 快捷键切换显示 -->
+<!-- TODO: 配置是否使用快捷键和配置具体哪个快捷键 -->
+<svelte:window
+  on:keydown|capture={event => {
+    if (event.key === 'x') {
+      $_isFallView = !$_isFallView;
+      window.changeFallView($_isFallView);
+    }
+  }}
+/>
+
 <style>
   .flowP {
     position: fixed;
