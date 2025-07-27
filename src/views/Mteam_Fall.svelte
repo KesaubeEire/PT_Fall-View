@@ -133,7 +133,7 @@
     border-radius: 8px;
     /* background-color: rgb(188, 202, 214); */
     /* padding: 12px; */
-    margin-top: 16px;
+    /* margin-top: 16px; */
 
     overflow: hidden;
   }
