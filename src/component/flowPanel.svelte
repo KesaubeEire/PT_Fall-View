@@ -15,7 +15,7 @@
   // ## 配置拖拽侧边栏
   // ------------------------------------------------
   /** 悬浮窗的 dom 对象 */
-  let flowPanel;
+  let flowP;
   /** 是否触发移动 trigger */
   let isMouseDown = false;
   /** 侧边栏横坐标 */
@@ -41,8 +41,8 @@
   const onMouseDown = e => {
     e.preventDefault();
     isMouseDown = true;
-    offsetX = e.clientX - flowPanel.getBoundingClientRect().left;
-    offsetY = e.clientY - flowPanel.getBoundingClientRect().top;
+    offsetX = e.clientX - flowP.getBoundingClientRect().left;
+    offsetY = e.clientY - flowP.getBoundingClientRect().top;
   };
 
   const onMouseMove = e => {
@@ -50,8 +50,8 @@
     // e.preventDefault();
 
     if (!isMouseDown) return;
-    const res_X = posRangeIn(e.clientX - offsetX, 0, window.innerWidth - (flowPanel.getBoundingClientRect().width + 5));
-    const res_Y = posRangeIn(e.clientY - offsetY, 0, window.innerHeight - (flowPanel.getBoundingClientRect().height + 5));
+    const res_X = posRangeIn(e.clientX - offsetX, 0, window.innerWidth - (flowP.getBoundingClientRect().width + 5));
+    const res_Y = posRangeIn(e.clientY - offsetY, 0, window.innerHeight - (flowP.getBoundingClientRect().height + 5));
     $_panelPos = { x: res_X, y: res_Y };
   };
 
@@ -77,9 +77,9 @@
 </script>
 
 <!-- 悬浮按钮:可拖拽  -->
-<div class="flowPanel" bind:this={flowPanel} style="top:{$_panelPos.y}px; left:{$_panelPos.x}px;}">
-  <div class="flowPanelDragger" on:mousedown={onMouseDown} role="button" tabindex="0" aria-hidden="true"></div>
-  <div class="flowPanelHolder">
+<div class="flowP" bind:this={flowP} style="top:{$_panelPos.y}px; left:{$_panelPos.x}px;}">
+  <div class="flowPDragger" on:mousedown={onMouseDown} role="button" tabindex="0" aria-hidden="true"></div>
+  <div class="flowPHolder ant-typography">
     <button
       class="flowBtn"
       on:click={() => {
@@ -113,7 +113,7 @@
     >
       iframe
     </button>
-    <button class="flowBtn">debug<br />03</button>
+    <button class="flowBtn">debug_03</button>
   </div>
 </div>
 
@@ -210,7 +210,7 @@
 {/if}
 
 <style>
-  .flowPanel {
+  .flowP {
     position: fixed;
 
     width: 80px;
@@ -220,9 +220,10 @@
     overflow: hidden;
 
     padding-bottom: 8px;
-    padding: 0px 2px 8px;
+    padding: 0px 0px 8px;
 
-    background-color: #fff4;
+    /* background-color: #fff4; */
+    background-color: var(--bg-1);
     transition: background-color 0.2s;
     transition: opacity 0.2s;
 
@@ -231,64 +232,50 @@
     opacity: 0.7;
 
     z-index: 15000;
+
+    border: 2px solid transparent;
     &:hover {
       /* background-color: #fffa; */
       opacity: 1;
+      border: 2px solid yellow;
     }
   }
 
-  .flowPanelDragger {
+  .flowPDragger {
     height: 12px;
-    background-color: #d9ff00a9;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
+    background-color: yellow;
+
     &:hover {
       cursor: move; /* 设置鼠标悬停时的图标为移动 */
     }
   }
 
-  .flowPanelHolder {
+  .flowPHolder {
     /* position: relative; */
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2px;
     gap: 4px;
   }
-
-  /* .flowBtn {
-    padding: 4px;
-    border-radius: 4px;
-    background-color: #fff;
-    transition: all 0.2s;
-
-    &:hover {
-      background-color: #fffa;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    &:active {
-      transform: translateY(10px);
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    }
-
-    border: 2px solid rgba(255, 255, 255, 0.5);
-  } */
 
   .flowBtn {
     padding: 4px;
     border-radius: 4px;
-    border: 2px solid rgba(255, 255, 255);
-    background-color: #fff;
-    opacity: 0.7;
-    color: #333;
+    border: 2px solid transparent;
     transition: all 0.2s;
 
-    font-size: 15px;
-    font-weight: bold;
+    font-size: 14px;
+    /* font-weight: bold; */
+
+    width: 72px;
+
+    background-color: var(--bg-2);
+    color: rgba(0, 0, 0, 0.88);
 
     &:hover {
-      opacity: 1;
-      background-color: #fffa;
-      color: #444;
+      background-color: var(--bg-3);
     }
 
     &:active {
