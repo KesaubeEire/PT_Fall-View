@@ -19,8 +19,8 @@
 
 <div class="entry_mteam">
   <div class="ant-typography" style="line-height: 1.5; text-align: center;">
-    <span class="faq-btn" style:--hover="green">PT-Fall 插件 <span style:color style="font-weight: 600;">[v{version}]</span></span>
-    <span class="faq-btn" style:--hover="#40a9ff" style="cursor: pointer;" on:click={openModal} role="button" aria-hidden="true">常见问题 FAQ</span>
+    <button class="faq-btn" style:--hover="green">PT-Fall 插件 <span style:color style="font-weight: 600;">[v{version}]</span></button>
+    <button class="faq-btn" style:--hover="#40a9ff" style="cursor: pointer;" on:click={openModal}>常见问题 FAQ</button>
   </div>
 </div>
 
@@ -30,17 +30,25 @@
     <div class="modal-content" on:click|stopPropagation role="button" aria-hidden="true">
       <div class="modal-header">
         <h3>FAQ - 常见问题</h3>
+
         <button class="close-btn" on:click={closeModal}>&times;</button>
       </div>
       <div class="modal-body">
+        <h4>Q: 如何联系反馈问题？</h4>
+        <p><a class="faq-btn" style:--hover="#40a9ff" href="https://t.me/+Nd_qIisDjQ80ZTc9" target="_blank">Telegram</a></p>
+
         <h4>Q: 插件没有生效怎么办？</h4>
-        <p>A: 可能是浏览器缓存了请求，尝试使用 Ctrl+Shift+R / Ctrl+F5 强制刷新页面。</p>
+        <p>可能是浏览器缓存了请求，尝试使用 Ctrl+Shift+R / Ctrl+F5 强制刷新页面。</p>
 
         <h4>Q: 如何切换瀑布流视图？</h4>
-        <p>A: 点击悬浮面板中的"切换显示"按钮即可在瀑布流和原列表视图间切换。</p>
+        <p>点击悬浮面板中的"切换显示"按钮即可在瀑布流和原列表视图间切换。</p>
 
         <h4>Q: 如何调整卡片布局？</h4>
-        <p>A: 点击悬浮面板中的"配置菜单"按钮，可以调整卡片的最小/最大宽度、间隔等参数。</p>
+        <p>点击悬浮面板中的"配置菜单"按钮，可以调整卡片的最小 / 最大宽度、间隔等参数。</p>
+
+        <h4>Q: 快捷键？</h4>
+        <p>x 可以切换瀑布流视图</p>
+        <p>Esc 可以从 次级菜单 / 配置菜单 / iframe 中退出。</p>
       </div>
     </div>
   </div>

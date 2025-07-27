@@ -1,7 +1,7 @@
 # PT_Fall-View
 
-这是一个测试项目, 尝试重构一下之前的瀑布流, 但是可能会鸽掉  
-所以先不写 Readme 了
+Mteam 专用瀑布流视图脚本.
+Script only for m-team masonry view.
 
 ## packages & docs
 
