@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite --mode development",
-    "build": "vite build --mode production",
+    "build": "sh ./build.sh",
+    "build:normal": "vite build --minify false",
+    "build:minify": "vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
