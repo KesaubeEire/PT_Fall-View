@@ -67,6 +67,11 @@ export class HoverView {
    * @param {HTMLElement} imgEle
    */
   handleMouseOver(e, imgEle) {
+    if (!imgEle) {
+      console.warn('imgEle is null');
+      return;
+    }
+
     if (get(_show_nexus_pic)) {
       const src = imgEle.getAttribute('src');
       if (src) {
