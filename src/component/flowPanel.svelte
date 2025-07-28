@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { _panelPos, _isFallView, _card_layout, _card_detail, _show_hover_pic, _iframe_switch, _side_panel_switch } from '@/stores';
+  import { _panelPos, _isFallView, _card_layout, _card_detail, _show_hover_pic, _iframe_switch, _side_panel_switch, _block_gay } from '@/stores';
   import { getSiteConfig } from '@/siteConfig';
   import { fade } from 'svelte/transition';
   import Switch from '@/component/switch.svelte';
@@ -113,7 +113,12 @@
     >
       iframe
     </button>
-    <button class="flowBtn">debug_03</button>
+    <button
+      class="flowBtn"
+      on:click={() => {
+        $_block_gay = !$_block_gay;
+      }}>屏蔽 Gay</button
+    >
   </div>
 </div>
 
@@ -129,7 +134,7 @@
       </div>
       <div class="config-menu-content">
         <!-- 这里添加你的配置项 -->
-        <h3>卡片布局</h3>
+        <h3># 卡片布局</h3>
         <div class="config-item">
           <span>最小宽度: {$_card_layout.min} px</span>
           <input type="range" bind:value={$_card_layout.min} min="200" max={Math.max(400, $_card_layout.max)} step="1" list="values" />
@@ -149,7 +154,7 @@
           <Switch bind:checked={$_show_hover_pic} />
         </div>
 
-        <h3>卡片常驻信息展示</h3>
+        <h3># 卡片常驻信息展示</h3>
         <!-- 添加更多配置项 -->
         <!-- 标题 -->
         <div class="config-item">
@@ -203,6 +208,13 @@
         <div class="config-item">
           <span>评论/上传/下载: {$_card_detail.statistics}</span>
           <Switch bind:checked={$_card_detail.statistics} />
+        </div>
+
+        <h3># 卡片屏蔽</h3>
+        <!-- 屏蔽 gay 区 -->
+        <div class="config-item">
+          <span>屏蔽 gay 区: {$_block_gay}</span>
+          <Switch bind:checked={$_block_gay} />
         </div>
       </div>
     </div>

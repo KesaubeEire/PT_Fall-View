@@ -108,3 +108,6 @@ export const _card_detail = persistStore('_card_detail', {
 
 /** 是否显示鼠标悬浮预览大图 */
 export const _show_nexus_pic = persistStore('_show_nexus_pic', 1);
+
+/** 是否屏蔽 gay 卡片 */
+export const _block_gay = persistStore('_block_gay', 1);

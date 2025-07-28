@@ -73,10 +73,12 @@ let _torrentInfo =  {
   import { fade } from 'svelte/transition';
   import { notyf_lt } from '@/lib/notyf';
   import { onMount, onDestroy } from 'svelte';
-  import { _card_detail, _iframe_switch, _iframe_url, _show_hover_pic } from '@/stores';
+  import { _card_detail, _iframe_switch, _iframe_url, _show_hover_pic, _block_gay } from '@/stores';
   import { CONFIG } from '@/siteConfig/mteam';
   import IconComment from '@/assets/icon_comment.svelte';
   import HoverView from '@/lib/hoverView';
+  import _PicErrorLOGO from '@/assets/pic_error.svg';
+  import _PicNoLOGO from '@/assets/pic_no.svg';
 
   //---------------------------------------------
   /** 父传值: 种子信息*/
@@ -232,11 +234,35 @@ let _torrentInfo =  {
   // 获得 dom -> overlayHolder 的高度
   let overlayContentHeight = 0;
   function getOverlayContentHeight() {
-    overlayContentHeight = overlayContent.offsetHeight;
+    // overlayContentHeight = overlayContent.offsetHeight;
+    if (overlayContent) overlayContentHeight = overlayContent.offsetHeight;
   }
   $: {
     if (overlayContent) {
       getOverlayContentHeight();
+    }
+  }
+
+  //---------------------------------------------
+  /** 本地: 图片是否加载错误*/
+  let _picError = false;
+  // M-Team 特别处理: 对 Gay 区做图片处理
+  const static_gay_warn = '/static/cate/gayhd.gif';
+
+  //  响应 $_block_gay 对 imgElement 重加载
+  $: {
+    if (torrentInfo.category == 440 && $_block_gay == 0) {
+      if (imgElement) {
+        imgElement.style.width = '100%';
+        imgElement.src = picSrc;
+        imgElement.classList.add('loaded'); // NOTE: 这里没起作用, 强行改 opacity 了
+        imgElement.style.opacity = 1;
+        isLoaded = true;
+
+        if (overlayContent) {
+          getOverlayContentHeight();
+        }
+      }
     }
   }
 
@@ -256,12 +282,17 @@ let _torrentInfo =  {
   /** lazy_load: 加载真实图片 */
   const loadRealImage = () => {
     if (picSrc && !isLoaded) {
+      imgElement.style.width = '100%';
       imgElement.src = picSrc;
       imgElement.classList.add('loaded'); // NOTE: 这里没起作用, 强行改 opacity 了
       imgElement.style.opacity = 1;
       // console.log(torrentInfo.id + ` Loaded.`);
 
       isLoaded = true;
+
+      if (overlayContent) {
+        getOverlayContentHeight();
+      }
     }
   };
 
@@ -310,6 +341,9 @@ let _torrentInfo =  {
 
     // 获得 dom -> overlayHolder 的高度
     getOverlayContentHeight();
+
+    // 重置图片宽度
+    if (imgElement) imgElement.style.width = 'auto';
   });
 
   onDestroy(() => {
@@ -359,28 +393,57 @@ let _torrentInfo =  {
   </div>
 
   <!-- 种子图片 -->
-  <div class="card_pic" style="min-height: {overlayContentHeight + 24}px">
+  <div class="card_pic" style="min-height: {overlayContentHeight + 24}px;" style:--cateColor={_categoryColor + 'b0'}>
     <!-- <img src={torrentInfo.imageList[0]} alt={torrentInfo.imageList[0]} /> -->
 
-    <!-- 图片 -->
-    <img
-      bind:this={imgElement}
-      src={isLoaded ? picSrc : placeholder}
-      data-src={picSrc}
-      on:error={() => {
-        // 错误处理
-        // console.log(torrentInfo.index);
-        if (imgElement) imgElement.src = placeholder;
-        else {
-          console.log(`<${torrentInfo.index}>[${torrentInfo.id}] imgElement 丢失.`);
-        }
-      }}
-      class="lazy-image"
-      alt={torrentInfo.id}
-    />
+    {#if !_picError}
+      {#if $_block_gay && torrentInfo.category == 440}
+        <!-- NOTE: Gay -->
+        <div class="pic_error" style="  background-color: {_categoryColor}">
+          <div>
+            <img style="height: 100%; width:60px; border-radius:20px;" src={static_gay_warn} alt="pic error" />
+          </div>
+          <div class="ant-typography" style="color: white; font-size:16px;">
+            GAY WARNING<br />同志警告
+          </div>
+        </div>
+      {:else if torrentInfo.imageList[0]}
+        <!-- NOTE: 正常图片 -->
+        <img
+          bind:this={imgElement}
+          src={isLoaded ? picSrc : placeholder}
+          data-src={picSrc}
+          on:error={() => {
+            // 错误处理
+            _picError = true;
+            if (!imgElement) {
+              console.log(`<${torrentInfo.index}>[${torrentInfo.id}] imgElement 丢失.`);
+            }
+          }}
+          class="lazy-image"
+          alt={torrentInfo.id}
+        />
+      {:else}
+        <!-- NOTE: 无图片 -->
+        <div class="pic_error" style="">
+          <div>
+            <img style="height: 100%;width: 100px;" src={_PicNoLOGO} alt="no pic" />
+          </div>
+          <div>本种没有图片</div>
+        </div>
+      {/if}
+    {:else}
+      <!-- NOTE: 错误图片 -->
+      <div class="pic_error" style="">
+        <div>
+          <img style="height: 100%;width: 100px;" src={_PicErrorLOGO} alt="pic error" />
+        </div>
+        <div class="ant-typography" style="color: {getTextColor(_categoryColor)}; font-size:16px;">图片加载失败</div>
+      </div>
+    {/if}
 
     <!-- 局部悬浮预览 -->
-    {#if $_show_hover_pic}
+    {#if $_show_hover_pic && !_picError}
       <!-- svelte-ignore a11y_no_static_element_interactions -->
       <!-- svelte-ignore a11y_mouse_events_have_key_events -->
       <div
@@ -404,7 +467,8 @@ let _torrentInfo =  {
       class="hover-overlay"
       on:mouseenter={() => {
         // 卡片内信息
-        imgElement.style.filter = 'blur(2px)';
+
+        if (imgElement) imgElement.style.filter = 'blur(2px)';
         overlayHolder.style.opacity = '1';
         _inner_info_show = true;
       }}
@@ -417,7 +481,7 @@ let _torrentInfo =  {
       }}
       on:mouseleave={() => {
         // 卡片内信息
-        imgElement.style.filter = 'none';
+        if (imgElement) imgElement.style.filter = 'none';
         overlayHolder.style.opacity = '0';
         _inner_info_show = false;
 
@@ -868,6 +932,19 @@ let _torrentInfo =  {
     position: relative;
     display: flex;
     align-items: center;
+    justify-content: center;
+    background-color: var(--cateColor);
+  }
+
+  .pic_error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    gap: 10px;
+    line-height: 24px;
   }
 
   /* 卡片索引 */
