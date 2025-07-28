@@ -2,6 +2,7 @@
   import { version } from '@/../userscript.config.js';
   import { fade } from 'svelte/transition';
   import { _isFallView } from '@/stores';
+  import IconTelegram from '@/assets/icon_telegram.svelte';
 
   let showModal = false;
 
@@ -35,7 +36,9 @@
       </div>
       <div class="modal-body">
         <h4>Q: 如何联系反馈问题？</h4>
-        <p><a class="faq-btn" style:--hover="#40a9ff" href="https://t.me/+Nd_qIisDjQ80ZTc9" target="_blank">Telegram</a></p>
+        <p>
+          <a style:--hover="#40a9ff" class="faq-btn" href="https://t.me/+Nd_qIisDjQ80ZTc9" target="_blank" style="height:40px; display: flex; align-items: center; justify-content: center;"> <IconTelegram height={24} width={24} /> &nbsp;Telegram</a>
+        </p>
 
         <h4>Q: 插件没有生效怎么办？</h4>
         <p>可能是浏览器缓存了请求，尝试使用 Ctrl+Shift+R / Ctrl+F5 强制刷新页面。</p>
