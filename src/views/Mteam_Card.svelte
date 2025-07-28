@@ -228,6 +228,19 @@ let _torrentInfo =  {
   let overlayContent;
 
   //---------------------------------------------
+
+  // 获得 dom -> overlayHolder 的高度
+  let overlayContentHeight = 0;
+  function getOverlayContentHeight() {
+    overlayContentHeight = overlayContent.offsetHeight;
+  }
+  $: {
+    if (overlayContent) {
+      getOverlayContentHeight();
+    }
+  }
+
+  //---------------------------------------------
   // ## lazy_load 图片懒加载
   /** lazy_load: 默认pic */
   const placeholder = 'https://static.m-team.cc/static/media/logo.80b63235eaf702e44a8d.png';
@@ -294,6 +307,9 @@ let _torrentInfo =  {
         showHighlight = false;
       }, 3000);
     }
+
+    // 获得 dom -> overlayHolder 的高度
+    getOverlayContentHeight();
   });
 
   onDestroy(() => {
@@ -343,7 +359,7 @@ let _torrentInfo =  {
   </div>
 
   <!-- 种子图片 -->
-  <div class="card_pic">
+  <div class="card_pic" style="min-height: {overlayContentHeight + 24}px">
     <!-- <img src={torrentInfo.imageList[0]} alt={torrentInfo.imageList[0]} /> -->
 
     <!-- 图片 -->
@@ -745,6 +761,7 @@ let _torrentInfo =  {
   }
   .card_pic img {
     width: 100%;
+    height: 100%;
   }
   .lazy-image {
     opacity: 0.2;
@@ -849,6 +866,8 @@ let _torrentInfo =  {
 
   .card_pic {
     position: relative;
+    display: flex;
+    align-items: center;
   }
 
   /* 卡片索引 */
