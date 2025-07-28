@@ -156,6 +156,12 @@
 
         <h3># 卡片常驻信息展示</h3>
         <!-- 添加更多配置项 -->
+        <!-- 分区 -->
+        <div class="config-item">
+          <span>分区: {$_card_detail.category}</span>
+          <Switch bind:checked={$_card_detail.category} />
+        </div>
+
         <!-- 标题 -->
         <div class="config-item">
           <span>标题: {$_card_detail.title}</span>

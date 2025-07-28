@@ -358,22 +358,24 @@ let _torrentInfo =  {
     <div transition:fade={{ duration: 500 }} class="card_new_page_highlight">新页面 ({torrentInfo.index}+)</div>
   {/if}
 
-  <!-- 分区类别 -->
-  <div
-    class="card-category"
-    data-href={`https://${location.host}/browse?cat=` + torrentInfo.category}
-    style="
+  <!-- NOTE: 分区类别 -->
+  {#if $_card_detail.category}
+    <div
+      class="card-category"
+      data-href={`https://${location.host}/browse?cat=` + torrentInfo.category}
+      style="
       background-color: {_categoryColor ?? 'transparent'};
       color: {_categoryColor ? getTextColor(_categoryColor) : 'black'}"
-  >
-    <!-- 分类图标 -->
-    <img class="card_category-img" src={CONFIG.CATEGORY[torrentInfo.category].src} alt={CONFIG.CATEGORY[torrentInfo.category].alt} />
+    >
+      <!-- 分类图标 -->
+      <img class="card_category-img" src={CONFIG.CATEGORY[torrentInfo.category].src} alt={CONFIG.CATEGORY[torrentInfo.category].alt} />
 
-    &nbsp;&nbsp;
+      &nbsp;&nbsp;
 
-    <!-- 分类名称 -->
-    {CONFIG.CATEGORY[torrentInfo.category].alt}
-  </div>
+      <!-- 分类名称 -->
+      {CONFIG.CATEGORY[torrentInfo.category].alt}
+    </div>
+  {/if}
 
   <!-- 种子标题 -->
   <div class="card_title">

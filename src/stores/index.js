@@ -85,6 +85,8 @@ export const _card_detail = persistStore('_card_detail', {
   // 全局总开关
   all: false,
 
+  // 显示 分区
+  category: true,
   // 显示 标题
   title: true,
   // 显示 置顶
