@@ -1,5 +1,4 @@
 <svg
-  class="feather feather-x"
   fill="currentColor"
   height="28"
   width="28"
