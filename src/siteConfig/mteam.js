@@ -181,7 +181,7 @@ export const CONFIG = {
         alt: '電影/Remux',
         color: '#1b2a51'
       },
-      441: {
+      451: {
         src: 'https://static.m-team.cc/static/cate/Study_Video.png',
         alt: '教育(影片)',
         color: '#7FC269'

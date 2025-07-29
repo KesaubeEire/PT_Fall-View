@@ -113,8 +113,24 @@ let _torrentInfo =  {
   //---------------------------------------------
   // ## 分类颜色
   /** 本地: 分类颜色*/
-  const _categoryColor = CONFIG.CATEGORY[torrentInfo.category].color;
+  let _categoryColor;
   const _defaultColor = 'rgba(255, 255, 255, 0.5)';
+  // 判断 torrentInfo.category 是否在 CONFIG.CATEGORY 中
+  if (CONFIG.CATEGORY[torrentInfo.category]) {
+    _categoryColor = CONFIG.CATEGORY[torrentInfo.category].color ?? _defaultColor;
+  } else {
+    // NOTE: 未知分类, 用 svg 占位, 并通知用户
+    _categoryColor = _defaultColor;
+    notyf_lt.open({
+      type: 'warning',
+      message: `存在未知分类: ${torrentInfo.category}`
+    });
+    CONFIG.CATEGORY[torrentInfo.category] = {
+      src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2ZmMDAwMCIvPjwvc3ZnPg==',
+      alt: '未知分类(TG或论坛联系我)',
+      color: _defaultColor
+    };
+  }
 
   /** 根据背景颜色动态调整文字黑白
    * @param background 背景颜色(带#)
@@ -308,6 +324,7 @@ let _torrentInfo =  {
   /** 新页面高亮 */
   let showHighlight = true;
 
+  //---------------------------------------------
   onMount(() => {
     // lazy_load: 初始化观察器
     if (!isLoaded) {
