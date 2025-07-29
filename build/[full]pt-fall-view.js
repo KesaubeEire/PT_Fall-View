@@ -2,7 +2,7 @@
 // @name            PT瀑布流视图
 // @name:en         PT_Fall-View
 // @namespace       vite-plugin-monkey
-// @version         0.3.1
+// @version         0.3.2
 // @author          Kesa
 // @description     PT瀑布流视图(2025重构)
 // @description:en  PT Fall/Masonry View (restructured 2025)
@@ -3621,6 +3621,18 @@ button:focus-visible {
     }
     props();
   }
+  function reactive_import(fn) {
+    var s = source(0);
+    return function() {
+      if (arguments.length === 1) {
+        set(s, get$1(s) + 1);
+        return arguments[0];
+      } else {
+        get$1(s);
+        return fn();
+      }
+    };
+  }
   function bubble_event($$props, event2) {
     var _a;
     var events = (
@@ -4854,7 +4866,7 @@ button:focus-visible {
           alt: "電影/Remux",
           color: "#1b2a51"
         },
-        441: {
+        451: {
           src: "https://static.m-team.cc/static/cate/Study_Video.png",
           alt: "教育(影片)",
           color: "#7FC269"
@@ -5336,6 +5348,7 @@ button:focus-visible {
   window.__clearPreview = __clearPreview;
   const _PicErrorLOGO = "data:image/svg+xml,%3csvg%20width='256px'%20height='256px'%20viewBox='0%200%2024.00%2024.00'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%20transform='matrix(1,%200,%200,%201,%200,%200)'%20%3e%3cg%20id='SVGRepo_bgCarrier'%20stroke-width='0'%20transform='translate(0,0),%20scale(1)'%20/%3e%3cg%20id='SVGRepo_tracerCarrier'%20stroke-linecap='round'%20stroke-linejoin='round'%20stroke='%23CCCCCC'%20stroke-width='0.048'%20/%3e%3cg%20id='SVGRepo_iconCarrier'%3e%3cpath%20d='M13%203L13.7071%202.29289C13.5196%202.10536%2013.2652%202%2013%202V3ZM14%2022C14.5523%2022%2015%2021.5523%2015%2021C15%2020.4477%2014.5523%2020%2014%2020V22ZM19%209H20C20%208.73478%2019.8946%208.48043%2019.7071%208.29289L19%209ZM18%2010C18%2010.5523%2018.4477%2011%2019%2011C19.5523%2011%2020%2010.5523%2020%2010H18ZM5.21799%2019.908L4.32698%2020.362H4.32698L5.21799%2019.908ZM6.09202%2020.782L6.54601%2019.891L6.54601%2019.891L6.09202%2020.782ZM6.09202%203.21799L5.63803%202.32698L5.63803%202.32698L6.09202%203.21799ZM5.21799%204.09202L4.32698%203.63803L4.32698%203.63803L5.21799%204.09202ZM13.109%208.45399L14%208V8L13.109%208.45399ZM13.546%208.89101L14%208L13.546%208.89101ZM17.2299%2017.7929C16.8394%2018.1834%2016.8394%2018.8166%2017.2299%2019.2071C17.6204%2019.5976%2018.2536%2019.5976%2018.6441%2019.2071L17.2299%2017.7929ZM15.0316%2015.2507C14.8939%2015.7856%2015.2159%2016.3308%2015.7507%2016.4684C16.2856%2016.6061%2016.8308%2016.2841%2016.9684%2015.7493L15.0316%2015.2507ZM17.9375%2020C17.3852%2020%2016.9375%2020.4477%2016.9375%2021C16.9375%2021.5523%2017.3852%2022%2017.9375%2022V20ZM17.9475%2022C18.4998%2022%2018.9475%2021.5523%2018.9475%2021C18.9475%2020.4477%2018.4998%2020%2017.9475%2020V22ZM13%202H8.2V4H13V2ZM4%206.2V17.8H6V6.2H4ZM8.2%2022H14V20H8.2V22ZM19.7071%208.29289L13.7071%202.29289L12.2929%203.70711L18.2929%209.70711L19.7071%208.29289ZM20%2010V9H18V10H20ZM4%2017.8C4%2018.3436%203.99922%2018.8114%204.03057%2019.195C4.06287%2019.5904%204.13419%2019.9836%204.32698%2020.362L6.10899%2019.454C6.0838%2019.4045%206.04612%2019.3038%206.02393%2019.0322C6.00078%2018.7488%206%2018.3766%206%2017.8H4ZM8.2%2020C7.62345%2020%207.25117%2019.9992%206.96784%2019.9761C6.69617%2019.9539%206.59545%2019.9162%206.54601%2019.891L5.63803%2021.673C6.01641%2021.8658%206.40963%2021.9371%206.80497%2021.9694C7.18864%2022.0008%207.65645%2022%208.2%2022V20ZM4.32698%2020.362C4.6146%2020.9265%205.07354%2021.3854%205.63803%2021.673L6.54601%2019.891C6.35785%2019.7951%206.20487%2019.6422%206.10899%2019.454L4.32698%2020.362ZM8.2%202C7.65645%202%207.18864%201.99922%206.80497%202.03057C6.40963%202.06287%206.01641%202.13419%205.63803%202.32698L6.54601%204.10899C6.59545%204.0838%206.69617%204.04612%206.96784%204.02393C7.25117%204.00078%207.62345%204%208.2%204V2ZM6%206.2C6%205.62345%206.00078%205.25117%206.02393%204.96784C6.04612%204.69617%206.0838%204.59545%206.10899%204.54601L4.32698%203.63803C4.13419%204.01641%204.06287%204.40963%204.03057%204.80497C3.99922%205.18864%204%205.65645%204%206.2H6ZM5.63803%202.32698C5.07354%202.6146%204.6146%203.07354%204.32698%203.63803L6.10899%204.54601C6.20487%204.35785%206.35785%204.20487%206.54601%204.10899L5.63803%202.32698ZM12%203V7.4H14V3H12ZM14.6%2010H19V8H14.6V10ZM12%207.4C12%207.66353%2011.9992%207.92131%2012.0169%208.13823C12.0356%208.36682%2012.0797%208.63656%2012.218%208.90798L14%208C14.0293%208.05751%2014.0189%208.08028%2014.0103%207.97537C14.0008%207.85878%2014%207.69653%2014%207.4H12ZM14.6%208C14.3035%208%2014.1412%207.99922%2014.0246%207.9897C13.9197%207.98113%2013.9425%207.9707%2014%208L13.092%209.78201C13.3634%209.92031%2013.6332%209.96438%2013.8618%209.98305C14.0787%2010.0008%2014.3365%2010%2014.6%2010V8ZM12.218%208.90798C12.4097%209.2843%2012.7157%209.59027%2013.092%209.78201L14%208V8L12.218%208.90798ZM18.937%2016C18.937%2016.1732%2018.8915%2016.3053%2018.6175%2016.5697C18.4638%2016.718%2018.2828%2016.8653%2018.0319%2017.074C17.7936%2017.2723%2017.5141%2017.5087%2017.2299%2017.7929L18.6441%2019.2071C18.86%2018.9913%2019.0805%2018.8033%2019.3109%2018.6116C19.5287%2018.4305%2019.7852%2018.2223%2020.0065%2018.0087C20.4825%2017.5493%2020.937%2016.9314%2020.937%2016H18.937ZM17.937%2015C18.4893%2015%2018.937%2015.4477%2018.937%2016H20.937C20.937%2014.3431%2019.5938%2013%2017.937%2013V15ZM16.9684%2015.7493C17.0795%2015.3177%2017.4724%2015%2017.937%2015V13C16.5377%2013%2015.3645%2013.957%2015.0316%2015.2507L16.9684%2015.7493ZM17.9375%2022H17.9475V20H17.9375V22Z'%20fill='%23c00000'%20/%3e%3c/g%3e%3c/svg%3e";
   const _PicNoLOGO = "data:image/svg+xml,%3csvg%20viewBox='-2.4%20-2.4%2028.80%2028.80'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%20stroke='%23000000'%20%3e%3cg%20id='SVGRepo_bgCarrier'%20stroke-width='0'%20/%3e%3cg%20id='SVGRepo_iconCarrier'%3e%3cpath%20d='M15.6%2015.6C15.6%2015.6%2014.25%2013.8%2012%2013.8C9.75%2013.8%208.4%2015.6%208.4%2015.6M14.7%209.3H14.709M9.3%209.3H9.309M21%2012C21%2016.9706%2016.9706%2021%2012%2021C7.02944%2021%203%2016.9706%203%2012C3%207.02944%207.02944%203%2012%203C16.9706%203%2021%207.02944%2021%2012ZM15.15%209.3C15.15%209.54853%2014.9485%209.75%2014.7%209.75C14.4515%209.75%2014.25%209.54853%2014.25%209.3C14.25%209.05147%2014.4515%208.85%2014.7%208.85C14.9485%208.85%2015.15%209.05147%2015.15%209.3ZM9.75%209.3C9.75%209.54853%209.54853%209.75%209.3%209.75C9.05147%209.75%208.85%209.54853%208.85%209.3C8.85%209.05147%209.05147%208.85%209.3%208.85C9.54853%208.85%209.75%209.05147%209.75%209.3Z'%20stroke='%23000000'%20stroke-width='1.8'%20stroke-linecap='round'%20stroke-linejoin='round'%20/%3e%3c/g%3e%3c/svg%3e";
+  var $$_import_CONFIG = reactive_import(() => CONFIG);
   var root_1$3 = /* @__PURE__ */ template(`<div class="card_new_page_highlight svelte-aspv9f"> </div>`);
   var root_2 = /* @__PURE__ */ template(`<div class="card-category svelte-aspv9f"><img class="card_category-img svelte-aspv9f"> </div>`);
   var root_3$1 = /* @__PURE__ */ template(`<a class="__main_title svelte-aspv9f" target="_blank" rel="noopener noreferrer"> </a>`);
@@ -5394,7 +5407,22 @@ button:focus-visible {
       return res;
     };
     let card_holder = mutable_state();
-    const _categoryColor = CONFIG.CATEGORY[torrentInfo().category].color;
+    let _categoryColor = mutable_state();
+    const _defaultColor = "rgba(255, 255, 255, 0.5)";
+    if ($$_import_CONFIG().CATEGORY[torrentInfo().category]) {
+      set(_categoryColor, $$_import_CONFIG().CATEGORY[torrentInfo().category].color ?? _defaultColor);
+    } else {
+      set(_categoryColor, _defaultColor);
+      notyf_lt.open({
+        type: "warning",
+        message: `存在未知分类: ${torrentInfo().category}`
+      });
+      $$_import_CONFIG($$_import_CONFIG().CATEGORY[torrentInfo().category] = {
+        src: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2ZmMDAwMCIvPjwvc3ZnPg==",
+        alt: "未知分类(TG或论坛联系我)",
+        color: _defaultColor
+      });
+    }
     function getTextColor(background) {
       const color = background.replace("#", "");
       const red = parseInt(color.substr(0, 2), 16);
@@ -5560,14 +5588,14 @@ button:focus-visible {
           ($0) => {
             set_attribute(div_2, "data-href", `https://${location.host}/browse?cat=` + torrentInfo().category);
             set_attribute(div_2, "style", `
-      background-color: ${_categoryColor ?? "transparent"};
+      background-color: ${get$1(_categoryColor) ?? "transparent"};
       color: ${$0 ?? ""}`);
-            set_attribute(img, "src", CONFIG.CATEGORY[torrentInfo().category].src);
-            set_attribute(img, "alt", CONFIG.CATEGORY[torrentInfo().category].alt);
-            set_text(text_1, `    ${CONFIG.CATEGORY[torrentInfo().category].alt ?? ""}`);
+            set_attribute(img, "src", $$_import_CONFIG().CATEGORY[torrentInfo().category].src);
+            set_attribute(img, "alt", $$_import_CONFIG().CATEGORY[torrentInfo().category].alt);
+            set_text(text_1, `    ${$$_import_CONFIG().CATEGORY[torrentInfo().category].alt ?? ""}`);
           },
           [
-            () => _categoryColor ? getTextColor(_categoryColor) : "black"
+            () => get$1(_categoryColor) ? getTextColor(get$1(_categoryColor)) : "black"
           ],
           derived_safe_equal
         );
@@ -5602,10 +5630,10 @@ button:focus-visible {
         {
           var consequent_3 = ($$anchor3) => {
             var div_5 = root_5();
-            set_attribute(div_5, "style", `  background-color: ${_categoryColor ?? ""}`);
             var div_6 = child(div_5);
             var img_1 = child(div_6);
             set_attribute(img_1, "src", static_gay_warn);
+            template_effect(() => set_attribute(div_5, "style", `  background-color: ${get$1(_categoryColor) ?? ""}`));
             append($$anchor3, div_5);
           };
           var alternate_1 = ($$anchor3) => {
@@ -5659,7 +5687,13 @@ button:focus-visible {
         var img_4 = child(div_10);
         set_attribute(img_4, "src", _PicErrorLOGO);
         var div_11 = sibling(div_10, 2);
-        template_effect(($0) => set_attribute(div_11, "style", `color: ${$0 ?? ""}; font-size:16px;`), [() => getTextColor(_categoryColor)], derived_safe_equal);
+        template_effect(
+          ($0) => set_attribute(div_11, "style", `color: ${$0 ?? ""}; font-size:16px;`),
+          [
+            () => getTextColor(get$1(_categoryColor))
+          ],
+          derived_safe_equal
+        );
         append($$anchor2, div_9);
       };
       if_block(node_3, ($$render) => {
@@ -5672,7 +5706,7 @@ button:focus-visible {
       var consequent_6 = ($$anchor2) => {
         var div_12 = root_10();
         var img_5 = child(div_12);
-        template_effect(() => set_attribute(img_5, "src", CONFIG.ICON.PREVIEW));
+        template_effect(() => set_attribute(img_5, "src", $$_import_CONFIG().ICON.PREVIEW));
         event("mouseover", div_12, (e) => {
           set(isHovered, true);
           hoverView.handleMouseOver(e, get$1(imgElement));
@@ -5694,7 +5728,7 @@ button:focus-visible {
         var div_17 = first_child(fragment_2);
         each(div_17, 5, () => get$1(toppingLevelArray), index, ($$anchor3, _) => {
           var img_6 = root_12();
-          template_effect(() => set_attribute(img_6, "src", CONFIG.ICON.PIN));
+          template_effect(() => set_attribute(img_6, "src", $$_import_CONFIG().ICON.PIN));
           append($$anchor3, img_6);
         });
         append($$anchor2, fragment_2);
@@ -5808,7 +5842,7 @@ button:focus-visible {
             var div_35 = first_child(fragment_3);
             each(div_35, 5, () => get$1(toppingLevelArray), index, ($$anchor4, _) => {
               var img_10 = root_20();
-              template_effect(() => set_attribute(img_10, "src", CONFIG.ICON.PIN));
+              template_effect(() => set_attribute(img_10, "src", $$_import_CONFIG().ICON.PIN));
               append($$anchor4, img_10);
             });
             append($$anchor3, fragment_3);
@@ -5854,11 +5888,11 @@ button:focus-visible {
         var text_15 = child(div_37);
         template_effect(
           ($0, $1) => {
-            set_attribute(div_37, "style", `background-color: ${_categoryColor ?? "transparent"}; color:${$0 ?? ""}`);
+            set_attribute(div_37, "style", `background-color: ${get$1(_categoryColor) ?? "transparent"}; color:${$0 ?? ""}`);
             set_text(text_15, $1);
           },
           [
-            () => _categoryColor ? getTextColor(_categoryColor) : "black",
+            () => get$1(_categoryColor) ? getTextColor(get$1(_categoryColor)) : "black",
             () => getFileSize(torrentInfo().size)
           ],
           derived_safe_equal
@@ -5971,9 +6005,9 @@ button:focus-visible {
             var text_20 = child(b_5);
             template_effect(() => {
               set_text(text_18, torrentInfo().status.comments);
-              set_attribute(img_11, "src", CONFIG.ICON.SEEDERS);
+              set_attribute(img_11, "src", $$_import_CONFIG().ICON.SEEDERS);
               set_text(text_19, torrentInfo().status.seeders);
-              set_attribute(img_12, "src", CONFIG.ICON.LEECHERS);
+              set_attribute(img_12, "src", $$_import_CONFIG().ICON.LEECHERS);
               set_text(text_20, torrentInfo().status.leechers);
             });
             append($$anchor3, div_48);
@@ -5992,34 +6026,34 @@ button:focus-visible {
     template_effect(
       ($0, $1) => {
         set_attribute(div_4, "style", `min-height: ${get$1(overlayContentHeight) + 24}px;`);
-        set_style(div_4, "--cateColor", _categoryColor + "b0");
+        set_style(div_4, "--cateColor", get$1(_categoryColor) + "b0");
         set_text(text_3, ` ${torrentInfo().index ?? ""}
 
               `);
-        set_attribute(button_1, "style", `background-color: ${_categoryColor ?? "transparent"}; color:${$0 ?? ""}`);
-        set_attribute(div_19, "style", `background-color: ${_categoryColor ?? "transparent"}; color:${$0 ?? ""}`);
+        set_attribute(button_1, "style", `background-color: ${get$1(_categoryColor) ?? "transparent"}; color:${$0 ?? ""}`);
+        set_attribute(div_19, "style", `background-color: ${get$1(_categoryColor) ?? "transparent"}; color:${$0 ?? ""}`);
         set_text(text_5, $1);
         set_attribute(div_20, "data-href", `https://${location.host}/browse?cat=` + torrentInfo().category);
         set_attribute(div_20, "style", `
             height: 40px;
-            background-color: ${_categoryColor ?? "transparent"};
+            background-color: ${get$1(_categoryColor) ?? "transparent"};
             color: ${$0 ?? ""}`);
-        set_attribute(img_7, "src", CONFIG.CATEGORY[torrentInfo().category].src);
-        set_attribute(img_7, "alt", CONFIG.CATEGORY[torrentInfo().category].alt);
-        set_text(text_6, `    ${CONFIG.CATEGORY[torrentInfo().category].alt ?? ""}`);
+        set_attribute(img_7, "src", $$_import_CONFIG().CATEGORY[torrentInfo().category].src);
+        set_attribute(img_7, "alt", $$_import_CONFIG().CATEGORY[torrentInfo().category].alt);
+        set_text(text_6, `    ${$$_import_CONFIG().CATEGORY[torrentInfo().category].alt ?? ""}`);
         set_attribute(a_1, "href", "/detail/" + torrentInfo().id);
         set_attribute(a_1, "title", torrentInfo().name);
         set_text(text_7, torrentInfo().name);
         set_text(text_8, torrentInfo().smallDescr);
         set_text(text_9, `上传时间:${torrentInfo().createdDate ?? ""}`);
         set_text(text_10, torrentInfo().status.comments);
-        set_attribute(img_8, "src", CONFIG.ICON.SEEDERS);
+        set_attribute(img_8, "src", $$_import_CONFIG().ICON.SEEDERS);
         set_text(text_11, torrentInfo().status.seeders);
-        set_attribute(img_9, "src", CONFIG.ICON.LEECHERS);
+        set_attribute(img_9, "src", $$_import_CONFIG().ICON.LEECHERS);
         set_text(text_12, torrentInfo().status.leechers);
       },
       [
-        () => _categoryColor ? getTextColor(_categoryColor) : "black",
+        () => get$1(_categoryColor) ? getTextColor(get$1(_categoryColor)) : "black",
         () => getFileSize(torrentInfo().size)
       ],
       derived_safe_equal
@@ -6191,7 +6225,7 @@ button:focus-visible {
     $$cleanup();
     return $$pop;
   }
-  let version = "0.3.1";
+  let version = "0.3.2";
   var root$4 = /* @__PURE__ */ ns_template(`<svg class="tgme_logo" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle cx="17" cy="17" fill="#40a9ff" r="17"></circle><path d="m7.06510669 16.9258959c5.22739451-2.1065178 8.71314291-3.4952633 10.45724521-4.1662364 4.9797665-1.9157646 6.0145193-2.2485535 6.6889567-2.2595423.1483363-.0024169.480005.0315855.6948461.192827.1814076.1361492.23132.3200675.2552048.4491519.0238847.1290844.0536269.4231419.0299841.65291-.2698553 2.6225356-1.4375148 8.986738-2.0315537 11.9240228-.2513602 1.2428753-.7499132 1.5088847-1.2290685 1.5496672-1.0413153.0886298-1.8284257-.4857912-2.8369905-1.0972863-1.5782048-.9568691-2.5327083-1.3984317-4.0646293-2.3321592-1.7703998-1.0790837-.212559-1.583655.7963867-2.5529189.2640459-.2536609 4.7753906-4.3097041 4.755976-4.431706-.0070494-.0442984-.1409018-.481649-.2457499-.5678447-.104848-.0861957-.2595946-.0567202-.3712641-.033278-.1582881.0332286-2.6794907 1.5745492-7.5636077 4.6239616-.715635.4545193-1.3638349.6759763-1.9445998.6643712-.64024672-.0127938-1.87182452-.334829-2.78737602-.6100966-1.12296117-.3376271-1.53748501-.4966332-1.45976769-1.0700283.04048-.2986597.32581586-.610598.8560076-.935815z" fill="#fff"></path></g></svg>`);
   function Icon_telegram($$anchor, $$props) {
     let height = prop($$props, "height", 8, 34);
