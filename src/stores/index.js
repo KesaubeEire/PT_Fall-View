@@ -1,3 +1,4 @@
+import { __JsonParse } from '@/lib/tools';
 import { writable } from 'svelte/store';
 
 // ----------------------------------------------------------------
@@ -11,7 +12,8 @@ const PERSIST_NAME = 'Kesa:Fall';
  */
 const getPersistedData = () => {
   try {
-    return JSON.parse(localStorage.getItem(PERSIST_NAME)) ?? {};
+    // return JSON.parse(localStorage.getItem(PERSIST_NAME)) ?? {};
+    return __JsonParse(localStorage.getItem(PERSIST_NAME)) ?? {};
   } catch {
     return {};
   }
