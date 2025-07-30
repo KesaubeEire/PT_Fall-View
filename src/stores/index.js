@@ -75,11 +75,11 @@ export const _show_hover_pic = persistStore('_show_hover_pic', 1);
 /** 卡片布局参数 */
 export const _card_layout = persistStore('_card_layout', {
   // 最小宽度
-  min: 240,
+  min: 300,
   // 最大宽度
-  max: 400,
+  max: 600,
   // 间距
-  gap: 12
+  gap: 8
 });
 
 /** 卡片常驻显示参数 */
@@ -90,7 +90,7 @@ export const _card_detail = persistStore('_card_detail', {
   // 显示 分区
   category: true,
   // 显示 标题
-  title: true,
+  title: false,
   // 显示 置顶
   topping: true,
   // 显示 免费
@@ -115,3 +115,7 @@ export const _show_nexus_pic = persistStore('_show_nexus_pic', 1);
 
 /** 是否屏蔽 gay 卡片 */
 export const _block_gay = persistStore('_block_gay', 1);
+
+/** 暂存 ls->label / ls->category */
+export const _mt_label = persistStore('_mt_label', {});
+export const _mt_categories = persistStore('_mt_categories', {});

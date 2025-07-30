@@ -73,8 +73,8 @@ let _torrentInfo =  {
   import { fade } from 'svelte/transition';
   import { notyf_lt } from '@/lib/notyf';
   import { onMount, onDestroy } from 'svelte';
-  import { _card_detail, _iframe_switch, _iframe_url, _show_hover_pic, _block_gay } from '@/stores';
-  import { CONFIG } from '@/siteConfig/mteam';
+  import { _card_detail, _iframe_switch, _iframe_url, _show_hover_pic, _block_gay, _mt_label, _mt_categories } from '@/stores';
+  import { cate_pic_baseUrl, CONFIG } from '@/siteConfig/mteam';
   import IconComment from '@/assets/icon_comment.svelte';
   import HoverView from '@/lib/hoverView';
   import _PicErrorLOGO from '@/assets/pic_error.svg';
@@ -111,16 +111,21 @@ let _torrentInfo =  {
   let card_holder;
 
   //---------------------------------------------
-  // ## 分类颜色
-  /** 本地: 分类颜色*/
-  let _categoryColor;
+  // ## 分类本地处理
+  /** 分类颜色*/
+  let _cateColor;
   const _defaultColor = 'rgba(255, 255, 255, 0.5)';
+  /** 分类名称*/
+  let _cateAlt;
+  /** 分类图片*/
+  let _catePic;
+  /** 分类地址 */
+  const _cateLink = `https://${location.host}/browse?cat=` + torrentInfo.category;
+
   // 判断 torrentInfo.category 是否在 CONFIG.CATEGORY 中
-  if (CONFIG.CATEGORY[torrentInfo.category]) {
-    _categoryColor = CONFIG.CATEGORY[torrentInfo.category].color ?? _defaultColor;
-  } else {
+  if (!CONFIG.CATEGORY[torrentInfo.category]) {
     // NOTE: 未知分类, 用 svg 占位, 并通知用户
-    _categoryColor = _defaultColor;
+    _cateColor = _defaultColor;
     notyf_lt.open({
       type: 'warning',
       message: `存在未知分类: ${torrentInfo.category}`
@@ -131,6 +136,10 @@ let _torrentInfo =  {
       color: _defaultColor
     };
   }
+
+  _cateAlt = $_mt_categories[torrentInfo.category].nameChs ?? CONFIG.CATEGORY[torrentInfo.category].alt;
+  _catePic = $_mt_categories[torrentInfo.category].image ? cate_pic_baseUrl + $_mt_categories[torrentInfo.category].image : CONFIG.CATEGORY[torrentInfo.category].src;
+  _cateColor = CONFIG.CATEGORY[torrentInfo.category].color ?? _defaultColor;
 
   /** 根据背景颜色动态调整文字黑白
    * @param background 背景颜色(带#)
@@ -149,6 +158,48 @@ let _torrentInfo =  {
 
     // 如果亮度低于阈值128，则返回白色；否则返回黑色
     return brightness < 128 ? 'white' : 'black';
+  }
+
+  //---------------------------------------------
+  // ## NOTE: "labelsNew" (tag) 处理, 旧 tag 保持原样
+  // 处理新标签
+  let _labelsNew = [];
+  if (torrentInfo.labelsNew.length) {
+    // console.log(torrentInfo.labelsNew);
+
+    _labelsNew = torrentInfo.labelsNew
+      .map(labelKey => {
+        if (CONFIG.TAG[labelKey]) {
+          return {
+            key: labelKey,
+            config: CONFIG.TAG[labelKey]
+          };
+        } else if ($_mt_label) {
+          console.warn('[FALL]: 存在本地没有的 tag: ', labelKey);
+
+          let res;
+          for (const key in $_mt_label) {
+            if (labelKey == $_mt_label[key].tag) {
+              res = $_mt_label[key];
+              break;
+            }
+          }
+
+          if (res) {
+            // console.log(res);
+            // console.log($_mt_label);
+
+            return {
+              key: labelKey,
+              config: res
+            };
+          }
+        }
+        return null;
+      })
+      .filter(Boolean);
+
+    // console.log(_labelsNew);
   }
 
   //---------------------------------------------
@@ -379,18 +430,18 @@ let _torrentInfo =  {
   {#if $_card_detail.category}
     <div
       class="card-category"
-      data-href={`https://${location.host}/browse?cat=` + torrentInfo.category}
+      data-href={_cateLink}
       style="
-      background-color: {_categoryColor ?? 'transparent'};
-      color: {_categoryColor ? getTextColor(_categoryColor) : 'black'}"
+      background-color: {_cateColor ?? 'transparent'};
+      color: {_cateColor ? getTextColor(_cateColor) : 'black'}"
     >
       <!-- 分类图标 -->
-      <img class="card_category-img" src={CONFIG.CATEGORY[torrentInfo.category].src} alt={CONFIG.CATEGORY[torrentInfo.category].alt} />
+      <img class="card_category-img" src={_catePic} alt={_cateAlt} />
 
       &nbsp;&nbsp;
 
       <!-- 分类名称 -->
-      {CONFIG.CATEGORY[torrentInfo.category].alt}
+      {_cateAlt}
     </div>
   {/if}
 
@@ -412,13 +463,13 @@ let _torrentInfo =  {
   </div>
 
   <!-- 种子图片 -->
-  <div class="card_pic" style="min-height: {overlayContentHeight + 24}px;" style:--cateColor={_categoryColor + 'b0'}>
+  <div class="card_pic" style="min-height: {overlayContentHeight + 24}px;" style:--cateColor={_cateColor + 'b0'}>
     <!-- <img src={torrentInfo.imageList[0]} alt={torrentInfo.imageList[0]} /> -->
 
     {#if !_picError}
       {#if $_block_gay && torrentInfo.category == 440}
         <!-- NOTE: Gay -->
-        <div class="pic_error" style="  background-color: {_categoryColor}">
+        <div class="pic_error" style="  background-color: {_cateColor}">
           <div>
             <img style="height: 100%; width:60px; border-radius:20px;" src={static_gay_warn} alt="pic error" />
           </div>
@@ -457,7 +508,7 @@ let _torrentInfo =  {
         <div>
           <img style="height: 100%;width: 100px;" src={_PicErrorLOGO} alt="pic error" />
         </div>
-        <div class="ant-typography" style="color: {getTextColor(_categoryColor)}; font-size:16px;">图片加载失败</div>
+        <div class="ant-typography" style="color: {getTextColor(_cateColor)}; font-size:16px;">图片加载失败</div>
       </div>
     {/if}
 
@@ -553,10 +604,10 @@ let _torrentInfo =  {
           </div>
 
           <!-- 打开种子详情 iframe -->
-          <button class="__iframe_button" style="background-color: {_categoryColor ?? 'transparent'}; color:{_categoryColor ? getTextColor(_categoryColor) : 'black'}" on:click={openIframe}> 打开 iframe </button>
+          <button class="__iframe_button" style="background-color: {_cateColor ?? 'transparent'}; color:{_cateColor ? getTextColor(_cateColor) : 'black'}" on:click={openIframe}> 打开 iframe </button>
 
           <!-- 种子大小 -->
-          <div class="card-index card-index-right __inner_index __inner_size" style="background-color: {_categoryColor ?? 'transparent'}; color:{_categoryColor ? getTextColor(_categoryColor) : 'black'}">
+          <div class="card-index card-index-right __inner_index __inner_size" style="background-color: {_cateColor ?? 'transparent'}; color:{_cateColor ? getTextColor(_cateColor) : 'black'}">
             {getFileSize(torrentInfo.size)}
           </div>
         </div>
@@ -564,19 +615,19 @@ let _torrentInfo =  {
         <!-- 种子内信息_分区类别 -->
         <div
           class="card-category card_info-item"
-          data-href={`https://${location.host}/browse?cat=` + torrentInfo.category}
+          data-href={_cateLink}
           style="
             height: 40px;
-            background-color: {_categoryColor ?? 'transparent'};
-            color: {_categoryColor ? getTextColor(_categoryColor) : 'black'}"
+            background-color: {_cateColor ?? 'transparent'};
+            color: {_cateColor ? getTextColor(_cateColor) : 'black'}"
         >
           <!-- 分类图标 -->
-          <img class="card_category-img card_category_square" style="width: 36px;height: 36px;" src={CONFIG.CATEGORY[torrentInfo.category].src} alt={CONFIG.CATEGORY[torrentInfo.category].alt} />
+          <img class="card_category-img card_category_square" style="width: 36px;height: 36px;" src={_catePic} alt={_cateAlt} />
 
           &nbsp;&nbsp;
 
           <!-- 分类名称 -->
-          {CONFIG.CATEGORY[torrentInfo.category].alt}
+          {_cateAlt}
         </div>
 
         <!-- 种子内信息_主标题 -->
@@ -603,17 +654,26 @@ let _torrentInfo =  {
           if ((val & 2) === 2) { ret.push("dub"); 国配 }
           if ((val & 4) === 4) { ret.push("sub"); 中字 } 
         -->
-        {#if torrentInfo.labels != 0}
+        {#if Number(torrentInfo.labels) || _labelsNew.length}
           <div class="cl-tags">
-            <!--  标签 Tags -->
-            {#if (torrentInfo.labels & 1) === 1}
+            <!--  旧标签 Tags -->
+            {#if (Number(torrentInfo.labels) & 1) === 1}
               <div class="_tag _tag_diy">DIY</div>
             {/if}
-            {#if (torrentInfo.labels & 2) === 2}
+            {#if (Number(torrentInfo.labels) & 2) === 2}
               <div class="_tag _tag_dub">国配</div>
             {/if}
-            {#if (torrentInfo.labels & 4) === 4}
+            {#if (Number(torrentInfo.labels) & 4) === 4}
               <div class="_tag _tag_sub">中字</div>
+            {/if}
+
+            <!--  新标签 Tags -->
+            {#if _labelsNew.length != 0}
+              {#each _labelsNew as label}
+                <div class="_tag" style="background-color: {label.config.bgColor}; color: {label.config.color}">
+                  {label.key}
+                </div>
+              {/each}
             {/if}
           </div>
         {/if}
@@ -703,7 +763,7 @@ let _torrentInfo =  {
 
     <!-- 种子大小 -->
     {#if $_card_detail.size && !_inner_info_show}
-      <div class="card-index card-index-right" style="background-color: {_categoryColor ?? 'transparent'}; color:{_categoryColor ? getTextColor(_categoryColor) : 'black'}">
+      <div class="card-index card-index-right" style="background-color: {_cateColor ?? 'transparent'}; color:{_cateColor ? getTextColor(_cateColor) : 'black'}">
         {getFileSize(torrentInfo.size)}
       </div>
     {/if}
@@ -727,9 +787,9 @@ let _torrentInfo =  {
         if ((val & 2) === 2) { ret.push("dub"); 国配 }
         if ((val & 4) === 4) { ret.push("sub"); 中字 } 
       -->
-      {#if $_card_detail.tags && torrentInfo.labels != 0}
+      {#if $_card_detail.tags && (Number(torrentInfo.labels) || _labelsNew.length)}
         <div class="cl-tags">
-          <!--  标签 Tags -->
+          <!--  旧标签 Tags -->
           {#if (torrentInfo.labels & 1) === 1}
             <div class="_tag _tag_diy">DIY</div>
           {/if}
@@ -738,6 +798,17 @@ let _torrentInfo =  {
           {/if}
           {#if (torrentInfo.labels & 4) === 4}
             <div class="_tag _tag_sub">中字</div>
+          {/if}
+
+          <!--  新标签 Tags -->
+          {#if _labelsNew.length != 0}
+            {#each _labelsNew as label}
+              <div class="_tag" style="background-color: {label.config.bgColor}; color: {label.config.color}">
+                {label.key}
+                <!-- {label.config.color} -->
+                <!-- {label.config.bgColor} -->
+              </div>
+            {/each}
           {/if}
         </div>
       {/if}

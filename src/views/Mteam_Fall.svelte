@@ -2,8 +2,9 @@
 <script>
   import Masonry from 'svelte-bricks';
   import MteamCard from './Mteam_Card.svelte';
-  import { _card_layout } from '../stores';
+  import { _card_layout, _mt_label, _mt_categories } from '../stores';
   import { CONFIG } from '@/siteConfig/mteam.js';
+  import { __JsonParse } from '@/lib/tools';
 
   // --------------------------------------
   /** 列表原始数据 */
@@ -111,6 +112,27 @@
    */
   export function focusFall(pos = 'top') {
     viewFocus(fallContainer, pos);
+  }
+
+  // 从 localstorage => persist:persist => sysinfo.sysConf.TORRENT_LABEL_CONFIG 获取
+  /** mteam -> localstorage => persist:persist  */
+  let mt__ls__p_p;
+  let store_label;
+  let store_categories;
+  try {
+    mt__ls__p_p = __JsonParse(localStorage.getItem('persist:persist'));
+    store_label = mt__ls__p_p.sysinfo?.sysConf?.TORRENT_LABEL_CONFIG;
+    store_categories = mt__ls__p_p.sysinfo?.categoryList?.categorys;
+    if (store_label) $_mt_label = store_label;
+    if (store_categories) $_mt_categories = store_categories;
+    // console.log(mt__ls__p_p);
+    // console.log(store_label);
+    // console.log('--------------------------');
+    // console.log($_mt_categories);
+    // console.log('--------------------------');
+  } catch (error) {
+    console.error(error);
+    console.log(mt__ls__p_p);
   }
 </script>
 

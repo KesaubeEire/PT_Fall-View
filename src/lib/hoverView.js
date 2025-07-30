@@ -68,7 +68,7 @@ export class HoverView {
    */
   handleMouseOver(e, imgEle) {
     if (!imgEle) {
-      console.warn('imgEle is null');
+      console.warn('[FALL]: imgEle is null');
       return;
     }
 

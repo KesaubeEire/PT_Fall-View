@@ -12,7 +12,7 @@ import SVG_Preview from '@/assets/icon_preview.svg';
 // -------------------------------
 
 // 分类图片 baseUrl
-const cate_pic_baseUrl = 'https://static.m-team.cc/static/cate/';
+export const cate_pic_baseUrl = 'https://static.m-team.cc/static/cate/';
 
 export const CONFIG = {
   /** 架构: 备选 => NexusPHP / Mteam / Unit3D... */
@@ -393,6 +393,25 @@ export const CONFIG = {
   //   408: 'Music AAC/ALAC',
   //   434: 'Music 无损'
   // },
+
+  /* TAG 种类
+   * NOTE: 从 /getConf => TORRENT_LABEL_CONFIG 以及
+   * NOTE: localstorage => persist:persist => sysinfo.sysConf.TORRENT_LABEL_CONFIG 都能找到新的
+   * NOTE: Category 同理
+   * NOTE: 这里为了偷懒就写死了, 往后有更新再说
+   */
+  TAG: {
+    '4k': { color: '#4e5561', bgColor: '#ffffff8f', colorV2: '#4a5156', bgColorV2: '#e9e9e9' },
+    '8k': { color: '#4e5561', bgColor: '#ffffff8f', colorV2: '#4a5156', bgColorV2: '#e9e9e9' },
+    hdr: { color: '#4e5561', bgColor: '#ffffff8f', colorV2: '#4a5156', bgColorV2: '#e9e9e9' },
+    hdr10: { color: '#4e5561', bgColor: '#ffffff8f', colorV2: '#4a5156', bgColorV2: '#e9e9e9' },
+    'hdr10+': { color: '#4e5561', bgColor: '#ffffff8f', colorV2: '#4a5156', bgColorV2: '#e9e9e9' },
+    hlg: { color: '#4e5561', bgColor: '#ffffff8f', colorV2: '#4a5156', bgColorV2: '#e9e9e9' },
+    DoVi: { color: '#4e5561', bgColor: '#ffffff8f', colorV2: '#4a5156', bgColorV2: '#e9e9e9' },
+    HDRVi: { color: '#4e5561', bgColor: '#ffffff8f', colorV2: '#4a5156', bgColorV2: '#e9e9e9' },
+    中字: { color: '#ad2a2a', bgColor: '#d14a4a2e' },
+    中配: { color: '#5b3991', bgColor: '#5b399129' }
+  },
 
   /** 索引 */
   INDEX: 0,

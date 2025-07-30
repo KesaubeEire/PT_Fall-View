@@ -45,7 +45,7 @@
       });
     } else {
       notyf_lt.error('未找到目标链接元素');
-      console.warn('未找到目标链接元素');
+      console.warn('[FALL]: 未找到目标链接元素');
     }
   });
 
@@ -234,7 +234,7 @@
         console.log(`--->属于 browse 范围: ${path}`);
         // 在 /browse 内即显示 waterfallParentNode
       } else {
-        console.warn(`--->不属于 browse 范围: ${path}`);
+        console.warn(`[FALL]: --->不属于 browse 范围: ${path}`);
         changeFallView(false);
       }
 
