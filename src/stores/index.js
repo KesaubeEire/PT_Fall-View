@@ -116,6 +116,14 @@ export const _show_nexus_pic = persistStore('_show_nexus_pic', 1);
 /** 是否屏蔽 gay 卡片 */
 export const _block_gay = persistStore('_block_gay', 1);
 
+/** 卡片圆角设置 */
+export const _card_radius = persistStore('_card_radius', {
+  // 是否启用自定义圆角
+  enabled: false,
+  // 圆角值 (0-40px)
+  value: 16
+});
+
 /** 暂存 ls->label / ls->category */
 export const _mt_label = persistStore('_mt_label', {});
 export const _mt_categories = persistStore('_mt_categories', {});

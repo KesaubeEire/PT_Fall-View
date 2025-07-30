@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { _panelPos, _isFallView, _card_layout, _card_detail, _show_hover_pic, _iframe_switch, _side_panel_switch, _block_gay } from '@/stores';
+  import { _panelPos, _isFallView, _card_layout, _card_detail, _show_hover_pic, _iframe_switch, _side_panel_switch, _block_gay, _card_radius } from '@/stores';
   import { getSiteConfig } from '@/siteConfig';
   import { fade } from 'svelte/transition';
   import Switch from '@/component/switch.svelte';
@@ -222,6 +222,20 @@
           <span>屏蔽 gay 区: {$_block_gay}</span>
           <Switch bind:checked={$_block_gay} />
         </div>
+
+        <h3># 卡片样式</h3>
+        <!-- 自定义圆角 -->
+        <div class="config-item">
+          <span>自定义圆角: {$_card_radius.enabled}</span>
+          <Switch bind:checked={$_card_radius.enabled} />
+        </div>
+
+        {#if $_card_radius.enabled}
+          <div class="config-item">
+            <span>圆角大小: {$_card_radius.value} px</span>
+            <input type="range" bind:value={$_card_radius.value} min="0" max="40" step="1" />
+          </div>
+        {/if}
       </div>
     </div>
   </div>
@@ -238,7 +252,7 @@
   }}
 />
 
-<style>
+<style scoped>
   .flowP {
     position: fixed;
 
@@ -370,7 +384,7 @@
     font-size: 14px;
 
     & h3 {
-      margin-top: 8px;
+      margin-top: 28px;
     }
   }
 

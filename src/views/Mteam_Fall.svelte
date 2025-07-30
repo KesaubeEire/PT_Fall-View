@@ -138,7 +138,7 @@
 
 <!-- 容器元素 -->
 <main bind:this={fallContainer}>
-  <div class="fall_holder" style="background-color:{_current_bgColor}">
+  <div class="fall_holder" style="">
     {#if items.length}
       <Masonry animate={true} {items} minColWidth={$_card_layout.min} maxColWidth={$_card_layout.max} gap={$_card_layout.gap} let:item>
         <MteamCard torrentInfo={item}></MteamCard>
@@ -151,11 +151,7 @@
 
 <style>
   .fall_holder {
-    border: 0px solid #6495ed;
-    border-radius: 8px;
-    /* background-color: rgb(188, 202, 214); */
-    /* padding: 12px; */
-    /* margin-top: 16px; */
+    background-color: var(--bg-1);
 
     overflow: hidden;
   }

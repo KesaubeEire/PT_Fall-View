@@ -73,7 +73,7 @@ let _torrentInfo =  {
   import { fade } from 'svelte/transition';
   import { notyf_lt } from '@/lib/notyf';
   import { onMount, onDestroy } from 'svelte';
-  import { _card_detail, _iframe_switch, _iframe_url, _show_hover_pic, _block_gay, _mt_label, _mt_categories } from '@/stores';
+  import { _card_detail, _iframe_switch, _iframe_url, _show_hover_pic, _block_gay, _card_radius, _mt_label, _mt_categories } from '@/stores';
   import { cate_pic_baseUrl, CONFIG } from '@/siteConfig/mteam';
   import IconComment from '@/assets/icon_comment.svelte';
   import HoverView from '@/lib/hoverView';
@@ -420,11 +420,13 @@ let _torrentInfo =  {
   });
 </script>
 
-<div class="card_holder" bind:this={card_holder}>
+<div class="card_holder" bind:this={card_holder} style:--borderRadius={$_card_radius.enabled ? $_card_radius.value + 'px' : '0'}>
   <!-- 切页第一个种子高亮 -->
+  <!-- 
   {#if torrentInfo.pt_fall_highlight && showHighlight}
     <div transition:fade={{ duration: 500 }} class="card_new_page_highlight">新页面 ({torrentInfo.index}+)</div>
   {/if}
+   -->
 
   <!-- NOTE: 分区类别 -->
   {#if $_card_detail.category}
@@ -865,6 +867,11 @@ let _torrentInfo =  {
 </div>
 
 <style scoped>
+  .card_holder {
+    border-radius: var(--borderRadius);
+    overflow: hidden;
+  }
+
   /* 卡片分类 */
   .card-category {
     height: 20px;
@@ -1174,6 +1181,7 @@ let _torrentInfo =  {
       white-space: pre-wrap;
       word-wrap: break-word;
       overflow-wrap: break-word;
+      overflow: hidden;
     }
 
     & .card_info__statistics {
