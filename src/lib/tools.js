@@ -76,6 +76,22 @@ export function getTextColor(background) {
 
   let color = background.toString().trim();
 
+  // 处理 CSS 变量 var(--variable-name)
+  if (color.startsWith('var(')) {
+    const varMatch = color.match(/var\(([^)]+)\)/);
+    if (varMatch) {
+      const varName = varMatch[1];
+      // 获取 CSS 变量的实际值
+      const computedValue = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+      if (computedValue) {
+        color = computedValue;
+      } else {
+        // 如果获取不到变量值，返回默认值
+        return 'inherit';
+      }
+    }
+  }
+
   // 处理 rgba/rgb 格式
   if (color.startsWith('rgba(') || color.startsWith('rgb(')) {
     const match = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*[\d.]+)?\)/);
