@@ -2,12 +2,13 @@
 // @name            PT瀑布流视图
 // @name:en         PT_Fall-View
 // @namespace       vite-plugin-monkey
-// @version         0.3.2
+// @version         0.3.3
 // @author          Kesa
 // @description     PT瀑布流视图(2025重构)
 // @description:en  PT Fall/Masonry View (restructured 2025)
 // @license         MIT
 // @icon            https://avatars.githubusercontent.com/u/23617963
+// @match           https://next.m-team.cc/*
 // @match           https://kp.m-team.cc/*
 // @match           https://xp.m-team.io/*
 // @match           https://xp.m-team.cc/*
@@ -31,6 +32,29 @@ button:focus-visible {
   outline: 3px solid var(--bg-3);
 }
 
+#_fallHolder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 10px;
+  z-index: 101;
+}
+
+#_shield {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  cursor: help;
+  transition: background-color 0.3s ease;
+}
+#_shield:hover {
+  background-color: rgba(0, 0, 0, 0.9);
+}
 
   :where(div.masonry.svelte-b2jtby) {
     display: flex;
@@ -46,8 +70,13 @@ button:focus-visible {
 
 @-webkit-keyframes notyf-fadeinup{0%{opacity:0;transform:translateY(25%)}to{opacity:1;transform:translateY(0)}}@keyframes notyf-fadeinup{0%{opacity:0;transform:translateY(25%)}to{opacity:1;transform:translateY(0)}}@-webkit-keyframes notyf-fadeinleft{0%{opacity:0;transform:translateX(25%)}to{opacity:1;transform:translateX(0)}}@keyframes notyf-fadeinleft{0%{opacity:0;transform:translateX(25%)}to{opacity:1;transform:translateX(0)}}@-webkit-keyframes notyf-fadeoutright{0%{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(25%)}}@keyframes notyf-fadeoutright{0%{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(25%)}}@-webkit-keyframes notyf-fadeoutdown{0%{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(25%)}}@keyframes notyf-fadeoutdown{0%{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(25%)}}@-webkit-keyframes ripple{0%{transform:scale(0) translateY(-45%) translateX(13%)}to{transform:scale(1) translateY(-45%) translateX(13%)}}@keyframes ripple{0%{transform:scale(0) translateY(-45%) translateX(13%)}to{transform:scale(1) translateY(-45%) translateX(13%)}}.notyf{position:fixed;top:0;left:0;height:100%;width:100%;color:#fff;z-index:9999;display:flex;flex-direction:column;align-items:flex-end;justify-content:flex-end;pointer-events:none;box-sizing:border-box;padding:20px}.notyf__icon--error,.notyf__icon--success{height:21px;width:21px;background:#fff;border-radius:50%;display:block;margin:0 auto;position:relative}.notyf__icon--error:after,.notyf__icon--error:before{content:"";background:currentColor;display:block;position:absolute;width:3px;border-radius:3px;left:9px;height:12px;top:5px}.notyf__icon--error:after{transform:rotate(-45deg)}.notyf__icon--error:before{transform:rotate(45deg)}.notyf__icon--success:after,.notyf__icon--success:before{content:"";background:currentColor;display:block;position:absolute;width:3px;border-radius:3px}.notyf__icon--success:after{height:6px;transform:rotate(-45deg);top:9px;left:6px}.notyf__icon--success:before{height:11px;transform:rotate(45deg);top:5px;left:10px}.notyf__toast{display:block;overflow:hidden;pointer-events:auto;-webkit-animation:notyf-fadeinup .3s ease-in forwards;animation:notyf-fadeinup .3s ease-in forwards;box-shadow:0 3px 7px 0 rgba(0,0,0,.25);position:relative;padding:0 15px;border-radius:2px;max-width:300px;transform:translateY(25%);box-sizing:border-box;flex-shrink:0}.notyf__toast--disappear{transform:translateY(0);-webkit-animation:notyf-fadeoutdown .3s forwards;animation:notyf-fadeoutdown .3s forwards;-webkit-animation-delay:.25s;animation-delay:.25s}.notyf__toast--disappear .notyf__icon,.notyf__toast--disappear .notyf__message{-webkit-animation:notyf-fadeoutdown .3s forwards;animation:notyf-fadeoutdown .3s forwards;opacity:1;transform:translateY(0)}.notyf__toast--disappear .notyf__dismiss{-webkit-animation:notyf-fadeoutright .3s forwards;animation:notyf-fadeoutright .3s forwards;opacity:1;transform:translateX(0)}.notyf__toast--disappear .notyf__message{-webkit-animation-delay:.05s;animation-delay:.05s}.notyf__toast--upper{margin-bottom:20px}.notyf__toast--lower{margin-top:20px}.notyf__toast--dismissible .notyf__wrapper{padding-right:30px}.notyf__ripple{height:400px;width:400px;position:absolute;transform-origin:bottom right;right:0;top:0;border-radius:50%;transform:scale(0) translateY(-51%) translateX(13%);z-index:5;-webkit-animation:ripple .4s ease-out forwards;animation:ripple .4s ease-out forwards}.notyf__wrapper{display:flex;align-items:center;padding-top:17px;padding-bottom:17px;padding-right:15px;border-radius:3px;position:relative;z-index:10}.notyf__icon{width:22px;text-align:center;font-size:1.3em;opacity:0;-webkit-animation:notyf-fadeinup .3s forwards;animation:notyf-fadeinup .3s forwards;-webkit-animation-delay:.3s;animation-delay:.3s;margin-right:13px}.notyf__dismiss{position:absolute;top:0;right:0;height:100%;width:26px;margin-right:-15px;-webkit-animation:notyf-fadeinleft .3s forwards;animation:notyf-fadeinleft .3s forwards;-webkit-animation-delay:.35s;animation-delay:.35s;opacity:0}.notyf__dismiss-btn{background-color:rgba(0,0,0,.25);border:none;cursor:pointer;transition:opacity .2s ease,background-color .2s ease;outline:none;opacity:.35;height:100%;width:100%}.notyf__dismiss-btn:after,.notyf__dismiss-btn:before{content:"";background:#fff;height:12px;width:2px;border-radius:3px;position:absolute;left:calc(50% - 1px);top:calc(50% - 5px)}.notyf__dismiss-btn:after{transform:rotate(-45deg)}.notyf__dismiss-btn:before{transform:rotate(45deg)}.notyf__dismiss-btn:hover{opacity:.7;background-color:rgba(0,0,0,.15)}.notyf__dismiss-btn:active{opacity:.8}.notyf__message{vertical-align:middle;position:relative;opacity:0;-webkit-animation:notyf-fadeinup .3s forwards;animation:notyf-fadeinup .3s forwards;-webkit-animation-delay:.25s;animation-delay:.25s;line-height:1.5em}@media only screen and (max-width:480px){.notyf{padding:0}.notyf__ripple{height:600px;width:600px;-webkit-animation-duration:.5s;animation-duration:.5s}.notyf__toast{max-width:none;border-radius:0;box-shadow:0 -2px 7px 0 rgba(0,0,0,.13);width:100%}.notyf__dismiss{width:56px}}
 \r
+  .card_holder.svelte-1ytaoom {\r
+    border-radius: var(--borderRadius);\r
+    overflow: hidden;\r
+  }\r
+\r
   /* \u5361\u7247\u5206\u7C7B */\r
-  .card-category.svelte-aspv9f {\r
+  .card-category.svelte-1ytaoom {\r
     height: 20px;\r
     padding: 0 2px;\r
     border: 1px;\r
@@ -64,7 +93,7 @@ button:focus-visible {
   }\r
 \r
   /* \u5361\u7247\u79CD\u7C7Btag\u9884\u89C8\u56FE */\r
-  .card_category-img.svelte-aspv9f {\r
+  .card_category-img.svelte-1ytaoom {\r
     /* height: 18px; */\r
     height: 35px;\r
     width: 28px;\r
@@ -76,15 +105,15 @@ button:focus-visible {
     padding-top: 6px;\r
   }\r
 \r
-  .card_category_square.svelte-aspv9f {\r
+  .card_category_square.svelte-1ytaoom {\r
     width: 40px;\r
     height: 40px;\r
     padding-top: 0;\r
     border-radius: 10px;\r
   }\r
 \r
-  .card_new_page_highlight.svelte-aspv9f {\r
-    /* position: absolute; */\r
+  /* (unused) .card_new_page_highlight {\r
+    /* position: absolute; *\\/\r
     top: 0;\r
     left: 0;\r
     width: 100%;\r
@@ -93,12 +122,12 @@ button:focus-visible {
     color: white;\r
     text-align: center;\r
     padding: 8px 8px;\r
-  }\r
-  .card_pic.svelte-aspv9f img:where(.svelte-aspv9f) {\r
+  }*/\r
+  .card_pic.svelte-1ytaoom img:where(.svelte-1ytaoom) {\r
     width: 100%;\r
     height: 100%;\r
   }\r
-  .lazy-image.svelte-aspv9f {\r
+  .lazy-image.svelte-1ytaoom {\r
     opacity: 0.2;\r
     transition: opacity 0.5s ease;\r
   }\r
@@ -106,7 +135,7 @@ button:focus-visible {
   /* (unused) .lazy-image.loaded {\r
     opacity: 1;\r
   }*/\r
-  .card_info.svelte-aspv9f {\r
+  .card_info.svelte-1ytaoom {\r
     display: flex;\r
     justify-content: center;\r
     align-items: center;\r
@@ -114,7 +143,7 @@ button:focus-visible {
 \r
     padding: 0px 8px;\r
 \r
-    & .card_info-item:where(.svelte-aspv9f) {\r
+    & .card_info-item:where(.svelte-1ytaoom) {\r
       display: flex;\r
       justify-content: space-around;\r
       align-items: center;\r
@@ -123,7 +152,7 @@ button:focus-visible {
       width: 100%;\r
     }\r
 \r
-    & .card_info__dl_and_cl:where(.svelte-aspv9f) {\r
+    & .card_info__dl_and_cl:where(.svelte-1ytaoom) {\r
       display: flex;\r
       justify-content: center;\r
       align-items: center;\r
@@ -131,20 +160,20 @@ button:focus-visible {
       height: 32px;\r
     }\r
 \r
-    & .card_info__statistics:where(.svelte-aspv9f) {\r
+    & .card_info__statistics:where(.svelte-1ytaoom) {\r
       display: flex;\r
       justify-content: center;\r
       align-items: center;\r
     }\r
   }\r
 \r
-  .card_info__topping.svelte-aspv9f {\r
+  .card_info__topping.svelte-1ytaoom {\r
     display: flex;\r
     /* justify-content: center; */\r
     align-items: center;\r
   }\r
 \r
-  .__main_title.svelte-aspv9f {\r
+  .__main_title.svelte-1ytaoom {\r
     white-space: pre-wrap;\r
     word-wrap: break-word;\r
     overflow-wrap: break-word;\r
@@ -158,7 +187,7 @@ button:focus-visible {
   }\r
 \r
   /* \u6807\u7B7E */\r
-  .cl-tags.svelte-aspv9f {\r
+  .cl-tags.svelte-1ytaoom {\r
     display: flex;\r
     justify-content: center;\r
     align-items: center;\r
@@ -169,7 +198,7 @@ button:focus-visible {
     padding-top: 4px;\r
     padding-bottom: 4px;\r
   }\r
-  ._tag.svelte-aspv9f {\r
+  ._tag.svelte-1ytaoom {\r
     /* padding: 1px 6px; */\r
     height: 1.3em;\r
     line-height: 1.3em;\r
@@ -178,28 +207,28 @@ button:focus-visible {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';\r
     font-size: 12px;\r
   }\r
-  ._tag_diy.svelte-aspv9f {\r
+  ._tag_diy.svelte-1ytaoom {\r
     color: #ffffff;\r
     background-color: rgb(90, 189, 72);\r
   }\r
-  ._tag_dub.svelte-aspv9f {\r
+  ._tag_dub.svelte-1ytaoom {\r
     color: #ffffff;\r
     background-color: rgb(90, 59, 20);\r
   }\r
-  ._tag_sub.svelte-aspv9f {\r
+  ._tag_sub.svelte-1ytaoom {\r
     color: #ffffff;\r
     background-color: rgb(59, 74, 127);\r
   }\r
-  ._tag_discount_50.svelte-aspv9f {\r
+  ._tag_discount_50.svelte-1ytaoom {\r
     background-color: rgb(255, 85, 0);\r
     color: #ffffff;\r
   }\r
-  ._tag_discount_free.svelte-aspv9f {\r
+  ._tag_discount_free.svelte-1ytaoom {\r
     background-color: rgb(16, 142, 233);\r
     color: #ffffff;\r
   }\r
 \r
-  .card_pic.svelte-aspv9f {\r
+  .card_pic.svelte-1ytaoom {\r
     position: relative;\r
     display: flex;\r
     align-items: center;\r
@@ -207,7 +236,7 @@ button:focus-visible {
     background-color: var(--cateColor);\r
   }\r
 \r
-  .pic_error.svelte-aspv9f {\r
+  .pic_error.svelte-1ytaoom {\r
     display: flex;\r
     justify-content: center;\r
     align-items: center;\r
@@ -219,7 +248,7 @@ button:focus-visible {
   }\r
 \r
   /* \u5361\u7247\u7D22\u5F15 */\r
-  .card-index.svelte-aspv9f {\r
+  .card-index.svelte-1ytaoom {\r
     position: absolute;\r
     top: 0;\r
     left: 0;\r
@@ -244,7 +273,7 @@ button:focus-visible {
   }\r
 \r
   /* \u5361\u7247\u7D22\u5F15_\u53F3 */\r
-  .card-index-right.svelte-aspv9f {\r
+  .card-index-right.svelte-1ytaoom {\r
     left: initial;\r
     right: 0;\r
     padding: 4px 4px 4px 8px;\r
@@ -257,7 +286,7 @@ button:focus-visible {
   }\r
 \r
   /* \u60AC\u6D6E\u9884\u89C8: \u5C40\u90E8\u89E6\u53D1\u5668 */\r
-  .hover-trigger.svelte-aspv9f {\r
+  .hover-trigger.svelte-1ytaoom {\r
     position: absolute;\r
     top: 28px;\r
     right: 8px;\r
@@ -293,7 +322,7 @@ button:focus-visible {
   }\r
 \r
   /* \u6DFB\u52A0\u60AC\u6D6E\u6548\u679C\u76F8\u5173\u6837\u5F0F */\r
-  .hover-overlay.svelte-aspv9f {\r
+  .hover-overlay.svelte-1ytaoom {\r
     position: absolute;\r
     bottom: 0;\r
     left: 0;\r
@@ -306,7 +335,7 @@ button:focus-visible {
     z-index: 1;\r
   }\r
 \r
-  .overlay-content.svelte-aspv9f {\r
+  .overlay-content.svelte-1ytaoom {\r
     width: 100%;\r
     position: absolute;\r
     bottom: 0;\r
@@ -326,7 +355,7 @@ button:focus-visible {
     display: flex;\r
     flex-direction: column;\r
 \r
-    & .card_info-item:where(.svelte-aspv9f) {\r
+    & .card_info-item:where(.svelte-1ytaoom) {\r
       display: flex;\r
       justify-content: center;\r
       align-items: center;\r
@@ -337,7 +366,7 @@ button:focus-visible {
       padding-right: 8px;\r
     }\r
 \r
-    & .__main_title:where(.svelte-aspv9f) {\r
+    & .__main_title:where(.svelte-1ytaoom) {\r
       text-align: center;\r
       white-space: pre-wrap;\r
       word-wrap: break-word;\r
@@ -351,13 +380,14 @@ button:focus-visible {
       }\r
     }\r
 \r
-    & .__sub_title:where(.svelte-aspv9f) {\r
+    & .__sub_title:where(.svelte-1ytaoom) {\r
       white-space: pre-wrap;\r
       word-wrap: break-word;\r
       overflow-wrap: break-word;\r
+      overflow: hidden;\r
     }\r
 \r
-    & .card_info__statistics:where(.svelte-aspv9f) {\r
+    & .card_info__statistics:where(.svelte-1ytaoom) {\r
       display: flex;\r
       justify-content: space-evenly;\r
       align-items: center;\r
@@ -366,13 +396,13 @@ button:focus-visible {
     }\r
   }\r
 \r
-  .__center.svelte-aspv9f {\r
+  .__center.svelte-1ytaoom {\r
     display: flex;\r
     justify-content: center;\r
     align-items: center;\r
   }\r
 \r
-  .__inner_index_and_size.svelte-aspv9f {\r
+  .__inner_index_and_size.svelte-1ytaoom {\r
     display: flex;\r
     justify-content: space-between;\r
     align-items: center;\r
@@ -382,7 +412,7 @@ button:focus-visible {
     top: -24px;\r
   }\r
 \r
-  .__inner_index.svelte-aspv9f {\r
+  .__inner_index.svelte-1ytaoom {\r
     position: relative;\r
     width: fit-content;\r
 \r
@@ -391,7 +421,7 @@ button:focus-visible {
     align-items: center;\r
   }\r
 \r
-  .__inner_size.svelte-aspv9f {\r
+  .__inner_size.svelte-1ytaoom {\r
     position: relative;\r
     width: fit-content;\r
 \r
@@ -400,7 +430,7 @@ button:focus-visible {
     align-items: center;\r
   }\r
 \r
-  .__iframe_button.svelte-aspv9f {\r
+  .__iframe_button.svelte-1ytaoom {\r
     flex: 1;\r
     padding: 4px 8px;\r
     margin: 0;\r
@@ -413,24 +443,20 @@ button:focus-visible {
   }\r
 
 \r
-  .fall_holder.svelte-1nf4wjl {\r
-    border: 0px solid #6495ed;\r
-    border-radius: 8px;\r
-    /* background-color: rgb(188, 202, 214); */\r
-    /* padding: 12px; */\r
-    /* margin-top: 16px; */\r
+  .fall_holder.svelte-1vmncc1 {\r
+    background-color: var(--bg-1);\r
 \r
     overflow: hidden;\r
   }\r
 \r
-  .text_center.svelte-1nf4wjl {\r
+  .text_center.svelte-1vmncc1 {\r
     text-align: center;\r
     padding: 8px 0;\r
     margin: 0;\r
   }\r
 
 \r
-  .faq-btn.svelte-19468gw {\r
+  .__btn.svelte-1a87xm5 {\r
     background-color: var(--bg-2);\r
     color: white;\r
     border: none;\r
@@ -438,13 +464,21 @@ button:focus-visible {
     border-radius: 4px;\r
     font-size: 14px;\r
     transition: background-color 0.3s;\r
+    cursor: pointer;\r
   }\r
 \r
-  .faq-btn.svelte-19468gw:hover {\r
+  .__btnWide.svelte-1a87xm5 {\r
+    height: 40px;\r
+    display: flex;\r
+    align-items: center;\r
+    justify-content: center;\r
+  }\r
+\r
+  .__btn.svelte-1a87xm5:hover {\r
     background-color: var(--hover);\r
   }\r
 \r
-  .modal-overlay.svelte-19468gw {\r
+  .modal-overlay.svelte-1a87xm5 {\r
     position: fixed;\r
     top: 0;\r
     left: 0;\r
@@ -457,9 +491,11 @@ button:focus-visible {
     z-index: 25000;\r
   }\r
 \r
-  .modal-content.svelte-19468gw {\r
+  .modal-content.svelte-1a87xm5 {\r
     background: var(--bg-3);\r
     border-radius: 8px;\r
+    border: 4px solid var(--bg-2);\r
+    /* padding: 12px; */\r
     width: 500px;\r
     max-width: 90vw;\r
     max-height: 80vh;\r
@@ -467,20 +503,20 @@ button:focus-visible {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\r
   }\r
 \r
-  .modal-header.svelte-19468gw {\r
+  .modal-header.svelte-1a87xm5 {\r
     display: flex;\r
     justify-content: space-between;\r
     align-items: center;\r
     padding: 16px 20px;\r
-    border-bottom: 1px solid #f0f0f0;\r
+    border-bottom: 4px solid var(--bg-2);\r
   }\r
 \r
-  .modal-header.svelte-19468gw h3:where(.svelte-19468gw) {\r
+  .modal-header.svelte-1a87xm5 h3:where(.svelte-1a87xm5) {\r
     margin: 0;\r
     font-size: 16px;\r
   }\r
 \r
-  .close-btn.svelte-19468gw {\r
+  .close-btn.svelte-1a87xm5 {\r
     background: none;\r
     border: none;\r
     font-size: 24px;\r
@@ -493,19 +529,24 @@ button:focus-visible {
     justify-content: center;\r
   }\r
 \r
-  .modal-body.svelte-19468gw {\r
-    padding: 20px;\r
+  .modal-body.svelte-1a87xm5 {\r
+    padding: 0px 20px 10px;\r
     line-height: 1.6;\r
   }\r
 \r
-  .modal-body.svelte-19468gw h4:where(.svelte-19468gw) {\r
+  .modal-body.svelte-1a87xm5 h4:where(.svelte-1a87xm5) {\r
     margin: 16px 0 8px 0;\r
     color: #1890ff;\r
   }\r
 \r
-  .modal-body.svelte-19468gw p:where(.svelte-19468gw) {\r
+  .modal-body.svelte-1a87xm5 p:where(.svelte-1a87xm5) {\r
     margin: 0 0 12px 0;\r
-    color: #666;\r
+  }\r
+\r
+  .modal-code.svelte-1a87xm5 {\r
+    background-color: var(--bg-1);\r
+    padding: 4px;\r
+    border-radius: 4px;\r
   }\r
 
 \r
@@ -549,7 +590,7 @@ button:focus-visible {
   }\r
 
 \r
-  .flowP.svelte-ewpy9m {\r
+  .flowP.svelte-10gi3pg {\r
     position: fixed;\r
 \r
     width: 80px;\r
@@ -580,7 +621,7 @@ button:focus-visible {
     }\r
   }\r
 \r
-  .flowPDragger.svelte-ewpy9m {\r
+  .flowPDragger.svelte-10gi3pg {\r
     height: 12px;\r
     transition: background-color 0.3s ease-in-out;\r
     background-color: var(--isFallView);\r
@@ -590,7 +631,7 @@ button:focus-visible {
     }\r
   }\r
 \r
-  .flowPHolder.svelte-ewpy9m {\r
+  .flowPHolder.svelte-10gi3pg {\r
     /* position: relative; */\r
     display: flex;\r
     flex-direction: column;\r
@@ -600,7 +641,7 @@ button:focus-visible {
     gap: 4px;\r
   }\r
 \r
-  .flowBtn.svelte-ewpy9m {\r
+  .flowBtn.svelte-10gi3pg {\r
     padding: 4px;\r
     border-radius: 4px;\r
     border: 2px solid transparent;\r
@@ -635,7 +676,7 @@ button:focus-visible {
   }\r
 \r
   /* \u914D\u7F6E\u83DC\u5355\u6837\u5F0F */\r
-  .config-menu-overlay.svelte-ewpy9m {\r
+  .config-menu-overlay.svelte-10gi3pg {\r
     position: fixed;\r
     top: 0;\r
     left: 0;\r
@@ -647,7 +688,7 @@ button:focus-visible {
     z-index: 20000;\r
   }\r
 \r
-  .config-menu.svelte-ewpy9m {\r
+  .config-menu.svelte-10gi3pg {\r
     background-color: #ffffff;\r
     width: 300px;\r
     height: 100vh;\r
@@ -656,14 +697,14 @@ button:focus-visible {
     overflow-y: auto;\r
   }\r
 \r
-  .config-menu-header.svelte-ewpy9m {\r
+  .config-menu-header.svelte-10gi3pg {\r
     display: flex;\r
     justify-content: space-between;\r
     align-items: center;\r
     margin-bottom: 12px;\r
   }\r
 \r
-  .close-btn.svelte-ewpy9m {\r
+  .close-btn.svelte-10gi3pg {\r
     background: none;\r
     border: none;\r
     font-size: 24px;\r
@@ -672,25 +713,25 @@ button:focus-visible {
     transform: translateY(-4px);\r
   }\r
 \r
-  .config-menu-content.svelte-ewpy9m {\r
+  .config-menu-content.svelte-10gi3pg {\r
     display: flex;\r
     flex-direction: column;\r
     gap: 4px;\r
 \r
     font-size: 14px;\r
 \r
-    & h3:where(.svelte-ewpy9m) {\r
-      margin-top: 8px;\r
+    & h3:where(.svelte-10gi3pg) {\r
+      margin-top: 28px;\r
     }\r
   }\r
 \r
-  .config-item.svelte-ewpy9m {\r
+  .config-item.svelte-10gi3pg {\r
     display: flex;\r
     align-items: center;\r
     justify-content: space-between;\r
   }\r
 \r
-  .config-item.svelte-ewpy9m input:where(.svelte-ewpy9m) {\r
+  .config-item.svelte-10gi3pg input:where(.svelte-10gi3pg) {\r
     width: 120px;\r
   }\r
 
@@ -3958,10 +3999,96 @@ button:focus-visible {
       css: (t) => `opacity: ${t * o}`
     };
   }
+  function Tool_Watch_Dom(selector2, func = () => {
+  }) {
+    if (!selector2) return;
+    const targetElement = document.querySelector(selector2);
+    if (targetElement) {
+      func(targetElement);
+      return;
+    }
+    const observer = new MutationObserver((mutations, obs) => {
+      const el = document.querySelector(selector2);
+      if (el) {
+        obs.disconnect();
+        func(el);
+      }
+    });
+    observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true
+    });
+  }
+  function __JsonParse(data) {
+    if (typeof data === "string") {
+      try {
+        const parsed = JSON.parse(data);
+        return __JsonParse(parsed);
+      } catch (e) {
+        return data;
+      }
+    }
+    if (Array.isArray(data)) {
+      return data.map((item) => __JsonParse(item));
+    }
+    if (data !== null && typeof data === "object") {
+      const result = {};
+      for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+          result[key] = __JsonParse(data[key]);
+        }
+      }
+      return result;
+    }
+    return data;
+  }
+  function getTextColor(background) {
+    if (!background) return "inherit";
+    let color = background.toString().trim();
+    if (color.startsWith("var(")) {
+      const varMatch = color.match(/var\(([^)]+)\)/);
+      if (varMatch) {
+        const varName = varMatch[1];
+        const computedValue = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+        if (computedValue) {
+          color = computedValue;
+        } else {
+          return "inherit";
+        }
+      }
+    }
+    if (color.startsWith("rgba(") || color.startsWith("rgb(")) {
+      const match = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*[\d.]+)?\)/);
+      if (match) {
+        const [, red2, green2, blue2] = match;
+        const brightness2 = (parseInt(red2) * 299 + parseInt(green2) * 587 + parseInt(blue2) * 114) / 1e3;
+        return brightness2 < 128 ? "white" : "black";
+      }
+    }
+    color = color.replace("#", "");
+    let red, green, blue;
+    if (color.length === 3) {
+      red = parseInt(color[0] + color[0], 16);
+      green = parseInt(color[1] + color[1], 16);
+      blue = parseInt(color[2] + color[2], 16);
+    } else if (color.length === 6) {
+      red = parseInt(color.substr(0, 2), 16);
+      green = parseInt(color.substr(2, 2), 16);
+      blue = parseInt(color.substr(4, 2), 16);
+    } else if (color.length === 8) {
+      red = parseInt(color.substr(0, 2), 16);
+      green = parseInt(color.substr(2, 2), 16);
+      blue = parseInt(color.substr(4, 2), 16);
+    } else {
+      return "black";
+    }
+    const brightness = (red * 299 + green * 587 + blue * 114) / 1e3;
+    return brightness < 128 ? "white" : "black";
+  }
   const PERSIST_NAME = "Kesa:Fall";
   const getPersistedData = () => {
     try {
-      return JSON.parse(localStorage.getItem(PERSIST_NAME)) ?? {};
+      return __JsonParse(localStorage.getItem(PERSIST_NAME)) ?? {};
     } catch {
       return {};
     }
@@ -3994,11 +4121,11 @@ button:focus-visible {
   const _show_hover_pic = persistStore("_show_hover_pic", 1);
   const _card_layout = persistStore("_card_layout", {
     // 最小宽度
-    min: 240,
+    min: 300,
     // 最大宽度
-    max: 400,
+    max: 600,
     // 间距
-    gap: 12
+    gap: 8
   });
   const _card_detail = persistStore("_card_detail", {
     // 全局总开关
@@ -4006,7 +4133,7 @@ button:focus-visible {
     // 显示 分区
     category: true,
     // 显示 标题
-    title: true,
+    title: false,
     // 显示 置顶
     topping: true,
     // 显示 免费
@@ -4026,6 +4153,14 @@ button:focus-visible {
   });
   const _show_nexus_pic = persistStore("_show_nexus_pic", 1);
   const _block_gay = persistStore("_block_gay", 1);
+  const _card_radius = persistStore("_card_radius", {
+    // 是否启用自定义圆角
+    enabled: false,
+    // 圆角值 (0-40px)
+    value: 16
+  });
+  const _mt_label = persistStore("_mt_label", {});
+  const _mt_categories = persistStore("_mt_categories", {});
   function Launch_Hijack(param = { path: "/search", method: "POST" }) {
     const nativeOpen = XMLHttpRequest.prototype.open;
     const nativeSend = XMLHttpRequest.prototype.send;
@@ -4148,8 +4283,8 @@ button:focus-visible {
     }
     return zoom;
   }
-  var root_4 = /* @__PURE__ */ template(`<span class="svelte-b2jtby"> </span>`);
-  var root_3$2 = /* @__PURE__ */ template(`<div class="svelte-b2jtby"><!></div>`);
+  var root_4$1 = /* @__PURE__ */ template(`<span class="svelte-b2jtby"> </span>`);
+  var root_3$1 = /* @__PURE__ */ template(`<div class="svelte-b2jtby"><!></div>`);
   var root_7$1 = /* @__PURE__ */ template(`<span class="svelte-b2jtby"> </span>`);
   var root_1$4 = /* @__PURE__ */ template(`<div><!></div>`);
   var root$8 = /* @__PURE__ */ template(`<div></div>`);
@@ -4205,7 +4340,7 @@ button:focus-visible {
           each(node_1, 9, () => get$1(col), ([item, idx]) => getId()(item), ($$anchor4, $$item) => {
             let item = () => get$1($$item)[0];
             let idx = () => get$1($$item)[1];
-            var div_2 = root_3$2();
+            var div_2 = root_3$1();
             var node_2 = child(div_2);
             slot(
               node_2,
@@ -4220,7 +4355,7 @@ button:focus-visible {
                 }
               },
               ($$anchor5) => {
-                var span = root_4();
+                var span = root_4$1();
                 var text = child(span);
                 template_effect(() => set_text(text, item()));
                 append($$anchor5, span);
@@ -4703,6 +4838,7 @@ button:focus-visible {
   const SVG_Download = "data:image/svg+xml,%3csvg%20viewBox='64%2064%20896%20896'%20focusable='false'%20data-icon='download'%20width='1em'%20height='1em'%20fill='currentColor'%20aria-hidden='true'%20xmlns='http://www.w3.org/2000/svg'%20%3e%3cpath%20d='M505.7%20661a8%208%200%200012.6%200l112-141.7c4.1-5.2.4-12.9-6.3-12.9h-74.1V168c0-4.4-3.6-8-8-8h-60c-4.4%200-8%203.6-8%208v338.3H400c-6.7%200-10.4%207.7-6.3%2012.9l112%20141.8zM878%20626h-60c-4.4%200-8%203.6-8%208v154H214V634c0-4.4-3.6-8-8-8h-60c-4.4%200-8%203.6-8%208v198c0%2017.7%2014.3%2032%2032%2032h684c17.7%200%2032-14.3%2032-32V634c0-4.4-3.6-8-8-8z'%3e%3c/path%3e%3c/svg%3e";
   const SVG_Collection = "data:image/svg+xml,%3csvg%20viewBox='64%2064%20896%20896'%20focusable='false'%20data-icon='star'%20width='1em'%20height='1em'%20fill='currentColor'%20aria-hidden='true'%20xmlns='http://www.w3.org/2000/svg'%20%3e%3cpath%20d='M908.1%20353.1l-253.9-36.9L540.7%2086.1c-3.1-6.3-8.2-11.4-14.5-14.5-15.8-7.8-35-1.3-42.9%2014.5L369.8%20316.2l-253.9%2036.9c-7%201-13.4%204.3-18.3%209.3a32.05%2032.05%200%2000.6%2045.3l183.7%20179.1-43.4%20252.9a31.95%2031.95%200%200046.4%2033.7L512%20754l227.1%20119.4c6.2%203.3%2013.4%204.4%2020.3%203.2%2017.4-3%2029.1-19.5%2026.1-36.9l-43.4-252.9%20183.7-179.1c5-4.9%208.3-11.3%209.3-18.3%202.7-17.5-9.5-33.7-27-36.3z'%3e%3c/path%3e%3c/svg%3e";
   const SVG_Preview = "data:image/svg+xml,%3csvg%20viewBox='0%200%2024%2024'%20xmlns='http://www.w3.org/2000/svg'%3e%3cdefs%3e%3cstyle%3e%20.cls-1{fill:%232eb1b7;}%20.cls-2{fill:%2356b54e;}%20.cls-3{fill:%235dc6d1;}%20.cls-4{fill:%2360cc5a;}%20.cls-5{fill:%23ffce69;}%20.cls-6{fill:%236c2e7c;}%20%3c/style%3e%3c/defs%3e%3cg%20id='Icons'%3e%3crect%20class='cls-1'%20height='22'%20rx='4'%20width='22'%20x='1'%20y='1'/%3e%3cpath%20class='cls-2'%20d='M23,18v1a4,4,0,0,1-4,4H5a4,4,0,0,1-3.9-3.1l7.19-7.19a1.008,1.008,0,0,1,1.42,0l1.8,1.8a1,1,0,0,0,1.46-.05l2.33-2.65a1,1,0,0,1,1.46-.05Z'/%3e%3cpath%20class='cls-3'%20d='M23,5v9a4.025,4.025,0,0,1-1.17,2.83l-5.07-5.07a1,1,0,0,0-1.46.05l-2.33,2.65a1,1,0,0,1-1.46.05l-1.8-1.8a1.008,1.008,0,0,0-1.42,0L3.36,17.64A3.988,3.988,0,0,1,1,14V5A4,4,0,0,1,5,1H19A4,4,0,0,1,23,5Z'/%3e%3cpath%20class='cls-4'%20d='M21.83,16.83A4.025,4.025,0,0,1,19,18H5a3.931,3.931,0,0,1-1.64-.36l4.93-4.93a1.008,1.008,0,0,1,1.42,0l1.8,1.8a1,1,0,0,0,1.46-.05l2.33-2.65a1,1,0,0,1,1.46-.05Z'/%3e%3ccircle%20class='cls-5'%20cx='7'%20cy='7'%20r='2'/%3e%3c/g%3e%3cg%20data-name='Layer%204'%20id='Layer_4'%3e%3cpath%20class='cls-6'%20d='M19,0H5A5.006,5.006,0,0,0,0,5V19a5.006,5.006,0,0,0,5,5H19a5.006,5.006,0,0,0,5-5V5A5.006,5.006,0,0,0,19,0Zm3,19a3,3,0,0,1-3,3H5a3,3,0,0,1-3-3V5A3,3,0,0,1,5,2H19a3,3,0,0,1,3,3Z'/%3e%3cpath%20class='cls-6'%20d='M7,10A3,3,0,1,0,4,7,3,3,0,0,0,7,10ZM7,6A1,1,0,1,1,6,7,1,1,0,0,1,7,6Z'/%3e%3cpath%20class='cls-6'%20d='M16.707,10.293a.956.956,0,0,0-.74-.293,1.006,1.006,0,0,0-.72.341L12.217,13.8l-2.51-2.511a1,1,0,0,0-1.414,0l-4,4a1,1,0,1,0,1.414,1.414L9,13.414l1.9,1.9L8.247,18.341a1,1,0,0,0,1.506,1.318l3.218-3.678.006,0,.007-.011,3.065-3.5,2.244,2.244a1,1,0,0,0,1.414-1.414Z'/%3e%3c/g%3e%3c/svg%3e";
+  const cate_pic_baseUrl = "https://static.m-team.cc/static/cate/";
   const CONFIG = {
     /** 架构: 备选 => NexusPHP / Mteam / Unit3D... */
     architecture: "Mteam",
@@ -4730,27 +4866,27 @@ button:focus-visible {
         //   sortField: "CREATED_DATE",
         //   visible: 1,
         // }
-      },
-      // NOTE: 下面这俩就是展示一下, 我反正是拿到下载和收藏的就 dom 不发包了
-      genDlToken: {
-        url: "/genDlToken",
-        fullUrl: "/api/torrent/genDlToken",
-        method: "POST",
-        type: "formData",
-        contentForm: {
-          name1: "id"
-        }
-      },
-      collection: {
-        url: "/collection",
-        fullUrl: "/api/torrent/collection",
-        method: "POST",
-        type: "formData",
-        contentForm: {
-          name1: "id",
-          name2: "make"
-        }
       }
+      //   // NOTE: 下面这俩就是展示一下, 我反正是拿到下载和收藏的就 dom 不发包了
+      //   genDlToken: {
+      //     url: '/genDlToken',
+      //     fullUrl: '/api/torrent/genDlToken',
+      //     method: 'POST',
+      //     type: 'formData',
+      //     contentForm: {
+      //       name1: 'id'
+      //     }
+      //   },
+      //   collection: {
+      //     url: '/collection',
+      //     fullUrl: '/api/torrent/collection',
+      //     method: 'POST',
+      //     type: 'formData',
+      //     contentForm: {
+      //       name1: 'id',
+      //       name2: 'make'
+      //     }
+      //   }
     },
     /**如果站点有自定义的icon, 可以用自定义的 */
     ICON: {
@@ -4777,351 +4913,312 @@ button:focus-visible {
       // 普通分类
       {
         401: {
-          src: "https://static.m-team.cc/static/cate/moviesd.png",
+          src: cate_pic_baseUrl + "moviesd.png",
           alt: "電影/SD",
           color: "#c74854"
         },
         402: {
-          src: "https://static.m-team.cc/static/cate/tvhd.png",
+          src: cate_pic_baseUrl + "tvhd.png",
           alt: "影劇/綜藝/HD",
           color: "#276fb8"
         },
         403: {
-          src: "https://static.m-team.cc/static/cate/tvsd.png",
+          src: cate_pic_baseUrl + "tvsd.png",
           alt: "影劇/綜藝/SD",
           color: "#c74854"
         },
         404: {
-          src: "https://static.m-team.cc/static/cate/bbc.png",
+          src: cate_pic_baseUrl + "bbc.png",
           alt: "紀錄",
           color: "#23ac38"
         },
         405: {
-          src: "https://static.m-team.cc/static/cate/anime.png",
+          src: cate_pic_baseUrl + "anime.png",
           alt: "動畫",
           color: "#996c34"
         },
         406: {
-          src: "https://static.m-team.cc/static/cate/mv.png",
+          src: cate_pic_baseUrl + "mv.png",
           alt: "演唱",
           color: "#8a57a1"
         },
         407: {
-          src: "https://static.m-team.cc/static/cate/sport.png",
+          src: cate_pic_baseUrl + "sport.png",
           alt: "運動",
           color: "#23ac38"
         },
         409: {
-          src: "https://static.m-team.cc/static/cate/other.png",
+          src: cate_pic_baseUrl + "other.png",
           alt: "Misc(其他)",
           color: "#996c34"
         },
         419: {
-          src: "https://static.m-team.cc/static/cate/moviehd.png",
+          src: cate_pic_baseUrl + "moviehd.png",
           alt: "電影/HD",
           color: "#c01a20"
         },
         420: {
-          src: "https://static.m-team.cc/static/cate/moviedvd.png",
+          src: cate_pic_baseUrl + "moviedvd.png",
           alt: "電影/DVDiSo",
           color: "#c74854"
         },
         421: {
-          src: "https://static.m-team.cc/static/cate/moviebd.png",
+          src: cate_pic_baseUrl + "moviebd.png",
           alt: "電影/Blu-Ray",
           color: "#00a0e9"
         },
         422: {
-          src: "https://static.m-team.cc/static/cate/software.png",
+          src: cate_pic_baseUrl + "software.png",
           alt: "軟體",
           color: "#f39800"
         },
         423: {
-          src: "https://static.m-team.cc/static/cate/game-pc-3.jpeg",
+          src: cate_pic_baseUrl + "game-pc-3.jpeg",
           alt: "PC遊戲",
           color: "#f39800"
         },
         427: {
-          src: "https://static.m-team.cc/static/cate/Study.png",
+          src: cate_pic_baseUrl + "Study.png",
           alt: "教育(書面)",
           color: "#7FC269"
         },
         434: {
-          src: "https://static.m-team.cc/static/cate/flac.png",
+          src: cate_pic_baseUrl + "flac.png",
           alt: "Music(無損)",
           color: "#8a57a1"
         },
         435: {
-          src: "https://static.m-team.cc/static/cate/tvdvd.png",
+          src: cate_pic_baseUrl + "tvdvd.png",
           alt: "影劇/綜藝/DVDiSo",
           color: "#4dbebd"
         },
         438: {
-          src: "https://static.m-team.cc/static/cate/tvbd.png",
+          src: cate_pic_baseUrl + "tvbd.png",
           alt: "影劇/綜藝/BD",
           color: "#1897d6"
         },
         439: {
-          src: "https://static.m-team.cc/static/cate/movieremux.png",
+          src: cate_pic_baseUrl + "movieremux.png",
           alt: "電影/Remux",
           color: "#1b2a51"
         },
         451: {
-          src: "https://static.m-team.cc/static/cate/Study_Video.png",
+          src: cate_pic_baseUrl + "Study_Video.png",
           alt: "教育(影片)",
           color: "#7FC269"
         },
         442: {
-          src: "https://static.m-team.cc/static/cate/Study_Audio.png",
+          src: cate_pic_baseUrl + "Study_Audio.png",
           alt: "有聲書",
           color: "#7FC269"
         },
         448: {
-          src: "https://static.m-team.cc/static/cate/pcgame.png",
+          src: cate_pic_baseUrl + "pcgame.png",
           alt: "TV遊戲",
           color: "#f39800"
         },
         // 成人分类
         410: {
-          src: "https://static.m-team.cc/static/cate/cenhd.png",
+          src: cate_pic_baseUrl + "cenhd.png",
           alt: "AV(有碼)/HD Censored",
           // color: '#db55a9',
           color: "#F520CB"
         },
         411: {
-          src: "https://static.m-team.cc/static/cate/hgame.png",
+          src: cate_pic_baseUrl + "hgame.png",
           alt: "H-遊戲",
           color: "#f49800"
         },
         412: {
-          src: "https://static.m-team.cc/static/cate/hanime.png",
+          src: cate_pic_baseUrl + "hanime.png",
           alt: "H-動畫",
           color: "#f49800"
         },
         413: {
-          src: "https://static.m-team.cc/static/cate/hcomic.png",
+          src: cate_pic_baseUrl + "hcomic.png",
           alt: "H-漫畫",
           color: "#f49800"
         },
         424: {
-          src: "https://static.m-team.cc/static/cate/censd.png",
+          src: cate_pic_baseUrl + "censd.png",
           alt: "AV(有碼)/SD Censored",
           // color: '#F520CB',
           color: "#DA55A9"
         },
         425: {
-          src: "https://static.m-team.cc/static/cate/ivvideo.png",
+          src: cate_pic_baseUrl + "ivvideo.png",
           alt: "IV(寫真影集)",
           color: "#bb1e9a"
         },
         426: {
-          src: "https://static.m-team.cc/static/cate/uendvd.png",
+          src: cate_pic_baseUrl + "uendvd.png",
           alt: "AV(無碼)/DVDiSo Uncensored",
           color: "#f77afa"
         },
         429: {
-          src: "https://static.m-team.cc/static/cate/uenhd.png",
+          src: cate_pic_baseUrl + "uenhd.png",
           alt: "AV(無碼)/HD Uncensored",
           color: "#f52bcb"
         },
         430: {
-          src: "https://static.m-team.cc/static/cate/uensd.png",
+          src: cate_pic_baseUrl + "uensd.png",
           alt: "AV(無碼)/SD Uncensored",
           color: "#db55a9"
         },
         431: {
-          src: "https://static.m-team.cc/static/cate/cenbd.png",
+          src: cate_pic_baseUrl + "cenbd.png",
           alt: "AV(有碼)/Blu-Ray Censored",
           color: "#19a7ec"
         },
         432: {
-          src: "https://static.m-team.cc/static/cate/uenbd.png",
+          src: cate_pic_baseUrl + "uenbd.png",
           alt: "AV(無碼)/Blu-Ray Uncensored",
           color: "#19a7ec"
         },
         433: {
-          src: "https://static.m-team.cc/static/cate/ivpic.png",
+          src: cate_pic_baseUrl + "ivpic.png",
           alt: "IV(寫真圖集)",
           color: "#bb1e9a"
         },
         436: {
-          src: "https://static.m-team.cc/static/cate/adult0day.png",
+          src: cate_pic_baseUrl + "adult0day.png",
           alt: "AV(網站)/0Day",
           color: "#bb1e9a"
         },
         437: {
-          src: "https://static.m-team.cc/static/cate/cendvd.png",
+          src: cate_pic_baseUrl + "cendvd.png",
           alt: "AV(有碼)/DVDiSo Censored",
           color: "#f77afa"
         },
         440: {
-          src: "https://static.m-team.cc/static/cate/gayhd.gif",
+          src: cate_pic_baseUrl + "gayhd.gif",
           alt: "AV(Gay)/HD",
           color: "#f52bcb"
         }
       }
     ),
-    /**如果站点有必要设置分类颜色, 可以用自定义的 */
-    CATEGORY_COLOR: {
-      // 成人分类
-      115: "#f52bcb",
-      // AV(有码) 父
-      120: "#f52bcb",
-      // AV(无码) 父
-      410: "#f52bcb",
-      // 有码 HD
-      429: "#f52bcb",
-      // 无码 HD
-      424: "#DA55A9",
-      // 有码 Xvid
-      430: "#db55a9",
-      // 无码 Xvid
-      437: "#f77afa",
-      // 有码 DVD
-      426: "#f77afa",
-      // 无码 DVD
-      431: "#19a7ec",
-      // 有码 BluRay
-      432: "#19a7ec",
-      // 无码 BluRay
-      440: "#f52bcb",
-      // GAY
-      436: "#bb1e9a",
-      // 0 day
-      425: "#bb1e9a",
-      // 写真 video
-      433: "#bb1e9a",
-      // 写真 pic
-      411: "#f49800",
-      // H-Game
-      412: "#f49800",
-      // H-Anime
-      413: "#f49800",
-      // H-Comic
-      // 综合分类
-      100: "#c74854",
-      // Movie 父
-      401: "#c74854",
-      // Movie SD
-      419: "#c01a20",
-      // Movie HD
-      420: "#c74854",
-      // Movie DVD
-      421: "#00a0e9",
-      // Movie BluRay
-      439: "#1b2a51",
-      // Movie Remux
-      105: "#276fb8",
-      // TV影剧综艺 父
-      403: "#c74854",
-      // TV影剧综艺 SD
-      402: "#276fb8",
-      // TV影剧综艺 HD
-      435: "#4dbebd",
-      // TV影剧综艺 DVD
-      438: "#1897d6",
-      // TV影剧综艺 BluRay
-      444: "#23ac38",
-      // 纪录片 父
-      404: "#23ac38",
-      // 纪录片
-      449: "#996c34",
-      // Anime 父
-      405: "#996c34",
-      // Anime
-      443: "#7FC269",
-      // 教育 父
-      427: "#7FC269",
-      // 教育文档
-      441: "#7FC269",
-      // 教育影片
-      442: "#7FC269",
-      // 教育音频
-      447: "#f39800",
-      // Game 父
-      423: "#f39800",
-      // Game
-      448: "#f39800",
-      // TV Game
-      450: "#996c34",
-      // Other 父
-      407: "#23ac38",
-      // Sport
-      422: "#f39800",
-      // Software
-      409: "#996c34",
-      // Other
-      // 音乐分类
-      110: "#8a57a1",
-      // 音乐 父
-      406: "#8a57a1",
-      // MV
-      408: "#8a57a1",
-      // Music AAC/ALAC
-      434: "#8a57a1"
-      // Music 无损
-    },
-    CATEGORY_NAME: {
-      // 成人分类
-      115: "AV(有码)",
-      // AV(有码)
-      120: "AV(无码)",
-      // AV(无码)
-      410: "有码 HD",
-      429: "无码 HD",
-      424: "有码 Xvid",
-      430: "无码 Xvid",
-      437: "有码 DVD",
-      426: "无码 DVD",
-      431: "有码 BluRay",
-      432: "无码 BluRay",
-      440: "GAY",
-      436: "0 day",
-      425: "写真 video",
-      433: "写真 pic",
-      411: "H-Game",
-      412: "H-Anime",
-      413: "H-Comic",
-      // 综合分类
-      100: "Movie",
-      // Movie 父
-      401: "Movie SD",
-      419: "Movie HD",
-      420: "Movie DVD",
-      421: "Movie BluRay",
-      439: "Movie Remux",
-      105: "TV",
-      // 影剧综艺 父
-      403: "TV SD",
-      402: "TV HD",
-      435: "TV DVDiSo",
-      438: "TV BluRay",
-      444: "Documentary",
-      // 纪录片 父
-      404: "Documentary",
-      449: "Anime",
-      // 动漫 父
-      405: "Anime",
-      443: "教育",
-      // 父
-      427: "教育文档",
-      441: "教育影片",
-      442: "教育音频",
-      447: "Game",
-      // 父
-      423: "Game",
-      448: "TV Game",
-      450: "其他",
-      // 父
-      407: "Sport",
-      422: "软件",
-      409: "Other",
-      // 音乐分类
-      110: "Music",
-      // 音乐 父
-      406: "MV",
-      408: "Music AAC/ALAC",
-      434: "Music 无损"
+    // /**如果站点有必要设置分类颜色, 可以用自定义的 */
+    // CATEGORY_COLOR: {
+    //   // 成人分类
+    //   115: '#f52bcb', // AV(有码) 父
+    //   120: '#f52bcb', // AV(无码) 父
+    //   410: '#f52bcb', // 有码 HD
+    //   429: '#f52bcb', // 无码 HD
+    //   424: '#DA55A9', // 有码 Xvid
+    //   430: '#db55a9', // 无码 Xvid
+    //   437: '#f77afa', // 有码 DVD
+    //   426: '#f77afa', // 无码 DVD
+    //   431: '#19a7ec', // 有码 BluRay
+    //   432: '#19a7ec', // 无码 BluRay
+    //   440: '#f52bcb', // GAY
+    //   436: '#bb1e9a', // 0 day
+    //   425: '#bb1e9a', // 写真 video
+    //   433: '#bb1e9a', // 写真 pic
+    //   411: '#f49800', // H-Game
+    //   412: '#f49800', // H-Anime
+    //   413: '#f49800', // H-Comic
+    //   // 综合分类
+    //   100: '#c74854', // Movie 父
+    //   401: '#c74854', // Movie SD
+    //   419: '#c01a20', // Movie HD
+    //   420: '#c74854', // Movie DVD
+    //   421: '#00a0e9', // Movie BluRay
+    //   439: '#1b2a51', // Movie Remux
+    //   105: '#276fb8', // TV影剧综艺 父
+    //   403: '#c74854', // TV影剧综艺 SD
+    //   402: '#276fb8', // TV影剧综艺 HD
+    //   435: '#4dbebd', // TV影剧综艺 DVD
+    //   438: '#1897d6', // TV影剧综艺 BluRay
+    //   444: '#23ac38', // 纪录片 父
+    //   404: '#23ac38', // 纪录片
+    //   449: '#996c34', // Anime 父
+    //   405: '#996c34', // Anime
+    //   443: '#7FC269', // 教育 父
+    //   427: '#7FC269', // 教育文档
+    //   441: '#7FC269', // 教育影片
+    //   442: '#7FC269', // 教育音频
+    //   447: '#f39800', // Game 父
+    //   423: '#f39800', // Game
+    //   448: '#f39800', // TV Game
+    //   450: '#996c34', // Other 父
+    //   407: '#23ac38', // Sport
+    //   422: '#f39800', // Software
+    //   409: '#996c34', // Other
+    //   // 音乐分类
+    //   110: '#8a57a1', // 音乐 父
+    //   406: '#8a57a1', // MV
+    //   408: '#8a57a1', // Music AAC/ALAC
+    //   434: '#8a57a1' // Music 无损
+    // },
+    // CATEGORY_NAME: {
+    //   // 成人分类
+    //   115: 'AV(有码)', // AV(有码)
+    //   120: 'AV(无码)', // AV(无码)
+    //   410: '有码 HD',
+    //   429: '无码 HD',
+    //   424: '有码 Xvid',
+    //   430: '无码 Xvid',
+    //   437: '有码 DVD',
+    //   426: '无码 DVD',
+    //   431: '有码 BluRay',
+    //   432: '无码 BluRay',
+    //   440: 'GAY',
+    //   436: '0 day',
+    //   425: '写真 video',
+    //   433: '写真 pic',
+    //   411: 'H-Game',
+    //   412: 'H-Anime',
+    //   413: 'H-Comic',
+    //   // 综合分类
+    //   100: 'Movie', // Movie 父
+    //   401: 'Movie SD',
+    //   419: 'Movie HD',
+    //   420: 'Movie DVD',
+    //   421: 'Movie BluRay',
+    //   439: 'Movie Remux',
+    //   105: 'TV', // 影剧综艺 父
+    //   403: 'TV SD',
+    //   402: 'TV HD',
+    //   435: 'TV DVDiSo',
+    //   438: 'TV BluRay',
+    //   444: 'Documentary', // 纪录片 父
+    //   404: 'Documentary',
+    //   449: 'Anime', // 动漫 父
+    //   405: 'Anime',
+    //   443: '教育', // 父
+    //   427: '教育文档',
+    //   441: '教育影片',
+    //   442: '教育音频',
+    //   447: 'Game', // 父
+    //   423: 'Game',
+    //   448: 'TV Game',
+    //   450: '其他', // 父
+    //   407: 'Sport',
+    //   422: '软件',
+    //   409: 'Other',
+    //   // 音乐分类
+    //   110: 'Music', // 音乐 父
+    //   406: 'MV',
+    //   408: 'Music AAC/ALAC',
+    //   434: 'Music 无损'
+    // },
+    /* TAG 种类
+     * NOTE: 从 /getConf => TORRENT_LABEL_CONFIG 以及
+     * NOTE: localstorage => persist:persist => sysinfo.sysConf.TORRENT_LABEL_CONFIG 都能找到新的
+     * NOTE: Category 同理
+     * NOTE: 这里为了偷懒就写死了, 往后有更新再说
+     */
+    TAG: {
+      "4k": { color: "#4e5561", bgColor: "#ffffff8f", colorV2: "#4a5156", bgColorV2: "#e9e9e9" },
+      "8k": { color: "#4e5561", bgColor: "#ffffff8f", colorV2: "#4a5156", bgColorV2: "#e9e9e9" },
+      hdr: { color: "#4e5561", bgColor: "#ffffff8f", colorV2: "#4a5156", bgColorV2: "#e9e9e9" },
+      hdr10: { color: "#4e5561", bgColor: "#ffffff8f", colorV2: "#4a5156", bgColorV2: "#e9e9e9" },
+      "hdr10+": { color: "#4e5561", bgColor: "#ffffff8f", colorV2: "#4a5156", bgColorV2: "#e9e9e9" },
+      hlg: { color: "#4e5561", bgColor: "#ffffff8f", colorV2: "#4a5156", bgColorV2: "#e9e9e9" },
+      DoVi: { color: "#4e5561", bgColor: "#ffffff8f", colorV2: "#4a5156", bgColorV2: "#e9e9e9" },
+      HDRVi: { color: "#4e5561", bgColor: "#ffffff8f", colorV2: "#4a5156", bgColorV2: "#e9e9e9" },
+      中字: { color: "#ad2a2a", bgColor: "#d14a4a2e" },
+      中配: { color: "#5b3991", bgColor: "#5b399129" }
     },
     /** 索引 */
     INDEX: 0,
@@ -5244,7 +5341,7 @@ button:focus-visible {
      */
     handleMouseOver(e, imgEle) {
       if (!imgEle) {
-        console.warn("imgEle is null");
+        console.warn("[FALL]: imgEle is null");
         return;
       }
       if (get(_show_nexus_pic)) {
@@ -5349,46 +5446,50 @@ button:focus-visible {
   const _PicErrorLOGO = "data:image/svg+xml,%3csvg%20width='256px'%20height='256px'%20viewBox='0%200%2024.00%2024.00'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%20transform='matrix(1,%200,%200,%201,%200,%200)'%20%3e%3cg%20id='SVGRepo_bgCarrier'%20stroke-width='0'%20transform='translate(0,0),%20scale(1)'%20/%3e%3cg%20id='SVGRepo_tracerCarrier'%20stroke-linecap='round'%20stroke-linejoin='round'%20stroke='%23CCCCCC'%20stroke-width='0.048'%20/%3e%3cg%20id='SVGRepo_iconCarrier'%3e%3cpath%20d='M13%203L13.7071%202.29289C13.5196%202.10536%2013.2652%202%2013%202V3ZM14%2022C14.5523%2022%2015%2021.5523%2015%2021C15%2020.4477%2014.5523%2020%2014%2020V22ZM19%209H20C20%208.73478%2019.8946%208.48043%2019.7071%208.29289L19%209ZM18%2010C18%2010.5523%2018.4477%2011%2019%2011C19.5523%2011%2020%2010.5523%2020%2010H18ZM5.21799%2019.908L4.32698%2020.362H4.32698L5.21799%2019.908ZM6.09202%2020.782L6.54601%2019.891L6.54601%2019.891L6.09202%2020.782ZM6.09202%203.21799L5.63803%202.32698L5.63803%202.32698L6.09202%203.21799ZM5.21799%204.09202L4.32698%203.63803L4.32698%203.63803L5.21799%204.09202ZM13.109%208.45399L14%208V8L13.109%208.45399ZM13.546%208.89101L14%208L13.546%208.89101ZM17.2299%2017.7929C16.8394%2018.1834%2016.8394%2018.8166%2017.2299%2019.2071C17.6204%2019.5976%2018.2536%2019.5976%2018.6441%2019.2071L17.2299%2017.7929ZM15.0316%2015.2507C14.8939%2015.7856%2015.2159%2016.3308%2015.7507%2016.4684C16.2856%2016.6061%2016.8308%2016.2841%2016.9684%2015.7493L15.0316%2015.2507ZM17.9375%2020C17.3852%2020%2016.9375%2020.4477%2016.9375%2021C16.9375%2021.5523%2017.3852%2022%2017.9375%2022V20ZM17.9475%2022C18.4998%2022%2018.9475%2021.5523%2018.9475%2021C18.9475%2020.4477%2018.4998%2020%2017.9475%2020V22ZM13%202H8.2V4H13V2ZM4%206.2V17.8H6V6.2H4ZM8.2%2022H14V20H8.2V22ZM19.7071%208.29289L13.7071%202.29289L12.2929%203.70711L18.2929%209.70711L19.7071%208.29289ZM20%2010V9H18V10H20ZM4%2017.8C4%2018.3436%203.99922%2018.8114%204.03057%2019.195C4.06287%2019.5904%204.13419%2019.9836%204.32698%2020.362L6.10899%2019.454C6.0838%2019.4045%206.04612%2019.3038%206.02393%2019.0322C6.00078%2018.7488%206%2018.3766%206%2017.8H4ZM8.2%2020C7.62345%2020%207.25117%2019.9992%206.96784%2019.9761C6.69617%2019.9539%206.59545%2019.9162%206.54601%2019.891L5.63803%2021.673C6.01641%2021.8658%206.40963%2021.9371%206.80497%2021.9694C7.18864%2022.0008%207.65645%2022%208.2%2022V20ZM4.32698%2020.362C4.6146%2020.9265%205.07354%2021.3854%205.63803%2021.673L6.54601%2019.891C6.35785%2019.7951%206.20487%2019.6422%206.10899%2019.454L4.32698%2020.362ZM8.2%202C7.65645%202%207.18864%201.99922%206.80497%202.03057C6.40963%202.06287%206.01641%202.13419%205.63803%202.32698L6.54601%204.10899C6.59545%204.0838%206.69617%204.04612%206.96784%204.02393C7.25117%204.00078%207.62345%204%208.2%204V2ZM6%206.2C6%205.62345%206.00078%205.25117%206.02393%204.96784C6.04612%204.69617%206.0838%204.59545%206.10899%204.54601L4.32698%203.63803C4.13419%204.01641%204.06287%204.40963%204.03057%204.80497C3.99922%205.18864%204%205.65645%204%206.2H6ZM5.63803%202.32698C5.07354%202.6146%204.6146%203.07354%204.32698%203.63803L6.10899%204.54601C6.20487%204.35785%206.35785%204.20487%206.54601%204.10899L5.63803%202.32698ZM12%203V7.4H14V3H12ZM14.6%2010H19V8H14.6V10ZM12%207.4C12%207.66353%2011.9992%207.92131%2012.0169%208.13823C12.0356%208.36682%2012.0797%208.63656%2012.218%208.90798L14%208C14.0293%208.05751%2014.0189%208.08028%2014.0103%207.97537C14.0008%207.85878%2014%207.69653%2014%207.4H12ZM14.6%208C14.3035%208%2014.1412%207.99922%2014.0246%207.9897C13.9197%207.98113%2013.9425%207.9707%2014%208L13.092%209.78201C13.3634%209.92031%2013.6332%209.96438%2013.8618%209.98305C14.0787%2010.0008%2014.3365%2010%2014.6%2010V8ZM12.218%208.90798C12.4097%209.2843%2012.7157%209.59027%2013.092%209.78201L14%208V8L12.218%208.90798ZM18.937%2016C18.937%2016.1732%2018.8915%2016.3053%2018.6175%2016.5697C18.4638%2016.718%2018.2828%2016.8653%2018.0319%2017.074C17.7936%2017.2723%2017.5141%2017.5087%2017.2299%2017.7929L18.6441%2019.2071C18.86%2018.9913%2019.0805%2018.8033%2019.3109%2018.6116C19.5287%2018.4305%2019.7852%2018.2223%2020.0065%2018.0087C20.4825%2017.5493%2020.937%2016.9314%2020.937%2016H18.937ZM17.937%2015C18.4893%2015%2018.937%2015.4477%2018.937%2016H20.937C20.937%2014.3431%2019.5938%2013%2017.937%2013V15ZM16.9684%2015.7493C17.0795%2015.3177%2017.4724%2015%2017.937%2015V13C16.5377%2013%2015.3645%2013.957%2015.0316%2015.2507L16.9684%2015.7493ZM17.9375%2022H17.9475V20H17.9375V22Z'%20fill='%23c00000'%20/%3e%3c/g%3e%3c/svg%3e";
   const _PicNoLOGO = "data:image/svg+xml,%3csvg%20viewBox='-2.4%20-2.4%2028.80%2028.80'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%20stroke='%23000000'%20%3e%3cg%20id='SVGRepo_bgCarrier'%20stroke-width='0'%20/%3e%3cg%20id='SVGRepo_iconCarrier'%3e%3cpath%20d='M15.6%2015.6C15.6%2015.6%2014.25%2013.8%2012%2013.8C9.75%2013.8%208.4%2015.6%208.4%2015.6M14.7%209.3H14.709M9.3%209.3H9.309M21%2012C21%2016.9706%2016.9706%2021%2012%2021C7.02944%2021%203%2016.9706%203%2012C3%207.02944%207.02944%203%2012%203C16.9706%203%2021%207.02944%2021%2012ZM15.15%209.3C15.15%209.54853%2014.9485%209.75%2014.7%209.75C14.4515%209.75%2014.25%209.54853%2014.25%209.3C14.25%209.05147%2014.4515%208.85%2014.7%208.85C14.9485%208.85%2015.15%209.05147%2015.15%209.3ZM9.75%209.3C9.75%209.54853%209.54853%209.75%209.3%209.75C9.05147%209.75%208.85%209.54853%208.85%209.3C8.85%209.05147%209.05147%208.85%209.3%208.85C9.54853%208.85%209.75%209.05147%209.75%209.3Z'%20stroke='%23000000'%20stroke-width='1.8'%20stroke-linecap='round'%20stroke-linejoin='round'%20/%3e%3c/g%3e%3c/svg%3e";
   var $$_import_CONFIG = reactive_import(() => CONFIG);
-  var root_1$3 = /* @__PURE__ */ template(`<div class="card_new_page_highlight svelte-aspv9f"> </div>`);
-  var root_2 = /* @__PURE__ */ template(`<div class="card-category svelte-aspv9f"><img class="card_category-img svelte-aspv9f"> </div>`);
-  var root_3$1 = /* @__PURE__ */ template(`<a class="__main_title svelte-aspv9f" target="_blank" rel="noopener noreferrer"> </a>`);
-  var root_5 = /* @__PURE__ */ template(`<div class="pic_error svelte-aspv9f"><div><img style="height: 100%; width:60px; border-radius:20px;" alt="pic error" class="svelte-aspv9f"></div> <div class="ant-typography" style="color: white; font-size:16px;">GAY WARNING<br>同志警告</div></div>`);
-  var root_7 = /* @__PURE__ */ template(`<img class="lazy-image svelte-aspv9f">`);
-  var root_8 = /* @__PURE__ */ template(`<div class="pic_error svelte-aspv9f" style=""><div><img style="height: 100%;width: 100px;" alt="no pic" class="svelte-aspv9f"></div> <div>本种没有图片</div></div>`);
-  var root_9 = /* @__PURE__ */ template(`<div class="pic_error svelte-aspv9f" style=""><div><img style="height: 100%;width: 100px;" alt="pic error" class="svelte-aspv9f"></div> <div class="ant-typography">图片加载失败</div></div>`);
-  var root_10 = /* @__PURE__ */ template(`<div class="hover-trigger svelte-aspv9f"><img style="pointer-events: none;" alt="PREVIEW" class="svelte-aspv9f"></div>`);
-  var root_12 = /* @__PURE__ */ template(`<img style="
+  var root_1$3 = /* @__PURE__ */ template(`<div class="card-category svelte-1ytaoom"><img class="card_category-img svelte-1ytaoom"> </div>`);
+  var root_2$2 = /* @__PURE__ */ template(`<a class="__main_title svelte-1ytaoom" target="_blank" rel="noopener noreferrer"> </a>`);
+  var root_4 = /* @__PURE__ */ template(`<div class="pic_error svelte-1ytaoom"><div><img style="height: 100%; width:60px; border-radius:20px;" alt="pic error" class="svelte-1ytaoom"></div> <div class="ant-typography" style="color: white; font-size:16px;">GAY WARNING<br>同志警告</div></div>`);
+  var root_6 = /* @__PURE__ */ template(`<img class="lazy-image svelte-1ytaoom">`);
+  var root_7 = /* @__PURE__ */ template(`<div class="pic_error svelte-1ytaoom" style=""><div><img style="height: 100%;width: 100px;" alt="no pic" class="svelte-1ytaoom"></div> <div>本种没有图片</div></div>`);
+  var root_8 = /* @__PURE__ */ template(`<div class="pic_error svelte-1ytaoom" style=""><div><img style="height: 100%;width: 100px;" alt="pic error" class="svelte-1ytaoom"></div> <div class="ant-typography">图片加载失败</div></div>`);
+  var root_9 = /* @__PURE__ */ template(`<div class="hover-trigger svelte-1ytaoom"><img style="pointer-events: none;" alt="PREVIEW" class="svelte-1ytaoom"></div>`);
+  var root_11 = /* @__PURE__ */ template(`<img style="
                     background: url(/static/media/icons.8bb5446ebbbd07050285.gif) 0 -202px;
                     height: 14px;
-                    width: 14px;" alt="PIN" class="svelte-aspv9f">`);
-  var root_11 = /* @__PURE__ */ template(`<div class="card_info__topping svelte-aspv9f"></div> &nbsp;`, 1);
-  var root_13 = /* @__PURE__ */ template(`<div class="_tag svelte-aspv9f"> </div>`);
-  var root_15 = /* @__PURE__ */ template(`<div class="_tag _tag_diy svelte-aspv9f">DIY</div>`);
-  var root_16 = /* @__PURE__ */ template(`<div class="_tag _tag_dub svelte-aspv9f">国配</div>`);
-  var root_17 = /* @__PURE__ */ template(`<div class="_tag _tag_sub svelte-aspv9f">中字</div>`);
-  var root_14 = /* @__PURE__ */ template(`<div class="cl-tags svelte-aspv9f"><!> <!> <!></div>`);
-  var root_20 = /* @__PURE__ */ template(`<img style="
+                    width: 14px;" alt="PIN" class="svelte-1ytaoom">`);
+  var root_10 = /* @__PURE__ */ template(`<div class="card_info__topping svelte-1ytaoom"></div> &nbsp;`, 1);
+  var root_12 = /* @__PURE__ */ template(`<div class="_tag svelte-1ytaoom"> </div>`);
+  var root_14 = /* @__PURE__ */ template(`<div class="_tag _tag_diy svelte-1ytaoom">DIY</div>`);
+  var root_15 = /* @__PURE__ */ template(`<div class="_tag _tag_dub svelte-1ytaoom">国配</div>`);
+  var root_16 = /* @__PURE__ */ template(`<div class="_tag _tag_sub svelte-1ytaoom">中字</div>`);
+  var root_18 = /* @__PURE__ */ template(`<div class="_tag svelte-1ytaoom"> </div>`);
+  var root_13 = /* @__PURE__ */ template(`<div class="cl-tags svelte-1ytaoom"><!> <!> <!> <!></div>`);
+  var root_21 = /* @__PURE__ */ template(`<img style="
                   background: url(/static/media/icons.8bb5446ebbbd07050285.gif) 0 -202px;
                   height: 14px;
-                  width: 14px;" alt="PIN" class="svelte-aspv9f">`);
-  var root_19 = /* @__PURE__ */ template(`<div class="card_info__topping svelte-aspv9f"></div> &nbsp;`, 1);
-  var root_21 = /* @__PURE__ */ template(`<div class="_tag svelte-aspv9f"> </div>`);
-  var root_18 = /* @__PURE__ */ template(`<div class="card-index svelte-aspv9f"><!> <!></div>`);
-  var root_22 = /* @__PURE__ */ template(`<div class="card-index card-index-right svelte-aspv9f"> </div>`);
-  var root_24 = /* @__PURE__ */ template(`<div class="card_info-item card_info__sub_title svelte-aspv9f"><div> </div></div>`);
-  var root_26 = /* @__PURE__ */ template(`<div class="_tag _tag_diy svelte-aspv9f">DIY</div>`);
-  var root_27 = /* @__PURE__ */ template(`<div class="_tag _tag_dub svelte-aspv9f">国配</div>`);
-  var root_28 = /* @__PURE__ */ template(`<div class="_tag _tag_sub svelte-aspv9f">中字</div>`);
-  var root_25 = /* @__PURE__ */ template(`<div class="cl-tags svelte-aspv9f"><!> <!> <!></div>`);
-  var root_29 = /* @__PURE__ */ template(`<div class="card_info-item card_info__dl_and_cl svelte-aspv9f"><button title="(原列表的这俩按钮会消失)">下载 & 收藏</button></div>`);
-  var root_30 = /* @__PURE__ */ template(`<div class="card_info-item card_info__upload_time svelte-aspv9f"><div> </div></div>`);
-  var root_31 = /* @__PURE__ */ template(`<div class="card_info-item card_info__statistics svelte-aspv9f"><!> &nbsp; <b> </b> &nbsp;&nbsp; <img alt="SVG_Seeders"> &nbsp; <b> </b> &nbsp;&nbsp; <img alt="SVG_Leechers"> &nbsp; <b> </b></div>`);
-  var root_23 = /* @__PURE__ */ template(`<div class="card_info svelte-aspv9f"><!>  <!> <!> <!> <!></div>`);
-  var root$6 = /* @__PURE__ */ template(`<div class="card_holder"><!> <!> <div class="card_title"><!></div> <div class="card_pic svelte-aspv9f"><!> <!>  <div class="hover-overlay svelte-aspv9f"><div class="overlay-content svelte-aspv9f"><div class="__inner_index_and_size svelte-aspv9f"><div class="card-index __inner_index svelte-aspv9f" style="background-color:black; color:white"><!> <!></div> <button class="__iframe_button svelte-aspv9f">打开 iframe</button> <div class="card-index card-index-right __inner_index __inner_size svelte-aspv9f"> </div></div> <div class="card-category card_info-item svelte-aspv9f"><img class="card_category-img card_category_square svelte-aspv9f" style="width: 36px;height: 36px;"> </div> <div style="width: 100%;" class="card_info-item card_info__sub_title svelte-aspv9f"><a class="__main_title __straight svelte-aspv9f" target="_blank" rel="noopener noreferrer"> </a></div> <div style="width: 100%;" class="card_info-item card_info__sub_title svelte-aspv9f"><div class="__sub_title svelte-aspv9f"> </div></div>  <!> <div class="card_info-item card_info__upload_time svelte-aspv9f"><div> </div></div> <div class="card_info-item card_info__statistics svelte-aspv9f"><div class="__center svelte-aspv9f"><!> <b> </b></div> <div class="__center svelte-aspv9f"><img style="width: 14px; height: 14px;" alt="SVG_Seeders" class="svelte-aspv9f"> <b> </b></div> <div class="__center svelte-aspv9f"><img style="width: 14px; height: 14px;" alt="SVG_Leechers" class="svelte-aspv9f"> <b> </b></div> <button title="(原列表的这俩按钮会消失)">下载&收藏</button></div></div></div> <!> <!></div> <!></div>`);
+                  width: 14px;" alt="PIN" class="svelte-1ytaoom">`);
+  var root_20 = /* @__PURE__ */ template(`<div class="card_info__topping svelte-1ytaoom"></div> &nbsp;`, 1);
+  var root_22 = /* @__PURE__ */ template(`<div class="_tag svelte-1ytaoom"> </div>`);
+  var root_19 = /* @__PURE__ */ template(`<div class="card-index svelte-1ytaoom"><!> <!></div>`);
+  var root_23 = /* @__PURE__ */ template(`<div class="card-index card-index-right svelte-1ytaoom"> </div>`);
+  var root_25 = /* @__PURE__ */ template(`<div class="card_info-item card_info__sub_title svelte-1ytaoom"><div> </div></div>`);
+  var root_27 = /* @__PURE__ */ template(`<div class="_tag _tag_diy svelte-1ytaoom">DIY</div>`);
+  var root_28 = /* @__PURE__ */ template(`<div class="_tag _tag_dub svelte-1ytaoom">国配</div>`);
+  var root_29 = /* @__PURE__ */ template(`<div class="_tag _tag_sub svelte-1ytaoom">中字</div>`);
+  var root_31 = /* @__PURE__ */ template(`<div class="_tag svelte-1ytaoom"> </div>`);
+  var root_26 = /* @__PURE__ */ template(`<div class="cl-tags svelte-1ytaoom"><!> <!> <!> <!></div>`);
+  var root_32 = /* @__PURE__ */ template(`<div class="card_info-item card_info__dl_and_cl svelte-1ytaoom"><button title="(原列表的这俩按钮会消失)">下载 & 收藏</button></div>`);
+  var root_33 = /* @__PURE__ */ template(`<div class="card_info-item card_info__upload_time svelte-1ytaoom"><div> </div></div>`);
+  var root_34 = /* @__PURE__ */ template(`<div class="card_info-item card_info__statistics svelte-1ytaoom"><!> &nbsp; <b> </b> &nbsp;&nbsp; <img alt="SVG_Seeders"> &nbsp; <b> </b> &nbsp;&nbsp; <img alt="SVG_Leechers"> &nbsp; <b> </b></div>`);
+  var root_24 = /* @__PURE__ */ template(`<div class="card_info svelte-1ytaoom"><!>  <!> <!> <!> <!></div>`);
+  var root$6 = /* @__PURE__ */ template(`<div class="card_holder svelte-1ytaoom"><!> <div class="card_title"><!></div> <div class="card_pic svelte-1ytaoom"><!> <!>  <div class="hover-overlay svelte-1ytaoom"><div class="overlay-content svelte-1ytaoom"><div class="__inner_index_and_size svelte-1ytaoom"><div class="card-index __inner_index svelte-1ytaoom" style="background-color:black; color:white"><!> <!></div> <button class="__iframe_button svelte-1ytaoom">打开 iframe</button> <div class="card-index card-index-right __inner_index __inner_size svelte-1ytaoom"> </div></div> <div class="card-category card_info-item svelte-1ytaoom"><img class="card_category-img card_category_square svelte-1ytaoom" style="width: 36px;height: 36px;"> </div> <div style="width: 100%;" class="card_info-item card_info__sub_title svelte-1ytaoom"><a class="__main_title __straight svelte-1ytaoom" target="_blank" rel="noopener noreferrer"> </a></div> <div style="width: 100%;" class="card_info-item card_info__sub_title svelte-1ytaoom"><div class="__sub_title svelte-1ytaoom"> </div></div>  <!> <div class="card_info-item card_info__upload_time svelte-1ytaoom"><div> </div></div> <div class="card_info-item card_info__statistics svelte-1ytaoom"><div class="__center svelte-1ytaoom"><!> <b> </b></div> <div class="__center svelte-1ytaoom"><img style="width: 14px; height: 14px;" alt="SVG_Seeders" class="svelte-1ytaoom"> <b> </b></div> <div class="__center svelte-1ytaoom"><img style="width: 14px; height: 14px;" alt="SVG_Leechers" class="svelte-1ytaoom"> <b> </b></div> <button title="(原列表的这俩按钮会消失)">下载&收藏</button></div></div></div> <!> <!></div> <!></div>`);
   function Mteam_Card($$anchor, $$props) {
     push($$props, false);
     const [$$stores, $$cleanup] = setup_stores();
+    const $_mt_categories = () => store_get(_mt_categories, "$_mt_categories", $$stores);
+    const $_mt_label = () => store_get(_mt_label, "$_mt_label", $$stores);
     const $_block_gay = () => store_get(_block_gay, "$_block_gay", $$stores);
+    const $_card_radius = () => store_get(_card_radius, "$_card_radius", $$stores);
     const $_card_detail = () => store_get(_card_detail, "$_card_detail", $$stores);
     const $_show_hover_pic = () => store_get(_show_hover_pic, "$_show_hover_pic", $$stores);
     let torrentInfo = prop($$props, "torrentInfo", 8);
@@ -5407,12 +5508,13 @@ button:focus-visible {
       return res;
     };
     let card_holder = mutable_state();
-    let _categoryColor = mutable_state();
+    let _cateColor = mutable_state();
     const _defaultColor = "rgba(255, 255, 255, 0.5)";
-    if ($$_import_CONFIG().CATEGORY[torrentInfo().category]) {
-      set(_categoryColor, $$_import_CONFIG().CATEGORY[torrentInfo().category].color ?? _defaultColor);
-    } else {
-      set(_categoryColor, _defaultColor);
+    let _cateAlt = mutable_state();
+    let _catePic = mutable_state();
+    const _cateLink = `https://${location.host}/browse?cat=` + torrentInfo().category;
+    if (!$$_import_CONFIG().CATEGORY[torrentInfo().category]) {
+      set(_cateColor, _defaultColor);
       notyf_lt.open({
         type: "warning",
         message: `存在未知分类: ${torrentInfo().category}`
@@ -5423,13 +5525,32 @@ button:focus-visible {
         color: _defaultColor
       });
     }
-    function getTextColor(background) {
-      const color = background.replace("#", "");
-      const red = parseInt(color.substr(0, 2), 16);
-      const green = parseInt(color.substr(2, 2), 16);
-      const blue = parseInt(color.substr(4, 2), 16);
-      const brightness = (red * 299 + green * 587 + blue * 114) / 1e3;
-      return brightness < 128 ? "white" : "black";
+    set(_cateAlt, $_mt_categories()[torrentInfo().category].nameChs ?? $$_import_CONFIG().CATEGORY[torrentInfo().category].alt);
+    set(_catePic, $_mt_categories()[torrentInfo().category].image ? cate_pic_baseUrl + $_mt_categories()[torrentInfo().category].image : $$_import_CONFIG().CATEGORY[torrentInfo().category].src);
+    set(_cateColor, $$_import_CONFIG().CATEGORY[torrentInfo().category].color ?? _defaultColor);
+    let _labelsNew = mutable_state([]);
+    if (torrentInfo().labelsNew.length) {
+      set(_labelsNew, torrentInfo().labelsNew.map((labelKey) => {
+        if ($$_import_CONFIG().TAG[labelKey]) {
+          return {
+            key: labelKey,
+            config: $$_import_CONFIG().TAG[labelKey]
+          };
+        } else if ($_mt_label()) {
+          console.warn("[FALL]: 存在本地没有的 tag: ", labelKey);
+          let res;
+          for (const key in $_mt_label()) {
+            if (labelKey == $_mt_label()[key].tag) {
+              res = $_mt_label()[key];
+              break;
+            }
+          }
+          if (res) {
+            return { key: labelKey, config: res };
+          }
+        }
+        return null;
+      }).filter(Boolean));
     }
     function getFileSize(size) {
       if (size === 0) {
@@ -5503,7 +5624,6 @@ button:focus-visible {
       store_set(_iframe_url$1, "https://" + location.host + "/detail/" + torrentInfo().id);
       store_set(_iframe_switch$1, 1);
     }
-    let showHighlight = mutable_state(true);
     onMount(() => {
       if (!get$1(isLoaded)) {
         observer = new IntersectionObserver(
@@ -5529,7 +5649,6 @@ button:focus-visible {
         }
         setTimeout(
           () => {
-            set(showHighlight, false);
           },
           3e3
         );
@@ -5569,79 +5688,66 @@ button:focus-visible {
     {
       var consequent = ($$anchor2) => {
         var div_1 = root_1$3();
-        var text = child(div_1);
-        template_effect(() => set_text(text, `新页面 (${torrentInfo().index ?? ""}+)`));
-        transition(3, div_1, () => fade, () => ({ duration: 500 }));
-        append($$anchor2, div_1);
-      };
-      if_block(node, ($$render) => {
-        if (torrentInfo().pt_fall_highlight && get$1(showHighlight)) $$render(consequent);
-      });
-    }
-    var node_1 = sibling(node, 2);
-    {
-      var consequent_1 = ($$anchor2) => {
-        var div_2 = root_2();
-        var img = child(div_2);
-        var text_1 = sibling(img);
+        set_attribute(div_1, "data-href", _cateLink);
+        var img = child(div_1);
+        var text = sibling(img);
         template_effect(
           ($0) => {
-            set_attribute(div_2, "data-href", `https://${location.host}/browse?cat=` + torrentInfo().category);
-            set_attribute(div_2, "style", `
-      background-color: ${get$1(_categoryColor) ?? "transparent"};
+            set_attribute(div_1, "style", `
+      background-color: ${get$1(_cateColor) ?? "transparent"};
       color: ${$0 ?? ""}`);
-            set_attribute(img, "src", $$_import_CONFIG().CATEGORY[torrentInfo().category].src);
-            set_attribute(img, "alt", $$_import_CONFIG().CATEGORY[torrentInfo().category].alt);
-            set_text(text_1, `    ${$$_import_CONFIG().CATEGORY[torrentInfo().category].alt ?? ""}`);
+            set_attribute(img, "src", get$1(_catePic));
+            set_attribute(img, "alt", get$1(_cateAlt));
+            set_text(text, `    ${get$1(_cateAlt) ?? ""}`);
           },
           [
-            () => get$1(_categoryColor) ? getTextColor(get$1(_categoryColor)) : "black"
+            () => get$1(_cateColor) ? getTextColor(get$1(_cateColor)) : "black"
           ],
           derived_safe_equal
         );
-        append($$anchor2, div_2);
+        append($$anchor2, div_1);
       };
-      if_block(node_1, ($$render) => {
-        if ($_card_detail().category) $$render(consequent_1);
+      if_block(node, ($$render) => {
+        if ($_card_detail().category) $$render(consequent);
       });
     }
-    var div_3 = sibling(node_1, 2);
-    var node_2 = child(div_3);
+    var div_2 = sibling(node, 2);
+    var node_1 = child(div_2);
     {
-      var consequent_2 = ($$anchor2) => {
-        var a = root_3$1();
-        var text_2 = child(a);
+      var consequent_1 = ($$anchor2) => {
+        var a = root_2$2();
+        var text_1 = child(a);
         template_effect(() => {
           set_attribute(a, "href", "/detail/" + torrentInfo().id);
-          set_text(text_2, torrentInfo().name);
+          set_text(text_1, torrentInfo().name);
         });
         append($$anchor2, a);
       };
-      if_block(node_2, ($$render) => {
-        if ($_card_detail().title) $$render(consequent_2);
+      if_block(node_1, ($$render) => {
+        if ($_card_detail().title) $$render(consequent_1);
       });
     }
-    var div_4 = sibling(div_3, 2);
-    var node_3 = child(div_4);
+    var div_3 = sibling(div_2, 2);
+    var node_2 = child(div_3);
     {
-      var consequent_5 = ($$anchor2) => {
+      var consequent_4 = ($$anchor2) => {
         var fragment = comment();
-        var node_4 = first_child(fragment);
+        var node_3 = first_child(fragment);
         {
-          var consequent_3 = ($$anchor3) => {
-            var div_5 = root_5();
-            var div_6 = child(div_5);
-            var img_1 = child(div_6);
+          var consequent_2 = ($$anchor3) => {
+            var div_4 = root_4();
+            var div_5 = child(div_4);
+            var img_1 = child(div_5);
             set_attribute(img_1, "src", static_gay_warn);
-            template_effect(() => set_attribute(div_5, "style", `  background-color: ${get$1(_categoryColor) ?? ""}`));
-            append($$anchor3, div_5);
+            template_effect(() => set_attribute(div_4, "style", `  background-color: ${get$1(_cateColor) ?? ""}`));
+            append($$anchor3, div_4);
           };
           var alternate_1 = ($$anchor3) => {
             var fragment_1 = comment();
-            var node_5 = first_child(fragment_1);
+            var node_4 = first_child(fragment_1);
             {
-              var consequent_4 = ($$anchor4) => {
-                var img_2 = root_7();
+              var consequent_3 = ($$anchor4) => {
+                var img_2 = root_6();
                 set_attribute(img_2, "data-src", picSrc);
                 bind_this(img_2, ($$value) => set(imgElement, $$value), () => get$1(imgElement));
                 template_effect(() => {
@@ -5657,16 +5763,16 @@ button:focus-visible {
                 append($$anchor4, img_2);
               };
               var alternate = ($$anchor4) => {
-                var div_7 = root_8();
-                var div_8 = child(div_7);
-                var img_3 = child(div_8);
+                var div_6 = root_7();
+                var div_7 = child(div_6);
+                var img_3 = child(div_7);
                 set_attribute(img_3, "src", _PicNoLOGO);
-                append($$anchor4, div_7);
+                append($$anchor4, div_6);
               };
               if_block(
-                node_5,
+                node_4,
                 ($$render) => {
-                  if (torrentInfo().imageList[0]) $$render(consequent_4);
+                  if (torrentInfo().imageList[0]) $$render(consequent_3);
                   else $$render(alternate, false);
                 },
                 true
@@ -5674,114 +5780,119 @@ button:focus-visible {
             }
             append($$anchor3, fragment_1);
           };
-          if_block(node_4, ($$render) => {
-            if ($_block_gay() && torrentInfo().category == 440) $$render(consequent_3);
+          if_block(node_3, ($$render) => {
+            if ($_block_gay() && torrentInfo().category == 440) $$render(consequent_2);
             else $$render(alternate_1, false);
           });
         }
         append($$anchor2, fragment);
       };
       var alternate_2 = ($$anchor2) => {
-        var div_9 = root_9();
-        var div_10 = child(div_9);
-        var img_4 = child(div_10);
+        var div_8 = root_8();
+        var div_9 = child(div_8);
+        var img_4 = child(div_9);
         set_attribute(img_4, "src", _PicErrorLOGO);
-        var div_11 = sibling(div_10, 2);
-        template_effect(
-          ($0) => set_attribute(div_11, "style", `color: ${$0 ?? ""}; font-size:16px;`),
-          [
-            () => getTextColor(get$1(_categoryColor))
-          ],
-          derived_safe_equal
-        );
-        append($$anchor2, div_9);
+        var div_10 = sibling(div_9, 2);
+        template_effect(($0) => set_attribute(div_10, "style", `color: ${$0 ?? ""}; font-size:16px;`), [() => getTextColor(get$1(_cateColor))], derived_safe_equal);
+        append($$anchor2, div_8);
       };
-      if_block(node_3, ($$render) => {
-        if (!get$1(_picError)) $$render(consequent_5);
+      if_block(node_2, ($$render) => {
+        if (!get$1(_picError)) $$render(consequent_4);
         else $$render(alternate_2, false);
       });
     }
-    var node_6 = sibling(node_3, 2);
+    var node_5 = sibling(node_2, 2);
     {
-      var consequent_6 = ($$anchor2) => {
-        var div_12 = root_10();
-        var img_5 = child(div_12);
+      var consequent_5 = ($$anchor2) => {
+        var div_11 = root_9();
+        var img_5 = child(div_11);
         template_effect(() => set_attribute(img_5, "src", $$_import_CONFIG().ICON.PREVIEW));
-        event("mouseover", div_12, (e) => {
+        event("mouseover", div_11, (e) => {
           set(isHovered, true);
           hoverView.handleMouseOver(e, get$1(imgElement));
         });
-        append($$anchor2, div_12);
+        append($$anchor2, div_11);
       };
-      if_block(node_6, ($$render) => {
-        if ($_show_hover_pic() && !get$1(_picError)) $$render(consequent_6);
+      if_block(node_5, ($$render) => {
+        if ($_show_hover_pic() && !get$1(_picError)) $$render(consequent_5);
       });
     }
-    var div_13 = sibling(node_6, 2);
+    var div_12 = sibling(node_5, 2);
+    var div_13 = child(div_12);
     var div_14 = child(div_13);
     var div_15 = child(div_14);
-    var div_16 = child(div_15);
-    var node_7 = child(div_16);
+    var node_6 = child(div_15);
     {
-      var consequent_7 = ($$anchor2) => {
-        var fragment_2 = root_11();
-        var div_17 = first_child(fragment_2);
-        each(div_17, 5, () => get$1(toppingLevelArray), index, ($$anchor3, _) => {
-          var img_6 = root_12();
+      var consequent_6 = ($$anchor2) => {
+        var fragment_2 = root_10();
+        var div_16 = first_child(fragment_2);
+        each(div_16, 5, () => get$1(toppingLevelArray), index, ($$anchor3, _) => {
+          var img_6 = root_11();
           template_effect(() => set_attribute(img_6, "src", $$_import_CONFIG().ICON.PIN));
           append($$anchor3, img_6);
         });
         append($$anchor2, fragment_2);
       };
-      if_block(node_7, ($$render) => {
-        if (torrentInfo().status.toppingLevel != "0") $$render(consequent_7);
+      if_block(node_6, ($$render) => {
+        if (torrentInfo().status.toppingLevel != "0") $$render(consequent_6);
       });
     }
-    var text_3 = sibling(node_7);
-    var node_8 = sibling(text_3);
+    var text_2 = sibling(node_6);
+    var node_7 = sibling(text_2);
     {
-      var consequent_8 = ($$anchor2) => {
-        var div_18 = root_13();
-        toggle_class(div_18, "_tag_discount_free", _discount == "FREE");
-        toggle_class(div_18, "_tag_discount_50", _discount == "PERCENT_50");
-        var text_4 = child(div_18);
+      var consequent_7 = ($$anchor2) => {
+        var div_17 = root_12();
+        toggle_class(div_17, "_tag_discount_free", _discount == "FREE");
+        toggle_class(div_17, "_tag_discount_50", _discount == "PERCENT_50");
+        var text_3 = child(div_17);
         template_effect(
-          ($0) => set_text(text_4, `${_discountText[_discount] ?? ""}${$0 ?? ""}`),
+          ($0) => set_text(text_3, `${_discountText[_discount] ?? ""}${$0 ?? ""}`),
           [
             () => _discountEndTime ? ":" + _discountCalcTime() + "小时" : ""
           ],
           derived_safe_equal
         );
-        append($$anchor2, div_18);
+        append($$anchor2, div_17);
       };
-      if_block(node_8, ($$render) => {
-        if (_discount != "NORMAL") $$render(consequent_8);
+      if_block(node_7, ($$render) => {
+        if (_discount != "NORMAL") $$render(consequent_7);
       });
     }
-    var button_1 = sibling(div_16, 2);
-    var div_19 = sibling(button_1, 2);
-    var text_5 = child(div_19);
-    var div_20 = sibling(div_15, 2);
-    var img_7 = child(div_20);
-    var text_6 = sibling(img_7);
+    var button_1 = sibling(div_15, 2);
+    var div_18 = sibling(button_1, 2);
+    var text_4 = child(div_18);
+    var div_19 = sibling(div_14, 2);
+    set_attribute(div_19, "data-href", _cateLink);
+    var img_7 = child(div_19);
+    var text_5 = sibling(img_7);
+    var div_20 = sibling(div_19, 2);
+    var a_1 = child(div_20);
+    var text_6 = child(a_1);
     var div_21 = sibling(div_20, 2);
-    var a_1 = child(div_21);
-    var text_7 = child(a_1);
-    var div_22 = sibling(div_21, 2);
-    var div_23 = child(div_22);
-    var text_8 = child(div_23);
-    var node_9 = sibling(div_22, 2);
+    var div_22 = child(div_21);
+    var text_7 = child(div_22);
+    var node_8 = sibling(div_21, 2);
     {
       var consequent_12 = ($$anchor2) => {
-        var div_24 = root_14();
-        var node_10 = child(div_24);
+        var div_23 = root_13();
+        var node_9 = child(div_23);
+        {
+          var consequent_8 = ($$anchor3) => {
+            var div_24 = root_14();
+            append($$anchor3, div_24);
+          };
+          if_block(node_9, ($$render) => {
+            if ((Number(torrentInfo().labels) & 1) === 1) $$render(consequent_8);
+          });
+        }
+        var node_10 = sibling(node_9, 2);
         {
           var consequent_9 = ($$anchor3) => {
             var div_25 = root_15();
             append($$anchor3, div_25);
           };
           if_block(node_10, ($$render) => {
-            if ((torrentInfo().labels & 1) === 1) $$render(consequent_9);
+            if ((Number(torrentInfo().labels) & 2) === 2) $$render(consequent_9);
           });
         }
         var node_11 = sibling(node_10, 2);
@@ -5791,33 +5902,43 @@ button:focus-visible {
             append($$anchor3, div_26);
           };
           if_block(node_11, ($$render) => {
-            if ((torrentInfo().labels & 2) === 2) $$render(consequent_10);
+            if ((Number(torrentInfo().labels) & 4) === 4) $$render(consequent_10);
           });
         }
         var node_12 = sibling(node_11, 2);
         {
           var consequent_11 = ($$anchor3) => {
-            var div_27 = root_17();
-            append($$anchor3, div_27);
+            var fragment_3 = comment();
+            var node_13 = first_child(fragment_3);
+            each(node_13, 1, () => get$1(_labelsNew), index, ($$anchor4, label) => {
+              var div_27 = root_18();
+              var text_8 = child(div_27);
+              template_effect(() => {
+                set_attribute(div_27, "style", `background-color: ${get$1(label).config.bgColor ?? ""}; color: ${get$1(label).config.color ?? ""}`);
+                set_text(text_8, get$1(label).key);
+              });
+              append($$anchor4, div_27);
+            });
+            append($$anchor3, fragment_3);
           };
           if_block(node_12, ($$render) => {
-            if ((torrentInfo().labels & 4) === 4) $$render(consequent_11);
+            if (get$1(_labelsNew).length != 0) $$render(consequent_11);
           });
         }
-        append($$anchor2, div_24);
+        append($$anchor2, div_23);
       };
-      if_block(node_9, ($$render) => {
-        if (torrentInfo().labels != 0) $$render(consequent_12);
+      if_block(node_8, ($$render) => {
+        if (Number(torrentInfo().labels) || get$1(_labelsNew).length) $$render(consequent_12);
       });
     }
-    var div_28 = sibling(node_9, 2);
+    var div_28 = sibling(node_8, 2);
     var div_29 = child(div_28);
     var text_9 = child(div_29);
     var div_30 = sibling(div_28, 2);
     var div_31 = child(div_30);
-    var node_13 = child(div_31);
-    Icon_comment(node_13);
-    var b = sibling(node_13, 2);
+    var node_14 = child(div_31);
+    Icon_comment(node_14);
+    var b = sibling(node_14, 2);
     var text_10 = child(b);
     var div_32 = sibling(div_31, 2);
     var img_8 = child(div_32);
@@ -5829,33 +5950,33 @@ button:focus-visible {
     var text_12 = child(b_2);
     var button_2 = sibling(div_33, 2);
     bind_this(div_30, ($$value) => set(dlclElement_inner, $$value), () => get$1(dlclElement_inner));
-    bind_this(div_14, ($$value) => set(overlayContent, $$value), () => get$1(overlayContent));
-    bind_this(div_13, ($$value) => set(overlayHolder, $$value), () => get$1(overlayHolder));
-    var node_14 = sibling(div_13, 2);
+    bind_this(div_13, ($$value) => set(overlayContent, $$value), () => get$1(overlayContent));
+    bind_this(div_12, ($$value) => set(overlayHolder, $$value), () => get$1(overlayHolder));
+    var node_15 = sibling(div_12, 2);
     {
       var consequent_15 = ($$anchor2) => {
-        var div_34 = root_18();
-        var node_15 = child(div_34);
+        var div_34 = root_19();
+        var node_16 = child(div_34);
         {
           var consequent_13 = ($$anchor3) => {
-            var fragment_3 = root_19();
-            var div_35 = first_child(fragment_3);
+            var fragment_4 = root_20();
+            var div_35 = first_child(fragment_4);
             each(div_35, 5, () => get$1(toppingLevelArray), index, ($$anchor4, _) => {
-              var img_10 = root_20();
+              var img_10 = root_21();
               template_effect(() => set_attribute(img_10, "src", $$_import_CONFIG().ICON.PIN));
               append($$anchor4, img_10);
             });
-            append($$anchor3, fragment_3);
+            append($$anchor3, fragment_4);
           };
-          if_block(node_15, ($$render) => {
+          if_block(node_16, ($$render) => {
             if ($_card_detail().topping && torrentInfo().status.toppingLevel != "0") $$render(consequent_13);
           });
         }
-        var text_13 = sibling(node_15);
-        var node_16 = sibling(text_13);
+        var text_13 = sibling(node_16);
+        var node_17 = sibling(text_13);
         {
           var consequent_14 = ($$anchor3) => {
-            var div_36 = root_21();
+            var div_36 = root_22();
             toggle_class(div_36, "_tag_discount_free", _discount == "FREE");
             toggle_class(div_36, "_tag_discount_50", _discount == "PERCENT_50");
             var text_14 = child(div_36);
@@ -5868,7 +5989,7 @@ button:focus-visible {
             );
             append($$anchor3, div_36);
           };
-          if_block(node_16, ($$render) => {
+          if_block(node_17, ($$render) => {
             if ($_card_detail().free && _discount != "NORMAL") $$render(consequent_14);
           });
         }
@@ -5877,174 +5998,194 @@ button:focus-visible {
           `));
         append($$anchor2, div_34);
       };
-      if_block(node_14, ($$render) => {
+      if_block(node_15, ($$render) => {
         if (!get$1(_inner_info_show)) $$render(consequent_15);
       });
     }
-    var node_17 = sibling(node_14, 2);
+    var node_18 = sibling(node_15, 2);
     {
       var consequent_16 = ($$anchor2) => {
-        var div_37 = root_22();
+        var div_37 = root_23();
         var text_15 = child(div_37);
         template_effect(
           ($0, $1) => {
-            set_attribute(div_37, "style", `background-color: ${get$1(_categoryColor) ?? "transparent"}; color:${$0 ?? ""}`);
+            set_attribute(div_37, "style", `background-color: ${get$1(_cateColor) ?? "transparent"}; color:${$0 ?? ""}`);
             set_text(text_15, $1);
           },
           [
-            () => get$1(_categoryColor) ? getTextColor(get$1(_categoryColor)) : "black",
+            () => get$1(_cateColor) ? getTextColor(get$1(_cateColor)) : "black",
             () => getFileSize(torrentInfo().size)
           ],
           derived_safe_equal
         );
         append($$anchor2, div_37);
       };
-      if_block(node_17, ($$render) => {
+      if_block(node_18, ($$render) => {
         if ($_card_detail().size && !get$1(_inner_info_show)) $$render(consequent_16);
       });
     }
-    var node_18 = sibling(div_4, 2);
+    var node_19 = sibling(div_3, 2);
     {
-      var consequent_25 = ($$anchor2) => {
-        var div_38 = root_23();
-        var node_19 = child(div_38);
+      var consequent_26 = ($$anchor2) => {
+        var div_38 = root_24();
+        var node_20 = child(div_38);
         {
           var consequent_17 = ($$anchor3) => {
-            var div_39 = root_24();
+            var div_39 = root_25();
             var div_40 = child(div_39);
             var text_16 = child(div_40);
             template_effect(() => set_text(text_16, torrentInfo().smallDescr));
             append($$anchor3, div_39);
           };
-          if_block(node_19, ($$render) => {
+          if_block(node_20, ($$render) => {
             if ($_card_detail().sub_title) $$render(consequent_17);
           });
         }
-        var node_20 = sibling(node_19, 2);
+        var node_21 = sibling(node_20, 2);
         {
-          var consequent_21 = ($$anchor3) => {
-            var div_41 = root_25();
-            var node_21 = child(div_41);
+          var consequent_22 = ($$anchor3) => {
+            var div_41 = root_26();
+            var node_22 = child(div_41);
             {
               var consequent_18 = ($$anchor4) => {
-                var div_42 = root_26();
+                var div_42 = root_27();
                 append($$anchor4, div_42);
               };
-              if_block(node_21, ($$render) => {
-                if ((torrentInfo().labels & 1) === 1) $$render(consequent_18);
-              });
-            }
-            var node_22 = sibling(node_21, 2);
-            {
-              var consequent_19 = ($$anchor4) => {
-                var div_43 = root_27();
-                append($$anchor4, div_43);
-              };
               if_block(node_22, ($$render) => {
-                if ((torrentInfo().labels & 2) === 2) $$render(consequent_19);
+                if ((torrentInfo().labels & 1) === 1) $$render(consequent_18);
               });
             }
             var node_23 = sibling(node_22, 2);
             {
-              var consequent_20 = ($$anchor4) => {
-                var div_44 = root_28();
-                append($$anchor4, div_44);
+              var consequent_19 = ($$anchor4) => {
+                var div_43 = root_28();
+                append($$anchor4, div_43);
               };
               if_block(node_23, ($$render) => {
+                if ((torrentInfo().labels & 2) === 2) $$render(consequent_19);
+              });
+            }
+            var node_24 = sibling(node_23, 2);
+            {
+              var consequent_20 = ($$anchor4) => {
+                var div_44 = root_29();
+                append($$anchor4, div_44);
+              };
+              if_block(node_24, ($$render) => {
                 if ((torrentInfo().labels & 4) === 4) $$render(consequent_20);
+              });
+            }
+            var node_25 = sibling(node_24, 2);
+            {
+              var consequent_21 = ($$anchor4) => {
+                var fragment_5 = comment();
+                var node_26 = first_child(fragment_5);
+                each(node_26, 1, () => get$1(_labelsNew), index, ($$anchor5, label) => {
+                  var div_45 = root_31();
+                  var text_17 = child(div_45);
+                  template_effect(() => {
+                    set_attribute(div_45, "style", `background-color: ${get$1(label).config.bgColor ?? ""}; color: ${get$1(label).config.color ?? ""}`);
+                    set_text(text_17, get$1(label).key);
+                  });
+                  append($$anchor5, div_45);
+                });
+                append($$anchor4, fragment_5);
+              };
+              if_block(node_25, ($$render) => {
+                if (get$1(_labelsNew).length != 0) $$render(consequent_21);
               });
             }
             append($$anchor3, div_41);
           };
-          if_block(node_20, ($$render) => {
-            if ($_card_detail().tags && torrentInfo().labels != 0) $$render(consequent_21);
+          if_block(node_21, ($$render) => {
+            if ($_card_detail().tags && (Number(torrentInfo().labels) || get$1(_labelsNew).length)) $$render(consequent_22);
           });
         }
-        var node_24 = sibling(node_20, 2);
+        var node_27 = sibling(node_21, 2);
         {
-          var consequent_22 = ($$anchor3) => {
-            var div_45 = root_29();
-            var button_3 = child(div_45);
-            bind_this(div_45, ($$value) => set(dlclElement_outer, $$value), () => get$1(dlclElement_outer));
+          var consequent_23 = ($$anchor3) => {
+            var div_46 = root_32();
+            var button_3 = child(div_46);
+            bind_this(div_46, ($$value) => set(dlclElement_outer, $$value), () => get$1(dlclElement_outer));
             event("click", button_3, (e) => {
               get__DOWN_and_COLLET__Dom(torrentInfo().id, get$1(dlclElement_outer));
               e.target.style.display = "none";
             });
-            append($$anchor3, div_45);
-          };
-          if_block(node_24, ($$render) => {
-            if ($_card_detail().download_collect) $$render(consequent_22);
-          });
-        }
-        var node_25 = sibling(node_24, 2);
-        {
-          var consequent_23 = ($$anchor3) => {
-            var div_46 = root_30();
-            var div_47 = child(div_46);
-            var text_17 = child(div_47);
-            template_effect(() => set_text(text_17, `上传时间:${torrentInfo().createdDate ?? ""}`));
             append($$anchor3, div_46);
           };
-          if_block(node_25, ($$render) => {
-            if ($_card_detail().upload_time) $$render(consequent_23);
+          if_block(node_27, ($$render) => {
+            if ($_card_detail().download_collect) $$render(consequent_23);
           });
         }
-        var node_26 = sibling(node_25, 2);
+        var node_28 = sibling(node_27, 2);
         {
           var consequent_24 = ($$anchor3) => {
-            var div_48 = root_31();
-            var node_27 = child(div_48);
-            Icon_comment(node_27);
-            var b_3 = sibling(node_27, 2);
-            var text_18 = child(b_3);
+            var div_47 = root_33();
+            var div_48 = child(div_47);
+            var text_18 = child(div_48);
+            template_effect(() => set_text(text_18, `上传时间:${torrentInfo().createdDate ?? ""}`));
+            append($$anchor3, div_47);
+          };
+          if_block(node_28, ($$render) => {
+            if ($_card_detail().upload_time) $$render(consequent_24);
+          });
+        }
+        var node_29 = sibling(node_28, 2);
+        {
+          var consequent_25 = ($$anchor3) => {
+            var div_49 = root_34();
+            var node_30 = child(div_49);
+            Icon_comment(node_30);
+            var b_3 = sibling(node_30, 2);
+            var text_19 = child(b_3);
             var img_11 = sibling(b_3, 2);
             var b_4 = sibling(img_11, 2);
-            var text_19 = child(b_4);
+            var text_20 = child(b_4);
             var img_12 = sibling(b_4, 2);
             var b_5 = sibling(img_12, 2);
-            var text_20 = child(b_5);
+            var text_21 = child(b_5);
             template_effect(() => {
-              set_text(text_18, torrentInfo().status.comments);
+              set_text(text_19, torrentInfo().status.comments);
               set_attribute(img_11, "src", $$_import_CONFIG().ICON.SEEDERS);
-              set_text(text_19, torrentInfo().status.seeders);
+              set_text(text_20, torrentInfo().status.seeders);
               set_attribute(img_12, "src", $$_import_CONFIG().ICON.LEECHERS);
-              set_text(text_20, torrentInfo().status.leechers);
+              set_text(text_21, torrentInfo().status.leechers);
             });
-            append($$anchor3, div_48);
+            append($$anchor3, div_49);
           };
-          if_block(node_26, ($$render) => {
-            if ($_card_detail().statistics) $$render(consequent_24);
+          if_block(node_29, ($$render) => {
+            if ($_card_detail().statistics) $$render(consequent_25);
           });
         }
         append($$anchor2, div_38);
       };
-      if_block(node_18, ($$render) => {
-        if ($_card_detail().sub_title || $_card_detail().tags || $_card_detail().download_collect || $_card_detail().upload_time || $_card_detail().statistics) $$render(consequent_25);
+      if_block(node_19, ($$render) => {
+        if ($_card_detail().sub_title || $_card_detail().tags || $_card_detail().download_collect || $_card_detail().upload_time || $_card_detail().statistics) $$render(consequent_26);
       });
     }
     bind_this(div, ($$value) => set(card_holder, $$value), () => get$1(card_holder));
     template_effect(
       ($0, $1) => {
-        set_attribute(div_4, "style", `min-height: ${get$1(overlayContentHeight) + 24}px;`);
-        set_style(div_4, "--cateColor", get$1(_categoryColor) + "b0");
-        set_text(text_3, ` ${torrentInfo().index ?? ""}
+        set_style(div, "--borderRadius", $_card_radius().enabled ? $_card_radius().value + "px" : "0");
+        set_attribute(div_3, "style", `min-height: ${get$1(overlayContentHeight) + 24}px;`);
+        set_style(div_3, "--cateColor", get$1(_cateColor) + "b0");
+        set_text(text_2, ` ${torrentInfo().index ?? ""}
 
               `);
-        set_attribute(button_1, "style", `background-color: ${get$1(_categoryColor) ?? "transparent"}; color:${$0 ?? ""}`);
-        set_attribute(div_19, "style", `background-color: ${get$1(_categoryColor) ?? "transparent"}; color:${$0 ?? ""}`);
-        set_text(text_5, $1);
-        set_attribute(div_20, "data-href", `https://${location.host}/browse?cat=` + torrentInfo().category);
-        set_attribute(div_20, "style", `
+        set_attribute(button_1, "style", `background-color: ${get$1(_cateColor) ?? "transparent"}; color:${$0 ?? ""}`);
+        set_attribute(div_18, "style", `background-color: ${get$1(_cateColor) ?? "transparent"}; color:${$0 ?? ""}`);
+        set_text(text_4, $1);
+        set_attribute(div_19, "style", `
             height: 40px;
-            background-color: ${get$1(_categoryColor) ?? "transparent"};
+            background-color: ${get$1(_cateColor) ?? "transparent"};
             color: ${$0 ?? ""}`);
-        set_attribute(img_7, "src", $$_import_CONFIG().CATEGORY[torrentInfo().category].src);
-        set_attribute(img_7, "alt", $$_import_CONFIG().CATEGORY[torrentInfo().category].alt);
-        set_text(text_6, `    ${$$_import_CONFIG().CATEGORY[torrentInfo().category].alt ?? ""}`);
+        set_attribute(img_7, "src", get$1(_catePic));
+        set_attribute(img_7, "alt", get$1(_cateAlt));
+        set_text(text_5, `    ${get$1(_cateAlt) ?? ""}`);
         set_attribute(a_1, "href", "/detail/" + torrentInfo().id);
         set_attribute(a_1, "title", torrentInfo().name);
-        set_text(text_7, torrentInfo().name);
-        set_text(text_8, torrentInfo().smallDescr);
+        set_text(text_6, torrentInfo().name);
+        set_text(text_7, torrentInfo().smallDescr);
         set_text(text_9, `上传时间:${torrentInfo().createdDate ?? ""}`);
         set_text(text_10, torrentInfo().status.comments);
         set_attribute(img_8, "src", $$_import_CONFIG().ICON.SEEDERS);
@@ -6053,13 +6194,13 @@ button:focus-visible {
         set_text(text_12, torrentInfo().status.leechers);
       },
       [
-        () => get$1(_categoryColor) ? getTextColor(get$1(_categoryColor)) : "black",
+        () => get$1(_cateColor) ? getTextColor(get$1(_cateColor)) : "black",
         () => getFileSize(torrentInfo().size)
       ],
       derived_safe_equal
     );
     event("click", button_1, openIframe);
-    event("mousedown", div_21, stopPropagation((e) => {
+    event("mousedown", div_20, stopPropagation((e) => {
       e.stopPropagation();
     }));
     event("mousedown", button_2, stopPropagation((e) => {
@@ -6069,18 +6210,18 @@ button:focus-visible {
       get__DOWN_and_COLLET__Dom(torrentInfo().id, get$1(dlclElement_inner));
       e.target.style.display = "none";
     }));
-    event("mouseenter", div_13, () => {
+    event("mouseenter", div_12, () => {
       if (get$1(imgElement)) mutate(imgElement, get$1(imgElement).style.filter = "blur(2px)");
       mutate(overlayHolder, get$1(overlayHolder).style.opacity = "1");
       set(_inner_info_show, true);
     });
-    event("mousemove", div_13, (e) => {
+    event("mousemove", div_12, (e) => {
       set(isMoving, true);
       if (get$1(isHovered) && get$1(isMoving)) {
         hoverView.handleMouseMove(e);
       }
     });
-    event("mouseleave", div_13, () => {
+    event("mouseleave", div_12, () => {
       if (get$1(imgElement)) mutate(imgElement, get$1(imgElement).style.filter = "none");
       mutate(overlayHolder, get$1(overlayHolder).style.opacity = "0");
       set(_inner_info_show, false);
@@ -6090,14 +6231,15 @@ button:focus-visible {
         hoverView.clearPreview();
       }
     });
-    event("mousedown", div_13, self(openIframe));
+    event("mousedown", div_12, self(openIframe));
     append($$anchor, div);
     pop();
     $$cleanup();
   }
-  var root_3 = /* @__PURE__ */ template(`<p class="text_center svelte-1nf4wjl">没有结果捏</p>`);
-  var root$5 = /* @__PURE__ */ template(`<main><div class="fall_holder svelte-1nf4wjl"><!></div></main>`);
+  var root_3 = /* @__PURE__ */ template(`<p class="text_center svelte-1vmncc1">没有结果捏</p>`);
+  var root$5 = /* @__PURE__ */ template(`<main><div class="fall_holder svelte-1vmncc1" style=""><!></div></main>`);
   function Mteam_Fall($$anchor, $$props) {
+    var _a, _b, _c, _d;
     push($$props, false);
     const [$$stores, $$cleanup] = setup_stores();
     const $_card_layout = () => store_get(_card_layout, "$_card_layout", $$stores);
@@ -6106,7 +6248,7 @@ button:focus-visible {
     let listContent = mutable_state(infoList().data);
     get$1(listContent).length;
     let fallContainer = mutable_state();
-    const _current_bgColor = CONFIG.get_bg_color();
+    CONFIG.get_bg_color();
     Object.keys(get$1(listContent)).forEach((key, index2) => {
       mutate(listContent, get$1(listContent)[key].index = index2 + 1);
     });
@@ -6169,6 +6311,19 @@ button:focus-visible {
     function focusFall(pos = "top") {
       viewFocus(get$1(fallContainer), pos);
     }
+    let mt__ls__p_p;
+    let store_label;
+    let store_categories;
+    try {
+      mt__ls__p_p = __JsonParse(localStorage.getItem("persist:persist"));
+      store_label = (_b = (_a = mt__ls__p_p.sysinfo) == null ? void 0 : _a.sysConf) == null ? void 0 : _b.TORRENT_LABEL_CONFIG;
+      store_categories = (_d = (_c = mt__ls__p_p.sysinfo) == null ? void 0 : _c.categoryList) == null ? void 0 : _d.categorys;
+      if (store_label) store_set(_mt_label, store_label);
+      if (store_categories) store_set(_mt_categories, store_categories);
+    } catch (error) {
+      console.error(error);
+      console.log(mt__ls__p_p);
+    }
     legacy_pre_effect(() => get$1(listContent), () => {
       set(items, [...get$1(listContent)]);
     });
@@ -6176,7 +6331,6 @@ button:focus-visible {
     init();
     var main = root$5();
     var div = child(main);
-    set_attribute(div, "style", `background-color:${_current_bgColor ?? ""}`);
     var node = child(div);
     {
       var consequent = ($$anchor2) => {
@@ -6225,7 +6379,7 @@ button:focus-visible {
     $$cleanup();
     return $$pop;
   }
-  let version = "0.3.2";
+  let version = "0.3.3";
   var root$4 = /* @__PURE__ */ ns_template(`<svg class="tgme_logo" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle cx="17" cy="17" fill="#40a9ff" r="17"></circle><path d="m7.06510669 16.9258959c5.22739451-2.1065178 8.71314291-3.4952633 10.45724521-4.1662364 4.9797665-1.9157646 6.0145193-2.2485535 6.6889567-2.2595423.1483363-.0024169.480005.0315855.6948461.192827.1814076.1361492.23132.3200675.2552048.4491519.0238847.1290844.0536269.4231419.0299841.65291-.2698553 2.6225356-1.4375148 8.986738-2.0315537 11.9240228-.2513602 1.2428753-.7499132 1.5088847-1.2290685 1.5496672-1.0413153.0886298-1.8284257-.4857912-2.8369905-1.0972863-1.5782048-.9568691-2.5327083-1.3984317-4.0646293-2.3321592-1.7703998-1.0790837-.212559-1.583655.7963867-2.5529189.2640459-.2536609 4.7753906-4.3097041 4.755976-4.431706-.0070494-.0442984-.1409018-.481649-.2457499-.5678447-.104848-.0861957-.2595946-.0567202-.3712641-.033278-.1582881.0332286-2.6794907 1.5745492-7.5636077 4.6239616-.715635.4545193-1.3638349.6759763-1.9445998.6643712-.64024672-.0127938-1.87182452-.334829-2.78737602-.6100966-1.12296117-.3376271-1.53748501-.4966332-1.45976769-1.0700283.04048-.2986597.32581586-.610598.8560076-.935815z" fill="#fff"></path></g></svg>`);
   function Icon_telegram($$anchor, $$props) {
     let height = prop($$props, "height", 8, 34);
@@ -6237,31 +6391,41 @@ button:focus-visible {
     });
     append($$anchor, svg);
   }
-  var root_1$2 = /* @__PURE__ */ template(`<div class="modal-overlay svelte-19468gw" role="button" aria-hidden="true"><div class="modal-content svelte-19468gw" role="button" aria-hidden="true"><div class="modal-header svelte-19468gw"><h3 class="svelte-19468gw">FAQ - 常见问题</h3> <button class="close-btn svelte-19468gw">&times;</button></div> <div class="modal-body svelte-19468gw"><h4 class="svelte-19468gw">Q: 如何联系反馈问题？</h4> <p class="svelte-19468gw"><a class="faq-btn svelte-19468gw" href="https://t.me/+Nd_qIisDjQ80ZTc9" target="_blank" style="height:40px; display: flex; align-items: center; justify-content: center;"><!> &nbsp;Telegram</a></p> <h4 class="svelte-19468gw">Q: 插件没有生效怎么办？</h4> <p class="svelte-19468gw">可能是浏览器缓存了请求，尝试使用 Ctrl+Shift+R / Ctrl+F5 强制刷新页面。</p> <h4 class="svelte-19468gw">Q: 如何切换瀑布流视图？</h4> <p class="svelte-19468gw">点击悬浮面板中的"切换显示"按钮即可在瀑布流和原列表视图间切换。</p> <h4 class="svelte-19468gw">Q: 如何调整卡片布局？</h4> <p class="svelte-19468gw">点击悬浮面板中的"配置菜单"按钮，可以调整卡片的最小 / 最大宽度、间隔等参数。</p> <h4 class="svelte-19468gw">Q: 快捷键？</h4> <p class="svelte-19468gw">x 可以切换瀑布流视图</p> <p class="svelte-19468gw">Esc 可以从 次级菜单 / 配置菜单 / iframe 中退出。</p></div></div></div>`);
-  var root$3 = /* @__PURE__ */ template(`<div class="entry_mteam"><div class="ant-typography" style="line-height: 1.5; text-align: center;"><button class="faq-btn svelte-19468gw">PT-Fall 插件 <span style="font-weight: 600;"></span></button> <button class="faq-btn svelte-19468gw" style="cursor: pointer;">常见问题 FAQ</button></div></div> <!>`, 1);
+  var root_1$2 = /* @__PURE__ */ template(`<div class="modal-overlay svelte-1a87xm5" role="button" aria-hidden="true"><div class="modal-content svelte-1a87xm5" role="button" aria-hidden="true"><div class="modal-header svelte-1a87xm5"><h3 class="svelte-1a87xm5">关于 PT-Fall</h3> <button class="close-btn svelte-1a87xm5">&times;</button></div> <div class="modal-body svelte-1a87xm5"><h4 class="svelte-1a87xm5">PT-Fall 是一个专为 M-team 站点量身定制的瀑布流视图插件</h4> <p class="svelte-1a87xm5">Github: <a href="https://github.com/KesaubeEire/PT_Fall-View" target="_blank">https://github.com/KesaubeEire/PT_Fall-View</a></p> <p class="svelte-1a87xm5">GreaseFork: <a href="https://greasyfork.org/zh-CN/scripts/543925" target="_blank">https://greasyfork.org/zh-CN/scripts/543925</a></p></div></div></div>`);
+  var root_2$1 = /* @__PURE__ */ template(`<div class="modal-overlay svelte-1a87xm5" role="button" aria-hidden="true"><div class="modal-content svelte-1a87xm5" role="button" aria-hidden="true"><div class="modal-header svelte-1a87xm5"><h3 class="svelte-1a87xm5">FAQ - 常见问题</h3> <button class="close-btn svelte-1a87xm5">&times;</button></div> <div class="modal-body svelte-1a87xm5"><h4 class="svelte-1a87xm5">Q: 如何联系反馈问题</h4> <p class="svelte-1a87xm5"><a class="__btn __btnWide svelte-1a87xm5" href="https://t.me/+Nd_qIisDjQ80ZTc9" target="_blank"><!> &nbsp;Telegram</a></p> <h4 class="svelte-1a87xm5">Q: 找不到悬浮框</h4> <button class="__btn svelte-1a87xm5">重置悬浮框位置</button> <p class="svelte-1a87xm5"><br>可以通过拖拽悬浮框顶部的颜色条来移动悬浮框的位置 <br>从 PTPP 那里来的灵感 ( 感恩 ||T|| 佬 )</p> <h4 class="svelte-1a87xm5">Q: 插件没有生效怎么办</h4> <p class="svelte-1a87xm5">可能是浏览器缓存了请求<br>尝试使用 Ctrl+Shift+R / Ctrl+F5 强制刷新页面</p> <h4 class="svelte-1a87xm5">Q: 如何切换瀑布流视图</h4> <p class="svelte-1a87xm5">点击悬浮面板中的"切换显示"按钮即可在瀑布流和原列表视图间切换</p> <h4 class="svelte-1a87xm5">Q: 如何调整卡片布局</h4> <p class="svelte-1a87xm5">点击悬浮面板中的"配置菜单"按钮<br>可以调整卡片的最小 / 最大宽度、间隔等参数</p> <h4 class="svelte-1a87xm5">Q: 快捷键</h4> <p class="svelte-1a87xm5"><span class="modal-code svelte-1a87xm5">x</span> 可以切换瀑布流视图</p> <p class="svelte-1a87xm5"><span class="modal-code svelte-1a87xm5">ESC</span> 可以从 次级菜单 / 配置菜单 / iframe 中退出</p></div></div></div>`);
+  var root$3 = /* @__PURE__ */ template(`<div class="entry_mteam"><div class="ant-typography" style="line-height: 1.5; text-align: center;"><button class="__btn svelte-1a87xm5" id="_ptFall_about">PT-Fall<br><span style="font-weight: 600;"></span></button> <button class="__btn svelte-1a87xm5" id="_ptFall_faq">常见问题<br>FAQ</button></div></div> <!> <!>`, 1);
   function Readme($$anchor, $$props) {
     push($$props, false);
     const [$$stores, $$cleanup] = setup_stores();
     const $_isFallView = () => store_get(_isFallView, "$_isFallView", $$stores);
-    let showModal = mutable_state(false);
-    function openModal() {
-      set(showModal, true);
+    let _modalFAQ = mutable_state(false);
+    let _modalAbout = mutable_state(false);
+    function openFAQ() {
+      set(_modalFAQ, true);
     }
-    function closeModal() {
-      set(showModal, false);
+    function closeFAQ() {
+      set(_modalFAQ, false);
+    }
+    function openAbout() {
+      set(_modalAbout, true);
+    }
+    function closeAbout() {
+      set(_modalAbout, false);
     }
     let color = mutable_state();
     legacy_pre_effect(() => $_isFallView(), () => {
       set(color, $_isFallView() ? "#4ff74f" : "yellow");
     });
     legacy_pre_effect_reset();
+    init();
     var fragment = root$3();
     event(
       "keydown",
       $window,
       (event2) => {
         if (event2.key === "Escape") {
-          closeModal();
+          closeFAQ();
+          closeAbout();
         }
       },
       true
@@ -6269,11 +6433,9 @@ button:focus-visible {
     var div = first_child(fragment);
     var div_1 = child(div);
     var button = child(div_1);
-    set_style(button, "--hover", "green");
-    var span = sibling(child(button));
+    var span = sibling(child(button), 2);
     span.textContent = `[v${version}]`;
     var button_1 = sibling(button, 2);
-    set_style(button_1, "--hover", "#40a9ff");
     var node = sibling(div, 2);
     {
       var consequent = ($$anchor2) => {
@@ -6281,49 +6443,92 @@ button:focus-visible {
         var div_3 = child(div_2);
         var div_4 = child(div_3);
         var button_2 = sibling(child(div_4), 2);
-        var div_5 = sibling(div_4, 2);
-        var p = sibling(child(div_5), 2);
-        var a = child(p);
-        set_style(a, "--hover", "#40a9ff");
-        var node_1 = child(a);
-        Icon_telegram(node_1, { height: 24, width: 24 });
-        event("click", button_2, closeModal);
+        template_effect(
+          ($0) => set_attribute(div_3, "style", $0),
+          [
+            () => `color: ${getTextColor("var(--bg-3)")}`
+          ],
+          derived_safe_equal
+        );
+        event("click", button_2, closeAbout);
         event("click", div_3, stopPropagation(function($$arg) {
           bubble_event.call(this, $$props, $$arg);
         }));
         transition(3, div_2, () => fade, () => ({ duration: 200 }));
-        event("click", div_2, closeModal);
+        event("click", div_2, closeAbout);
         append($$anchor2, div_2);
       };
       if_block(node, ($$render) => {
-        if (get$1(showModal)) $$render(consequent);
+        if (get$1(_modalAbout)) $$render(consequent);
       });
     }
-    template_effect(() => set_style(span, "color", get$1(color)));
-    event("click", button_1, openModal);
+    var node_1 = sibling(node, 2);
+    {
+      var consequent_1 = ($$anchor2) => {
+        var div_5 = root_2$1();
+        var div_6 = child(div_5);
+        var div_7 = child(div_6);
+        var button_3 = sibling(child(div_7), 2);
+        var div_8 = sibling(div_7, 2);
+        var p = sibling(child(div_8), 2);
+        var a = child(p);
+        var node_2 = child(a);
+        Icon_telegram(node_2, { height: 24, width: 24 });
+        var button_4 = sibling(p, 4);
+        var p_1 = sibling(button_4, 18);
+        var span_1 = child(p_1);
+        var p_2 = sibling(p_1, 2);
+        var span_2 = child(p_2);
+        template_effect(
+          ($0, $1, $2) => {
+            set_attribute(div_6, "style", $0);
+            set_attribute(a, "style", $1);
+            set_style(a, "--hover", "#40a9ff");
+            set_attribute(button_4, "style", $1);
+            set_style(button_4, "--hover", "#40a9ff");
+            set_attribute(span_1, "style", $2);
+            set_attribute(span_2, "style", $2);
+          },
+          [
+            () => `color: ${getTextColor("var(--bg-3)")}`,
+            () => `color: ${getTextColor("var(--bg-2)")}`,
+            () => `color: ${getTextColor("var(--bg-1)")}`
+          ],
+          derived_safe_equal
+        );
+        event("click", button_3, closeFAQ);
+        event("click", button_4, () => {
+          store_set(_panelPos, { x: 0, y: 0 });
+        });
+        event("click", div_6, stopPropagation(function($$arg) {
+          bubble_event.call(this, $$props, $$arg);
+        }));
+        transition(3, div_5, () => fade, () => ({ duration: 200 }));
+        event("click", div_5, closeFAQ);
+        append($$anchor2, div_5);
+      };
+      if_block(node_1, ($$render) => {
+        if (get$1(_modalFAQ)) $$render(consequent_1);
+      });
+    }
+    template_effect(
+      ($0) => {
+        set_attribute(button, "style", $0);
+        set_style(button, "--hover", "green");
+        set_style(span, "color", get$1(color));
+        set_attribute(button_1, "style", $0);
+        set_style(button_1, "--hover", "#40a9ff");
+      },
+      [
+        () => `color: ${getTextColor("var(--bg-2)")}`
+      ],
+      derived_safe_equal
+    );
+    event("click", button, openAbout);
+    event("click", button_1, openFAQ);
     append($$anchor, fragment);
     pop();
     $$cleanup();
-  }
-  function Tool_Watch_Dom(selector2, func = () => {
-  }) {
-    if (!selector2) return;
-    const targetElement = document.querySelector(selector2);
-    if (targetElement) {
-      func(targetElement);
-      return;
-    }
-    const observer = new MutationObserver((mutations, obs) => {
-      const el = document.querySelector(selector2);
-      if (el) {
-        obs.disconnect();
-        func(el);
-      }
-    });
-    observer.observe(document.documentElement, {
-      childList: true,
-      subtree: true
-    });
   }
   function Entry_Mteam($$anchor, $$props) {
     push($$props, false);
@@ -6343,7 +6548,7 @@ button:focus-visible {
         Readme_Svelte = mount(Readme, { target: readmeNode });
       } else {
         notyf_lt.error("未找到目标链接元素");
-        console.warn("未找到目标链接元素");
+        console.warn("[FALL]: 未找到目标链接元素");
       }
     });
     onMount(() => {
@@ -6388,25 +6593,17 @@ button:focus-visible {
       const contentNode = el.parentNode.querySelector(".ant-spin-nested-loading");
       const shield = document.createElement("div");
       shield.id = "_shield";
-      shield.style.position = "absolute";
-      shield.style.top = "0";
-      shield.style.left = "0";
-      shield.style.width = "100%";
-      shield.style.height = "100%";
-      shield.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-      shield.style.zIndex = "100";
+      shield.addEventListener("click", () => {
+        if (confirm("[PT-Fall]\n如果你认为你被阻挡了请点击确认\n这个阻挡效果会被取消\n这可能导致显示错误\n请确认您不在一般的瀑布流视图下\n比如您在逛论坛或者在发种之类的被遮挡了再点")) {
+          shield.style.display = "none";
+        }
+      });
       if (!contentNode.querySelector("#_shield")) {
         contentNode.appendChild(shield);
       }
       const fallHolder = document.createElement("div");
-      fallHolder.id = "fallHolder";
-      fallHolder.style.position = "absolute";
-      fallHolder.style.top = "0";
-      fallHolder.style.left = "0";
-      fallHolder.style.width = "100%";
-      fallHolder.style.minHeight = "200px";
-      fallHolder.style.zIndex = "101";
-      if (!contentNode.querySelector("#fallHolder")) {
+      fallHolder.id = "_fallHolder";
+      if (!contentNode.querySelector("#_fallHolder")) {
         contentNode.appendChild(fallHolder);
         fallHolder.appendChild(Fall_DOM);
       }
@@ -6414,7 +6611,7 @@ button:focus-visible {
     let _mx_margin_back = "";
     function changeFallView(isFallView) {
       Fall_DOM.style.display = isFallView ? "block" : "none";
-      Tool_Watch_Dom("#fallHolder", (el) => {
+      Tool_Watch_Dom("#_fallHolder", (el) => {
         el.style.display = isFallView ? "block" : "none";
       });
       Tool_Watch_Dom("#_shield", (el) => {
@@ -6433,7 +6630,7 @@ button:focus-visible {
         if (path.includes("/browse") || path == "/waterfall") {
           console.log(`--->属于 browse 范围: ${path}`);
         } else {
-          console.warn(`--->不属于 browse 范围: ${path}`);
+          console.warn(`[FALL]: --->不属于 browse 范围: ${path}`);
           changeFallView(false);
         }
         originalPushState.apply(history, arguments);
@@ -6461,8 +6658,9 @@ button:focus-visible {
     event("click", div, handleClick);
     append($$anchor, div);
   }
-  var root_1$1 = /* @__PURE__ */ template(`<div class="config-menu-overlay svelte-ewpy9m"><div class="config-menu svelte-ewpy9m"><div class="config-menu-header svelte-ewpy9m"><span style="font-size: 18px; font-weight: bold;">配置菜单</span> <button class="close-btn svelte-ewpy9m">&times;</button></div> <div class="config-menu-content svelte-ewpy9m"><h3 class="svelte-ewpy9m"># 卡片布局</h3> <div class="config-item svelte-ewpy9m"><span> </span> <input type="range" min="200" step="1" list="values" class="svelte-ewpy9m"></div> <div class="config-item svelte-ewpy9m"><span> </span> <input type="range" step="1" list="values" class="svelte-ewpy9m"></div> <div class="config-item svelte-ewpy9m"><span> </span> <input type="range" min="0" max="100" step="1" list="values" class="svelte-ewpy9m"></div> <div class="config-item svelte-ewpy9m"><span> </span> <!></div> <h3 class="svelte-ewpy9m"># 卡片常驻信息展示</h3>  <div class="config-item svelte-ewpy9m"><span> </span> <!></div> <div class="config-item svelte-ewpy9m"><span> </span> <!></div> <div class="config-item svelte-ewpy9m"><span> </span> <!></div> <div class="config-item svelte-ewpy9m"><span> </span> <!></div> <div class="config-item svelte-ewpy9m"><span> </span> <!></div> <div class="config-item svelte-ewpy9m"><span> </span> <!></div> <div class="config-item svelte-ewpy9m"><span> </span> <!></div> <div class="config-item svelte-ewpy9m"><span> </span> <!></div> <div class="config-item svelte-ewpy9m"><span> </span> <!></div> <div class="config-item svelte-ewpy9m"><span> </span> <!></div> <h3 class="svelte-ewpy9m"># 卡片屏蔽</h3> <div class="config-item svelte-ewpy9m"><span> </span> <!></div></div></div></div>`);
-  var root$1 = /* @__PURE__ */ template(`<div class="flowP svelte-ewpy9m"><div class="flowPDragger svelte-ewpy9m" role="button" tabindex="0" aria-hidden="true"></div> <div class="flowPHolder ant-typography svelte-ewpy9m"><button class="flowBtn svelte-ewpy9m">切换显示</button> <button class="flowBtn svelte-ewpy9m">配置菜单</button> <button class="flowBtn svelte-ewpy9m">清除悬浮预览图</button> <button class="flowBtn svelte-ewpy9m">iframe</button> <button class="flowBtn svelte-ewpy9m">屏蔽 Gay</button></div></div> <!>`, 1);
+  var root_2 = /* @__PURE__ */ template(`<div class="config-item svelte-10gi3pg"><span> </span> <input type="range" min="0" max="40" step="1" class="svelte-10gi3pg"></div>`);
+  var root_1$1 = /* @__PURE__ */ template(`<div class="config-menu-overlay svelte-10gi3pg"><div class="config-menu svelte-10gi3pg"><div class="config-menu-header svelte-10gi3pg"><span style="font-size: 18px; font-weight: bold;">配置菜单</span> <button class="close-btn svelte-10gi3pg">&times;</button></div> <div class="config-menu-content svelte-10gi3pg"><h3 class="svelte-10gi3pg"># 卡片布局</h3> <div class="config-item svelte-10gi3pg"><span> </span> <input type="range" min="200" step="1" list="values" class="svelte-10gi3pg"></div> <div class="config-item svelte-10gi3pg"><span> </span> <input type="range" step="1" list="values" class="svelte-10gi3pg"></div> <div class="config-item svelte-10gi3pg"><span> </span> <input type="range" min="0" max="100" step="1" list="values" class="svelte-10gi3pg"></div> <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <h3 class="svelte-10gi3pg"># 卡片常驻信息展示</h3>  <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <h3 class="svelte-10gi3pg"># 卡片屏蔽</h3> <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <h3 class="svelte-10gi3pg"># 卡片样式</h3> <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <!></div></div></div>`);
+  var root$1 = /* @__PURE__ */ template(`<div class="flowP svelte-10gi3pg"><div class="flowPDragger svelte-10gi3pg" role="button" tabindex="0" aria-hidden="true"></div> <div class="flowPHolder ant-typography svelte-10gi3pg"><button class="flowBtn svelte-10gi3pg">切换显示</button> <button class="flowBtn svelte-10gi3pg">配置菜单</button> <button class="flowBtn svelte-10gi3pg">清除悬浮预览图</button> <button class="flowBtn svelte-10gi3pg">iframe</button> <button class="flowBtn svelte-10gi3pg">屏蔽 Gay</button></div></div> <!>`, 1);
   function FlowPanel($$anchor, $$props) {
     push($$props, false);
     const [$$stores, $$cleanup] = setup_stores();
@@ -6474,6 +6672,7 @@ button:focus-visible {
     const $_card_layout = () => store_get(_card_layout, "$_card_layout", $$stores);
     const $_show_hover_pic = () => store_get(_show_hover_pic, "$_show_hover_pic", $$stores);
     const $_card_detail = () => store_get(_card_detail, "$_card_detail", $$stores);
+    const $_card_radius = () => store_get(_card_radius, "$_card_radius", $$stores);
     let flowP = mutable_state();
     let isMouseDown = false;
     let offsetX = 0;
@@ -6530,7 +6729,7 @@ button:focus-visible {
     bind_this(div, ($$value) => set(flowP, $$value), () => get$1(flowP));
     var node = sibling(div, 2);
     {
-      var consequent = ($$anchor2) => {
+      var consequent_1 = ($$anchor2) => {
         var div_3 = root_1$1();
         var div_4 = child(div_3);
         var div_5 = child(div_4);
@@ -6706,6 +6905,34 @@ button:focus-visible {
           },
           $$legacy: true
         });
+        var div_22 = sibling(div_21, 4);
+        var span_15 = child(div_22);
+        var text_15 = child(span_15);
+        var node_13 = sibling(span_15, 2);
+        Switch(node_13, {
+          get checked() {
+            return $_card_radius().enabled;
+          },
+          set checked($$value) {
+            store_mutate(_card_radius, untrack($_card_radius).enabled = $$value, untrack($_card_radius));
+          },
+          $$legacy: true
+        });
+        var node_14 = sibling(div_22, 2);
+        {
+          var consequent = ($$anchor3) => {
+            var div_23 = root_2();
+            var span_16 = child(div_23);
+            var text_16 = child(span_16);
+            var input_3 = sibling(span_16, 2);
+            template_effect(() => set_text(text_16, `圆角大小: ${$_card_radius().value ?? ""} px`));
+            bind_value(input_3, () => $_card_radius().value, ($$value) => store_mutate(_card_radius, untrack($_card_radius).value = $$value, untrack($_card_radius)));
+            append($$anchor3, div_23);
+          };
+          if_block(node_14, ($$render) => {
+            if ($_card_radius().enabled) $$render(consequent);
+          });
+        }
         template_effect(
           ($0, $1, $2, $3) => {
             set_attribute(div_4, "style", `background-color: ${$0 ?? ""};`);
@@ -6727,6 +6954,7 @@ button:focus-visible {
             set_text(text_12, `上传时间: ${$_card_detail().upload_time ?? ""}`);
             set_text(text_13, `评论/上传/下载: ${$_card_detail().statistics ?? ""}`);
             set_text(text_14, `屏蔽 gay 区: ${$_block_gay() ?? ""}`);
+            set_text(text_15, `自定义圆角: ${$_card_radius().enabled ?? ""}`);
           },
           [
             () => getSiteConfig().get_bg_color(),
@@ -6745,7 +6973,7 @@ button:focus-visible {
         append($$anchor2, div_3);
       };
       if_block(node, ($$render) => {
-        if ($_side_panel_switch()) $$render(consequent);
+        if ($_side_panel_switch()) $$render(consequent_1);
       });
     }
     template_effect(() => {

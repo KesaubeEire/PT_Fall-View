@@ -1,7 +1,9 @@
 # PT_Fall-View
 
-Mteam 专用瀑布流视图脚本.
+Mteam 专用瀑布流视图脚本.  
 Script only for m-team masonry view.
+
+[**==> GreasyFork 安装 <==**](https://greasyfork.org/zh-CN/scripts/543925-pt瀑布流视图)
 
 ## 功能
 
@@ -34,10 +36,14 @@ TODO:(这里的介绍旧版本直接拿过来的, 待更新)
 - [x] 给 height 不足的卡片增高到能显示所有信息
 - [x] 屏蔽 gay 的配置 && 各种其他图片障碍提醒
 - [x] 常驻信息可以把分区也取消显示 -> 以获得最纯净的瀑布流视觉效果
-- [ ] 卡片圆角化的配置
+- [x] 卡片圆角化的配置
+- [x] 适配 next: 基本适配了
+- [x] 更新新的标签 (中字/4K 之类的) TorrentSearch -> labelsNew 属性
 - [ ] 卡片悬浮信息上下可配置
-- [ ] 适配 next
+- [ ] 每日从 localstorage 拉取 categoriey / tag 是否有更新, 有更新得提醒
 - ...
+- [ ] ESC 从 iframe 中退出不起作用
+- [ ] next 站点 flowPanel 颜色问题(要不要做全颜色解耦?很痛苦捏)
 
 ## packages & docs
 

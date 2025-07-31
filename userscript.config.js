@@ -2,7 +2,7 @@
  * 油猴头信息
  */
 // NOTE: 经常修改这里就行了
-export let version = '0.3.2';
+export let version = '0.3.3';
 
 export function config(mode) {
   console.log('<-------------------------- [userscript.config.js]');
@@ -27,7 +27,10 @@ export function config(mode) {
       // 'https://kamept.com/*',
       // "https://pterclub.com/*",
 
-      // M-Team 全系列域名
+      // M-Team next
+      'https://next.m-team.cc/*',
+
+      // M-Team 旧-全系列域名
       'https://kp.m-team.cc/*',
       'https://xp.m-team.io/*',
       'https://xp.m-team.cc/*',
