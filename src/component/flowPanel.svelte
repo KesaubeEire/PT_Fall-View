@@ -1,10 +1,9 @@
 <script>
   import { onMount } from 'svelte';
-  import { _panelPos, _isFallView, _card_layout, _card_detail, _show_hover_pic, _iframe_switch, _side_panel_switch, _block_gay, _card_radius } from '@/stores';
+  import { _panelPos, _isFallView, _card_layout, _card_detail, _show_hover_pic, _iframe_switch, _side_panel_switch, _block_gay, _card_radius, _textColor } from '@/stores';
   import { getSiteConfig } from '@/siteConfig';
   import { fade } from 'svelte/transition';
   import Switch from '@/component/switch.svelte';
-  import { getTextColor } from '@/lib/tools';
   import IconList from '@/assets/icon_list.svelte';
   import IconConfig from '@/assets/icon_config.svelte';
   import IconMasonry from '@/assets/icon_masonry.svelte';
@@ -83,7 +82,7 @@
 <!-- 悬浮按钮:可拖拽  -->
 <div class="flowP" style:--isFallView={$_isFallView ? '#4ff74f' : 'yellow'} bind:this={flowP} style="top:{$_panelPos.y}px; left:{$_panelPos.x}px;">
   <div class="flowPDragger" on:mousedown={onMouseDown} role="button" tabindex="0" aria-hidden="true"></div>
-  <div class="flowPHolder ant-typography" style:--get-text-color={getTextColor('var(--bg-2)')}>
+  <div class="flowPHolder ant-typography" style:--get-text-color={$_textColor.t2}>
     <button
       class="flowBtn"
       on:click={() => {

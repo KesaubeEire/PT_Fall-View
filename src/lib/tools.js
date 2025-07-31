@@ -125,7 +125,7 @@ export function getTextColor(background) {
     blue = parseInt(color.substr(4, 2), 16);
   } else {
     // 无效格式，返回默认值
-    return 'black';
+    return 'inherit';
   }
 
   // 计算亮度

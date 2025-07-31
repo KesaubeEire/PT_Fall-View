@@ -4087,7 +4087,7 @@ button:focus-visible {
       green = parseInt(color.substr(2, 2), 16);
       blue = parseInt(color.substr(4, 2), 16);
     } else {
-      return "black";
+      return "inherit";
     }
     const brightness = (red * 299 + green * 587 + blue * 114) / 1e3;
     return brightness < 128 ? "white" : "black";
@@ -4168,6 +4168,11 @@ button:focus-visible {
   });
   const _mt_label = persistStore("_mt_label", {});
   const _mt_categories = persistStore("_mt_categories", {});
+  const _textColor = persistStore("_textColor", {
+    t1: "black",
+    t2: "black",
+    t3: "black"
+  });
   function Launch_Hijack(param = { path: "/search", method: "POST" }) {
     const nativeOpen = XMLHttpRequest.prototype.open;
     const nativeSend = XMLHttpRequest.prototype.send;
@@ -6435,6 +6440,7 @@ button:focus-visible {
     push($$props, false);
     const [$$stores, $$cleanup] = setup_stores();
     const $_isFallView = () => store_get(_isFallView, "$_isFallView", $$stores);
+    const $_textColor = () => store_get(_textColor, "$_textColor", $$stores);
     let _modalFAQ = mutable_state(false);
     let _modalAbout = mutable_state(false);
     function openFAQ() {
@@ -6480,13 +6486,7 @@ button:focus-visible {
         var div_3 = child(div_2);
         var div_4 = child(div_3);
         var button_2 = sibling(child(div_4), 2);
-        template_effect(
-          ($0) => set_attribute(div_3, "style", $0),
-          [
-            () => `color: ${getTextColor("var(--bg-3)")}`
-          ],
-          derived_safe_equal
-        );
+        template_effect(() => set_attribute(div_3, "style", `color: ${$_textColor().t3}`));
         event("click", button_2, closeAbout);
         event("click", div_3, stopPropagation(function($$arg) {
           bubble_event.call(this, $$props, $$arg);
@@ -6516,23 +6516,15 @@ button:focus-visible {
         var span_1 = child(p_1);
         var p_2 = sibling(p_1, 2);
         var span_2 = child(p_2);
-        template_effect(
-          ($0, $1, $2) => {
-            set_attribute(div_6, "style", $0);
-            set_attribute(a, "style", $1);
-            set_style(a, "--hover", "#40a9ff");
-            set_attribute(button_4, "style", $1);
-            set_style(button_4, "--hover", "#40a9ff");
-            set_attribute(span_1, "style", $2);
-            set_attribute(span_2, "style", $2);
-          },
-          [
-            () => `color: ${getTextColor("var(--bg-3)")}`,
-            () => `color: ${getTextColor("var(--bg-2)")}`,
-            () => `color: ${getTextColor("var(--bg-1)")}`
-          ],
-          derived_safe_equal
-        );
+        template_effect(() => {
+          set_attribute(div_6, "style", `color: ${$_textColor().t3}`);
+          set_attribute(a, "style", `color: ${$_textColor().t2}`);
+          set_style(a, "--hover", "#40a9ff");
+          set_attribute(button_4, "style", `color: ${$_textColor().t2}`);
+          set_style(button_4, "--hover", "#40a9ff");
+          set_attribute(span_1, "style", `color: ${$_textColor().t1}`);
+          set_attribute(span_2, "style", `color: ${$_textColor().t1}`);
+        });
         event("click", button_3, closeFAQ);
         event("click", button_4, () => {
           store_set(_panelPos, { x: 0, y: 0 });
@@ -6548,19 +6540,13 @@ button:focus-visible {
         if (get$1(_modalFAQ)) $$render(consequent_1);
       });
     }
-    template_effect(
-      ($0) => {
-        set_attribute(button, "style", $0);
-        set_style(button, "--hover", "green");
-        set_style(span, "color", get$1(color));
-        set_attribute(button_1, "style", $0);
-        set_style(button_1, "--hover", "#40a9ff");
-      },
-      [
-        () => `color: ${getTextColor("var(--bg-2)")}`
-      ],
-      derived_safe_equal
-    );
+    template_effect(() => {
+      set_attribute(button, "style", `color: ${$_textColor().t2}`);
+      set_style(button, "--hover", "green");
+      set_style(span, "color", get$1(color));
+      set_attribute(button_1, "style", `color: ${$_textColor().t2}`);
+      set_style(button_1, "--hover", "#40a9ff");
+    });
     event("click", button, openAbout);
     event("click", button_1, openFAQ);
     append($$anchor, fragment);
@@ -6571,10 +6557,13 @@ button:focus-visible {
     push($$props, false);
     const [$$stores, $$cleanup] = setup_stores();
     const $_isFallView = () => store_get(_isFallView, "$_isFallView", $$stores);
+    const $_textColor = () => store_get(_textColor, "$_textColor", $$stores);
     let Readme_Svelte;
     let MteamFall_Svelte;
     let infoList;
     let isClearPage = true;
+    let varColor_bg2 = getComputedStyle(document.documentElement).getPropertyValue("--bg-2").trim();
+    let observer;
     const Fall_DOM = document.createElement("div");
     Fall_DOM.classList.add("Fall_DOM");
     Tool_Watch_Dom(CONFIG.TL_Selector, launchFallView);
@@ -6589,8 +6578,29 @@ button:focus-visible {
       }
     });
     onMount(() => {
+      _changeStoreTextColor();
       console.log("=====> 启动劫持 pushState 方法 <=====");
       OverWritePushState();
+      observer = new MutationObserver(() => {
+        const _tmpColor = getComputedStyle(document.documentElement).getPropertyValue("--bg-2").trim();
+        if (_tmpColor !== varColor_bg2) {
+          varColor_bg2 = _tmpColor;
+          console.log("--bg-2 变化:", varColor_bg2);
+          notyf_lt.open({
+            type: "warning",
+            message: `--bg-2 变化: ${varColor_bg2}`
+          });
+          _changeStoreTextColor();
+        }
+      });
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["style", "class", "data-theme"]
+        // 监听可能影响 CSS 变量的属性
+      });
+    });
+    onDestroy(() => {
+      if (observer) observer.disconnect();
     });
     function launchFallView(el) {
       if (el.parentNode) {
@@ -6684,6 +6694,14 @@ button:focus-visible {
         originalPushState.apply(history, arguments);
       };
     }
+    function getVar(varName) {
+      return getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+    }
+    function _changeStoreTextColor() {
+      store_mutate(_textColor, untrack($_textColor).t1 = getTextColor(getVar("--bg-1")), untrack($_textColor));
+      store_mutate(_textColor, untrack($_textColor).t2 = getTextColor(getVar("--bg-2")), untrack($_textColor));
+      store_mutate(_textColor, untrack($_textColor).t3 = getTextColor(getVar("--bg-3")), untrack($_textColor));
+    }
     init();
     pop();
     $$cleanup();
@@ -6741,6 +6759,7 @@ button:focus-visible {
     const [$$stores, $$cleanup] = setup_stores();
     const $_panelPos = () => store_get(_panelPos, "$_panelPos", $$stores);
     const $_isFallView = () => store_get(_isFallView, "$_isFallView", $$stores);
+    const $_textColor = () => store_get(_textColor, "$_textColor", $$stores);
     const $_side_panel_switch = () => store_get(_side_panel_switch, "$_side_panel_switch", $$stores);
     const $_card_layout = () => store_get(_card_layout, "$_card_layout", $$stores);
     const $_show_hover_pic = () => store_get(_show_hover_pic, "$_show_hover_pic", $$stores);
@@ -7072,15 +7091,11 @@ button:focus-visible {
         if ($_side_panel_switch()) $$render(consequent_2);
       });
     }
-    template_effect(
-      ($0) => {
-        set_attribute(div, "style", `top:${$_panelPos().y ?? ""}px; left:${$_panelPos().x ?? ""}px;`);
-        set_style(div, "--isFallView", $_isFallView() ? "#4ff74f" : "yellow");
-        set_style(div_2, "--get-text-color", $0);
-      },
-      [() => getTextColor("var(--bg-2)")],
-      derived_safe_equal
-    );
+    template_effect(() => {
+      set_attribute(div, "style", `top:${$_panelPos().y ?? ""}px; left:${$_panelPos().x ?? ""}px;`);
+      set_style(div, "--isFallView", $_isFallView() ? "#4ff74f" : "yellow");
+      set_style(div_2, "--get-text-color", $_textColor().t2);
+    });
     event("mousedown", div_1, onMouseDown);
     event("click", button, () => {
       store_set(_isFallView, !$_isFallView());

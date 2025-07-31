@@ -2,11 +2,11 @@
   import { Launch_Hijack } from '@/lib/hijack.js';
   import MteamFall from './Mteam_Fall.svelte';
   import Readme from '@/component/readme.svelte';
-  import { mount, onMount } from 'svelte';
+  import { mount, onMount, onDestroy } from 'svelte';
   import { notyf_lt } from '@/lib/notyf.js';
-  import { Tool_Watch_Dom } from '@/lib/tools.js';
+  import { Tool_Watch_Dom, getTextColor } from '@/lib/tools.js';
   import { CONFIG } from '@/siteConfig/mteam.js';
-  import { _isFallView } from '@/stores';
+  import { _isFallView, _textColor } from '@/stores';
 
   // ------------------------------------------
 
@@ -21,6 +21,10 @@
   let lastRequestPayload;
   /** 是否切页 */
   let isClearPage = true;
+
+  // CSS 变量监听
+  let varColor_bg2 = getComputedStyle(document.documentElement).getPropertyValue('--bg-2').trim();
+  let observer;
 
   // ------------------------------------------
 
@@ -50,10 +54,39 @@
   });
 
   onMount(() => {
+    // 初始化 _textColor
+    _changeStoreTextColor();
     // ------------------------------------------
     // ## 主流程 劫持 pushState 方法
     console.log('=====> 启动劫持 pushState 方法 <=====');
     OverWritePushState();
+
+    // ------------------------------------------
+    // ## 监听 CSS 变量 --bg-2 的变化
+    observer = new MutationObserver(() => {
+      const _tmpColor = getComputedStyle(document.documentElement).getPropertyValue('--bg-2').trim();
+      if (_tmpColor !== varColor_bg2) {
+        varColor_bg2 = _tmpColor;
+
+        console.log('--bg-2 变化:', varColor_bg2);
+        notyf_lt.open({
+          type: 'warning',
+          message: `--bg-2 变化: ${varColor_bg2}`
+        });
+
+        _changeStoreTextColor();
+      }
+    });
+
+    // 监听 document.documentElement 的属性变化
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['style', 'class', 'data-theme'] // 监听可能影响 CSS 变量的属性
+    });
+  });
+
+  onDestroy(() => {
+    if (observer) observer.disconnect();
   });
 
   // ------------------------------------------
@@ -249,5 +282,16 @@
       // 调用原始的 pushState 方法
       originalPushState.apply(history, arguments);
     };
+  }
+
+  // ------------------------------------------
+  function getVar(varName) {
+    return getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+  }
+
+  function _changeStoreTextColor() {
+    $_textColor.t1 = getTextColor(getVar('--bg-1'));
+    $_textColor.t2 = getTextColor(getVar('--bg-2'));
+    $_textColor.t3 = getTextColor(getVar('--bg-3'));
   }
 </script>

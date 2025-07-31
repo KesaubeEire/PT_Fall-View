@@ -1,7 +1,7 @@
 <script>
   import { version } from '@/../userscript.config.js';
   import { fade } from 'svelte/transition';
-  import { _isFallView, _panelPos } from '@/stores';
+  import { _isFallView, _panelPos, _textColor } from '@/stores';
   import IconTelegram from '@/assets/icon_telegram.svelte';
   import { getTextColor } from '@/lib/tools';
 
@@ -30,15 +30,15 @@
 
 <div class="entry_mteam">
   <div class="ant-typography" style="line-height: 1.5; text-align: center;">
-    <button class="__btn" id="_ptFall_about" style:--hover="green" style={`color: ${getTextColor('var(--bg-2)')}`} on:click={openAbout}>PT-Fall<br /><span style:color style="font-weight: 600;">[v{version}]</span></button>
-    <button class="__btn" id="_ptFall_faq" style:--hover="#40a9ff" style={`color: ${getTextColor('var(--bg-2)')}`} on:click={openFAQ}>常见问题<br />FAQ</button>
+    <button class="__btn" id="_ptFall_about" style:--hover="green" style={`color: ${$_textColor.t2}`} on:click={openAbout}>PT-Fall<br /><span style:color style="font-weight: 600;">[v{version}]</span></button>
+    <button class="__btn" id="_ptFall_faq" style:--hover="#40a9ff" style={`color: ${$_textColor.t2}`} on:click={openFAQ}>常见问题<br />FAQ</button>
   </div>
 </div>
 
 <!-- about 弹窗 -->
 {#if _modalAbout}
   <div class="modal-overlay" transition:fade={{ duration: 200 }} on:click={closeAbout} role="button" aria-hidden="true">
-    <div class="modal-content" style={`color: ${getTextColor('var(--bg-3)')}`} on:click|stopPropagation role="button" aria-hidden="true">
+    <div class="modal-content" style={`color: ${$_textColor.t3}`} on:click|stopPropagation role="button" aria-hidden="true">
       <div class="modal-header">
         <h3>关于 PT-Fall</h3>
         <button class="close-btn" on:click={closeAbout}>&times;</button>
@@ -57,7 +57,7 @@
 <!-- FAQ 弹窗 -->
 {#if _modalFAQ}
   <div class="modal-overlay" transition:fade={{ duration: 200 }} on:click={closeFAQ} role="button" aria-hidden="true">
-    <div class="modal-content" style={`color: ${getTextColor('var(--bg-3)')}`} on:click|stopPropagation role="button" aria-hidden="true">
+    <div class="modal-content" style={`color: ${$_textColor.t3}`} on:click|stopPropagation role="button" aria-hidden="true">
       <div class="modal-header">
         <h3>FAQ - 常见问题</h3>
         <button class="close-btn" on:click={closeFAQ}>&times;</button>
@@ -65,14 +65,14 @@
       <div class="modal-body">
         <h4>Q: 如何联系反馈问题</h4>
         <p>
-          <a style:--hover="#40a9ff" class="__btn __btnWide" style={`color: ${getTextColor('var(--bg-2)')}`} href="https://t.me/+Nd_qIisDjQ80ZTc9" target="_blank"> <IconTelegram height={24} width={24} /> &nbsp;Telegram</a>
+          <a style:--hover="#40a9ff" class="__btn __btnWide" style={`color: ${$_textColor.t2}`} href="https://t.me/+Nd_qIisDjQ80ZTc9" target="_blank"> <IconTelegram height={24} width={24} /> &nbsp;Telegram</a>
         </p>
 
         <h4>Q: 找不到悬浮框</h4>
         <button
           style:--hover="#40a9ff"
           class="__btn"
-          style={`color: ${getTextColor('var(--bg-2)')}`}
+          style={`color: ${$_textColor.t2}`}
           on:click={() => {
             $_panelPos = { x: 0, y: 0 };
           }}
@@ -94,8 +94,8 @@
         <p>点击悬浮面板中的"配置"按钮<br />可以调整卡片的最小 / 最大宽度、间隔等参数</p>
 
         <h4>Q: 快捷键</h4>
-        <p><span class="modal-code" style={`color: ${getTextColor('var(--bg-1)')}`}>x</span> 可以切换瀑布流视图</p>
-        <p><span class="modal-code" style={`color: ${getTextColor('var(--bg-1)')}`}>ESC</span> 可以从 次级菜单 / 配置菜单 / iframe 中退出</p>
+        <p><span class="modal-code" style={`color: ${$_textColor.t1}`}>x</span> 可以切换瀑布流视图</p>
+        <p><span class="modal-code" style={`color: ${$_textColor.t1}`}>ESC</span> 可以从 次级菜单 / 配置菜单 / iframe 中退出</p>
 
         <h4>Q: 深色模式颜色有些不对劲怎么办?</h4>
         <p>先刷新一下试试, 有些字体颜色不能即时更改<br />刷新后就可以了<br />还有颜色不对劲的 telegram 上截图告诉我</p>

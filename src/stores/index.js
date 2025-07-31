@@ -127,3 +127,10 @@ export const _card_radius = persistStore('_card_radius', {
 /** 暂存 ls->label / ls->category */
 export const _mt_label = persistStore('_mt_label', {});
 export const _mt_categories = persistStore('_mt_categories', {});
+
+/** 响应式文字颜色 */
+export const _textColor = persistStore('_textColor', {
+  t1: 'black',
+  t2: 'black',
+  t3: 'black'
+});
