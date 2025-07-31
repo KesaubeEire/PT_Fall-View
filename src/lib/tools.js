@@ -67,3 +67,54 @@ export function __JsonParse(data) {
   // 其他类型直接返回
   return data;
 }
+
+/** 根据背景颜色动态调整文字黑白
+ * @param background 背景颜色(支持 #RGB, #RRGGBB, #RRGGBBAA, rgba() 等格式)
+ */
+export function getTextColor(background) {
+  if (!background) return 'inherit';
+
+  let color = background.toString().trim();
+
+  // 处理 rgba/rgb 格式
+  if (color.startsWith('rgba(') || color.startsWith('rgb(')) {
+    const match = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*[\d.]+)?\)/);
+    if (match) {
+      const [, red, green, blue] = match;
+      const brightness = (parseInt(red) * 299 + parseInt(green) * 587 + parseInt(blue) * 114) / 1000;
+      return brightness < 128 ? 'white' : 'black';
+    }
+  }
+
+  // 移除 # 号
+  color = color.replace('#', '');
+
+  // 处理不同长度的十六进制颜色
+  let red, green, blue;
+
+  if (color.length === 3) {
+    // #RGB 格式
+    red = parseInt(color[0] + color[0], 16);
+    green = parseInt(color[1] + color[1], 16);
+    blue = parseInt(color[2] + color[2], 16);
+  } else if (color.length === 6) {
+    // #RRGGBB 格式
+    red = parseInt(color.substr(0, 2), 16);
+    green = parseInt(color.substr(2, 2), 16);
+    blue = parseInt(color.substr(4, 2), 16);
+  } else if (color.length === 8) {
+    // #RRGGBBAA 格式 (忽略透明度通道)
+    red = parseInt(color.substr(0, 2), 16);
+    green = parseInt(color.substr(2, 2), 16);
+    blue = parseInt(color.substr(4, 2), 16);
+  } else {
+    // 无效格式，返回默认值
+    return 'black';
+  }
+
+  // 计算亮度
+  const brightness = (red * 299 + green * 587 + blue * 114) / 1000;
+
+  // 如果亮度低于阈值128，则返回白色；否则返回黑色
+  return brightness < 128 ? 'white' : 'black';
+}

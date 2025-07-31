@@ -79,6 +79,7 @@ let _torrentInfo =  {
   import HoverView from '@/lib/hoverView';
   import _PicErrorLOGO from '@/assets/pic_error.svg';
   import _PicNoLOGO from '@/assets/pic_no.svg';
+  import { getTextColor } from '@/lib/tools';
 
   //---------------------------------------------
   /** 父传值: 种子信息*/
@@ -140,25 +141,6 @@ let _torrentInfo =  {
   _cateAlt = $_mt_categories[torrentInfo.category].nameChs ?? CONFIG.CATEGORY[torrentInfo.category].alt;
   _catePic = $_mt_categories[torrentInfo.category].image ? cate_pic_baseUrl + $_mt_categories[torrentInfo.category].image : CONFIG.CATEGORY[torrentInfo.category].src;
   _cateColor = CONFIG.CATEGORY[torrentInfo.category].color ?? _defaultColor;
-
-  /** 根据背景颜色动态调整文字黑白
-   * @param background 背景颜色(带#)
-   */
-  function getTextColor(background) {
-    // 移除颜色字符串中的 '#'
-    const color = background.replace('#', '');
-
-    // 提取红、绿、蓝通道的值
-    const red = parseInt(color.substr(0, 2), 16);
-    const green = parseInt(color.substr(2, 2), 16);
-    const blue = parseInt(color.substr(4, 2), 16);
-
-    // 计算亮度
-    const brightness = (red * 299 + green * 587 + blue * 114) / 1000;
-
-    // 如果亮度低于阈值128，则返回白色；否则返回黑色
-    return brightness < 128 ? 'white' : 'black';
-  }
 
   //---------------------------------------------
   // ## NOTE: "labelsNew" (tag) 处理, 旧 tag 保持原样
