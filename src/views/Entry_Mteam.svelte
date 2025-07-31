@@ -171,7 +171,9 @@
   /** 切换瀑布流视图
    * @param isFallView
    */
-  let _mx_margin_back = ''; // 记录 margin 值, 用于切换瀑布流时还原 margin 值
+  let _mx_margin_back = ''; // 旧风格记录 margin 值, 用于切换瀑布流时还原 margin 值
+  let _mx_next_max_width = ''; // next 风格记录 maxWidth 值, 用于切换瀑布流时还原 maxWidth 值
+  let _mx_next_padding = ''; // next 风格记录 padding-left 值, 用于切换瀑布流时还原 padding-left 值
   function changeFallView(isFallView) {
     // 切换瀑布流视图
     Fall_DOM.style.display = isFallView ? 'block' : 'none';
@@ -181,11 +183,20 @@
     Tool_Watch_Dom('#_shield', el => {
       el.style.display = isFallView ? 'block' : 'none';
     });
+
+    // 新风格
+    Tool_Watch_Dom(CONFIG.TL_Selector + '.flex', el => {
+      if (!_mx_next_max_width) {
+        _mx_next_max_width = getComputedStyle(el).getPropertyValue('max-width');
+        _mx_next_padding = getComputedStyle(el).getPropertyValue('padding-left');
+      }
+      el.style.maxWidth = isFallView ? 'none' : _mx_next_max_width;
+      el.style.paddingLeft = isFallView ? '80px' : _mx_next_padding;
+      el.style.paddingRight = isFallView ? '80px' : _mx_next_padding;
+    });
+
+    // 旧风格
     Tool_Watch_Dom(CONFIG.TL_Selector + ' .mx-auto', el => {
-      // console.log('===============');
-      // console.log(el);
-      // console.log(_mx_margin_back);
-      // console.log('===============');
       if (!_mx_margin_back) _mx_margin_back = el.style.margin;
       el.style.margin = isFallView ? 0 : _mx_margin_back;
     });
