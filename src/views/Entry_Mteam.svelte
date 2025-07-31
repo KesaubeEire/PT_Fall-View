@@ -69,10 +69,10 @@
         varColor_bg2 = _tmpColor;
 
         console.log('--bg-2 变化:', varColor_bg2);
-        notyf_lt.open({
-          type: 'warning',
-          message: `--bg-2 变化: ${varColor_bg2}`
-        });
+        // notyf_lt.open({
+        //   type: 'warning',
+        //   message: `--bg-2 变化: ${varColor_bg2}`
+        // });
 
         _changeStoreTextColor();
       }
