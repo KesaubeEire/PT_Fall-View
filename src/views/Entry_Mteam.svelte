@@ -143,28 +143,24 @@
     // 给 contentNode 这个元素上一个防止触摸并透明度减半的护罩
     const shield = document.createElement('div');
     shield.id = '_shield';
-    shield.style.position = 'absolute';
-    shield.style.top = '0';
-    shield.style.left = '0';
-    shield.style.width = '100%';
-    shield.style.height = '100%';
-    shield.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-    shield.style.zIndex = '100';
+
+    // 点击 #_shield 弹一个带确认和取消按钮的 modal 框
+    shield.addEventListener('click', () => {
+      // NOTE: 用 confirm 试了下, 发现 confirm 是阻塞的, 导致页面会卡住, 所以还是用个 modal 框吧
+      if (confirm('[PT-Fall]\n如果你认为你被阻挡了请点击确认\n这个阻挡效果会被取消\n这可能导致显示错误\n请确认您不在一般的瀑布流视图下\n比如您在逛论坛或者在发种之类的被遮挡了再点')) {
+        shield.style.display = 'none';
+      }
+    });
+
     if (!contentNode.querySelector('#_shield')) {
       contentNode.appendChild(shield);
     }
 
     // 在 shield 上加一个一模一样的另一个结点 Fall_DOM
     const fallHolder = document.createElement('div');
-    fallHolder.id = 'fallHolder';
-    fallHolder.style.position = 'absolute';
-    fallHolder.style.top = '0';
-    fallHolder.style.left = '0';
-    fallHolder.style.width = '100%';
-    fallHolder.style.minHeight = '200px';
-    fallHolder.style.zIndex = '101';
-    // fallHolder.style.backgroundColor = 'cyan';
-    if (!contentNode.querySelector('#fallHolder')) {
+    fallHolder.id = '_fallHolder';
+
+    if (!contentNode.querySelector('#_fallHolder')) {
       contentNode.appendChild(fallHolder);
 
       // 将 Fall_DOM 作为 fallHolder 的子节点添加进 DOM
@@ -179,7 +175,7 @@
   function changeFallView(isFallView) {
     // 切换瀑布流视图
     Fall_DOM.style.display = isFallView ? 'block' : 'none';
-    Tool_Watch_Dom('#fallHolder', el => {
+    Tool_Watch_Dom('#_fallHolder', el => {
       el.style.display = isFallView ? 'block' : 'none';
     });
     Tool_Watch_Dom('#_shield', el => {
