@@ -4,6 +4,11 @@
   import { getSiteConfig } from '@/siteConfig';
   import { fade } from 'svelte/transition';
   import Switch from '@/component/switch.svelte';
+  import { getTextColor } from '@/lib/tools';
+  import IconSort from '@/assets/icon_sort.svelte';
+  import SVG_CONFIG from '@/assets/icon_config.svg';
+  import SVG_MASONRY from '@/assets/icon_masonry.svg';
+  import SVG_LIST from '@/assets/icon_list.svg';
 
   // ------------------------------------------------
   // ## 侧边栏功能配置
@@ -79,7 +84,7 @@
 <!-- 悬浮按钮:可拖拽  -->
 <div class="flowP" style:--isFallView={$_isFallView ? '#4ff74f' : 'yellow'} bind:this={flowP} style="top:{$_panelPos.y}px; left:{$_panelPos.x}px;">
   <div class="flowPDragger" on:mousedown={onMouseDown} role="button" tabindex="0" aria-hidden="true"></div>
-  <div class="flowPHolder ant-typography">
+  <div class="flowPHolder ant-typography" style:--get-text-color={getTextColor('var(--bg-2)')}>
     <button
       class="flowBtn"
       on:click={() => {
@@ -87,7 +92,18 @@
         window.changeFallView($_isFallView);
       }}
     >
-      切换显示
+      {#if $_isFallView}
+        <div>
+          <img src={SVG_MASONRY} alt="SVG_MASONRY" />
+        </div>
+        <div class="flowBtn_text">瀑布</div>
+      {:else}
+        <div>
+          <!-- svg 列表图标 -->
+          <img src={SVG_LIST} alt="SVG_LIST" />
+        </div>
+        <div class="flowBtn_text">列表</div>
+      {/if}
     </button>
     <button
       class="flowBtn"
@@ -95,7 +111,11 @@
         $_side_panel_switch = !$_side_panel_switch;
       }}
     >
-      配置菜单
+      <div>
+        <!-- svg 设置图标 -->
+        <img src={SVG_CONFIG} alt="SVG_CONFIG" />
+      </div>
+      <div class="flowBtn_text">配置</div>
     </button>
     <button
       class="flowBtn"
@@ -105,6 +125,10 @@
     >
       清除悬浮预览图
     </button>
+
+    <!-- debug 用的俩按钮, 不用显示出来 -->
+    <!-- 
+
     <button
       class="flowBtn"
       on:click={() => {
@@ -119,6 +143,8 @@
         $_block_gay = !$_block_gay;
       }}>屏蔽 Gay</button
     >
+
+    -->
   </div>
 </div>
 
@@ -316,15 +342,20 @@
     width: 72px;
 
     background-color: var(--bg-2);
-    color: rgba(0, 0, 0, 0.88);
+    color: var(--get-text-color);
 
     &:hover {
-      background-color: var(--bg-3);
+      border-color: var(--bg-3);
     }
 
     &:active {
       transform: translateY(4px);
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    & .flowBtn_text {
+      padding-top: 3px;
+      padding-bottom: 3px;
     }
 
     /* @media (prefers-color-scheme: dark) {

@@ -668,7 +668,7 @@ let _torrentInfo =  {
         </div>
 
         <!-- 种子内信息_评论/上传/下载/完成 -->
-        <div class="card_info-item card_info__statistics" bind:this={dlclElement_inner}>
+        <div class="card_info-item card_info__statistics">
           <!-- <div>评论:{torrentInfo.status.comments}</div> -->
           <!-- <div>上传:{torrentInfo.status.seeders}</div> -->
           <!-- <div>下载:{torrentInfo.status.leechers}</div> -->
@@ -688,23 +688,34 @@ let _torrentInfo =  {
             <b>{torrentInfo.status.leechers}</b>
           </div>
 
-          <!-- 种子内信息_下载&收藏 -->
-          <button
-            on:mousedown|stopPropagation={e => {
-              e.stopPropagation();
-            }}
-            on:click|stopPropagation={e => {
-              get__DOWN_and_COLLET__Dom(torrentInfo.id, dlclElement_inner);
-
-              // NOTE: 记得提醒用户 => 原列表的这玩意儿会消失
-              // 记得让这玩意儿消失
-              e.target.style.display = 'none';
-              // console.log(e);
-            }}
-            title="(原列表的这俩按钮会消失)"
+          <div
+            bind:this={dlclElement_inner}
+            style="
+              background-color: {_cateColor ? _cateColor : 'transparent'};
+              color: {_cateColor ? getTextColor(_cateColor) : 'black'} ;
+              border-radius: 14px;
+              overflow: hidden;
+            "
           >
-            下载&收藏
-          </button>
+            <!-- 种子内信息_下载&收藏 -->
+            <button
+              on:mousedown|stopPropagation={e => {
+                e.stopPropagation();
+              }}
+              on:click|stopPropagation={e => {
+                get__DOWN_and_COLLET__Dom(torrentInfo.id, dlclElement_inner);
+                // NOTE: 记得提醒用户 => 原列表的这玩意儿会消失
+                // 记得让这玩意儿消失
+                e.target.style.display = 'none';
+                // console.log(e);
+              }}
+              title="(原列表的这俩按钮会消失)"
+              style="
+                background-color: inherit; border-color:transparent"
+            >
+              下载&收藏
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -755,7 +766,12 @@ let _torrentInfo =  {
 
   <!-- 种子信息 -->
   {#if $_card_detail.sub_title || $_card_detail.tags || $_card_detail.download_collect || $_card_detail.upload_time || $_card_detail.statistics}
-    <div class="card_info">
+    <div
+      class="card_info"
+      style="
+        background-color: {_cateColor ? _cateColor + 'b0' : 'transparent'};
+        color: {_cateColor ? getTextColor(_cateColor) : 'black'}"
+    >
       <!-- NOTE: 显示置顶和免费在图片 index 处 -->
 
       <!-- 种子信息_副标题 -->
@@ -810,6 +826,13 @@ let _torrentInfo =  {
               // console.log(e);
             }}
             title="(原列表的这俩按钮会消失)"
+            style="
+              background-color: {_cateColor ? _cateColor : 'transparent'};
+              color: {_cateColor ? getTextColor(_cateColor) : 'black'} ;
+              border: 3px solid transparent;
+              border-radius: 14px;
+              overflow: hidden;
+            "
           >
             下载 & 收藏
           </button>
