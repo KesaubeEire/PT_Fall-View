@@ -27,15 +27,18 @@ export function config(mode) {
       // 'https://kamept.com/*',
       // "https://pterclub.com/*",
 
-      // M-Team next
-      'https://next.m-team.cc/*',
-
-      // M-Team 旧-全系列域名
+      // M-Team
       'https://kp.m-team.cc/*',
-      'https://xp.m-team.io/*',
+      'https://zp.m-team.io/*',
       'https://xp.m-team.cc/*',
       'https://ap.m-team.cc/*',
-      'https://test2.m-team.cc/*'
+      'https://next.m-team.cc/*',
+      // 江苏专用
+      'https://xp.m-team.io/*',
+      // 测试站
+      'https://test2.m-team.cc/*',
+      // M-Team 旧风格域名
+      'https://ob.m-team.cc/*'
     ],
     exclude: [
       // np
