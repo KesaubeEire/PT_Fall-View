@@ -5,10 +5,9 @@
   import { fade } from 'svelte/transition';
   import Switch from '@/component/switch.svelte';
   import { getTextColor } from '@/lib/tools';
-  import IconSort from '@/assets/icon_sort.svelte';
-  import SVG_CONFIG from '@/assets/icon_config.svg';
-  import SVG_MASONRY from '@/assets/icon_masonry.svg';
-  import SVG_LIST from '@/assets/icon_list.svg';
+  import IconList from '@/assets/icon_list.svelte';
+  import IconConfig from '@/assets/icon_config.svelte';
+  import IconMasonry from '@/assets/icon_masonry.svelte';
 
   // ------------------------------------------------
   // ## 侧边栏功能配置
@@ -94,13 +93,13 @@
     >
       {#if $_isFallView}
         <div>
-          <img src={SVG_MASONRY} alt="SVG_MASONRY" />
+          <IconMasonry></IconMasonry>
         </div>
         <div class="flowBtn_text">瀑布</div>
       {:else}
         <div>
           <!-- svg 列表图标 -->
-          <img src={SVG_LIST} alt="SVG_LIST" />
+          <IconList></IconList>
         </div>
         <div class="flowBtn_text">列表</div>
       {/if}
@@ -113,7 +112,7 @@
     >
       <div>
         <!-- svg 设置图标 -->
-        <img src={SVG_CONFIG} alt="SVG_CONFIG" />
+        <IconConfig></IconConfig>
       </div>
       <div class="flowBtn_text">配置</div>
     </button>

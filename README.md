@@ -33,19 +33,33 @@ TODO:(这里的介绍旧版本直接拿过来的, 待更新)
 
 ## TODO List
 
-- [x] 给 height 不足的卡片增高到能显示所有信息
-- [x] 屏蔽 gay 的配置 && 各种其他图片障碍提醒
-- [x] 常驻信息可以把分区也取消显示 -> 以获得最纯净的瀑布流视觉效果
-- [x] 卡片圆角化的配置
-- [x] 适配 next: 基本适配了
-- [x] 更新新的标签 (中字/4K 之类的) TorrentSearch -> labelsNew 属性
 - [ ] 卡片悬浮信息上下可配置
 - [ ] 每日从 localstorage 拉取 categoriey / tag 是否有更新, 有更新得提醒
 - ...
+- [x] next 站点 flowPanel 颜色问题(要不要做全颜色解耦?很痛苦捏)
+- [x] 旧风格: ob.m-team.cc
+- [ ] 复制一个翻页到瀑布流下面(防止有遮挡的时候不能随心所欲翻页)
 - [ ] ESC 从 iframe 中退出不起作用
-- [ ] next 站点 flowPanel 颜色问题(要不要做全颜色解耦?很痛苦捏)
 
 ## packages & docs
 
 [svelte-bricks](https://bricks.janosh.dev/)  
 [Notyf](https://github.com/caroso1222/notyf)
+
+## Telegram 群新版本推送
+
+PT_Fall-View[0.3.4]
+
+feat: 新架构上线前紧急调整 style.
+
+> 全新架构的 M-team 瀑布流来了
+> 支持 next 新网站
+> 无论是新老 M-team 网站都推荐用当前这个版本
+> 没有账号闪退问题 (不需要二次发包无需担心 auth 问题)
+
+> 老版本的 PT_Masonry_View_Svelte[v1.1.x] 现在只推荐用于 KamePT 站点
+> 如果 M-team 和 KamePT 都用瀑布流请在 PT_Masonry_View_Svelte 里手动屏蔽 mteam 相关站点
+
+> 现在邀请你提前测试!
+
+https://greasyfork.org/zh-CN/scripts/543925

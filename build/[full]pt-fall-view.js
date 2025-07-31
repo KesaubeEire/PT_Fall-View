@@ -2,18 +2,20 @@
 // @name            PT瀑布流视图
 // @name:en         PT_Fall-View
 // @namespace       vite-plugin-monkey
-// @version         0.3.3
+// @version         0.3.4
 // @author          Kesa
 // @description     PT瀑布流视图(2025重构)
 // @description:en  PT Fall/Masonry View (restructured 2025)
 // @license         MIT
 // @icon            https://avatars.githubusercontent.com/u/23617963
-// @match           https://next.m-team.cc/*
 // @match           https://kp.m-team.cc/*
-// @match           https://xp.m-team.io/*
+// @match           https://zp.m-team.io/*
 // @match           https://xp.m-team.cc/*
 // @match           https://ap.m-team.cc/*
+// @match           https://next.m-team.cc/*
+// @match           https://xp.m-team.io/*
 // @match           https://test2.m-team.cc/*
+// @match           https://ob.m-team.cc/*
 // @exclude         */offers.php*
 // @exclude         */index.php*
 // @exclude         */forums.php*
@@ -590,7 +592,7 @@ button:focus-visible {
   }\r
 
 \r
-  .flowP.svelte-10gi3pg {\r
+  .flowP.svelte-3a4txt {\r
     position: fixed;\r
 \r
     width: 80px;\r
@@ -621,7 +623,7 @@ button:focus-visible {
     }\r
   }\r
 \r
-  .flowPDragger.svelte-10gi3pg {\r
+  .flowPDragger.svelte-3a4txt {\r
     height: 12px;\r
     transition: background-color 0.3s ease-in-out;\r
     background-color: var(--isFallView);\r
@@ -631,7 +633,7 @@ button:focus-visible {
     }\r
   }\r
 \r
-  .flowPHolder.svelte-10gi3pg {\r
+  .flowPHolder.svelte-3a4txt {\r
     /* position: relative; */\r
     display: flex;\r
     flex-direction: column;\r
@@ -641,7 +643,7 @@ button:focus-visible {
     gap: 4px;\r
   }\r
 \r
-  .flowBtn.svelte-10gi3pg {\r
+  .flowBtn.svelte-3a4txt {\r
     padding: 4px;\r
     border-radius: 4px;\r
     border: 2px solid transparent;\r
@@ -653,15 +655,20 @@ button:focus-visible {
     width: 72px;\r
 \r
     background-color: var(--bg-2);\r
-    color: rgba(0, 0, 0, 0.88);\r
+    color: var(--get-text-color);\r
 \r
     &:hover {\r
-      background-color: var(--bg-3);\r
+      border-color: var(--bg-3);\r
     }\r
 \r
     &:active {\r
       transform: translateY(4px);\r
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);\r
+    }\r
+\r
+    & .flowBtn_text:where(.svelte-3a4txt) {\r
+      padding-top: 3px;\r
+      padding-bottom: 3px;\r
     }\r
 \r
     /* @media (prefers-color-scheme: dark) {\r
@@ -676,7 +683,7 @@ button:focus-visible {
   }\r
 \r
   /* \u914D\u7F6E\u83DC\u5355\u6837\u5F0F */\r
-  .config-menu-overlay.svelte-10gi3pg {\r
+  .config-menu-overlay.svelte-3a4txt {\r
     position: fixed;\r
     top: 0;\r
     left: 0;\r
@@ -688,7 +695,7 @@ button:focus-visible {
     z-index: 20000;\r
   }\r
 \r
-  .config-menu.svelte-10gi3pg {\r
+  .config-menu.svelte-3a4txt {\r
     background-color: #ffffff;\r
     width: 300px;\r
     height: 100vh;\r
@@ -697,14 +704,14 @@ button:focus-visible {
     overflow-y: auto;\r
   }\r
 \r
-  .config-menu-header.svelte-10gi3pg {\r
+  .config-menu-header.svelte-3a4txt {\r
     display: flex;\r
     justify-content: space-between;\r
     align-items: center;\r
     margin-bottom: 12px;\r
   }\r
 \r
-  .close-btn.svelte-10gi3pg {\r
+  .close-btn.svelte-3a4txt {\r
     background: none;\r
     border: none;\r
     font-size: 24px;\r
@@ -713,25 +720,25 @@ button:focus-visible {
     transform: translateY(-4px);\r
   }\r
 \r
-  .config-menu-content.svelte-10gi3pg {\r
+  .config-menu-content.svelte-3a4txt {\r
     display: flex;\r
     flex-direction: column;\r
     gap: 4px;\r
 \r
     font-size: 14px;\r
 \r
-    & h3:where(.svelte-10gi3pg) {\r
+    & h3:where(.svelte-3a4txt) {\r
       margin-top: 28px;\r
     }\r
   }\r
 \r
-  .config-item.svelte-10gi3pg {\r
+  .config-item.svelte-3a4txt {\r
     display: flex;\r
     align-items: center;\r
     justify-content: space-between;\r
   }\r
 \r
-  .config-item.svelte-10gi3pg input:where(.svelte-10gi3pg) {\r
+  .config-item.svelte-3a4txt input:where(.svelte-3a4txt) {\r
     width: 120px;\r
   }\r
 
@@ -4283,11 +4290,11 @@ button:focus-visible {
     }
     return zoom;
   }
-  var root_4$1 = /* @__PURE__ */ template(`<span class="svelte-b2jtby"> </span>`);
-  var root_3$1 = /* @__PURE__ */ template(`<div class="svelte-b2jtby"><!></div>`);
+  var root_4$2 = /* @__PURE__ */ template(`<span class="svelte-b2jtby"> </span>`);
+  var root_3$2 = /* @__PURE__ */ template(`<div class="svelte-b2jtby"><!></div>`);
   var root_7$1 = /* @__PURE__ */ template(`<span class="svelte-b2jtby"> </span>`);
   var root_1$4 = /* @__PURE__ */ template(`<div><!></div>`);
-  var root$8 = /* @__PURE__ */ template(`<div></div>`);
+  var root$b = /* @__PURE__ */ template(`<div></div>`);
   function Masonry($$anchor, $$props) {
     push($$props, false);
     const nCols = mutable_state();
@@ -4329,7 +4336,7 @@ button:focus-visible {
     );
     legacy_pre_effect_reset();
     init();
-    var div = root$8();
+    var div = root$b();
     each(div, 5, () => get$1(itemsToCols), index, ($$anchor2, col) => {
       var div_1 = root_1$4();
       var node = child(div_1);
@@ -4340,7 +4347,7 @@ button:focus-visible {
           each(node_1, 9, () => get$1(col), ([item, idx]) => getId()(item), ($$anchor4, $$item) => {
             let item = () => get$1($$item)[0];
             let idx = () => get$1($$item)[1];
-            var div_2 = root_3$1();
+            var div_2 = root_3$2();
             var node_2 = child(div_2);
             slot(
               node_2,
@@ -4355,7 +4362,7 @@ button:focus-visible {
                 }
               },
               ($$anchor5) => {
-                var span = root_4$1();
+                var span = root_4$2();
                 var text = child(span);
                 template_effect(() => set_text(text, item()));
                 append($$anchor5, span);
@@ -5279,9 +5286,9 @@ button:focus-visible {
       handleMouseMove(e, imgEle);
     }
   });
-  var root$7 = /* @__PURE__ */ ns_template(`<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="18" width="18" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle;"><path d="M7 7h10v2H7zm0 4h7v2H7z"></path><path d="M20 2H4c-1.103 0-2 .897-2 2v18l5.333-4H20c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zm0 14H6.667L4 18V4h16v12z"></path></svg>`);
+  var root$a = /* @__PURE__ */ ns_template(`<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="18" width="18" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle;"><path d="M7 7h10v2H7zm0 4h7v2H7z"></path><path d="M20 2H4c-1.103 0-2 .897-2 2v18l5.333-4H20c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zm0 14H6.667L4 18V4h16v12z"></path></svg>`);
   function Icon_comment($$anchor) {
-    var svg = root$7();
+    var svg = root$a();
     append($$anchor, svg);
   }
   class HoverView {
@@ -5440,7 +5447,7 @@ button:focus-visible {
       kpImg.setAttribute("src", "");
     });
     const _container = document.querySelector(".kp_container");
-    _container.style.display = "none";
+    if (_container) _container.style.display = "none";
   }
   window.__clearPreview = __clearPreview;
   const _PicErrorLOGO = "data:image/svg+xml,%3csvg%20width='256px'%20height='256px'%20viewBox='0%200%2024.00%2024.00'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%20transform='matrix(1,%200,%200,%201,%200,%200)'%20%3e%3cg%20id='SVGRepo_bgCarrier'%20stroke-width='0'%20transform='translate(0,0),%20scale(1)'%20/%3e%3cg%20id='SVGRepo_tracerCarrier'%20stroke-linecap='round'%20stroke-linejoin='round'%20stroke='%23CCCCCC'%20stroke-width='0.048'%20/%3e%3cg%20id='SVGRepo_iconCarrier'%3e%3cpath%20d='M13%203L13.7071%202.29289C13.5196%202.10536%2013.2652%202%2013%202V3ZM14%2022C14.5523%2022%2015%2021.5523%2015%2021C15%2020.4477%2014.5523%2020%2014%2020V22ZM19%209H20C20%208.73478%2019.8946%208.48043%2019.7071%208.29289L19%209ZM18%2010C18%2010.5523%2018.4477%2011%2019%2011C19.5523%2011%2020%2010.5523%2020%2010H18ZM5.21799%2019.908L4.32698%2020.362H4.32698L5.21799%2019.908ZM6.09202%2020.782L6.54601%2019.891L6.54601%2019.891L6.09202%2020.782ZM6.09202%203.21799L5.63803%202.32698L5.63803%202.32698L6.09202%203.21799ZM5.21799%204.09202L4.32698%203.63803L4.32698%203.63803L5.21799%204.09202ZM13.109%208.45399L14%208V8L13.109%208.45399ZM13.546%208.89101L14%208L13.546%208.89101ZM17.2299%2017.7929C16.8394%2018.1834%2016.8394%2018.8166%2017.2299%2019.2071C17.6204%2019.5976%2018.2536%2019.5976%2018.6441%2019.2071L17.2299%2017.7929ZM15.0316%2015.2507C14.8939%2015.7856%2015.2159%2016.3308%2015.7507%2016.4684C16.2856%2016.6061%2016.8308%2016.2841%2016.9684%2015.7493L15.0316%2015.2507ZM17.9375%2020C17.3852%2020%2016.9375%2020.4477%2016.9375%2021C16.9375%2021.5523%2017.3852%2022%2017.9375%2022V20ZM17.9475%2022C18.4998%2022%2018.9475%2021.5523%2018.9475%2021C18.9475%2020.4477%2018.4998%2020%2017.9475%2020V22ZM13%202H8.2V4H13V2ZM4%206.2V17.8H6V6.2H4ZM8.2%2022H14V20H8.2V22ZM19.7071%208.29289L13.7071%202.29289L12.2929%203.70711L18.2929%209.70711L19.7071%208.29289ZM20%2010V9H18V10H20ZM4%2017.8C4%2018.3436%203.99922%2018.8114%204.03057%2019.195C4.06287%2019.5904%204.13419%2019.9836%204.32698%2020.362L6.10899%2019.454C6.0838%2019.4045%206.04612%2019.3038%206.02393%2019.0322C6.00078%2018.7488%206%2018.3766%206%2017.8H4ZM8.2%2020C7.62345%2020%207.25117%2019.9992%206.96784%2019.9761C6.69617%2019.9539%206.59545%2019.9162%206.54601%2019.891L5.63803%2021.673C6.01641%2021.8658%206.40963%2021.9371%206.80497%2021.9694C7.18864%2022.0008%207.65645%2022%208.2%2022V20ZM4.32698%2020.362C4.6146%2020.9265%205.07354%2021.3854%205.63803%2021.673L6.54601%2019.891C6.35785%2019.7951%206.20487%2019.6422%206.10899%2019.454L4.32698%2020.362ZM8.2%202C7.65645%202%207.18864%201.99922%206.80497%202.03057C6.40963%202.06287%206.01641%202.13419%205.63803%202.32698L6.54601%204.10899C6.59545%204.0838%206.69617%204.04612%206.96784%204.02393C7.25117%204.00078%207.62345%204%208.2%204V2ZM6%206.2C6%205.62345%206.00078%205.25117%206.02393%204.96784C6.04612%204.69617%206.0838%204.59545%206.10899%204.54601L4.32698%203.63803C4.13419%204.01641%204.06287%204.40963%204.03057%204.80497C3.99922%205.18864%204%205.65645%204%206.2H6ZM5.63803%202.32698C5.07354%202.6146%204.6146%203.07354%204.32698%203.63803L6.10899%204.54601C6.20487%204.35785%206.35785%204.20487%206.54601%204.10899L5.63803%202.32698ZM12%203V7.4H14V3H12ZM14.6%2010H19V8H14.6V10ZM12%207.4C12%207.66353%2011.9992%207.92131%2012.0169%208.13823C12.0356%208.36682%2012.0797%208.63656%2012.218%208.90798L14%208C14.0293%208.05751%2014.0189%208.08028%2014.0103%207.97537C14.0008%207.85878%2014%207.69653%2014%207.4H12ZM14.6%208C14.3035%208%2014.1412%207.99922%2014.0246%207.9897C13.9197%207.98113%2013.9425%207.9707%2014%208L13.092%209.78201C13.3634%209.92031%2013.6332%209.96438%2013.8618%209.98305C14.0787%2010.0008%2014.3365%2010%2014.6%2010V8ZM12.218%208.90798C12.4097%209.2843%2012.7157%209.59027%2013.092%209.78201L14%208V8L12.218%208.90798ZM18.937%2016C18.937%2016.1732%2018.8915%2016.3053%2018.6175%2016.5697C18.4638%2016.718%2018.2828%2016.8653%2018.0319%2017.074C17.7936%2017.2723%2017.5141%2017.5087%2017.2299%2017.7929L18.6441%2019.2071C18.86%2018.9913%2019.0805%2018.8033%2019.3109%2018.6116C19.5287%2018.4305%2019.7852%2018.2223%2020.0065%2018.0087C20.4825%2017.5493%2020.937%2016.9314%2020.937%2016H18.937ZM17.937%2015C18.4893%2015%2018.937%2015.4477%2018.937%2016H20.937C20.937%2014.3431%2019.5938%2013%2017.937%2013V15ZM16.9684%2015.7493C17.0795%2015.3177%2017.4724%2015%2017.937%2015V13C16.5377%2013%2015.3645%2013.957%2015.0316%2015.2507L16.9684%2015.7493ZM17.9375%2022H17.9475V20H17.9375V22Z'%20fill='%23c00000'%20/%3e%3c/g%3e%3c/svg%3e";
@@ -5448,7 +5455,7 @@ button:focus-visible {
   var $$_import_CONFIG = reactive_import(() => CONFIG);
   var root_1$3 = /* @__PURE__ */ template(`<div class="card-category svelte-1ytaoom"><img class="card_category-img svelte-1ytaoom"> </div>`);
   var root_2$2 = /* @__PURE__ */ template(`<a class="__main_title svelte-1ytaoom" target="_blank" rel="noopener noreferrer"> </a>`);
-  var root_4 = /* @__PURE__ */ template(`<div class="pic_error svelte-1ytaoom"><div><img style="height: 100%; width:60px; border-radius:20px;" alt="pic error" class="svelte-1ytaoom"></div> <div class="ant-typography" style="color: white; font-size:16px;">GAY WARNING<br>同志警告</div></div>`);
+  var root_4$1 = /* @__PURE__ */ template(`<div class="pic_error svelte-1ytaoom"><div><img style="height: 100%; width:60px; border-radius:20px;" alt="pic error" class="svelte-1ytaoom"></div> <div class="ant-typography" style="color: white; font-size:16px;">GAY WARNING<br>同志警告</div></div>`);
   var root_6 = /* @__PURE__ */ template(`<img class="lazy-image svelte-1ytaoom">`);
   var root_7 = /* @__PURE__ */ template(`<div class="pic_error svelte-1ytaoom" style=""><div><img style="height: 100%;width: 100px;" alt="no pic" class="svelte-1ytaoom"></div> <div>本种没有图片</div></div>`);
   var root_8 = /* @__PURE__ */ template(`<div class="pic_error svelte-1ytaoom" style=""><div><img style="height: 100%;width: 100px;" alt="pic error" class="svelte-1ytaoom"></div> <div class="ant-typography">图片加载失败</div></div>`);
@@ -5482,7 +5489,8 @@ button:focus-visible {
   var root_33 = /* @__PURE__ */ template(`<div class="card_info-item card_info__upload_time svelte-1ytaoom"><div> </div></div>`);
   var root_34 = /* @__PURE__ */ template(`<div class="card_info-item card_info__statistics svelte-1ytaoom"><!> &nbsp; <b> </b> &nbsp;&nbsp; <img alt="SVG_Seeders"> &nbsp; <b> </b> &nbsp;&nbsp; <img alt="SVG_Leechers"> &nbsp; <b> </b></div>`);
   var root_24 = /* @__PURE__ */ template(`<div class="card_info svelte-1ytaoom"><!>  <!> <!> <!> <!></div>`);
-  var root$6 = /* @__PURE__ */ template(`<div class="card_holder svelte-1ytaoom"><!> <div class="card_title"><!></div> <div class="card_pic svelte-1ytaoom"><!> <!>  <div class="hover-overlay svelte-1ytaoom"><div class="overlay-content svelte-1ytaoom"><div class="__inner_index_and_size svelte-1ytaoom"><div class="card-index __inner_index svelte-1ytaoom" style="background-color:black; color:white"><!> <!></div> <button class="__iframe_button svelte-1ytaoom">打开 iframe</button> <div class="card-index card-index-right __inner_index __inner_size svelte-1ytaoom"> </div></div> <div class="card-category card_info-item svelte-1ytaoom"><img class="card_category-img card_category_square svelte-1ytaoom" style="width: 36px;height: 36px;"> </div> <div style="width: 100%;" class="card_info-item card_info__sub_title svelte-1ytaoom"><a class="__main_title __straight svelte-1ytaoom" target="_blank" rel="noopener noreferrer"> </a></div> <div style="width: 100%;" class="card_info-item card_info__sub_title svelte-1ytaoom"><div class="__sub_title svelte-1ytaoom"> </div></div>  <!> <div class="card_info-item card_info__upload_time svelte-1ytaoom"><div> </div></div> <div class="card_info-item card_info__statistics svelte-1ytaoom"><div class="__center svelte-1ytaoom"><!> <b> </b></div> <div class="__center svelte-1ytaoom"><img style="width: 14px; height: 14px;" alt="SVG_Seeders" class="svelte-1ytaoom"> <b> </b></div> <div class="__center svelte-1ytaoom"><img style="width: 14px; height: 14px;" alt="SVG_Leechers" class="svelte-1ytaoom"> <b> </b></div> <button title="(原列表的这俩按钮会消失)">下载&收藏</button></div></div></div> <!> <!></div> <!></div>`);
+  var root$9 = /* @__PURE__ */ template(`<div class="card_holder svelte-1ytaoom"><!> <div class="card_title"><!></div> <div class="card_pic svelte-1ytaoom"><!> <!>  <div class="hover-overlay svelte-1ytaoom"><div class="overlay-content svelte-1ytaoom"><div class="__inner_index_and_size svelte-1ytaoom"><div class="card-index __inner_index svelte-1ytaoom" style="background-color:black; color:white"><!> <!></div> <button class="__iframe_button svelte-1ytaoom">打开 iframe</button> <div class="card-index card-index-right __inner_index __inner_size svelte-1ytaoom"> </div></div> <div class="card-category card_info-item svelte-1ytaoom"><img class="card_category-img card_category_square svelte-1ytaoom" style="width: 36px;height: 36px;"> </div> <div style="width: 100%;" class="card_info-item card_info__sub_title svelte-1ytaoom"><a class="__main_title __straight svelte-1ytaoom" target="_blank" rel="noopener noreferrer"> </a></div> <div style="width: 100%;" class="card_info-item card_info__sub_title svelte-1ytaoom"><div class="__sub_title svelte-1ytaoom"> </div></div>  <!> <div class="card_info-item card_info__upload_time svelte-1ytaoom"><div> </div></div> <div class="card_info-item card_info__statistics svelte-1ytaoom"><div class="__center svelte-1ytaoom"><!> <b> </b></div> <div class="__center svelte-1ytaoom"><img style="width: 14px; height: 14px;" alt="SVG_Seeders" class="svelte-1ytaoom"> <b> </b></div> <div class="__center svelte-1ytaoom"><img style="width: 14px; height: 14px;" alt="SVG_Leechers" class="svelte-1ytaoom"> <b> </b></div> <div><button title="(原列表的这俩按钮会消失)" style="
+                background-color: inherit; border-color:transparent">下载&收藏</button></div></div></div></div> <!> <!></div> <!></div>`);
   function Mteam_Card($$anchor, $$props) {
     push($$props, false);
     const [$$stores, $$cleanup] = setup_stores();
@@ -5683,7 +5691,7 @@ button:focus-visible {
     );
     legacy_pre_effect_reset();
     init();
-    var div = root$6();
+    var div = root$9();
     var node = child(div);
     {
       var consequent = ($$anchor2) => {
@@ -5735,7 +5743,7 @@ button:focus-visible {
         var node_3 = first_child(fragment);
         {
           var consequent_2 = ($$anchor3) => {
-            var div_4 = root_4();
+            var div_4 = root_4$1();
             var div_5 = child(div_4);
             var img_1 = child(div_5);
             set_attribute(img_1, "src", static_gay_warn);
@@ -5948,20 +5956,21 @@ button:focus-visible {
     var img_9 = child(div_33);
     var b_2 = sibling(img_9, 2);
     var text_12 = child(b_2);
-    var button_2 = sibling(div_33, 2);
-    bind_this(div_30, ($$value) => set(dlclElement_inner, $$value), () => get$1(dlclElement_inner));
+    var div_34 = sibling(div_33, 2);
+    var button_2 = child(div_34);
+    bind_this(div_34, ($$value) => set(dlclElement_inner, $$value), () => get$1(dlclElement_inner));
     bind_this(div_13, ($$value) => set(overlayContent, $$value), () => get$1(overlayContent));
     bind_this(div_12, ($$value) => set(overlayHolder, $$value), () => get$1(overlayHolder));
     var node_15 = sibling(div_12, 2);
     {
       var consequent_15 = ($$anchor2) => {
-        var div_34 = root_19();
-        var node_16 = child(div_34);
+        var div_35 = root_19();
+        var node_16 = child(div_35);
         {
           var consequent_13 = ($$anchor3) => {
             var fragment_4 = root_20();
-            var div_35 = first_child(fragment_4);
-            each(div_35, 5, () => get$1(toppingLevelArray), index, ($$anchor4, _) => {
+            var div_36 = first_child(fragment_4);
+            each(div_36, 5, () => get$1(toppingLevelArray), index, ($$anchor4, _) => {
               var img_10 = root_21();
               template_effect(() => set_attribute(img_10, "src", $$_import_CONFIG().ICON.PIN));
               append($$anchor4, img_10);
@@ -5976,10 +5985,10 @@ button:focus-visible {
         var node_17 = sibling(text_13);
         {
           var consequent_14 = ($$anchor3) => {
-            var div_36 = root_22();
-            toggle_class(div_36, "_tag_discount_free", _discount == "FREE");
-            toggle_class(div_36, "_tag_discount_50", _discount == "PERCENT_50");
-            var text_14 = child(div_36);
+            var div_37 = root_22();
+            toggle_class(div_37, "_tag_discount_free", _discount == "FREE");
+            toggle_class(div_37, "_tag_discount_50", _discount == "PERCENT_50");
+            var text_14 = child(div_37);
             template_effect(
               ($0) => set_text(text_14, `${_discountText[_discount] ?? ""}${$0 ?? ""}`),
               [
@@ -5987,7 +5996,7 @@ button:focus-visible {
               ],
               derived_safe_equal
             );
-            append($$anchor3, div_36);
+            append($$anchor3, div_37);
           };
           if_block(node_17, ($$render) => {
             if ($_card_detail().free && _discount != "NORMAL") $$render(consequent_14);
@@ -5996,7 +6005,7 @@ button:focus-visible {
         template_effect(() => set_text(text_13, ` ${torrentInfo().index ?? ""}
 
           `));
-        append($$anchor2, div_34);
+        append($$anchor2, div_35);
       };
       if_block(node_15, ($$render) => {
         if (!get$1(_inner_info_show)) $$render(consequent_15);
@@ -6005,11 +6014,11 @@ button:focus-visible {
     var node_18 = sibling(node_15, 2);
     {
       var consequent_16 = ($$anchor2) => {
-        var div_37 = root_23();
-        var text_15 = child(div_37);
+        var div_38 = root_23();
+        var text_15 = child(div_38);
         template_effect(
           ($0, $1) => {
-            set_attribute(div_37, "style", `background-color: ${get$1(_cateColor) ?? "transparent"}; color:${$0 ?? ""}`);
+            set_attribute(div_38, "style", `background-color: ${get$1(_cateColor) ?? "transparent"}; color:${$0 ?? ""}`);
             set_text(text_15, $1);
           },
           [
@@ -6018,7 +6027,7 @@ button:focus-visible {
           ],
           derived_safe_equal
         );
-        append($$anchor2, div_37);
+        append($$anchor2, div_38);
       };
       if_block(node_18, ($$render) => {
         if ($_card_detail().size && !get$1(_inner_info_show)) $$render(consequent_16);
@@ -6027,15 +6036,15 @@ button:focus-visible {
     var node_19 = sibling(div_3, 2);
     {
       var consequent_26 = ($$anchor2) => {
-        var div_38 = root_24();
-        var node_20 = child(div_38);
+        var div_39 = root_24();
+        var node_20 = child(div_39);
         {
           var consequent_17 = ($$anchor3) => {
-            var div_39 = root_25();
-            var div_40 = child(div_39);
-            var text_16 = child(div_40);
+            var div_40 = root_25();
+            var div_41 = child(div_40);
+            var text_16 = child(div_41);
             template_effect(() => set_text(text_16, torrentInfo().smallDescr));
-            append($$anchor3, div_39);
+            append($$anchor3, div_40);
           };
           if_block(node_20, ($$render) => {
             if ($_card_detail().sub_title) $$render(consequent_17);
@@ -6044,12 +6053,12 @@ button:focus-visible {
         var node_21 = sibling(node_20, 2);
         {
           var consequent_22 = ($$anchor3) => {
-            var div_41 = root_26();
-            var node_22 = child(div_41);
+            var div_42 = root_26();
+            var node_22 = child(div_42);
             {
               var consequent_18 = ($$anchor4) => {
-                var div_42 = root_27();
-                append($$anchor4, div_42);
+                var div_43 = root_27();
+                append($$anchor4, div_43);
               };
               if_block(node_22, ($$render) => {
                 if ((torrentInfo().labels & 1) === 1) $$render(consequent_18);
@@ -6058,8 +6067,8 @@ button:focus-visible {
             var node_23 = sibling(node_22, 2);
             {
               var consequent_19 = ($$anchor4) => {
-                var div_43 = root_28();
-                append($$anchor4, div_43);
+                var div_44 = root_28();
+                append($$anchor4, div_44);
               };
               if_block(node_23, ($$render) => {
                 if ((torrentInfo().labels & 2) === 2) $$render(consequent_19);
@@ -6068,8 +6077,8 @@ button:focus-visible {
             var node_24 = sibling(node_23, 2);
             {
               var consequent_20 = ($$anchor4) => {
-                var div_44 = root_29();
-                append($$anchor4, div_44);
+                var div_45 = root_29();
+                append($$anchor4, div_45);
               };
               if_block(node_24, ($$render) => {
                 if ((torrentInfo().labels & 4) === 4) $$render(consequent_20);
@@ -6081,13 +6090,13 @@ button:focus-visible {
                 var fragment_5 = comment();
                 var node_26 = first_child(fragment_5);
                 each(node_26, 1, () => get$1(_labelsNew), index, ($$anchor5, label) => {
-                  var div_45 = root_31();
-                  var text_17 = child(div_45);
+                  var div_46 = root_31();
+                  var text_17 = child(div_46);
                   template_effect(() => {
-                    set_attribute(div_45, "style", `background-color: ${get$1(label).config.bgColor ?? ""}; color: ${get$1(label).config.color ?? ""}`);
+                    set_attribute(div_46, "style", `background-color: ${get$1(label).config.bgColor ?? ""}; color: ${get$1(label).config.color ?? ""}`);
                     set_text(text_17, get$1(label).key);
                   });
-                  append($$anchor5, div_45);
+                  append($$anchor5, div_46);
                 });
                 append($$anchor4, fragment_5);
               };
@@ -6095,7 +6104,7 @@ button:focus-visible {
                 if (get$1(_labelsNew).length != 0) $$render(consequent_21);
               });
             }
-            append($$anchor3, div_41);
+            append($$anchor3, div_42);
           };
           if_block(node_21, ($$render) => {
             if ($_card_detail().tags && (Number(torrentInfo().labels) || get$1(_labelsNew).length)) $$render(consequent_22);
@@ -6104,14 +6113,27 @@ button:focus-visible {
         var node_27 = sibling(node_21, 2);
         {
           var consequent_23 = ($$anchor3) => {
-            var div_46 = root_32();
-            var button_3 = child(div_46);
-            bind_this(div_46, ($$value) => set(dlclElement_outer, $$value), () => get$1(dlclElement_outer));
+            var div_47 = root_32();
+            var button_3 = child(div_47);
+            bind_this(div_47, ($$value) => set(dlclElement_outer, $$value), () => get$1(dlclElement_outer));
+            template_effect(
+              ($0) => set_attribute(button_3, "style", `
+              background-color: ${(get$1(_cateColor) ? get$1(_cateColor) : "transparent") ?? ""};
+              color: ${$0 ?? ""} ;
+              border: 3px solid transparent;
+              border-radius: 14px;
+              overflow: hidden;
+            `),
+              [
+                () => get$1(_cateColor) ? getTextColor(get$1(_cateColor)) : "black"
+              ],
+              derived_safe_equal
+            );
             event("click", button_3, (e) => {
               get__DOWN_and_COLLET__Dom(torrentInfo().id, get$1(dlclElement_outer));
               e.target.style.display = "none";
             });
-            append($$anchor3, div_46);
+            append($$anchor3, div_47);
           };
           if_block(node_27, ($$render) => {
             if ($_card_detail().download_collect) $$render(consequent_23);
@@ -6120,11 +6142,11 @@ button:focus-visible {
         var node_28 = sibling(node_27, 2);
         {
           var consequent_24 = ($$anchor3) => {
-            var div_47 = root_33();
-            var div_48 = child(div_47);
-            var text_18 = child(div_48);
+            var div_48 = root_33();
+            var div_49 = child(div_48);
+            var text_18 = child(div_49);
             template_effect(() => set_text(text_18, `上传时间:${torrentInfo().createdDate ?? ""}`));
-            append($$anchor3, div_47);
+            append($$anchor3, div_48);
           };
           if_block(node_28, ($$render) => {
             if ($_card_detail().upload_time) $$render(consequent_24);
@@ -6133,8 +6155,8 @@ button:focus-visible {
         var node_29 = sibling(node_28, 2);
         {
           var consequent_25 = ($$anchor3) => {
-            var div_49 = root_34();
-            var node_30 = child(div_49);
+            var div_50 = root_34();
+            var node_30 = child(div_50);
             Icon_comment(node_30);
             var b_3 = sibling(node_30, 2);
             var text_19 = child(b_3);
@@ -6151,13 +6173,22 @@ button:focus-visible {
               set_attribute(img_12, "src", $$_import_CONFIG().ICON.LEECHERS);
               set_text(text_21, torrentInfo().status.leechers);
             });
-            append($$anchor3, div_49);
+            append($$anchor3, div_50);
           };
           if_block(node_29, ($$render) => {
             if ($_card_detail().statistics) $$render(consequent_25);
           });
         }
-        append($$anchor2, div_38);
+        template_effect(
+          ($0) => set_attribute(div_39, "style", `
+        background-color: ${(get$1(_cateColor) ? get$1(_cateColor) + "b0" : "transparent") ?? ""};
+        color: ${$0 ?? ""}`),
+          [
+            () => get$1(_cateColor) ? getTextColor(get$1(_cateColor)) : "black"
+          ],
+          derived_safe_equal
+        );
+        append($$anchor2, div_39);
       };
       if_block(node_19, ($$render) => {
         if ($_card_detail().sub_title || $_card_detail().tags || $_card_detail().download_collect || $_card_detail().upload_time || $_card_detail().statistics) $$render(consequent_26);
@@ -6192,6 +6223,12 @@ button:focus-visible {
         set_text(text_11, torrentInfo().status.seeders);
         set_attribute(img_9, "src", $$_import_CONFIG().ICON.LEECHERS);
         set_text(text_12, torrentInfo().status.leechers);
+        set_attribute(div_34, "style", `
+              background-color: ${(get$1(_cateColor) ? get$1(_cateColor) : "transparent") ?? ""};
+              color: ${$0 ?? ""} ;
+              border-radius: 14px;
+              overflow: hidden;
+            `);
       },
       [
         () => get$1(_cateColor) ? getTextColor(get$1(_cateColor)) : "black",
@@ -6236,8 +6273,8 @@ button:focus-visible {
     pop();
     $$cleanup();
   }
-  var root_3 = /* @__PURE__ */ template(`<p class="text_center svelte-1vmncc1">没有结果捏</p>`);
-  var root$5 = /* @__PURE__ */ template(`<main><div class="fall_holder svelte-1vmncc1" style=""><!></div></main>`);
+  var root_3$1 = /* @__PURE__ */ template(`<p class="text_center svelte-1vmncc1">没有结果捏</p>`);
+  var root$8 = /* @__PURE__ */ template(`<main><div class="fall_holder svelte-1vmncc1" style=""><!></div></main>`);
   function Mteam_Fall($$anchor, $$props) {
     var _a, _b, _c, _d;
     push($$props, false);
@@ -6329,7 +6366,7 @@ button:focus-visible {
     });
     legacy_pre_effect_reset();
     init();
-    var main = root$5();
+    var main = root$8();
     var div = child(main);
     var node = child(div);
     {
@@ -6362,7 +6399,7 @@ button:focus-visible {
         });
       };
       var alternate = ($$anchor2) => {
-        var p = root_3();
+        var p = root_3$1();
         append($$anchor2, p);
       };
       if_block(node, ($$render) => {
@@ -6379,12 +6416,12 @@ button:focus-visible {
     $$cleanup();
     return $$pop;
   }
-  let version = "0.3.3";
-  var root$4 = /* @__PURE__ */ ns_template(`<svg class="tgme_logo" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle cx="17" cy="17" fill="#40a9ff" r="17"></circle><path d="m7.06510669 16.9258959c5.22739451-2.1065178 8.71314291-3.4952633 10.45724521-4.1662364 4.9797665-1.9157646 6.0145193-2.2485535 6.6889567-2.2595423.1483363-.0024169.480005.0315855.6948461.192827.1814076.1361492.23132.3200675.2552048.4491519.0238847.1290844.0536269.4231419.0299841.65291-.2698553 2.6225356-1.4375148 8.986738-2.0315537 11.9240228-.2513602 1.2428753-.7499132 1.5088847-1.2290685 1.5496672-1.0413153.0886298-1.8284257-.4857912-2.8369905-1.0972863-1.5782048-.9568691-2.5327083-1.3984317-4.0646293-2.3321592-1.7703998-1.0790837-.212559-1.583655.7963867-2.5529189.2640459-.2536609 4.7753906-4.3097041 4.755976-4.431706-.0070494-.0442984-.1409018-.481649-.2457499-.5678447-.104848-.0861957-.2595946-.0567202-.3712641-.033278-.1582881.0332286-2.6794907 1.5745492-7.5636077 4.6239616-.715635.4545193-1.3638349.6759763-1.9445998.6643712-.64024672-.0127938-1.87182452-.334829-2.78737602-.6100966-1.12296117-.3376271-1.53748501-.4966332-1.45976769-1.0700283.04048-.2986597.32581586-.610598.8560076-.935815z" fill="#fff"></path></g></svg>`);
+  let version = "0.3.4";
+  var root$7 = /* @__PURE__ */ ns_template(`<svg class="tgme_logo" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle cx="17" cy="17" fill="#40a9ff" r="17"></circle><path d="m7.06510669 16.9258959c5.22739451-2.1065178 8.71314291-3.4952633 10.45724521-4.1662364 4.9797665-1.9157646 6.0145193-2.2485535 6.6889567-2.2595423.1483363-.0024169.480005.0315855.6948461.192827.1814076.1361492.23132.3200675.2552048.4491519.0238847.1290844.0536269.4231419.0299841.65291-.2698553 2.6225356-1.4375148 8.986738-2.0315537 11.9240228-.2513602 1.2428753-.7499132 1.5088847-1.2290685 1.5496672-1.0413153.0886298-1.8284257-.4857912-2.8369905-1.0972863-1.5782048-.9568691-2.5327083-1.3984317-4.0646293-2.3321592-1.7703998-1.0790837-.212559-1.583655.7963867-2.5529189.2640459-.2536609 4.7753906-4.3097041 4.755976-4.431706-.0070494-.0442984-.1409018-.481649-.2457499-.5678447-.104848-.0861957-.2595946-.0567202-.3712641-.033278-.1582881.0332286-2.6794907 1.5745492-7.5636077 4.6239616-.715635.4545193-1.3638349.6759763-1.9445998.6643712-.64024672-.0127938-1.87182452-.334829-2.78737602-.6100966-1.12296117-.3376271-1.53748501-.4966332-1.45976769-1.0700283.04048-.2986597.32581586-.610598.8560076-.935815z" fill="#fff"></path></g></svg>`);
   function Icon_telegram($$anchor, $$props) {
     let height = prop($$props, "height", 8, 34);
     let width = prop($$props, "width", 8, 34);
-    var svg = root$4();
+    var svg = root$7();
     template_effect(() => {
       set_attribute(svg, "height", height());
       set_attribute(svg, "width", width());
@@ -6392,8 +6429,8 @@ button:focus-visible {
     append($$anchor, svg);
   }
   var root_1$2 = /* @__PURE__ */ template(`<div class="modal-overlay svelte-1a87xm5" role="button" aria-hidden="true"><div class="modal-content svelte-1a87xm5" role="button" aria-hidden="true"><div class="modal-header svelte-1a87xm5"><h3 class="svelte-1a87xm5">关于 PT-Fall</h3> <button class="close-btn svelte-1a87xm5">&times;</button></div> <div class="modal-body svelte-1a87xm5"><h4 class="svelte-1a87xm5">PT-Fall 是一个专为 M-team 站点量身定制的瀑布流视图插件</h4> <p class="svelte-1a87xm5">Github: <a href="https://github.com/KesaubeEire/PT_Fall-View" target="_blank">https://github.com/KesaubeEire/PT_Fall-View</a></p> <p class="svelte-1a87xm5">GreaseFork: <a href="https://greasyfork.org/zh-CN/scripts/543925" target="_blank">https://greasyfork.org/zh-CN/scripts/543925</a></p></div></div></div>`);
-  var root_2$1 = /* @__PURE__ */ template(`<div class="modal-overlay svelte-1a87xm5" role="button" aria-hidden="true"><div class="modal-content svelte-1a87xm5" role="button" aria-hidden="true"><div class="modal-header svelte-1a87xm5"><h3 class="svelte-1a87xm5">FAQ - 常见问题</h3> <button class="close-btn svelte-1a87xm5">&times;</button></div> <div class="modal-body svelte-1a87xm5"><h4 class="svelte-1a87xm5">Q: 如何联系反馈问题</h4> <p class="svelte-1a87xm5"><a class="__btn __btnWide svelte-1a87xm5" href="https://t.me/+Nd_qIisDjQ80ZTc9" target="_blank"><!> &nbsp;Telegram</a></p> <h4 class="svelte-1a87xm5">Q: 找不到悬浮框</h4> <button class="__btn svelte-1a87xm5">重置悬浮框位置</button> <p class="svelte-1a87xm5"><br>可以通过拖拽悬浮框顶部的颜色条来移动悬浮框的位置 <br>从 PTPP 那里来的灵感 ( 感恩 ||T|| 佬 )</p> <h4 class="svelte-1a87xm5">Q: 插件没有生效怎么办</h4> <p class="svelte-1a87xm5">可能是浏览器缓存了请求<br>尝试使用 Ctrl+Shift+R / Ctrl+F5 强制刷新页面</p> <h4 class="svelte-1a87xm5">Q: 如何切换瀑布流视图</h4> <p class="svelte-1a87xm5">点击悬浮面板中的"切换显示"按钮即可在瀑布流和原列表视图间切换</p> <h4 class="svelte-1a87xm5">Q: 如何调整卡片布局</h4> <p class="svelte-1a87xm5">点击悬浮面板中的"配置菜单"按钮<br>可以调整卡片的最小 / 最大宽度、间隔等参数</p> <h4 class="svelte-1a87xm5">Q: 快捷键</h4> <p class="svelte-1a87xm5"><span class="modal-code svelte-1a87xm5">x</span> 可以切换瀑布流视图</p> <p class="svelte-1a87xm5"><span class="modal-code svelte-1a87xm5">ESC</span> 可以从 次级菜单 / 配置菜单 / iframe 中退出</p></div></div></div>`);
-  var root$3 = /* @__PURE__ */ template(`<div class="entry_mteam"><div class="ant-typography" style="line-height: 1.5; text-align: center;"><button class="__btn svelte-1a87xm5" id="_ptFall_about">PT-Fall<br><span style="font-weight: 600;"></span></button> <button class="__btn svelte-1a87xm5" id="_ptFall_faq">常见问题<br>FAQ</button></div></div> <!> <!>`, 1);
+  var root_2$1 = /* @__PURE__ */ template(`<div class="modal-overlay svelte-1a87xm5" role="button" aria-hidden="true"><div class="modal-content svelte-1a87xm5" role="button" aria-hidden="true"><div class="modal-header svelte-1a87xm5"><h3 class="svelte-1a87xm5">FAQ - 常见问题</h3> <button class="close-btn svelte-1a87xm5">&times;</button></div> <div class="modal-body svelte-1a87xm5"><h4 class="svelte-1a87xm5">Q: 如何联系反馈问题</h4> <p class="svelte-1a87xm5"><a class="__btn __btnWide svelte-1a87xm5" href="https://t.me/+Nd_qIisDjQ80ZTc9" target="_blank"><!> &nbsp;Telegram</a></p> <h4 class="svelte-1a87xm5">Q: 找不到悬浮框</h4> <button class="__btn svelte-1a87xm5">重置悬浮框位置</button> <p class="svelte-1a87xm5"><br>可以通过拖拽悬浮框顶部的颜色条来移动悬浮框的位置 <br>从 PTPP 那里来的灵感 ( 感恩 ||T|| 佬 )</p> <h4 class="svelte-1a87xm5">Q: 插件没有生效怎么办</h4> <p class="svelte-1a87xm5">可能是浏览器缓存了请求<br>尝试使用 Ctrl+Shift+R / Ctrl+F5 强制刷新页面</p> <h4 class="svelte-1a87xm5">Q: 如何切换瀑布流视图</h4> <p class="svelte-1a87xm5">点击悬浮面板中的第一个图标(瀑布/列表)按钮<br>即可在瀑布流和原列表视图间切换</p> <h4 class="svelte-1a87xm5">Q: 如何调整卡片布局</h4> <p class="svelte-1a87xm5">点击悬浮面板中的"配置"按钮<br>可以调整卡片的最小 / 最大宽度、间隔等参数</p> <h4 class="svelte-1a87xm5">Q: 快捷键</h4> <p class="svelte-1a87xm5"><span class="modal-code svelte-1a87xm5">x</span> 可以切换瀑布流视图</p> <p class="svelte-1a87xm5"><span class="modal-code svelte-1a87xm5">ESC</span> 可以从 次级菜单 / 配置菜单 / iframe 中退出</p> <h4 class="svelte-1a87xm5">Q: 深色模式颜色有些不对劲怎么办?</h4> <p class="svelte-1a87xm5">先刷新一下试试, 有些字体颜色不能即时更改<br>刷新后就可以了<br>还有颜色不对劲的 telegram 上截图告诉我</p></div></div></div>`);
+  var root$6 = /* @__PURE__ */ template(`<div class="entry_mteam"><div class="ant-typography" style="line-height: 1.5; text-align: center;"><button class="__btn svelte-1a87xm5" id="_ptFall_about">PT-Fall<br><span style="font-weight: 600;"></span></button> <button class="__btn svelte-1a87xm5" id="_ptFall_faq">常见问题<br>FAQ</button></div></div> <!> <!>`, 1);
   function Readme($$anchor, $$props) {
     push($$props, false);
     const [$$stores, $$cleanup] = setup_stores();
@@ -6418,7 +6455,7 @@ button:focus-visible {
     });
     legacy_pre_effect_reset();
     init();
-    var fragment = root$3();
+    var fragment = root$6();
     event(
       "keydown",
       $window,
@@ -6609,6 +6646,8 @@ button:focus-visible {
       }
     }
     let _mx_margin_back = "";
+    let _mx_next_max_width = "";
+    let _mx_next_padding = "";
     function changeFallView(isFallView) {
       Fall_DOM.style.display = isFallView ? "block" : "none";
       Tool_Watch_Dom("#_fallHolder", (el) => {
@@ -6616,6 +6655,15 @@ button:focus-visible {
       });
       Tool_Watch_Dom("#_shield", (el) => {
         el.style.display = isFallView ? "block" : "none";
+      });
+      Tool_Watch_Dom(CONFIG.TL_Selector + ".flex", (el) => {
+        if (!_mx_next_max_width) {
+          _mx_next_max_width = getComputedStyle(el).getPropertyValue("max-width");
+          _mx_next_padding = getComputedStyle(el).getPropertyValue("padding-left");
+        }
+        el.style.maxWidth = isFallView ? "none" : _mx_next_max_width;
+        el.style.paddingLeft = isFallView ? "80px" : _mx_next_padding;
+        el.style.paddingRight = isFallView ? "80px" : _mx_next_padding;
       });
       Tool_Watch_Dom(CONFIG.TL_Selector + " .mx-auto", (el) => {
         if (!_mx_margin_back) _mx_margin_back = el.style.margin;
@@ -6645,33 +6693,59 @@ button:focus-visible {
       return CONFIG;
     }
   }
-  var root$2 = /* @__PURE__ */ template(`<div class="switch-container svelte-18ntgfp"><div class="switch-background svelte-18ntgfp"><div class="switch-slider svelte-18ntgfp"></div></div></div>`);
+  var root$5 = /* @__PURE__ */ template(`<div class="switch-container svelte-18ntgfp"><div class="switch-background svelte-18ntgfp"><div class="switch-slider svelte-18ntgfp"></div></div></div>`);
   function Switch($$anchor, $$props) {
     let checked = prop($$props, "checked", 12, false);
     function handleClick() {
       checked(!checked());
     }
-    var div = root$2();
+    var div = root$5();
     var div_1 = child(div);
     var div_2 = child(div_1);
     template_effect(() => toggle_class(div_2, "checked", checked()));
     event("click", div, handleClick);
     append($$anchor, div);
   }
-  var root_2 = /* @__PURE__ */ template(`<div class="config-item svelte-10gi3pg"><span> </span> <input type="range" min="0" max="40" step="1" class="svelte-10gi3pg"></div>`);
-  var root_1$1 = /* @__PURE__ */ template(`<div class="config-menu-overlay svelte-10gi3pg"><div class="config-menu svelte-10gi3pg"><div class="config-menu-header svelte-10gi3pg"><span style="font-size: 18px; font-weight: bold;">配置菜单</span> <button class="close-btn svelte-10gi3pg">&times;</button></div> <div class="config-menu-content svelte-10gi3pg"><h3 class="svelte-10gi3pg"># 卡片布局</h3> <div class="config-item svelte-10gi3pg"><span> </span> <input type="range" min="200" step="1" list="values" class="svelte-10gi3pg"></div> <div class="config-item svelte-10gi3pg"><span> </span> <input type="range" step="1" list="values" class="svelte-10gi3pg"></div> <div class="config-item svelte-10gi3pg"><span> </span> <input type="range" min="0" max="100" step="1" list="values" class="svelte-10gi3pg"></div> <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <h3 class="svelte-10gi3pg"># 卡片常驻信息展示</h3>  <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <h3 class="svelte-10gi3pg"># 卡片屏蔽</h3> <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <h3 class="svelte-10gi3pg"># 卡片样式</h3> <div class="config-item svelte-10gi3pg"><span> </span> <!></div> <!></div></div></div>`);
-  var root$1 = /* @__PURE__ */ template(`<div class="flowP svelte-10gi3pg"><div class="flowPDragger svelte-10gi3pg" role="button" tabindex="0" aria-hidden="true"></div> <div class="flowPHolder ant-typography svelte-10gi3pg"><button class="flowBtn svelte-10gi3pg">切换显示</button> <button class="flowBtn svelte-10gi3pg">配置菜单</button> <button class="flowBtn svelte-10gi3pg">清除悬浮预览图</button> <button class="flowBtn svelte-10gi3pg">iframe</button> <button class="flowBtn svelte-10gi3pg">屏蔽 Gay</button></div></div> <!>`, 1);
+  var root$4 = /* @__PURE__ */ ns_template(`<svg viewBox="0 0 32 32" width="20" height="20" xmlns="http://www.w3.org/2000/svg" stroke="currentColor"><defs><style>.cls-1 {
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 2px;
+      }</style></defs><g data-name="43-browser" id="_43-browser"><rect class="cls-1" height="30" width="30" x="1" y="1"></rect><line class="cls-1" x1="1" x2="31" y1="9" y2="9"></line><line class="cls-1" x1="5" x2="7" y1="5" y2="5"></line><line class="cls-1" x1="11" x2="13" y1="5" y2="5"></line><line class="cls-1" x1="9" x2="25" y1="16" y2="16"></line><line class="cls-1" x1="7" x2="25" y1="20" y2="20"></line><line class="cls-1" x1="7" x2="25" y1="24" y2="24"></line></g></svg>`);
+  function Icon_list($$anchor) {
+    var svg = root$4();
+    append($$anchor, svg);
+  }
+  var root$3 = /* @__PURE__ */ ns_template(`<svg width="20" height="20" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" stroke="currentColor"><defs><style>.cls-1 {
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 2px;
+      }</style></defs><g data-name="80-setting" id="_80-setting"><circle class="cls-1" cx="10" cy="6" r="3"></circle><circle class="cls-1" cx="22" cy="16" r="3"></circle><circle class="cls-1" cx="10" cy="26" r="3"></circle><line class="cls-1" x1="7" x2="1" y1="6" y2="6"></line><line class="cls-1" x1="15" x2="1" y1="16" y2="16"></line><line class="cls-1" x1="7" x2="1" y1="26" y2="26"></line><line class="cls-1" x1="31" x2="17" y1="26" y2="26"></line><line class="cls-1" x1="31" x2="25" y1="16" y2="16"></line><line class="cls-1" x1="31" x2="17" y1="6" y2="6"></line></g></svg>`);
+  function Icon_config($$anchor) {
+    var svg = root$3();
+    append($$anchor, svg);
+  }
+  var root$2 = /* @__PURE__ */ ns_template(`<svg enable-background="new 0 0 64 64" width="20" height="20" id="Layer_1" version="1.1" viewBox="0 0 64 64" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M19,2.875H3.5c-0.829,0-1.5,0.671-1.5,1.5v19.979c0,0.829,0.671,1.5,1.5,1.5H19c0.829,0,1.5-0.671,1.5-1.5V4.375  C20.5,3.546,19.829,2.875,19,2.875z M17.5,22.854H5V5.875h12.5V22.854z"></path><path d="M19,28.773H3.5c-0.829,0-1.5,0.671-1.5,1.5v6.166c0,0.828,0.671,1.5,1.5,1.5H19c0.829,0,1.5-0.672,1.5-1.5v-6.166  C20.5,29.445,19.829,28.773,19,28.773z M17.5,34.939H5v-3.166h12.5V34.939z"></path><path d="M19,40.859H3.5c-0.829,0-1.5,0.672-1.5,1.5v17.266c0,0.828,0.671,1.5,1.5,1.5H19c0.829,0,1.5-0.672,1.5-1.5V42.359  C20.5,41.531,19.829,40.859,19,40.859z M17.5,58.125H5V43.859h12.5V58.125z"></path><path d="M40,2.875H24.5c-0.829,0-1.5,0.671-1.5,1.5v14.25c0,0.829,0.671,1.5,1.5,1.5H40c0.828,0,1.5-0.671,1.5-1.5V4.375  C41.5,3.546,40.828,2.875,40,2.875z M38.5,17.125H26V5.875h12.5V17.125z"></path><path d="M40,23.125H24.5c-0.829,0-1.5,0.671-1.5,1.5V46.5c0,0.828,0.671,1.5,1.5,1.5H40c0.828,0,1.5-0.672,1.5-1.5V24.625  C41.5,23.796,40.828,23.125,40,23.125z M38.5,45H26V26.125h12.5V45z"></path><path d="M40,51H24.5c-0.829,0-1.5,0.672-1.5,1.5v7.125c0,0.828,0.671,1.5,1.5,1.5H40c0.828,0,1.5-0.672,1.5-1.5V52.5  C41.5,51.672,40.828,51,40,51z M38.5,58.125H26V54h12.5V58.125z"></path><path d="M60.5,2.875H45c-0.828,0-1.5,0.671-1.5,1.5v35.171c0,0.828,0.672,1.5,1.5,1.5h15.5c0.828,0,1.5-0.672,1.5-1.5V4.375  C62,3.546,61.328,2.875,60.5,2.875z M59,38.046H46.5V5.875H59V38.046z"></path><path d="M60.5,44.346H45c-0.828,0-1.5,0.672-1.5,1.5v13.779c0,0.828,0.672,1.5,1.5,1.5h15.5c0.828,0,1.5-0.672,1.5-1.5V45.846  C62,45.018,61.328,44.346,60.5,44.346z M59,58.125H46.5V47.346H59V58.125z"></path></svg>`);
+  function Icon_masonry($$anchor) {
+    var svg = root$2();
+    append($$anchor, svg);
+  }
+  var root_1$1 = /* @__PURE__ */ template(`<div><!></div> <div class="flowBtn_text svelte-3a4txt">瀑布</div>`, 1);
+  var root_2 = /* @__PURE__ */ template(`<div><!></div> <div class="flowBtn_text svelte-3a4txt">列表</div>`, 1);
+  var root_4 = /* @__PURE__ */ template(`<div class="config-item svelte-3a4txt"><span> </span> <input type="range" min="0" max="40" step="1" class="svelte-3a4txt"></div>`);
+  var root_3 = /* @__PURE__ */ template(`<div class="config-menu-overlay svelte-3a4txt"><div class="config-menu svelte-3a4txt"><div class="config-menu-header svelte-3a4txt"><span style="font-size: 18px; font-weight: bold;">配置菜单</span> <button class="close-btn svelte-3a4txt">&times;</button></div> <div class="config-menu-content svelte-3a4txt"><h3 class="svelte-3a4txt"># 卡片布局</h3> <div class="config-item svelte-3a4txt"><span> </span> <input type="range" min="200" step="1" list="values" class="svelte-3a4txt"></div> <div class="config-item svelte-3a4txt"><span> </span> <input type="range" step="1" list="values" class="svelte-3a4txt"></div> <div class="config-item svelte-3a4txt"><span> </span> <input type="range" min="0" max="100" step="1" list="values" class="svelte-3a4txt"></div> <div class="config-item svelte-3a4txt"><span> </span> <!></div> <h3 class="svelte-3a4txt"># 卡片常驻信息展示</h3>  <div class="config-item svelte-3a4txt"><span> </span> <!></div> <div class="config-item svelte-3a4txt"><span> </span> <!></div> <div class="config-item svelte-3a4txt"><span> </span> <!></div> <div class="config-item svelte-3a4txt"><span> </span> <!></div> <div class="config-item svelte-3a4txt"><span> </span> <!></div> <div class="config-item svelte-3a4txt"><span> </span> <!></div> <div class="config-item svelte-3a4txt"><span> </span> <!></div> <div class="config-item svelte-3a4txt"><span> </span> <!></div> <div class="config-item svelte-3a4txt"><span> </span> <!></div> <div class="config-item svelte-3a4txt"><span> </span> <!></div> <h3 class="svelte-3a4txt"># 卡片屏蔽</h3> <div class="config-item svelte-3a4txt"><span> </span> <!></div> <h3 class="svelte-3a4txt"># 卡片样式</h3> <div class="config-item svelte-3a4txt"><span> </span> <!></div> <!></div></div></div>`);
+  var root$1 = /* @__PURE__ */ template(`<div class="flowP svelte-3a4txt"><div class="flowPDragger svelte-3a4txt" role="button" tabindex="0" aria-hidden="true"></div> <div class="flowPHolder ant-typography svelte-3a4txt"><button class="flowBtn svelte-3a4txt"><!></button> <button class="flowBtn svelte-3a4txt"><div><!></div> <div class="flowBtn_text svelte-3a4txt">配置</div></button> <button class="flowBtn svelte-3a4txt">清除悬浮预览图</button></div></div> <!>`, 1);
   function FlowPanel($$anchor, $$props) {
     push($$props, false);
     const [$$stores, $$cleanup] = setup_stores();
     const $_panelPos = () => store_get(_panelPos, "$_panelPos", $$stores);
     const $_isFallView = () => store_get(_isFallView, "$_isFallView", $$stores);
     const $_side_panel_switch = () => store_get(_side_panel_switch, "$_side_panel_switch", $$stores);
-    const $_iframe_switch = () => store_get(_iframe_switch$1, "$_iframe_switch", $$stores);
-    const $_block_gay = () => store_get(_block_gay, "$_block_gay", $$stores);
     const $_card_layout = () => store_get(_card_layout, "$_card_layout", $$stores);
     const $_show_hover_pic = () => store_get(_show_hover_pic, "$_show_hover_pic", $$stores);
     const $_card_detail = () => store_get(_card_detail, "$_card_detail", $$stores);
+    const $_block_gay = () => store_get(_block_gay, "$_block_gay", $$stores);
     const $_card_radius = () => store_get(_card_radius, "$_card_radius", $$stores);
     let flowP = mutable_state();
     let isMouseDown = false;
@@ -6722,36 +6796,58 @@ button:focus-visible {
     var div_1 = child(div);
     var div_2 = sibling(div_1, 2);
     var button = child(div_2);
-    var button_1 = sibling(button, 2);
-    var button_2 = sibling(button_1, 2);
-    var button_3 = sibling(button_2, 2);
-    var button_4 = sibling(button_3, 2);
-    bind_this(div, ($$value) => set(flowP, $$value), () => get$1(flowP));
-    var node = sibling(div, 2);
+    var node = child(button);
     {
-      var consequent_1 = ($$anchor2) => {
-        var div_3 = root_1$1();
-        var div_4 = child(div_3);
-        var div_5 = child(div_4);
-        var button_5 = sibling(child(div_5), 2);
-        var div_6 = sibling(div_5, 2);
-        var div_7 = sibling(child(div_6), 2);
-        var span = child(div_7);
+      var consequent = ($$anchor2) => {
+        var fragment_1 = root_1$1();
+        var div_3 = first_child(fragment_1);
+        var node_1 = child(div_3);
+        Icon_masonry(node_1);
+        append($$anchor2, fragment_1);
+      };
+      var alternate = ($$anchor2) => {
+        var fragment_2 = root_2();
+        var div_4 = first_child(fragment_2);
+        var node_2 = child(div_4);
+        Icon_list(node_2);
+        append($$anchor2, fragment_2);
+      };
+      if_block(node, ($$render) => {
+        if ($_isFallView()) $$render(consequent);
+        else $$render(alternate, false);
+      });
+    }
+    var button_1 = sibling(button, 2);
+    var div_5 = child(button_1);
+    var node_3 = child(div_5);
+    Icon_config(node_3);
+    var button_2 = sibling(button_1, 2);
+    bind_this(div, ($$value) => set(flowP, $$value), () => get$1(flowP));
+    var node_4 = sibling(div, 2);
+    {
+      var consequent_2 = ($$anchor2) => {
+        var div_6 = root_3();
+        var div_7 = child(div_6);
+        var div_8 = child(div_7);
+        var button_3 = sibling(child(div_8), 2);
+        var div_9 = sibling(div_8, 2);
+        var div_10 = sibling(child(div_9), 2);
+        var span = child(div_10);
         var text = child(span);
         var input = sibling(span, 2);
-        var div_8 = sibling(div_7, 2);
-        var span_1 = child(div_8);
+        var div_11 = sibling(div_10, 2);
+        var span_1 = child(div_11);
         var text_1 = child(span_1);
         var input_1 = sibling(span_1, 2);
-        var div_9 = sibling(div_8, 2);
-        var span_2 = child(div_9);
+        var div_12 = sibling(div_11, 2);
+        var span_2 = child(div_12);
         var text_2 = child(span_2);
         var input_2 = sibling(span_2, 2);
-        var div_10 = sibling(div_9, 2);
-        var span_3 = child(div_10);
+        var div_13 = sibling(div_12, 2);
+        var span_3 = child(div_13);
         var text_3 = child(span_3);
-        var node_1 = sibling(span_3, 2);
-        Switch(node_1, {
+        var node_5 = sibling(span_3, 2);
+        Switch(node_5, {
           get checked() {
             mark_store_binding();
             return $_show_hover_pic();
@@ -6761,11 +6857,11 @@ button:focus-visible {
           },
           $$legacy: true
         });
-        var div_11 = sibling(div_10, 4);
-        var span_4 = child(div_11);
+        var div_14 = sibling(div_13, 4);
+        var span_4 = child(div_14);
         var text_4 = child(span_4);
-        var node_2 = sibling(span_4, 2);
-        Switch(node_2, {
+        var node_6 = sibling(span_4, 2);
+        Switch(node_6, {
           get checked() {
             return $_card_detail().category;
           },
@@ -6774,11 +6870,11 @@ button:focus-visible {
           },
           $$legacy: true
         });
-        var div_12 = sibling(div_11, 2);
-        var span_5 = child(div_12);
+        var div_15 = sibling(div_14, 2);
+        var span_5 = child(div_15);
         var text_5 = child(span_5);
-        var node_3 = sibling(span_5, 2);
-        Switch(node_3, {
+        var node_7 = sibling(span_5, 2);
+        Switch(node_7, {
           get checked() {
             return $_card_detail().title;
           },
@@ -6787,11 +6883,11 @@ button:focus-visible {
           },
           $$legacy: true
         });
-        var div_13 = sibling(div_12, 2);
-        var span_6 = child(div_13);
+        var div_16 = sibling(div_15, 2);
+        var span_6 = child(div_16);
         var text_6 = child(span_6);
-        var node_4 = sibling(span_6, 2);
-        Switch(node_4, {
+        var node_8 = sibling(span_6, 2);
+        Switch(node_8, {
           get checked() {
             return $_card_detail().topping;
           },
@@ -6800,11 +6896,11 @@ button:focus-visible {
           },
           $$legacy: true
         });
-        var div_14 = sibling(div_13, 2);
-        var span_7 = child(div_14);
+        var div_17 = sibling(div_16, 2);
+        var span_7 = child(div_17);
         var text_7 = child(span_7);
-        var node_5 = sibling(span_7, 2);
-        Switch(node_5, {
+        var node_9 = sibling(span_7, 2);
+        Switch(node_9, {
           get checked() {
             return $_card_detail().free;
           },
@@ -6813,11 +6909,11 @@ button:focus-visible {
           },
           $$legacy: true
         });
-        var div_15 = sibling(div_14, 2);
-        var span_8 = child(div_15);
+        var div_18 = sibling(div_17, 2);
+        var span_8 = child(div_18);
         var text_8 = child(span_8);
-        var node_6 = sibling(span_8, 2);
-        Switch(node_6, {
+        var node_10 = sibling(span_8, 2);
+        Switch(node_10, {
           get checked() {
             return $_card_detail().size;
           },
@@ -6826,11 +6922,11 @@ button:focus-visible {
           },
           $$legacy: true
         });
-        var div_16 = sibling(div_15, 2);
-        var span_9 = child(div_16);
+        var div_19 = sibling(div_18, 2);
+        var span_9 = child(div_19);
         var text_9 = child(span_9);
-        var node_7 = sibling(span_9, 2);
-        Switch(node_7, {
+        var node_11 = sibling(span_9, 2);
+        Switch(node_11, {
           get checked() {
             return $_card_detail().sub_title;
           },
@@ -6839,11 +6935,11 @@ button:focus-visible {
           },
           $$legacy: true
         });
-        var div_17 = sibling(div_16, 2);
-        var span_10 = child(div_17);
+        var div_20 = sibling(div_19, 2);
+        var span_10 = child(div_20);
         var text_10 = child(span_10);
-        var node_8 = sibling(span_10, 2);
-        Switch(node_8, {
+        var node_12 = sibling(span_10, 2);
+        Switch(node_12, {
           get checked() {
             return $_card_detail().tags;
           },
@@ -6852,11 +6948,11 @@ button:focus-visible {
           },
           $$legacy: true
         });
-        var div_18 = sibling(div_17, 2);
-        var span_11 = child(div_18);
+        var div_21 = sibling(div_20, 2);
+        var span_11 = child(div_21);
         var text_11 = child(span_11);
-        var node_9 = sibling(span_11, 2);
-        Switch(node_9, {
+        var node_13 = sibling(span_11, 2);
+        Switch(node_13, {
           get checked() {
             return $_card_detail().download_collect;
           },
@@ -6865,11 +6961,11 @@ button:focus-visible {
           },
           $$legacy: true
         });
-        var div_19 = sibling(div_18, 2);
-        var span_12 = child(div_19);
+        var div_22 = sibling(div_21, 2);
+        var span_12 = child(div_22);
         var text_12 = child(span_12);
-        var node_10 = sibling(span_12, 2);
-        Switch(node_10, {
+        var node_14 = sibling(span_12, 2);
+        Switch(node_14, {
           get checked() {
             return $_card_detail().upload_time;
           },
@@ -6878,11 +6974,11 @@ button:focus-visible {
           },
           $$legacy: true
         });
-        var div_20 = sibling(div_19, 2);
-        var span_13 = child(div_20);
+        var div_23 = sibling(div_22, 2);
+        var span_13 = child(div_23);
         var text_13 = child(span_13);
-        var node_11 = sibling(span_13, 2);
-        Switch(node_11, {
+        var node_15 = sibling(span_13, 2);
+        Switch(node_15, {
           get checked() {
             return $_card_detail().statistics;
           },
@@ -6891,11 +6987,11 @@ button:focus-visible {
           },
           $$legacy: true
         });
-        var div_21 = sibling(div_20, 4);
-        var span_14 = child(div_21);
+        var div_24 = sibling(div_23, 4);
+        var span_14 = child(div_24);
         var text_14 = child(span_14);
-        var node_12 = sibling(span_14, 2);
-        Switch(node_12, {
+        var node_16 = sibling(span_14, 2);
+        Switch(node_16, {
           get checked() {
             mark_store_binding();
             return $_block_gay();
@@ -6905,11 +7001,11 @@ button:focus-visible {
           },
           $$legacy: true
         });
-        var div_22 = sibling(div_21, 4);
-        var span_15 = child(div_22);
+        var div_25 = sibling(div_24, 4);
+        var span_15 = child(div_25);
         var text_15 = child(span_15);
-        var node_13 = sibling(span_15, 2);
-        Switch(node_13, {
+        var node_17 = sibling(span_15, 2);
+        Switch(node_17, {
           get checked() {
             return $_card_radius().enabled;
           },
@@ -6918,24 +7014,24 @@ button:focus-visible {
           },
           $$legacy: true
         });
-        var node_14 = sibling(div_22, 2);
+        var node_18 = sibling(div_25, 2);
         {
-          var consequent = ($$anchor3) => {
-            var div_23 = root_2();
-            var span_16 = child(div_23);
+          var consequent_1 = ($$anchor3) => {
+            var div_26 = root_4();
+            var span_16 = child(div_26);
             var text_16 = child(span_16);
             var input_3 = sibling(span_16, 2);
             template_effect(() => set_text(text_16, `圆角大小: ${$_card_radius().value ?? ""} px`));
             bind_value(input_3, () => $_card_radius().value, ($$value) => store_mutate(_card_radius, untrack($_card_radius).value = $$value, untrack($_card_radius)));
-            append($$anchor3, div_23);
+            append($$anchor3, div_26);
           };
-          if_block(node_14, ($$render) => {
-            if ($_card_radius().enabled) $$render(consequent);
+          if_block(node_18, ($$render) => {
+            if ($_card_radius().enabled) $$render(consequent_1);
           });
         }
         template_effect(
           ($0, $1, $2, $3) => {
-            set_attribute(div_4, "style", `background-color: ${$0 ?? ""};`);
+            set_attribute(div_7, "style", `background-color: ${$0 ?? ""};`);
             set_text(text, `最小宽度: ${$_card_layout().min ?? ""} px`);
             set_attribute(input, "max", $1);
             set_text(text_1, `最大宽度: ${$_card_layout().max ?? ""} px`);
@@ -6964,22 +7060,27 @@ button:focus-visible {
           ],
           derived_safe_equal
         );
-        event("click", button_5, () => store_set(_side_panel_switch, false));
+        event("click", button_3, () => store_set(_side_panel_switch, false));
         bind_value(input, () => $_card_layout().min, ($$value) => store_mutate(_card_layout, untrack($_card_layout).min = $$value, untrack($_card_layout)));
         bind_value(input_1, () => $_card_layout().max, ($$value) => store_mutate(_card_layout, untrack($_card_layout).max = $$value, untrack($_card_layout)));
         bind_value(input_2, () => $_card_layout().gap, ($$value) => store_mutate(_card_layout, untrack($_card_layout).gap = $$value, untrack($_card_layout)));
-        transition(3, div_3, () => fade, () => ({ duration: 100 }));
-        event("click", div_3, self(() => store_set(_side_panel_switch, false)));
-        append($$anchor2, div_3);
+        transition(3, div_6, () => fade, () => ({ duration: 100 }));
+        event("click", div_6, self(() => store_set(_side_panel_switch, false)));
+        append($$anchor2, div_6);
       };
-      if_block(node, ($$render) => {
-        if ($_side_panel_switch()) $$render(consequent_1);
+      if_block(node_4, ($$render) => {
+        if ($_side_panel_switch()) $$render(consequent_2);
       });
     }
-    template_effect(() => {
-      set_attribute(div, "style", `top:${$_panelPos().y ?? ""}px; left:${$_panelPos().x ?? ""}px;`);
-      set_style(div, "--isFallView", $_isFallView() ? "#4ff74f" : "yellow");
-    });
+    template_effect(
+      ($0) => {
+        set_attribute(div, "style", `top:${$_panelPos().y ?? ""}px; left:${$_panelPos().x ?? ""}px;`);
+        set_style(div, "--isFallView", $_isFallView() ? "#4ff74f" : "yellow");
+        set_style(div_2, "--get-text-color", $0);
+      },
+      [() => getTextColor("var(--bg-2)")],
+      derived_safe_equal
+    );
     event("mousedown", div_1, onMouseDown);
     event("click", button, () => {
       store_set(_isFallView, !$_isFallView());
@@ -6990,12 +7091,6 @@ button:focus-visible {
     });
     event("click", button_2, () => {
       window.__clearPreview();
-    });
-    event("click", button_3, () => {
-      store_set(_iframe_switch$1, Number(!$_iframe_switch()));
-    });
-    event("click", button_4, () => {
-      store_set(_block_gay, !$_block_gay());
     });
     append($$anchor, fragment);
     pop();
