@@ -209,7 +209,7 @@ export function __clearPreview() {
     kpImg.setAttribute('src', '');
   });
   const _container = document.querySelector('.kp_container');
-  _container.style.display = 'none';
+  if (_container) _container.style.display = 'none';
 }
 
 window.__clearPreview = __clearPreview;
