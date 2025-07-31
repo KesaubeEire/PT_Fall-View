@@ -48,7 +48,7 @@ TODO:(这里的介绍旧版本直接拿过来的, 待更新)
 
 ## Telegram 群新版本推送
 
-PT_Fall-View[0.3.5]
+PT_Fall-View[0.3.6]
 
 feat: 新架构上线前紧急调整 style.
 
