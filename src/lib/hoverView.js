@@ -8,7 +8,6 @@ export class HoverView {
   constructor() {
     this.container = null;
     this.imgElements = null;
-    this.buffer = null;
 
     this.init(); // 自动初始化
   }
@@ -63,10 +62,11 @@ export class HoverView {
 
   /**
    * 处理鼠标进入事件
-   * @param {MouseEvent} e
+   * @param {MouseEvent} touch
    * @param {HTMLElement} imgEle
    */
-  handleMouseOver(e, imgEle) {
+  handleMouseOver(touch, imgEle) {
+    if (!this.container) return;
     if (!imgEle) {
       console.warn('[FALL]: imgEle is null');
       return;
@@ -79,8 +79,8 @@ export class HoverView {
         kpImgElements.forEach(kpImg => {
           kpImg.setAttribute('src', src);
         });
-        this.updatePosition(e);
         this.imgElements = imgEle;
+        this.updatePosition(touch);
         this.container.style.display = 'block';
       }
     }
@@ -91,7 +91,7 @@ export class HoverView {
    * @param {MouseEvent} e
    */
   handleMouseMove(e) {
-    if (this.container.style.display === 'block') {
+    if (this.container && this.container.style.display === 'block') {
       this.updatePosition(e);
     }
   }
@@ -160,23 +160,28 @@ export class HoverView {
     /**定义可容纳最大比例的位置 */
     let maxPosition = '';
 
+    const res = {
+      top: { left: 0, top: 0, width: viewportWidth + 'px', height: mouseY + 'px' },
+      bot: { left: 0, top: mouseY + 'px', width: viewportWidth + 'px', height: window.innerHeight - mouseY + 'px' },
+      left: { left: 0, top: 0, width: mouseX + 'px', height: viewportHeight + 'px' },
+      right: { left: mouseX + 'px', top: 0, width: window.innerWidth - mouseX + 'px', height: viewportHeight + 'px' }
+    };
+
     for (const key in containerSize) {
       const currentRatio = Math.min(containerSize[key].width / imgWidth, containerSize[key].height / imgHeight);
       if (currentRatio > maxRatio) {
         maxRatio = currentRatio;
         maxPosition = key;
       }
+      // res[key].ratio = currentRatio;
     }
 
+    // console.log(`x: ${mouseX}, y: ${mouseY}, img: ${imgWidth}x${imgHeight} , max: ${maxPosition}`);
+    // console.log(`res: `, res);
+    // console.log(`containerSize: ${JSON.stringify(containerSize)}`);
+
     // 根据最大比例位置计算容器的位置和大小
-    return (
-      {
-        top: { left: 0, top: 0, width: viewportWidth + 'px', height: mouseY + 'px' },
-        bot: { left: 0, top: mouseY + 'px', width: viewportWidth + 'px', height: window.innerHeight - mouseY + 'px' },
-        left: { left: 0, top: 0, width: mouseX + 'px', height: viewportHeight + 'px' },
-        right: { left: mouseX + 'px', top: 0, width: window.innerWidth - mouseX + 'px', height: viewportHeight + 'px' }
-      }[maxPosition] || { left: 0, top: 0, width: 0, height: 0 }
-    );
+    return res[maxPosition] || { left: 0, top: 0, width: 0, height: 0 };
   }
 
   /**
@@ -186,14 +191,13 @@ export class HoverView {
     document.querySelectorAll('.kp_img').forEach(kpImg => {
       kpImg.setAttribute('src', '');
     });
-    this.container.style.display = 'none';
+    if (this.container) this.container.style.display = 'none';
   }
 
   /**
    * 销毁组件
    */
   destroy() {
-    if (this.buffer) clearTimeout(this.buffer);
     if (this.container) {
       this.container.style.display = 'none';
       clearPreview();
