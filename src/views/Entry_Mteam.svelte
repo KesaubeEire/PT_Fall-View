@@ -21,6 +21,8 @@
   let lastRequestPayload;
   /** 是否切页 */
   let isClearPage = true;
+  /** 是否 accept 这个 /search request */
+  let isAcceptSearch = false;
 
   // CSS 变量监听
   let varColor_bg2 = getComputedStyle(document.documentElement).getPropertyValue('--bg-2').trim();
@@ -106,6 +108,14 @@
       window.addEventListener('req>POST->/search', e => {
         console.log(`<PT-Fall>[Request]  (${param.method} -> ${param.path})\n`, e.detail);
 
+        // NOTE: 这里判断下 url 是否包含 /api/torrent/search, 包含就接受, 不包含就拒绝
+        // console.log(e.detail.url);
+        if (e.detail.url.includes('api/torrent/search') && !e.detail.body.includes('"mode":"waterfall"')) {
+          isAcceptSearch = true;
+        } else {
+          isAcceptSearch = false;
+        }
+
         // 请求体示例: "{"mode":"adult","categories":[],"visible":1,"pageNumber":1,"pageSize":100}"
 
         // // 判断是否切页
@@ -130,6 +140,14 @@
       /** 劫持响应 */
       window.addEventListener(`res>POST->/search`, e => {
         const rawObject = JSON.parse(e.detail.data);
+
+        // 请求如果被判断为不是需要的 /search (非种子列表的请求), 就不响应
+        if (!isAcceptSearch) {
+          // notyf_lt.open({ type: 'warning', message: '> 本 /search 没有被接受!', position: { x: 'right', y: 'top' } });
+          console.warn(`<PT-Fall>[未被接受的Response] (${param.method}->${param.path})[通过事件捕获]:\n`, rawObject);
+          return;
+        }
+
         console.log(`<PT-Fall>[Response] (${param.method}->${param.path})[通过事件捕获]:\n`, rawObject);
 
         // if (!_ORIGIN_TL_Node) {
