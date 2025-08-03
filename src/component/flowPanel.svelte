@@ -81,7 +81,12 @@
 
 <!-- 悬浮按钮:可拖拽  -->
 <div class="flowP" style:--isFallView={$_isFallView ? '#4ff74f' : 'yellow'} bind:this={flowP} style="top:{$_panelPos.y}px; left:{$_panelPos.x}px;">
-  <div class="flowPDragger" on:mousedown={onMouseDown} role="button" tabindex="0" aria-hidden="true"></div>
+  <div class="flowPDragger" on:mousedown={onMouseDown} role="button" tabindex="0" aria-hidden="true">
+    <!-- 获取开发模式: 生产 or 开发 -->
+    {#if import.meta.env.MODE === 'development'}
+      <span style="color: red; font-weight: bold;">开发模式</span>
+    {/if}
+  </div>
   <div class="flowPHolder ant-typography" style:--get-text-color={$_textColor.t2}>
     <button
       class="flowBtn"
@@ -309,7 +314,12 @@
   }
 
   .flowPDragger {
-    height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 14px;
+    font-size: 12px;
+    height: 14px;
     transition: background-color 0.3s ease-in-out;
     background-color: var(--isFallView);
 

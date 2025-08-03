@@ -3,7 +3,6 @@
   import { fade } from 'svelte/transition';
   import { _isFallView, _panelPos, _textColor } from '@/stores';
   import IconTelegram from '@/assets/icon_telegram.svelte';
-  import { getTextColor } from '@/lib/tools';
 
   let _modalFAQ = false;
   let _modalAbout = false;
