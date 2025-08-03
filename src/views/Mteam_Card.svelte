@@ -588,7 +588,7 @@ let _torrentInfo =  {
           </div>
 
           <!-- 打开种子详情 iframe -->
-          <button class="__iframe_button" style="background-color: {_cateColor ?? 'transparent'}; color:{_cateColor ? getTextColor(_cateColor) : 'black'}" on:click={openIframe}> 打开 iframe </button>
+          <button class="__iframe_button" style="background-color: {_cateColor ?? 'transparent'}; color:{_cateColor ? getTextColor(_cateColor) : 'black'}" on:click={openIframe}> 内窗预览 </button>
 
           <!-- 种子大小 -->
           <div class="card-index card-index-right __inner_index __inner_size" style="background-color: {_cateColor ?? 'transparent'}; color:{_cateColor ? getTextColor(_cateColor) : 'black'}">
@@ -1234,6 +1234,7 @@ let _torrentInfo =  {
 
   .__iframe_button {
     flex: 1;
+    height: 24px;
     padding: 4px 8px;
     margin: 0;
     border: none;
@@ -1242,5 +1243,11 @@ let _torrentInfo =  {
     appearance: none;
     box-sizing: border-box;
     white-space: nowrap;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      opacity: 0.7;
+    }
   }
 </style>
