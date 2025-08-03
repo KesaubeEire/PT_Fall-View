@@ -17,11 +17,7 @@ export const notyf_lt = new Notyf({
     {
       type: 'warning',
       background: 'orange',
-      icon: {
-        className: 'material-icons',
-        tagName: 'i',
-        text: 'warning'
-      }
+      icon: false
     }
   ]
 });
