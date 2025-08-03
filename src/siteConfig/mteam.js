@@ -421,7 +421,9 @@ export const CONFIG = {
 
   /**获取背景颜色*/
   get_bg_color: function () {
-    return getComputedStyle(document.documentElement).getPropertyValue('--bg-3');
+    const next_bg = getComputedStyle(document.documentElement).getPropertyValue('--background-2');
+    const normal_bg = getComputedStyle(document.documentElement).getPropertyValue('--bg-3');
+    return next_bg || normal_bg || '#000000';
   },
 
   /** NOTE: 站点特殊操作 */

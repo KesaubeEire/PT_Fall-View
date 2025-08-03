@@ -7,6 +7,7 @@
   import IconList from '@/assets/icon_list.svelte';
   import IconConfig from '@/assets/icon_config.svelte';
   import IconMasonry from '@/assets/icon_masonry.svelte';
+  import { getTextColor } from '@/lib/tools';
 
   // ------------------------------------------------
   // ## 侧边栏功能配置
@@ -155,7 +156,7 @@
 {#if $_side_panel_switch}
   <!-- svelte-ignore a11y_no_static_element_interactions -->
   <!-- svelte-ignore a11y_click_events_have_key_events -->
-  <div class="config-menu-overlay" transition:fade={{ duration: 100 }} on:click|self={() => ($_side_panel_switch = false)}>
+  <div class="config-menu-overlay" transition:fade={{ duration: 100 }} on:click|self={() => ($_side_panel_switch = false)} style:--get-text-color={getTextColor(getSiteConfig(location.hostname).get_bg_color())}>
     <div class="config-menu" style="background-color: {getSiteConfig(location.hostname).get_bg_color()};">
       <div class="config-menu-header">
         <span style="font-size: 18px; font-weight: bold;">配置菜单</span>
@@ -379,6 +380,7 @@
 
   /* 配置菜单样式 */
   .config-menu-overlay {
+    color: var(--get-text-color);
     position: fixed;
     top: 0;
     left: 0;
