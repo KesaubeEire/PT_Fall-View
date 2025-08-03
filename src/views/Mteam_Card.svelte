@@ -141,6 +141,7 @@ let _torrentInfo =  {
   _cateAlt = $_mt_categories[torrentInfo.category].nameChs ?? CONFIG.CATEGORY[torrentInfo.category].alt;
   _catePic = $_mt_categories[torrentInfo.category].image ? cate_pic_baseUrl + $_mt_categories[torrentInfo.category].image : CONFIG.CATEGORY[torrentInfo.category].src;
   _cateColor = CONFIG.CATEGORY[torrentInfo.category].color ?? _defaultColor;
+  const _cateFontColor = _cateColor ? getTextColor(_cateColor) : 'black';
 
   //---------------------------------------------
   // ## NOTE: "labelsNew" (tag) 处理, 旧 tag 保持原样
@@ -417,7 +418,7 @@ let _torrentInfo =  {
       data-href={_cateLink}
       style="
       background-color: {_cateColor ?? 'transparent'};
-      color: {_cateColor ? getTextColor(_cateColor) : 'black'}"
+      color: {_cateFontColor}"
     >
       <!-- 分类图标 -->
       <img class="card_category-img" src={_catePic} alt={_cateAlt} />
@@ -588,10 +589,10 @@ let _torrentInfo =  {
           </div>
 
           <!-- 打开种子详情 iframe -->
-          <button class="__iframe_button" style="background-color: {_cateColor ?? 'transparent'}; color:{_cateColor ? getTextColor(_cateColor) : 'black'}" on:click={openIframe}> 内窗预览 </button>
+          <button class="__iframe_button" style="background-color: {_cateColor ?? 'transparent'}; color:{_cateFontColor}" on:click={openIframe}> 内窗预览 </button>
 
           <!-- 种子大小 -->
-          <div class="card-index card-index-right __inner_index __inner_size" style="background-color: {_cateColor ?? 'transparent'}; color:{_cateColor ? getTextColor(_cateColor) : 'black'}">
+          <div class="card-index card-index-right __inner_index __inner_size" style="background-color: {_cateColor ?? 'transparent'}; color:{_cateFontColor}">
             {getFileSize(torrentInfo.size)}
           </div>
         </div>
@@ -603,7 +604,7 @@ let _torrentInfo =  {
           style="
             height: 40px;
             background-color: {_cateColor ?? 'transparent'};
-            color: {_cateColor ? getTextColor(_cateColor) : 'black'}"
+            color: {_cateFontColor}"
         >
           <!-- 分类图标 -->
           <img class="card_category-img card_category_square" style="width: 36px;height: 36px;" src={_catePic} alt={_cateAlt} />
@@ -692,7 +693,7 @@ let _torrentInfo =  {
             bind:this={dlclElement_inner}
             style="
               background-color: {_cateColor ? _cateColor : 'transparent'};
-              color: {_cateColor ? getTextColor(_cateColor) : 'black'} ;
+              color: {_cateFontColor} ;
               border-radius: 14px;
               overflow: hidden;
             "
@@ -758,7 +759,7 @@ let _torrentInfo =  {
 
     <!-- 种子大小 -->
     {#if $_card_detail.size && !_inner_info_show}
-      <div class="card-index card-index-right" style="background-color: {_cateColor ?? 'transparent'}; color:{_cateColor ? getTextColor(_cateColor) : 'black'}">
+      <div class="card-index card-index-right" style="background-color: {_cateColor ?? 'transparent'}; color:{_cateFontColor}">
         {getFileSize(torrentInfo.size)}
       </div>
     {/if}
@@ -770,7 +771,7 @@ let _torrentInfo =  {
       class="card_info"
       style="
         background-color: {_cateColor ? _cateColor + 'b0' : 'transparent'};
-        color: {_cateColor ? getTextColor(_cateColor) : 'black'}"
+        color: {_cateFontColor}"
     >
       <!-- NOTE: 显示置顶和免费在图片 index 处 -->
 
@@ -828,7 +829,7 @@ let _torrentInfo =  {
             title="(原列表的这俩按钮会消失)"
             style="
               background-color: {_cateColor ? _cateColor : 'transparent'};
-              color: {_cateColor ? getTextColor(_cateColor) : 'black'} ;
+              color: {_cateFontColor} ;
               border: 3px solid transparent;
               border-radius: 14px;
               overflow: hidden;
