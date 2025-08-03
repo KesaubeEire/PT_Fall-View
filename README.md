@@ -3,7 +3,8 @@
 Mteam 专用瀑布流视图脚本.  
 Script only for m-team masonry view.
 
-[**==> GreasyFork 安装 <==**](https://greasyfork.org/zh-CN/scripts/543925-pt瀑布流视图)
+[**==> GreasyFork 安装 <==**](https://greasyfork.org/zh-CN/scripts/543925-pt瀑布流视图)  
+[**> Github <**](https://github.com/KesaubeEire/PT_Fall-View)
 
 ## 功能
 
@@ -38,8 +39,12 @@ TODO:(这里的介绍旧版本直接拿过来的, 待更新)
 - ...
 - [x] next 站点 flowPanel 颜色问题(要不要做全颜色解耦?很痛苦捏)
 - [x] 旧风格: ob.m-team.cc
+- [x] 屏蔽非种子列表的 /search
 - [ ] 复制一个翻页到瀑布流下面(防止有遮挡的时候不能随心所欲翻页)
 - [ ] ESC 从 iframe 中退出不起作用
+- [ ] 种子内下载收藏 style 调整
+- [ ] 快捷键自定义
+- [ ] 快捷键翻页
 
 ## packages & docs
 
@@ -48,9 +53,11 @@ TODO:(这里的介绍旧版本直接拿过来的, 待更新)
 
 ## Telegram 群新版本推送
 
-PT_Fall-View[0.3.6]
+PT_Fall-View[0.3.7]
 
-feat: 新架构上线前紧急调整 style.
+fix: 修复悬浮组件的鼠标事件处理.
+feat: 添加对 /search 请求的接受判断.
+feat: 移除警告通知的图标配置.
 
 > 全新架构的 M-team 瀑布流来了
 > 支持 next 新网站

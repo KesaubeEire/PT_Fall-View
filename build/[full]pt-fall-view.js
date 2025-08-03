@@ -2,7 +2,7 @@
 // @name            PT瀑布流视图
 // @name:en         PT_Fall-View
 // @namespace       vite-plugin-monkey
-// @version         0.3.6
+// @version         0.3.7
 // @author          Kesa
 // @description     PT瀑布流视图(2025重构)
 // @description:en  PT Fall/Masonry View (restructured 2025)
@@ -27,35 +27,35 @@
 // @grant           none
 // ==/UserScript==
 
-(n=>{if(typeof GM_addStyle=="function"){GM_addStyle(n);return}const r=document.createElement("style");r.textContent=n,document.head.append(r)})(` button:focus,
-button:focus-visible {
-  /* outline: 2px auto -webkit-focus-ring-color; */
-  /* outline: none; */
-  outline: 3px solid var(--bg-3);
-}
-
-#_fallHolder {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  min-height: 10px;
-  z-index: 101;
-}
-
-#_shield {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 100;
-  cursor: help;
-  transition: background-color 0.3s ease;
-}
-#_shield:hover {
-  background-color: rgba(0, 0, 0, 0.9);
+(n=>{if(typeof GM_addStyle=="function"){GM_addStyle(n);return}const r=document.createElement("style");r.textContent=n,document.head.append(r)})(` button:focus,\r
+button:focus-visible {\r
+  /* outline: 2px auto -webkit-focus-ring-color; */\r
+  /* outline: none; */\r
+  outline: 3px solid var(--bg-3);\r
+}\r
+\r
+#_fallHolder {\r
+  position: absolute;\r
+  top: 0;\r
+  left: 0;\r
+  width: 100%;\r
+  min-height: 10px;\r
+  z-index: 101;\r
+}\r
+\r
+#_shield {\r
+  position: absolute;\r
+  top: 0;\r
+  left: 0;\r
+  width: 100%;\r
+  height: 100%;\r
+  background-color: rgba(0, 0, 0, 0.5);\r
+  z-index: 100;\r
+  cursor: help;\r
+  transition: background-color 0.3s ease;\r
+}\r
+#_shield:hover {\r
+  background-color: rgba(0, 0, 0, 0.9);\r
 }
 
   :where(div.masonry.svelte-b2jtby) {
@@ -72,13 +72,13 @@ button:focus-visible {
 
 @-webkit-keyframes notyf-fadeinup{0%{opacity:0;transform:translateY(25%)}to{opacity:1;transform:translateY(0)}}@keyframes notyf-fadeinup{0%{opacity:0;transform:translateY(25%)}to{opacity:1;transform:translateY(0)}}@-webkit-keyframes notyf-fadeinleft{0%{opacity:0;transform:translateX(25%)}to{opacity:1;transform:translateX(0)}}@keyframes notyf-fadeinleft{0%{opacity:0;transform:translateX(25%)}to{opacity:1;transform:translateX(0)}}@-webkit-keyframes notyf-fadeoutright{0%{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(25%)}}@keyframes notyf-fadeoutright{0%{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(25%)}}@-webkit-keyframes notyf-fadeoutdown{0%{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(25%)}}@keyframes notyf-fadeoutdown{0%{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(25%)}}@-webkit-keyframes ripple{0%{transform:scale(0) translateY(-45%) translateX(13%)}to{transform:scale(1) translateY(-45%) translateX(13%)}}@keyframes ripple{0%{transform:scale(0) translateY(-45%) translateX(13%)}to{transform:scale(1) translateY(-45%) translateX(13%)}}.notyf{position:fixed;top:0;left:0;height:100%;width:100%;color:#fff;z-index:9999;display:flex;flex-direction:column;align-items:flex-end;justify-content:flex-end;pointer-events:none;box-sizing:border-box;padding:20px}.notyf__icon--error,.notyf__icon--success{height:21px;width:21px;background:#fff;border-radius:50%;display:block;margin:0 auto;position:relative}.notyf__icon--error:after,.notyf__icon--error:before{content:"";background:currentColor;display:block;position:absolute;width:3px;border-radius:3px;left:9px;height:12px;top:5px}.notyf__icon--error:after{transform:rotate(-45deg)}.notyf__icon--error:before{transform:rotate(45deg)}.notyf__icon--success:after,.notyf__icon--success:before{content:"";background:currentColor;display:block;position:absolute;width:3px;border-radius:3px}.notyf__icon--success:after{height:6px;transform:rotate(-45deg);top:9px;left:6px}.notyf__icon--success:before{height:11px;transform:rotate(45deg);top:5px;left:10px}.notyf__toast{display:block;overflow:hidden;pointer-events:auto;-webkit-animation:notyf-fadeinup .3s ease-in forwards;animation:notyf-fadeinup .3s ease-in forwards;box-shadow:0 3px 7px 0 rgba(0,0,0,.25);position:relative;padding:0 15px;border-radius:2px;max-width:300px;transform:translateY(25%);box-sizing:border-box;flex-shrink:0}.notyf__toast--disappear{transform:translateY(0);-webkit-animation:notyf-fadeoutdown .3s forwards;animation:notyf-fadeoutdown .3s forwards;-webkit-animation-delay:.25s;animation-delay:.25s}.notyf__toast--disappear .notyf__icon,.notyf__toast--disappear .notyf__message{-webkit-animation:notyf-fadeoutdown .3s forwards;animation:notyf-fadeoutdown .3s forwards;opacity:1;transform:translateY(0)}.notyf__toast--disappear .notyf__dismiss{-webkit-animation:notyf-fadeoutright .3s forwards;animation:notyf-fadeoutright .3s forwards;opacity:1;transform:translateX(0)}.notyf__toast--disappear .notyf__message{-webkit-animation-delay:.05s;animation-delay:.05s}.notyf__toast--upper{margin-bottom:20px}.notyf__toast--lower{margin-top:20px}.notyf__toast--dismissible .notyf__wrapper{padding-right:30px}.notyf__ripple{height:400px;width:400px;position:absolute;transform-origin:bottom right;right:0;top:0;border-radius:50%;transform:scale(0) translateY(-51%) translateX(13%);z-index:5;-webkit-animation:ripple .4s ease-out forwards;animation:ripple .4s ease-out forwards}.notyf__wrapper{display:flex;align-items:center;padding-top:17px;padding-bottom:17px;padding-right:15px;border-radius:3px;position:relative;z-index:10}.notyf__icon{width:22px;text-align:center;font-size:1.3em;opacity:0;-webkit-animation:notyf-fadeinup .3s forwards;animation:notyf-fadeinup .3s forwards;-webkit-animation-delay:.3s;animation-delay:.3s;margin-right:13px}.notyf__dismiss{position:absolute;top:0;right:0;height:100%;width:26px;margin-right:-15px;-webkit-animation:notyf-fadeinleft .3s forwards;animation:notyf-fadeinleft .3s forwards;-webkit-animation-delay:.35s;animation-delay:.35s;opacity:0}.notyf__dismiss-btn{background-color:rgba(0,0,0,.25);border:none;cursor:pointer;transition:opacity .2s ease,background-color .2s ease;outline:none;opacity:.35;height:100%;width:100%}.notyf__dismiss-btn:after,.notyf__dismiss-btn:before{content:"";background:#fff;height:12px;width:2px;border-radius:3px;position:absolute;left:calc(50% - 1px);top:calc(50% - 5px)}.notyf__dismiss-btn:after{transform:rotate(-45deg)}.notyf__dismiss-btn:before{transform:rotate(45deg)}.notyf__dismiss-btn:hover{opacity:.7;background-color:rgba(0,0,0,.15)}.notyf__dismiss-btn:active{opacity:.8}.notyf__message{vertical-align:middle;position:relative;opacity:0;-webkit-animation:notyf-fadeinup .3s forwards;animation:notyf-fadeinup .3s forwards;-webkit-animation-delay:.25s;animation-delay:.25s;line-height:1.5em}@media only screen and (max-width:480px){.notyf{padding:0}.notyf__ripple{height:600px;width:600px;-webkit-animation-duration:.5s;animation-duration:.5s}.notyf__toast{max-width:none;border-radius:0;box-shadow:0 -2px 7px 0 rgba(0,0,0,.13);width:100%}.notyf__dismiss{width:56px}}
 \r
-  .card_holder.svelte-1ytaoom {\r
+  .card_holder.svelte-13et45j {\r
     border-radius: var(--borderRadius);\r
     overflow: hidden;\r
   }\r
 \r
   /* \u5361\u7247\u5206\u7C7B */\r
-  .card-category.svelte-1ytaoom {\r
+  .card-category.svelte-13et45j {\r
     height: 20px;\r
     padding: 0 2px;\r
     border: 1px;\r
@@ -95,7 +95,7 @@ button:focus-visible {
   }\r
 \r
   /* \u5361\u7247\u79CD\u7C7Btag\u9884\u89C8\u56FE */\r
-  .card_category-img.svelte-1ytaoom {\r
+  .card_category-img.svelte-13et45j {\r
     /* height: 18px; */\r
     height: 35px;\r
     width: 28px;\r
@@ -107,7 +107,7 @@ button:focus-visible {
     padding-top: 6px;\r
   }\r
 \r
-  .card_category_square.svelte-1ytaoom {\r
+  .card_category_square.svelte-13et45j {\r
     width: 40px;\r
     height: 40px;\r
     padding-top: 0;\r
@@ -125,11 +125,11 @@ button:focus-visible {
     text-align: center;\r
     padding: 8px 8px;\r
   }*/\r
-  .card_pic.svelte-1ytaoom img:where(.svelte-1ytaoom) {\r
+  .card_pic.svelte-13et45j img:where(.svelte-13et45j) {\r
     width: 100%;\r
     height: 100%;\r
   }\r
-  .lazy-image.svelte-1ytaoom {\r
+  .lazy-image.svelte-13et45j {\r
     opacity: 0.2;\r
     transition: opacity 0.5s ease;\r
   }\r
@@ -137,7 +137,7 @@ button:focus-visible {
   /* (unused) .lazy-image.loaded {\r
     opacity: 1;\r
   }*/\r
-  .card_info.svelte-1ytaoom {\r
+  .card_info.svelte-13et45j {\r
     display: flex;\r
     justify-content: center;\r
     align-items: center;\r
@@ -145,7 +145,7 @@ button:focus-visible {
 \r
     padding: 0px 8px;\r
 \r
-    & .card_info-item:where(.svelte-1ytaoom) {\r
+    & .card_info-item:where(.svelte-13et45j) {\r
       display: flex;\r
       justify-content: space-around;\r
       align-items: center;\r
@@ -154,7 +154,7 @@ button:focus-visible {
       width: 100%;\r
     }\r
 \r
-    & .card_info__dl_and_cl:where(.svelte-1ytaoom) {\r
+    & .card_info__dl_and_cl:where(.svelte-13et45j) {\r
       display: flex;\r
       justify-content: center;\r
       align-items: center;\r
@@ -162,20 +162,20 @@ button:focus-visible {
       height: 32px;\r
     }\r
 \r
-    & .card_info__statistics:where(.svelte-1ytaoom) {\r
+    & .card_info__statistics:where(.svelte-13et45j) {\r
       display: flex;\r
       justify-content: center;\r
       align-items: center;\r
     }\r
   }\r
 \r
-  .card_info__topping.svelte-1ytaoom {\r
+  .card_info__topping.svelte-13et45j {\r
     display: flex;\r
     /* justify-content: center; */\r
     align-items: center;\r
   }\r
 \r
-  .__main_title.svelte-1ytaoom {\r
+  .__main_title.svelte-13et45j {\r
     white-space: pre-wrap;\r
     word-wrap: break-word;\r
     overflow-wrap: break-word;\r
@@ -189,7 +189,7 @@ button:focus-visible {
   }\r
 \r
   /* \u6807\u7B7E */\r
-  .cl-tags.svelte-1ytaoom {\r
+  .cl-tags.svelte-13et45j {\r
     display: flex;\r
     justify-content: center;\r
     align-items: center;\r
@@ -200,7 +200,7 @@ button:focus-visible {
     padding-top: 4px;\r
     padding-bottom: 4px;\r
   }\r
-  ._tag.svelte-1ytaoom {\r
+  ._tag.svelte-13et45j {\r
     /* padding: 1px 6px; */\r
     height: 1.3em;\r
     line-height: 1.3em;\r
@@ -209,28 +209,28 @@ button:focus-visible {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';\r
     font-size: 12px;\r
   }\r
-  ._tag_diy.svelte-1ytaoom {\r
+  ._tag_diy.svelte-13et45j {\r
     color: #ffffff;\r
     background-color: rgb(90, 189, 72);\r
   }\r
-  ._tag_dub.svelte-1ytaoom {\r
+  ._tag_dub.svelte-13et45j {\r
     color: #ffffff;\r
     background-color: rgb(90, 59, 20);\r
   }\r
-  ._tag_sub.svelte-1ytaoom {\r
+  ._tag_sub.svelte-13et45j {\r
     color: #ffffff;\r
     background-color: rgb(59, 74, 127);\r
   }\r
-  ._tag_discount_50.svelte-1ytaoom {\r
+  ._tag_discount_50.svelte-13et45j {\r
     background-color: rgb(255, 85, 0);\r
     color: #ffffff;\r
   }\r
-  ._tag_discount_free.svelte-1ytaoom {\r
+  ._tag_discount_free.svelte-13et45j {\r
     background-color: rgb(16, 142, 233);\r
     color: #ffffff;\r
   }\r
 \r
-  .card_pic.svelte-1ytaoom {\r
+  .card_pic.svelte-13et45j {\r
     position: relative;\r
     display: flex;\r
     align-items: center;\r
@@ -238,7 +238,7 @@ button:focus-visible {
     background-color: var(--cateColor);\r
   }\r
 \r
-  .pic_error.svelte-1ytaoom {\r
+  .pic_error.svelte-13et45j {\r
     display: flex;\r
     justify-content: center;\r
     align-items: center;\r
@@ -250,7 +250,7 @@ button:focus-visible {
   }\r
 \r
   /* \u5361\u7247\u7D22\u5F15 */\r
-  .card-index.svelte-1ytaoom {\r
+  .card-index.svelte-13et45j {\r
     position: absolute;\r
     top: 0;\r
     left: 0;\r
@@ -275,7 +275,7 @@ button:focus-visible {
   }\r
 \r
   /* \u5361\u7247\u7D22\u5F15_\u53F3 */\r
-  .card-index-right.svelte-1ytaoom {\r
+  .card-index-right.svelte-13et45j {\r
     left: initial;\r
     right: 0;\r
     padding: 4px 4px 4px 8px;\r
@@ -288,7 +288,7 @@ button:focus-visible {
   }\r
 \r
   /* \u60AC\u6D6E\u9884\u89C8: \u5C40\u90E8\u89E6\u53D1\u5668 */\r
-  .hover-trigger.svelte-1ytaoom {\r
+  .hover-trigger.svelte-13et45j {\r
     position: absolute;\r
     top: 28px;\r
     right: 8px;\r
@@ -324,7 +324,7 @@ button:focus-visible {
   }\r
 \r
   /* \u6DFB\u52A0\u60AC\u6D6E\u6548\u679C\u76F8\u5173\u6837\u5F0F */\r
-  .hover-overlay.svelte-1ytaoom {\r
+  .hover-overlay.svelte-13et45j {\r
     position: absolute;\r
     bottom: 0;\r
     left: 0;\r
@@ -337,7 +337,7 @@ button:focus-visible {
     z-index: 1;\r
   }\r
 \r
-  .overlay-content.svelte-1ytaoom {\r
+  .overlay-content.svelte-13et45j {\r
     width: 100%;\r
     position: absolute;\r
     bottom: 0;\r
@@ -357,7 +357,7 @@ button:focus-visible {
     display: flex;\r
     flex-direction: column;\r
 \r
-    & .card_info-item:where(.svelte-1ytaoom) {\r
+    & .card_info-item:where(.svelte-13et45j) {\r
       display: flex;\r
       justify-content: center;\r
       align-items: center;\r
@@ -368,7 +368,7 @@ button:focus-visible {
       padding-right: 8px;\r
     }\r
 \r
-    & .__main_title:where(.svelte-1ytaoom) {\r
+    & .__main_title:where(.svelte-13et45j) {\r
       text-align: center;\r
       white-space: pre-wrap;\r
       word-wrap: break-word;\r
@@ -382,14 +382,14 @@ button:focus-visible {
       }\r
     }\r
 \r
-    & .__sub_title:where(.svelte-1ytaoom) {\r
+    & .__sub_title:where(.svelte-13et45j) {\r
       white-space: pre-wrap;\r
       word-wrap: break-word;\r
       overflow-wrap: break-word;\r
       overflow: hidden;\r
     }\r
 \r
-    & .card_info__statistics:where(.svelte-1ytaoom) {\r
+    & .card_info__statistics:where(.svelte-13et45j) {\r
       display: flex;\r
       justify-content: space-evenly;\r
       align-items: center;\r
@@ -398,13 +398,13 @@ button:focus-visible {
     }\r
   }\r
 \r
-  .__center.svelte-1ytaoom {\r
+  .__center.svelte-13et45j {\r
     display: flex;\r
     justify-content: center;\r
     align-items: center;\r
   }\r
 \r
-  .__inner_index_and_size.svelte-1ytaoom {\r
+  .__inner_index_and_size.svelte-13et45j {\r
     display: flex;\r
     justify-content: space-between;\r
     align-items: center;\r
@@ -414,7 +414,7 @@ button:focus-visible {
     top: -24px;\r
   }\r
 \r
-  .__inner_index.svelte-1ytaoom {\r
+  .__inner_index.svelte-13et45j {\r
     position: relative;\r
     width: fit-content;\r
 \r
@@ -423,7 +423,7 @@ button:focus-visible {
     align-items: center;\r
   }\r
 \r
-  .__inner_size.svelte-1ytaoom {\r
+  .__inner_size.svelte-13et45j {\r
     position: relative;\r
     width: fit-content;\r
 \r
@@ -432,8 +432,9 @@ button:focus-visible {
     align-items: center;\r
   }\r
 \r
-  .__iframe_button.svelte-1ytaoom {\r
+  .__iframe_button.svelte-13et45j {\r
     flex: 1;\r
+    height: 24px;\r
     padding: 4px 8px;\r
     margin: 0;\r
     border: none;\r
@@ -442,6 +443,12 @@ button:focus-visible {
     appearance: none;\r
     box-sizing: border-box;\r
     white-space: nowrap;\r
+    opacity: 1;\r
+    transition: opacity 0.3s ease;\r
+\r
+    &:hover {\r
+      opacity: 0.7;\r
+    }\r
   }\r
 
 \r
@@ -4836,11 +4843,7 @@ button:focus-visible {
       {
         type: "warning",
         background: "orange",
-        icon: {
-          className: "material-icons",
-          tagName: "i",
-          text: "warning"
-        }
+        icon: false
       }
     ]
   });
@@ -5300,7 +5303,6 @@ button:focus-visible {
     constructor() {
       this.container = null;
       this.imgElements = null;
-      this.buffer = null;
       this.init();
     }
     /**
@@ -5348,10 +5350,11 @@ button:focus-visible {
     }
     /**
      * 处理鼠标进入事件
-     * @param {MouseEvent} e
+     * @param {MouseEvent} touch
      * @param {HTMLElement} imgEle
      */
-    handleMouseOver(e, imgEle) {
+    handleMouseOver(touch, imgEle) {
+      if (!this.container) return;
       if (!imgEle) {
         console.warn("[FALL]: imgEle is null");
         return;
@@ -5363,8 +5366,8 @@ button:focus-visible {
           kpImgElements.forEach((kpImg) => {
             kpImg.setAttribute("src", src);
           });
-          this.updatePosition(e);
           this.imgElements = imgEle;
+          this.updatePosition(touch);
           this.container.style.display = "block";
         }
       }
@@ -5374,7 +5377,7 @@ button:focus-visible {
      * @param {MouseEvent} e
      */
     handleMouseMove(e) {
-      if (this.container.style.display === "block") {
+      if (this.container && this.container.style.display === "block") {
         this.updatePosition(e);
       }
     }
@@ -5413,6 +5416,12 @@ button:focus-visible {
       };
       let maxRatio = 0;
       let maxPosition = "";
+      const res = {
+        top: { left: 0, top: 0, width: viewportWidth + "px", height: mouseY + "px" },
+        bot: { left: 0, top: mouseY + "px", width: viewportWidth + "px", height: window.innerHeight - mouseY + "px" },
+        left: { left: 0, top: 0, width: mouseX + "px", height: viewportHeight + "px" },
+        right: { left: mouseX + "px", top: 0, width: window.innerWidth - mouseX + "px", height: viewportHeight + "px" }
+      };
       for (const key in containerSize) {
         const currentRatio = Math.min(containerSize[key].width / imgWidth, containerSize[key].height / imgHeight);
         if (currentRatio > maxRatio) {
@@ -5420,12 +5429,7 @@ button:focus-visible {
           maxPosition = key;
         }
       }
-      return {
-        top: { left: 0, top: 0, width: viewportWidth + "px", height: mouseY + "px" },
-        bot: { left: 0, top: mouseY + "px", width: viewportWidth + "px", height: window.innerHeight - mouseY + "px" },
-        left: { left: 0, top: 0, width: mouseX + "px", height: viewportHeight + "px" },
-        right: { left: mouseX + "px", top: 0, width: window.innerWidth - mouseX + "px", height: viewportHeight + "px" }
-      }[maxPosition] || { left: 0, top: 0, width: 0, height: 0 };
+      return res[maxPosition] || { left: 0, top: 0, width: 0, height: 0 };
     }
     /**
      * 清除预览
@@ -5434,13 +5438,12 @@ button:focus-visible {
       document.querySelectorAll(".kp_img").forEach((kpImg) => {
         kpImg.setAttribute("src", "");
       });
-      this.container.style.display = "none";
+      if (this.container) this.container.style.display = "none";
     }
     /**
      * 销毁组件
      */
     destroy() {
-      if (this.buffer) clearTimeout(this.buffer);
       if (this.container) {
         this.container.style.display = "none";
         clearPreview();
@@ -5458,43 +5461,43 @@ button:focus-visible {
   const _PicErrorLOGO = "data:image/svg+xml,%3csvg%20width='256px'%20height='256px'%20viewBox='0%200%2024.00%2024.00'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%20transform='matrix(1,%200,%200,%201,%200,%200)'%20%3e%3cg%20id='SVGRepo_bgCarrier'%20stroke-width='0'%20transform='translate(0,0),%20scale(1)'%20/%3e%3cg%20id='SVGRepo_tracerCarrier'%20stroke-linecap='round'%20stroke-linejoin='round'%20stroke='%23CCCCCC'%20stroke-width='0.048'%20/%3e%3cg%20id='SVGRepo_iconCarrier'%3e%3cpath%20d='M13%203L13.7071%202.29289C13.5196%202.10536%2013.2652%202%2013%202V3ZM14%2022C14.5523%2022%2015%2021.5523%2015%2021C15%2020.4477%2014.5523%2020%2014%2020V22ZM19%209H20C20%208.73478%2019.8946%208.48043%2019.7071%208.29289L19%209ZM18%2010C18%2010.5523%2018.4477%2011%2019%2011C19.5523%2011%2020%2010.5523%2020%2010H18ZM5.21799%2019.908L4.32698%2020.362H4.32698L5.21799%2019.908ZM6.09202%2020.782L6.54601%2019.891L6.54601%2019.891L6.09202%2020.782ZM6.09202%203.21799L5.63803%202.32698L5.63803%202.32698L6.09202%203.21799ZM5.21799%204.09202L4.32698%203.63803L4.32698%203.63803L5.21799%204.09202ZM13.109%208.45399L14%208V8L13.109%208.45399ZM13.546%208.89101L14%208L13.546%208.89101ZM17.2299%2017.7929C16.8394%2018.1834%2016.8394%2018.8166%2017.2299%2019.2071C17.6204%2019.5976%2018.2536%2019.5976%2018.6441%2019.2071L17.2299%2017.7929ZM15.0316%2015.2507C14.8939%2015.7856%2015.2159%2016.3308%2015.7507%2016.4684C16.2856%2016.6061%2016.8308%2016.2841%2016.9684%2015.7493L15.0316%2015.2507ZM17.9375%2020C17.3852%2020%2016.9375%2020.4477%2016.9375%2021C16.9375%2021.5523%2017.3852%2022%2017.9375%2022V20ZM17.9475%2022C18.4998%2022%2018.9475%2021.5523%2018.9475%2021C18.9475%2020.4477%2018.4998%2020%2017.9475%2020V22ZM13%202H8.2V4H13V2ZM4%206.2V17.8H6V6.2H4ZM8.2%2022H14V20H8.2V22ZM19.7071%208.29289L13.7071%202.29289L12.2929%203.70711L18.2929%209.70711L19.7071%208.29289ZM20%2010V9H18V10H20ZM4%2017.8C4%2018.3436%203.99922%2018.8114%204.03057%2019.195C4.06287%2019.5904%204.13419%2019.9836%204.32698%2020.362L6.10899%2019.454C6.0838%2019.4045%206.04612%2019.3038%206.02393%2019.0322C6.00078%2018.7488%206%2018.3766%206%2017.8H4ZM8.2%2020C7.62345%2020%207.25117%2019.9992%206.96784%2019.9761C6.69617%2019.9539%206.59545%2019.9162%206.54601%2019.891L5.63803%2021.673C6.01641%2021.8658%206.40963%2021.9371%206.80497%2021.9694C7.18864%2022.0008%207.65645%2022%208.2%2022V20ZM4.32698%2020.362C4.6146%2020.9265%205.07354%2021.3854%205.63803%2021.673L6.54601%2019.891C6.35785%2019.7951%206.20487%2019.6422%206.10899%2019.454L4.32698%2020.362ZM8.2%202C7.65645%202%207.18864%201.99922%206.80497%202.03057C6.40963%202.06287%206.01641%202.13419%205.63803%202.32698L6.54601%204.10899C6.59545%204.0838%206.69617%204.04612%206.96784%204.02393C7.25117%204.00078%207.62345%204%208.2%204V2ZM6%206.2C6%205.62345%206.00078%205.25117%206.02393%204.96784C6.04612%204.69617%206.0838%204.59545%206.10899%204.54601L4.32698%203.63803C4.13419%204.01641%204.06287%204.40963%204.03057%204.80497C3.99922%205.18864%204%205.65645%204%206.2H6ZM5.63803%202.32698C5.07354%202.6146%204.6146%203.07354%204.32698%203.63803L6.10899%204.54601C6.20487%204.35785%206.35785%204.20487%206.54601%204.10899L5.63803%202.32698ZM12%203V7.4H14V3H12ZM14.6%2010H19V8H14.6V10ZM12%207.4C12%207.66353%2011.9992%207.92131%2012.0169%208.13823C12.0356%208.36682%2012.0797%208.63656%2012.218%208.90798L14%208C14.0293%208.05751%2014.0189%208.08028%2014.0103%207.97537C14.0008%207.85878%2014%207.69653%2014%207.4H12ZM14.6%208C14.3035%208%2014.1412%207.99922%2014.0246%207.9897C13.9197%207.98113%2013.9425%207.9707%2014%208L13.092%209.78201C13.3634%209.92031%2013.6332%209.96438%2013.8618%209.98305C14.0787%2010.0008%2014.3365%2010%2014.6%2010V8ZM12.218%208.90798C12.4097%209.2843%2012.7157%209.59027%2013.092%209.78201L14%208V8L12.218%208.90798ZM18.937%2016C18.937%2016.1732%2018.8915%2016.3053%2018.6175%2016.5697C18.4638%2016.718%2018.2828%2016.8653%2018.0319%2017.074C17.7936%2017.2723%2017.5141%2017.5087%2017.2299%2017.7929L18.6441%2019.2071C18.86%2018.9913%2019.0805%2018.8033%2019.3109%2018.6116C19.5287%2018.4305%2019.7852%2018.2223%2020.0065%2018.0087C20.4825%2017.5493%2020.937%2016.9314%2020.937%2016H18.937ZM17.937%2015C18.4893%2015%2018.937%2015.4477%2018.937%2016H20.937C20.937%2014.3431%2019.5938%2013%2017.937%2013V15ZM16.9684%2015.7493C17.0795%2015.3177%2017.4724%2015%2017.937%2015V13C16.5377%2013%2015.3645%2013.957%2015.0316%2015.2507L16.9684%2015.7493ZM17.9375%2022H17.9475V20H17.9375V22Z'%20fill='%23c00000'%20/%3e%3c/g%3e%3c/svg%3e";
   const _PicNoLOGO = "data:image/svg+xml,%3csvg%20viewBox='-2.4%20-2.4%2028.80%2028.80'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%20stroke='%23000000'%20%3e%3cg%20id='SVGRepo_bgCarrier'%20stroke-width='0'%20/%3e%3cg%20id='SVGRepo_iconCarrier'%3e%3cpath%20d='M15.6%2015.6C15.6%2015.6%2014.25%2013.8%2012%2013.8C9.75%2013.8%208.4%2015.6%208.4%2015.6M14.7%209.3H14.709M9.3%209.3H9.309M21%2012C21%2016.9706%2016.9706%2021%2012%2021C7.02944%2021%203%2016.9706%203%2012C3%207.02944%207.02944%203%2012%203C16.9706%203%2021%207.02944%2021%2012ZM15.15%209.3C15.15%209.54853%2014.9485%209.75%2014.7%209.75C14.4515%209.75%2014.25%209.54853%2014.25%209.3C14.25%209.05147%2014.4515%208.85%2014.7%208.85C14.9485%208.85%2015.15%209.05147%2015.15%209.3ZM9.75%209.3C9.75%209.54853%209.54853%209.75%209.3%209.75C9.05147%209.75%208.85%209.54853%208.85%209.3C8.85%209.05147%209.05147%208.85%209.3%208.85C9.54853%208.85%209.75%209.05147%209.75%209.3Z'%20stroke='%23000000'%20stroke-width='1.8'%20stroke-linecap='round'%20stroke-linejoin='round'%20/%3e%3c/g%3e%3c/svg%3e";
   var $$_import_CONFIG = reactive_import(() => CONFIG);
-  var root_1$3 = /* @__PURE__ */ template(`<div class="card-category svelte-1ytaoom"><img class="card_category-img svelte-1ytaoom"> </div>`);
-  var root_2$2 = /* @__PURE__ */ template(`<a class="__main_title svelte-1ytaoom" target="_blank" rel="noopener noreferrer"> </a>`);
-  var root_4$1 = /* @__PURE__ */ template(`<div class="pic_error svelte-1ytaoom"><div><img style="height: 100%; width:60px; border-radius:20px;" alt="pic error" class="svelte-1ytaoom"></div> <div class="ant-typography" style="color: white; font-size:16px;">GAY WARNING<br>同志警告</div></div>`);
-  var root_6 = /* @__PURE__ */ template(`<img class="lazy-image svelte-1ytaoom">`);
-  var root_7 = /* @__PURE__ */ template(`<div class="pic_error svelte-1ytaoom" style=""><div><img style="height: 100%;width: 100px;" alt="no pic" class="svelte-1ytaoom"></div> <div>本种没有图片</div></div>`);
-  var root_8 = /* @__PURE__ */ template(`<div class="pic_error svelte-1ytaoom" style=""><div><img style="height: 100%;width: 100px;" alt="pic error" class="svelte-1ytaoom"></div> <div class="ant-typography">图片加载失败</div></div>`);
-  var root_9 = /* @__PURE__ */ template(`<div class="hover-trigger svelte-1ytaoom"><img style="pointer-events: none;" alt="PREVIEW" class="svelte-1ytaoom"></div>`);
+  var root_1$3 = /* @__PURE__ */ template(`<div class="card-category svelte-13et45j"><img class="card_category-img svelte-13et45j"> </div>`);
+  var root_2$2 = /* @__PURE__ */ template(`<a class="__main_title svelte-13et45j" target="_blank" rel="noopener noreferrer"> </a>`);
+  var root_4$1 = /* @__PURE__ */ template(`<div class="pic_error svelte-13et45j"><div><img style="height: 100%; width:60px; border-radius:20px;" alt="pic error" class="svelte-13et45j"></div> <div class="ant-typography" style="color: white; font-size:16px;">GAY WARNING<br>同志警告</div></div>`);
+  var root_6 = /* @__PURE__ */ template(`<img class="lazy-image svelte-13et45j">`);
+  var root_7 = /* @__PURE__ */ template(`<div class="pic_error svelte-13et45j" style=""><div><img style="height: 100%;width: 100px;" alt="no pic" class="svelte-13et45j"></div> <div>本种没有图片</div></div>`);
+  var root_8 = /* @__PURE__ */ template(`<div class="pic_error svelte-13et45j" style=""><div><img style="height: 100%;width: 100px;" alt="pic error" class="svelte-13et45j"></div> <div class="ant-typography">图片加载失败</div></div>`);
+  var root_9 = /* @__PURE__ */ template(`<div class="hover-trigger svelte-13et45j"><img style="pointer-events: none;" alt="PREVIEW" class="svelte-13et45j"></div>`);
   var root_11 = /* @__PURE__ */ template(`<img style="
                     background: url(/static/media/icons.8bb5446ebbbd07050285.gif) 0 -202px;
                     height: 14px;
-                    width: 14px;" alt="PIN" class="svelte-1ytaoom">`);
-  var root_10 = /* @__PURE__ */ template(`<div class="card_info__topping svelte-1ytaoom"></div> &nbsp;`, 1);
-  var root_12 = /* @__PURE__ */ template(`<div class="_tag svelte-1ytaoom"> </div>`);
-  var root_14 = /* @__PURE__ */ template(`<div class="_tag _tag_diy svelte-1ytaoom">DIY</div>`);
-  var root_15 = /* @__PURE__ */ template(`<div class="_tag _tag_dub svelte-1ytaoom">国配</div>`);
-  var root_16 = /* @__PURE__ */ template(`<div class="_tag _tag_sub svelte-1ytaoom">中字</div>`);
-  var root_18 = /* @__PURE__ */ template(`<div class="_tag svelte-1ytaoom"> </div>`);
-  var root_13 = /* @__PURE__ */ template(`<div class="cl-tags svelte-1ytaoom"><!> <!> <!> <!></div>`);
+                    width: 14px;" alt="PIN" class="svelte-13et45j">`);
+  var root_10 = /* @__PURE__ */ template(`<div class="card_info__topping svelte-13et45j"></div> &nbsp;`, 1);
+  var root_12 = /* @__PURE__ */ template(`<div class="_tag svelte-13et45j"> </div>`);
+  var root_14 = /* @__PURE__ */ template(`<div class="_tag _tag_diy svelte-13et45j">DIY</div>`);
+  var root_15 = /* @__PURE__ */ template(`<div class="_tag _tag_dub svelte-13et45j">国配</div>`);
+  var root_16 = /* @__PURE__ */ template(`<div class="_tag _tag_sub svelte-13et45j">中字</div>`);
+  var root_18 = /* @__PURE__ */ template(`<div class="_tag svelte-13et45j"> </div>`);
+  var root_13 = /* @__PURE__ */ template(`<div class="cl-tags svelte-13et45j"><!> <!> <!> <!></div>`);
   var root_21 = /* @__PURE__ */ template(`<img style="
                   background: url(/static/media/icons.8bb5446ebbbd07050285.gif) 0 -202px;
                   height: 14px;
-                  width: 14px;" alt="PIN" class="svelte-1ytaoom">`);
-  var root_20 = /* @__PURE__ */ template(`<div class="card_info__topping svelte-1ytaoom"></div> &nbsp;`, 1);
-  var root_22 = /* @__PURE__ */ template(`<div class="_tag svelte-1ytaoom"> </div>`);
-  var root_19 = /* @__PURE__ */ template(`<div class="card-index svelte-1ytaoom"><!> <!></div>`);
-  var root_23 = /* @__PURE__ */ template(`<div class="card-index card-index-right svelte-1ytaoom"> </div>`);
-  var root_25 = /* @__PURE__ */ template(`<div class="card_info-item card_info__sub_title svelte-1ytaoom"><div> </div></div>`);
-  var root_27 = /* @__PURE__ */ template(`<div class="_tag _tag_diy svelte-1ytaoom">DIY</div>`);
-  var root_28 = /* @__PURE__ */ template(`<div class="_tag _tag_dub svelte-1ytaoom">国配</div>`);
-  var root_29 = /* @__PURE__ */ template(`<div class="_tag _tag_sub svelte-1ytaoom">中字</div>`);
-  var root_31 = /* @__PURE__ */ template(`<div class="_tag svelte-1ytaoom"> </div>`);
-  var root_26 = /* @__PURE__ */ template(`<div class="cl-tags svelte-1ytaoom"><!> <!> <!> <!></div>`);
-  var root_32 = /* @__PURE__ */ template(`<div class="card_info-item card_info__dl_and_cl svelte-1ytaoom"><button title="(原列表的这俩按钮会消失)">下载 & 收藏</button></div>`);
-  var root_33 = /* @__PURE__ */ template(`<div class="card_info-item card_info__upload_time svelte-1ytaoom"><div> </div></div>`);
-  var root_34 = /* @__PURE__ */ template(`<div class="card_info-item card_info__statistics svelte-1ytaoom"><!> &nbsp; <b> </b> &nbsp;&nbsp; <img alt="SVG_Seeders"> &nbsp; <b> </b> &nbsp;&nbsp; <img alt="SVG_Leechers"> &nbsp; <b> </b></div>`);
-  var root_24 = /* @__PURE__ */ template(`<div class="card_info svelte-1ytaoom"><!>  <!> <!> <!> <!></div>`);
-  var root$9 = /* @__PURE__ */ template(`<div class="card_holder svelte-1ytaoom"><!> <div class="card_title"><!></div> <div class="card_pic svelte-1ytaoom"><!> <!>  <div class="hover-overlay svelte-1ytaoom"><div class="overlay-content svelte-1ytaoom"><div class="__inner_index_and_size svelte-1ytaoom"><div class="card-index __inner_index svelte-1ytaoom" style="background-color:black; color:white"><!> <!></div> <button class="__iframe_button svelte-1ytaoom">打开 iframe</button> <div class="card-index card-index-right __inner_index __inner_size svelte-1ytaoom"> </div></div> <div class="card-category card_info-item svelte-1ytaoom"><img class="card_category-img card_category_square svelte-1ytaoom" style="width: 36px;height: 36px;"> </div> <div style="width: 100%;" class="card_info-item card_info__sub_title svelte-1ytaoom"><a class="__main_title __straight svelte-1ytaoom" target="_blank" rel="noopener noreferrer"> </a></div> <div style="width: 100%;" class="card_info-item card_info__sub_title svelte-1ytaoom"><div class="__sub_title svelte-1ytaoom"> </div></div>  <!> <div class="card_info-item card_info__upload_time svelte-1ytaoom"><div> </div></div> <div class="card_info-item card_info__statistics svelte-1ytaoom"><div class="__center svelte-1ytaoom"><!> <b> </b></div> <div class="__center svelte-1ytaoom"><img style="width: 14px; height: 14px;" alt="SVG_Seeders" class="svelte-1ytaoom"> <b> </b></div> <div class="__center svelte-1ytaoom"><img style="width: 14px; height: 14px;" alt="SVG_Leechers" class="svelte-1ytaoom"> <b> </b></div> <div><button title="(原列表的这俩按钮会消失)" style="
+                  width: 14px;" alt="PIN" class="svelte-13et45j">`);
+  var root_20 = /* @__PURE__ */ template(`<div class="card_info__topping svelte-13et45j"></div> &nbsp;`, 1);
+  var root_22 = /* @__PURE__ */ template(`<div class="_tag svelte-13et45j"> </div>`);
+  var root_19 = /* @__PURE__ */ template(`<div class="card-index svelte-13et45j"><!> <!></div>`);
+  var root_23 = /* @__PURE__ */ template(`<div class="card-index card-index-right svelte-13et45j"> </div>`);
+  var root_25 = /* @__PURE__ */ template(`<div class="card_info-item card_info__sub_title svelte-13et45j"><div> </div></div>`);
+  var root_27 = /* @__PURE__ */ template(`<div class="_tag _tag_diy svelte-13et45j">DIY</div>`);
+  var root_28 = /* @__PURE__ */ template(`<div class="_tag _tag_dub svelte-13et45j">国配</div>`);
+  var root_29 = /* @__PURE__ */ template(`<div class="_tag _tag_sub svelte-13et45j">中字</div>`);
+  var root_31 = /* @__PURE__ */ template(`<div class="_tag svelte-13et45j"> </div>`);
+  var root_26 = /* @__PURE__ */ template(`<div class="cl-tags svelte-13et45j"><!> <!> <!> <!></div>`);
+  var root_32 = /* @__PURE__ */ template(`<div class="card_info-item card_info__dl_and_cl svelte-13et45j"><button title="(原列表的这俩按钮会消失)">下载 & 收藏</button></div>`);
+  var root_33 = /* @__PURE__ */ template(`<div class="card_info-item card_info__upload_time svelte-13et45j"><div> </div></div>`);
+  var root_34 = /* @__PURE__ */ template(`<div class="card_info-item card_info__statistics svelte-13et45j"><!> &nbsp; <b> </b> &nbsp;&nbsp; <img alt="SVG_Seeders"> &nbsp; <b> </b> &nbsp;&nbsp; <img alt="SVG_Leechers"> &nbsp; <b> </b></div>`);
+  var root_24 = /* @__PURE__ */ template(`<div class="card_info svelte-13et45j"><!>  <!> <!> <!> <!></div>`);
+  var root$9 = /* @__PURE__ */ template(`<div class="card_holder svelte-13et45j"><!> <div class="card_title"><!></div> <div class="card_pic svelte-13et45j"><!> <!>  <div class="hover-overlay svelte-13et45j"><div class="overlay-content svelte-13et45j"><div class="__inner_index_and_size svelte-13et45j"><div class="card-index __inner_index svelte-13et45j" style="background-color:black; color:white"><!> <!></div> <button class="__iframe_button svelte-13et45j">内窗预览</button> <div class="card-index card-index-right __inner_index __inner_size svelte-13et45j"> </div></div> <div class="card-category card_info-item svelte-13et45j"><img class="card_category-img card_category_square svelte-13et45j" style="width: 36px;height: 36px;"> </div> <div style="width: 100%;" class="card_info-item card_info__sub_title svelte-13et45j"><a class="__main_title __straight svelte-13et45j" target="_blank" rel="noopener noreferrer"> </a></div> <div style="width: 100%;" class="card_info-item card_info__sub_title svelte-13et45j"><div class="__sub_title svelte-13et45j"> </div></div>  <!> <div class="card_info-item card_info__upload_time svelte-13et45j"><div> </div></div> <div class="card_info-item card_info__statistics svelte-13et45j"><div class="__center svelte-13et45j"><!> <b> </b></div> <div class="__center svelte-13et45j"><img style="width: 14px; height: 14px;" alt="SVG_Seeders" class="svelte-13et45j"> <b> </b></div> <div class="__center svelte-13et45j"><img style="width: 14px; height: 14px;" alt="SVG_Leechers" class="svelte-13et45j"> <b> </b></div> <div><button title="(原列表的这俩按钮会消失)" style="
                 background-color: inherit; border-color:transparent">下载&收藏</button></div></div></div></div> <!> <!></div> <!></div>`);
   function Mteam_Card($$anchor, $$props) {
     push($$props, false);
@@ -6421,7 +6424,7 @@ button:focus-visible {
     $$cleanup();
     return $$pop;
   }
-  let version = "0.3.6";
+  let version = "0.3.7";
   var root$7 = /* @__PURE__ */ ns_template(`<svg class="tgme_logo" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle cx="17" cy="17" fill="#40a9ff" r="17"></circle><path d="m7.06510669 16.9258959c5.22739451-2.1065178 8.71314291-3.4952633 10.45724521-4.1662364 4.9797665-1.9157646 6.0145193-2.2485535 6.6889567-2.2595423.1483363-.0024169.480005.0315855.6948461.192827.1814076.1361492.23132.3200675.2552048.4491519.0238847.1290844.0536269.4231419.0299841.65291-.2698553 2.6225356-1.4375148 8.986738-2.0315537 11.9240228-.2513602 1.2428753-.7499132 1.5088847-1.2290685 1.5496672-1.0413153.0886298-1.8284257-.4857912-2.8369905-1.0972863-1.5782048-.9568691-2.5327083-1.3984317-4.0646293-2.3321592-1.7703998-1.0790837-.212559-1.583655.7963867-2.5529189.2640459-.2536609 4.7753906-4.3097041 4.755976-4.431706-.0070494-.0442984-.1409018-.481649-.2457499-.5678447-.104848-.0861957-.2595946-.0567202-.3712641-.033278-.1582881.0332286-2.6794907 1.5745492-7.5636077 4.6239616-.715635.4545193-1.3638349.6759763-1.9445998.6643712-.64024672-.0127938-1.87182452-.334829-2.78737602-.6100966-1.12296117-.3376271-1.53748501-.4966332-1.45976769-1.0700283.04048-.2986597.32581586-.610598.8560076-.935815z" fill="#fff"></path></g></svg>`);
   function Icon_telegram($$anchor, $$props) {
     let height = prop($$props, "height", 8, 34);
@@ -6562,6 +6565,7 @@ button:focus-visible {
     let MteamFall_Svelte;
     let infoList;
     let isClearPage = true;
+    let isAcceptSearch = false;
     let varColor_bg2 = getComputedStyle(document.documentElement).getPropertyValue("--bg-2").trim();
     let observer;
     const Fall_DOM = document.createElement("div");
@@ -6606,6 +6610,11 @@ button:focus-visible {
         window.addEventListener("req>POST->/search", (e) => {
           console.log(`<PT-Fall>[Request]  (${param.method} -> ${param.path})
 `, e.detail);
+          if (e.detail.url.includes("api/torrent/search") && !e.detail.body.includes('"mode":"waterfall"')) {
+            isAcceptSearch = true;
+          } else {
+            isAcceptSearch = false;
+          }
           isClearPage = true;
           if (isClearPage) {
             if (MteamFall_Svelte) MteamFall_Svelte.focusFall();
@@ -6615,6 +6624,11 @@ button:focus-visible {
         });
         window.addEventListener(`res>POST->/search`, (e) => {
           const rawObject = JSON.parse(e.detail.data);
+          if (!isAcceptSearch) {
+            console.warn(`<PT-Fall>[未被接受的Response] (${param.method}->${param.path})[通过事件捕获]:
+`, rawObject);
+            return;
+          }
           console.log(`<PT-Fall>[Response] (${param.method}->${param.path})[通过事件捕获]:
 `, rawObject);
           changeFallView($_isFallView());
