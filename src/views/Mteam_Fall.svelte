@@ -114,7 +114,7 @@
     viewFocus(fallContainer, pos);
   }
 
-  // 从 localstorage => persist:persist => sysinfo.sysConf.TORRENT_LABEL_CONFIG 获取
+  // 从 localstorage => persist:persist => sysinfo.sysConf.TORRENT_LABEL_CONFIG 获取 tag / category 信息
   /** mteam -> localstorage => persist:persist  */
   let mt__ls__p_p;
   let store_label;
