@@ -19,6 +19,7 @@
   import FlowPanel from './component/flowPanel.svelte';
   import IconRoundClose from '@/assets/icon_roundClose.svelte';
   import { notyf_lt } from '@/lib/notyf';
+  import { HoverView } from '@/lib/hoverView';
   // ------------------------------------------------
 
   /** main.js dom */
@@ -38,9 +39,15 @@
   function key_closePanels(event) {
     // console.log(event);
     if (event.key === 'Escape') {
-      console.log(event);
+      // console.log(event);
+      // 关闭 iframe
       $_iframe_switch = 0;
+      // 关闭侧边栏
       $_side_panel_switch = false;
+      // 关闭悬浮预览大图
+      if (HoverView.getInstance()) {
+        HoverView.getInstance().clearPreview();
+      }
     }
   }
 

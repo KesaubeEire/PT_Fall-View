@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { _panelPos, _isFallView, _card_layout, _card_detail, _show_hover_pic, _iframe_switch, _side_panel_switch, _block_gay, _card_radius, _textColor } from '@/stores';
+  import { _panelPos, _isFallView, _card_layout, _card_detail, _show_hover_pic, _state_hover_pic, _iframe_switch, _side_panel_switch, _block_gay, _card_radius, _textColor } from '@/stores';
   import { getSiteConfig } from '@/siteConfig';
   import { fade } from 'svelte/transition';
   import Switch from '@/component/switch.svelte';
@@ -183,6 +183,13 @@
           <span>显示鼠标悬浮预览大图: {$_show_hover_pic}</span>
           <Switch bind:checked={$_show_hover_pic} />
         </div>
+
+        {#if $_show_hover_pic}
+          <div class="config-item">
+            <span>预览大图默认状态: {$_state_hover_pic ? '尽量铺满' : '尽量原图大小'}</span>
+            <Switch bind:checked={$_state_hover_pic} />
+          </div>
+        {/if}
 
         <h3># 卡片常驻信息展示</h3>
         <!-- 添加更多配置项 -->

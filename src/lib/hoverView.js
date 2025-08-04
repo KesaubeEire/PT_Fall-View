@@ -2,14 +2,45 @@
  * 悬浮大图组件
  */
 import { get } from 'svelte/store';
-import { _show_nexus_pic } from '@/stores';
+import { _show_nexus_pic, _state_hover_pic } from '@/stores';
 
 export class HoverView {
+  static instance = null;
+
+  /**
+   * 获取 HoverView 实例
+   * @returns {HoverView}
+   */
+  static getInstance() {
+    if (!HoverView.instance) {
+      HoverView.instance = new HoverView();
+    }
+    return HoverView.instance;
+  }
+
   constructor() {
+    // 确保单例
+    if (HoverView.instance) {
+      return HoverView.instance;
+    }
+    HoverView.instance = this;
+
     this.container = null;
     this.imgElements = null;
+    this.img_bg = null;
+    this.img_main = null;
+    this.unsubscribe = null;
 
     this.init(); // 自动初始化
+
+    // NOTE: 订阅 _state_hover_pic 的变化
+    this.unsubscribe = _state_hover_pic.subscribe(value => {
+      if (this.container) {
+        // this.clearPreview();
+        console.log(`[HoverView]<${Date.now()}> _state_hover_pic changed to ${value}, clearing preview`);
+        if (this.img_main) this.img_main.style.objectFit = value ? 'contain' : 'scale-down';
+      }
+    });
   }
 
   /**
@@ -25,37 +56,46 @@ export class HoverView {
    * @returns {HTMLElement}
    */
   createPreview() {
-    const parent = document.createElement('div');
-    parent.className = 'kp_container';
-    parent.style.backgroundColor = 'rgba(0,0,0,0.8)';
-    parent.style.opacity = '1';
-    parent.style.position = 'fixed';
-    parent.style.zIndex = '10000';
-    parent.style.pointerEvents = 'none';
-    parent.style.transition = 'all .3s';
-    parent.style.display = 'none';
+    const parent = Object.assign(document.createElement('div'), {
+      className: 'kp_container',
+      style: `
+      background-color: rgba(0,0,0,0.8);
+      opacity: 1;
+      position: fixed;
+      z-index: 10000;
+      pointer-events: none;
+      transition: all .3s;
+      display: none;
+      `
+    });
 
-    const img1 = document.createElement('img');
-    img1.className = 'kp_img';
-    img1.style.position = 'absolute';
-    img1.style.zIndex = '10002';
-    img1.style.pointerEvents = 'none';
-    img1.style.width = '100%';
-    img1.style.height = '100%';
-    img1.style.objectFit = 'contain';
-    parent.appendChild(img1);
+    this.img_main = Object.assign(document.createElement('img'), {
+      className: 'kp_img',
+      style: `
+      position: absolute;
+      z-index: 10002;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+      object-fit: ${get(_state_hover_pic) ? 'contain' : 'scale-down'};
+      `
+    });
+    parent.appendChild(this.img_main);
 
-    const img2 = document.createElement('img');
-    img2.className = 'kp_img';
-    img2.style.position = 'absolute';
-    img2.style.zIndex = '10001';
-    img2.style.pointerEvents = 'none';
-    img2.style.width = '100%';
-    img2.style.height = '100%';
-    img2.style.objectFit = 'cover';
-    img2.style.filter = 'blur(8px)';
-    img2.style.opacity = '0.9';
-    parent.appendChild(img2);
+    this.img_bg = Object.assign(document.createElement('img'), {
+      className: 'kp_img',
+      style: `
+      position: absolute;
+      z-index: 10001;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: blur(8px);
+      opacity: 0.9;
+      `
+    });
+    parent.appendChild(this.img_bg);
 
     return parent;
   }
@@ -71,6 +111,9 @@ export class HoverView {
       console.warn('[FALL]: imgEle is null');
       return;
     }
+
+    // 重置预览状态
+    if (this.img_main) this.img_main.style.objectFit = get(_state_hover_pic) ? 'contain' : 'scale-down';
 
     if (get(_show_nexus_pic)) {
       const src = imgEle.getAttribute('src');
@@ -195,12 +238,28 @@ export class HoverView {
   }
 
   /**
+   * 切换预览状态
+   */
+  changeState() {
+    if (this.img_main) {
+      let oldState = this.img_main.style.objectFit;
+      // 让 state 相反
+      this.img_main.style.objectFit = oldState == 'contain' ? 'scale-down' : 'contain';
+    }
+  }
+
+  /**
    * 销毁组件
    */
   destroy() {
     if (this.container) {
       this.container.style.display = 'none';
-      clearPreview();
+      this.clearPreview();
+    }
+    // 取消订阅，防止内存泄漏
+    if (this.unsubscribe) {
+      this.unsubscribe();
+      this.unsubscribe = null;
     }
   }
 }
@@ -218,5 +277,8 @@ export function __clearPreview() {
 
 window.__clearPreview = __clearPreview;
 
-// 导出组件
-export default HoverView;
+// 创建单例实例
+const hoverViewInstance = HoverView.getInstance();
+
+// 导出单例实例
+export default hoverViewInstance;

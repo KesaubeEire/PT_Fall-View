@@ -76,7 +76,7 @@ let _torrentInfo =  {
   import { _card_detail, _iframe_switch, _iframe_url, _show_hover_pic, _block_gay, _card_radius, _mt_label, _mt_categories } from '@/stores';
   import { cate_pic_baseUrl, CONFIG } from '@/siteConfig/mteam';
   import IconComment from '@/assets/icon_comment.svelte';
-  import HoverView from '@/lib/hoverView';
+  import { HoverView } from '@/lib/hoverView';
   import _PicErrorLOGO from '@/assets/pic_error.svg';
   import _PicNoLOGO from '@/assets/pic_no.svg';
   import { getTextColor } from '@/lib/tools';
@@ -269,7 +269,7 @@ let _torrentInfo =  {
   let mouseX = 0;
   let mouseY = 0;
   /** 悬浮大图实例 */
-  let hoverView = new HoverView();
+  let hoverView = HoverView.getInstance();
 
   //---------------------------------------------
   // ## 悬浮显示卡片内信息
@@ -503,11 +503,23 @@ let _torrentInfo =  {
       <!-- svelte-ignore a11y_mouse_events_have_key_events -->
       <div
         class="hover-trigger"
+        on:click={() => {
+          // 切换预览状态
+          hoverView.changeState();
+        }}
         on:mouseover={e => {
           // 悬浮大图
           isHovered = true;
           hoverView.handleMouseOver(e, imgElement);
           // console.log(`<${torrentInfo.id}>isHovered: ${isHovered}, isMoving: ${isMoving}`);
+        }}
+        role="button"
+        aria-label="悬浮预览"
+        tabindex="0"
+        on:keydown={e => {
+          if (e.key === 'Escape') {
+            hoverView.clearPreview();
+          }
         }}
       >
         <!-- {torrentInfo.torrentIndex + 1} -->

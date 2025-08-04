@@ -72,6 +72,9 @@ export const _panelPos = persistStore('_panelPos', { x: 0, y: 0 });
 /** 是否显示鼠标悬浮预览大图 */
 export const _show_hover_pic = persistStore('_show_hover_pic', 1);
 
+/** 鼠标悬浮预览大图默认状态 0: 尽可能默认大小(scale-down) 1: 铺满(contain) */
+export const _state_hover_pic = persistStore('_state_hover_pic', 1);
+
 /** 卡片布局参数 */
 export const _card_layout = persistStore('_card_layout', {
   // 最小宽度
