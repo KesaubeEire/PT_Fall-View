@@ -88,8 +88,52 @@
   });
 
   onDestroy(() => {
+    // 销毁 Readme_Svelte
     if (observer) observer.disconnect();
+
+    pageDestroy();
   });
+
+  // ------------------------------------------
+  // 复制 .ant-pagination 元素到 Fall_DOM
+  let pagination;
+  let pageFather;
+  $: if (Fall_DOM) {
+    if ($_isFallView && pagination) {
+      // 将分页控件添加到 Fall_DOM
+      Fall_DOM.appendChild(pagination);
+    }
+
+    if (!$_isFallView && pagination && pageFather) {
+      // 将分页控件添加到 Fall_DOM
+      pageFather.appendChild(pagination);
+    }
+  }
+
+  /** 页面初始化: 监听 .ant-pagination 元素 */
+  function pageInit() {
+    Tool_Watch_Dom('.ant-pagination', el => {
+      if (el && el.parentNode && el.parentNode !== Fall_DOM) {
+        pageFather = el.parentNode;
+      }
+
+      if (el) {
+        pagination = el;
+        if ($_isFallView) {
+          // 将分页控件添加到 Fall_DOM
+          Fall_DOM.appendChild(pagination);
+        }
+      }
+    });
+  }
+
+  /** 页面销毁: 移除 .ant-pagination 元素 */
+  function pageDestroy() {
+    if (pagination && pagination.parentNode) {
+      pagination.parentNode.removeChild(pagination);
+      // pagination = null;
+    }
+  }
 
   // ------------------------------------------
   /** 主流程: 加载瀑布流视图
@@ -127,7 +171,6 @@
 
         // NOTE: 这里因为改版成了内嵌在 inner 表格里的格式所以强制切页了
         isClearPage = true;
-
         if (isClearPage) {
           // 切页时滚动到最上方
           if (MteamFall_Svelte) MteamFall_Svelte.focusFall();
@@ -135,6 +178,9 @@
           // 不切页时滚动到最下方
           if (MteamFall_Svelte) MteamFall_Svelte.focusFall('bottom');
         }
+
+        // 移除 .ant-pagination 元素
+        pageDestroy();
       });
 
       /** 劫持响应 */
@@ -177,6 +223,9 @@
             props: { infoList }
           });
         }
+
+        // 移动 .ant-pagination 元素
+        pageInit();
       });
     } else {
       notyf_lt.error('找不到指定节点\n若总是如此请报告bug');
@@ -303,10 +352,16 @@
   }
 
   // ------------------------------------------
+  /** 获取 CSS 变量值
+   * @param varName
+   */
   function getVar(varName) {
     return getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
   }
 
+  /** 改变 _textColor 的值
+   * @param color
+   */
   function _changeStoreTextColor() {
     $_textColor.t1 = getTextColor(getVar('--bg-1'));
     $_textColor.t2 = getTextColor(getVar('--bg-2'));

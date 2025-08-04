@@ -5,6 +5,11 @@ button:focus-visible {
   outline: 3px solid var(--bg-3);
 }
 
+.Fall_DOM{
+  padding-bottom: 10px; /* 确保底部有足够的空间 */
+  background-color: var(--bg-1);
+}
+
 #_fallHolder {
   position: absolute;
   top: 0;
