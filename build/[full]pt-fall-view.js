@@ -2,7 +2,7 @@
 // @name            PT瀑布流视图
 // @name:en         PT_Fall-View
 // @namespace       vite-plugin-monkey
-// @version         0.3.8
+// @version         0.3.9
 // @author          Kesa
 // @description     PT瀑布流视图(2025重构)
 // @description:en  PT Fall/Masonry View (restructured 2025)
@@ -818,7 +818,7 @@ button:focus-visible {\r
     throw TypeError(msg);
   };
   var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-  var __publicField = (obj, key, value) => __defNormalProp(obj, key + "" , value);
+  var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
   var __accessCheck = (obj, member, msg) => member.has(obj) || __typeError("Cannot " + msg);
   var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
   var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
@@ -4144,6 +4144,7 @@ button:focus-visible {\r
   const _side_panel_switch = writable(0);
   const _panelPos = persistStore("_panelPos", { x: 0, y: 0 });
   const _show_hover_pic = persistStore("_show_hover_pic", 1);
+  const _state_hover_pic = persistStore("_state_hover_pic", 1);
   const _card_layout = persistStore("_card_layout", {
     // 最小宽度
     min: 300,
@@ -5312,11 +5313,34 @@ button:focus-visible {\r
     var svg = root$a();
     append($$anchor, svg);
   }
-  class HoverView {
+  const _HoverView = class _HoverView {
+    /**
+     * 获取 HoverView 实例
+     * @returns {HoverView}
+     */
+    static getInstance() {
+      if (!_HoverView.instance) {
+        _HoverView.instance = new _HoverView();
+      }
+      return _HoverView.instance;
+    }
     constructor() {
+      if (_HoverView.instance) {
+        return _HoverView.instance;
+      }
+      _HoverView.instance = this;
       this.container = null;
       this.imgElements = null;
+      this.img_bg = null;
+      this.img_main = null;
+      this.unsubscribe = null;
       this.init();
+      this.unsubscribe = _state_hover_pic.subscribe((value) => {
+        if (this.container) {
+          console.log(`[HoverView]<${Date.now()}> _state_hover_pic changed to ${value}, clearing preview`);
+          if (this.img_main) this.img_main.style.objectFit = value ? "contain" : "scale-down";
+        }
+      });
     }
     /**
      * 初始化悬浮窗口
@@ -5330,35 +5354,44 @@ button:focus-visible {\r
      * @returns {HTMLElement}
      */
     createPreview() {
-      const parent = document.createElement("div");
-      parent.className = "kp_container";
-      parent.style.backgroundColor = "rgba(0,0,0,0.8)";
-      parent.style.opacity = "1";
-      parent.style.position = "fixed";
-      parent.style.zIndex = "10000";
-      parent.style.pointerEvents = "none";
-      parent.style.transition = "all .3s";
-      parent.style.display = "none";
-      const img1 = document.createElement("img");
-      img1.className = "kp_img";
-      img1.style.position = "absolute";
-      img1.style.zIndex = "10002";
-      img1.style.pointerEvents = "none";
-      img1.style.width = "100%";
-      img1.style.height = "100%";
-      img1.style.objectFit = "contain";
-      parent.appendChild(img1);
-      const img2 = document.createElement("img");
-      img2.className = "kp_img";
-      img2.style.position = "absolute";
-      img2.style.zIndex = "10001";
-      img2.style.pointerEvents = "none";
-      img2.style.width = "100%";
-      img2.style.height = "100%";
-      img2.style.objectFit = "cover";
-      img2.style.filter = "blur(8px)";
-      img2.style.opacity = "0.9";
-      parent.appendChild(img2);
+      const parent = Object.assign(document.createElement("div"), {
+        className: "kp_container",
+        style: `
+      background-color: rgba(0,0,0,0.8);
+      opacity: 1;
+      position: fixed;
+      z-index: 10000;
+      pointer-events: none;
+      transition: all .3s;
+      display: none;
+      `
+      });
+      this.img_main = Object.assign(document.createElement("img"), {
+        className: "kp_img",
+        style: `
+      position: absolute;
+      z-index: 10002;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+      object-fit: ${get(_state_hover_pic) ? "contain" : "scale-down"};
+      `
+      });
+      parent.appendChild(this.img_main);
+      this.img_bg = Object.assign(document.createElement("img"), {
+        className: "kp_img",
+        style: `
+      position: absolute;
+      z-index: 10001;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: blur(8px);
+      opacity: 0.9;
+      `
+      });
+      parent.appendChild(this.img_bg);
       return parent;
     }
     /**
@@ -5372,6 +5405,7 @@ button:focus-visible {\r
         console.warn("[FALL]: imgEle is null");
         return;
       }
+      if (this.img_main) this.img_main.style.objectFit = get(_state_hover_pic) ? "contain" : "scale-down";
       if (get(_show_nexus_pic)) {
         const src = imgEle.getAttribute("src");
         if (src) {
@@ -5454,15 +5488,30 @@ button:focus-visible {\r
       if (this.container) this.container.style.display = "none";
     }
     /**
+     * 切换预览状态
+     */
+    changeState() {
+      if (this.img_main) {
+        let oldState = this.img_main.style.objectFit;
+        this.img_main.style.objectFit = oldState == "contain" ? "scale-down" : "contain";
+      }
+    }
+    /**
      * 销毁组件
      */
     destroy() {
       if (this.container) {
         this.container.style.display = "none";
-        clearPreview();
+        this.clearPreview();
+      }
+      if (this.unsubscribe) {
+        this.unsubscribe();
+        this.unsubscribe = null;
       }
     }
-  }
+  };
+  __publicField(_HoverView, "instance", null);
+  let HoverView = _HoverView;
   function __clearPreview() {
     document.querySelectorAll(".kp_img").forEach((kpImg) => {
       kpImg.setAttribute("src", "");
@@ -5471,16 +5520,17 @@ button:focus-visible {\r
     if (_container) _container.style.display = "none";
   }
   window.__clearPreview = __clearPreview;
+  HoverView.getInstance();
   const _PicErrorLOGO = "data:image/svg+xml,%3csvg%20width='256px'%20height='256px'%20viewBox='0%200%2024.00%2024.00'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%20transform='matrix(1,%200,%200,%201,%200,%200)'%20%3e%3cg%20id='SVGRepo_bgCarrier'%20stroke-width='0'%20transform='translate(0,0),%20scale(1)'%20/%3e%3cg%20id='SVGRepo_tracerCarrier'%20stroke-linecap='round'%20stroke-linejoin='round'%20stroke='%23CCCCCC'%20stroke-width='0.048'%20/%3e%3cg%20id='SVGRepo_iconCarrier'%3e%3cpath%20d='M13%203L13.7071%202.29289C13.5196%202.10536%2013.2652%202%2013%202V3ZM14%2022C14.5523%2022%2015%2021.5523%2015%2021C15%2020.4477%2014.5523%2020%2014%2020V22ZM19%209H20C20%208.73478%2019.8946%208.48043%2019.7071%208.29289L19%209ZM18%2010C18%2010.5523%2018.4477%2011%2019%2011C19.5523%2011%2020%2010.5523%2020%2010H18ZM5.21799%2019.908L4.32698%2020.362H4.32698L5.21799%2019.908ZM6.09202%2020.782L6.54601%2019.891L6.54601%2019.891L6.09202%2020.782ZM6.09202%203.21799L5.63803%202.32698L5.63803%202.32698L6.09202%203.21799ZM5.21799%204.09202L4.32698%203.63803L4.32698%203.63803L5.21799%204.09202ZM13.109%208.45399L14%208V8L13.109%208.45399ZM13.546%208.89101L14%208L13.546%208.89101ZM17.2299%2017.7929C16.8394%2018.1834%2016.8394%2018.8166%2017.2299%2019.2071C17.6204%2019.5976%2018.2536%2019.5976%2018.6441%2019.2071L17.2299%2017.7929ZM15.0316%2015.2507C14.8939%2015.7856%2015.2159%2016.3308%2015.7507%2016.4684C16.2856%2016.6061%2016.8308%2016.2841%2016.9684%2015.7493L15.0316%2015.2507ZM17.9375%2020C17.3852%2020%2016.9375%2020.4477%2016.9375%2021C16.9375%2021.5523%2017.3852%2022%2017.9375%2022V20ZM17.9475%2022C18.4998%2022%2018.9475%2021.5523%2018.9475%2021C18.9475%2020.4477%2018.4998%2020%2017.9475%2020V22ZM13%202H8.2V4H13V2ZM4%206.2V17.8H6V6.2H4ZM8.2%2022H14V20H8.2V22ZM19.7071%208.29289L13.7071%202.29289L12.2929%203.70711L18.2929%209.70711L19.7071%208.29289ZM20%2010V9H18V10H20ZM4%2017.8C4%2018.3436%203.99922%2018.8114%204.03057%2019.195C4.06287%2019.5904%204.13419%2019.9836%204.32698%2020.362L6.10899%2019.454C6.0838%2019.4045%206.04612%2019.3038%206.02393%2019.0322C6.00078%2018.7488%206%2018.3766%206%2017.8H4ZM8.2%2020C7.62345%2020%207.25117%2019.9992%206.96784%2019.9761C6.69617%2019.9539%206.59545%2019.9162%206.54601%2019.891L5.63803%2021.673C6.01641%2021.8658%206.40963%2021.9371%206.80497%2021.9694C7.18864%2022.0008%207.65645%2022%208.2%2022V20ZM4.32698%2020.362C4.6146%2020.9265%205.07354%2021.3854%205.63803%2021.673L6.54601%2019.891C6.35785%2019.7951%206.20487%2019.6422%206.10899%2019.454L4.32698%2020.362ZM8.2%202C7.65645%202%207.18864%201.99922%206.80497%202.03057C6.40963%202.06287%206.01641%202.13419%205.63803%202.32698L6.54601%204.10899C6.59545%204.0838%206.69617%204.04612%206.96784%204.02393C7.25117%204.00078%207.62345%204%208.2%204V2ZM6%206.2C6%205.62345%206.00078%205.25117%206.02393%204.96784C6.04612%204.69617%206.0838%204.59545%206.10899%204.54601L4.32698%203.63803C4.13419%204.01641%204.06287%204.40963%204.03057%204.80497C3.99922%205.18864%204%205.65645%204%206.2H6ZM5.63803%202.32698C5.07354%202.6146%204.6146%203.07354%204.32698%203.63803L6.10899%204.54601C6.20487%204.35785%206.35785%204.20487%206.54601%204.10899L5.63803%202.32698ZM12%203V7.4H14V3H12ZM14.6%2010H19V8H14.6V10ZM12%207.4C12%207.66353%2011.9992%207.92131%2012.0169%208.13823C12.0356%208.36682%2012.0797%208.63656%2012.218%208.90798L14%208C14.0293%208.05751%2014.0189%208.08028%2014.0103%207.97537C14.0008%207.85878%2014%207.69653%2014%207.4H12ZM14.6%208C14.3035%208%2014.1412%207.99922%2014.0246%207.9897C13.9197%207.98113%2013.9425%207.9707%2014%208L13.092%209.78201C13.3634%209.92031%2013.6332%209.96438%2013.8618%209.98305C14.0787%2010.0008%2014.3365%2010%2014.6%2010V8ZM12.218%208.90798C12.4097%209.2843%2012.7157%209.59027%2013.092%209.78201L14%208V8L12.218%208.90798ZM18.937%2016C18.937%2016.1732%2018.8915%2016.3053%2018.6175%2016.5697C18.4638%2016.718%2018.2828%2016.8653%2018.0319%2017.074C17.7936%2017.2723%2017.5141%2017.5087%2017.2299%2017.7929L18.6441%2019.2071C18.86%2018.9913%2019.0805%2018.8033%2019.3109%2018.6116C19.5287%2018.4305%2019.7852%2018.2223%2020.0065%2018.0087C20.4825%2017.5493%2020.937%2016.9314%2020.937%2016H18.937ZM17.937%2015C18.4893%2015%2018.937%2015.4477%2018.937%2016H20.937C20.937%2014.3431%2019.5938%2013%2017.937%2013V15ZM16.9684%2015.7493C17.0795%2015.3177%2017.4724%2015%2017.937%2015V13C16.5377%2013%2015.3645%2013.957%2015.0316%2015.2507L16.9684%2015.7493ZM17.9375%2022H17.9475V20H17.9375V22Z'%20fill='%23c00000'%20/%3e%3c/g%3e%3c/svg%3e";
   const _PicNoLOGO = "data:image/svg+xml,%3csvg%20viewBox='-2.4%20-2.4%2028.80%2028.80'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%20stroke='%23000000'%20%3e%3cg%20id='SVGRepo_bgCarrier'%20stroke-width='0'%20/%3e%3cg%20id='SVGRepo_iconCarrier'%3e%3cpath%20d='M15.6%2015.6C15.6%2015.6%2014.25%2013.8%2012%2013.8C9.75%2013.8%208.4%2015.6%208.4%2015.6M14.7%209.3H14.709M9.3%209.3H9.309M21%2012C21%2016.9706%2016.9706%2021%2012%2021C7.02944%2021%203%2016.9706%203%2012C3%207.02944%207.02944%203%2012%203C16.9706%203%2021%207.02944%2021%2012ZM15.15%209.3C15.15%209.54853%2014.9485%209.75%2014.7%209.75C14.4515%209.75%2014.25%209.54853%2014.25%209.3C14.25%209.05147%2014.4515%208.85%2014.7%208.85C14.9485%208.85%2015.15%209.05147%2015.15%209.3ZM9.75%209.3C9.75%209.54853%209.54853%209.75%209.3%209.75C9.05147%209.75%208.85%209.54853%208.85%209.3C8.85%209.05147%209.05147%208.85%209.3%208.85C9.54853%208.85%209.75%209.05147%209.75%209.3Z'%20stroke='%23000000'%20stroke-width='1.8'%20stroke-linecap='round'%20stroke-linejoin='round'%20/%3e%3c/g%3e%3c/svg%3e";
   var $$_import_CONFIG = reactive_import(() => CONFIG);
   var root_1$2 = /* @__PURE__ */ template(`<div class="card-category svelte-13et45j"><img class="card_category-img svelte-13et45j"> </div>`);
   var root_2$2 = /* @__PURE__ */ template(`<a class="__main_title svelte-13et45j" target="_blank" rel="noopener noreferrer"> </a>`);
   var root_4$1 = /* @__PURE__ */ template(`<div class="pic_error svelte-13et45j"><div><img style="height: 100%; width:60px; border-radius:20px;" alt="pic error" class="svelte-13et45j"></div> <div class="ant-typography" style="color: white; font-size:16px;">GAY WARNING<br>同志警告</div></div>`);
-  var root_6 = /* @__PURE__ */ template(`<img class="lazy-image svelte-13et45j">`);
+  var root_6$1 = /* @__PURE__ */ template(`<img class="lazy-image svelte-13et45j">`);
   var root_7 = /* @__PURE__ */ template(`<div class="pic_error svelte-13et45j" style=""><div><img style="height: 100%;width: 100px;" alt="no pic" class="svelte-13et45j"></div> <div>本种没有图片</div></div>`);
   var root_8 = /* @__PURE__ */ template(`<div class="pic_error svelte-13et45j" style=""><div><img style="height: 100%;width: 100px;" alt="pic error" class="svelte-13et45j"></div> <div class="ant-typography">图片加载失败</div></div>`);
-  var root_9 = /* @__PURE__ */ template(`<div class="hover-trigger svelte-13et45j"><img style="pointer-events: none;" alt="PREVIEW" class="svelte-13et45j"></div>`);
+  var root_9 = /* @__PURE__ */ template(`<div class="hover-trigger svelte-13et45j" role="button" aria-label="悬浮预览" tabindex="0"><img style="pointer-events: none;" alt="PREVIEW" class="svelte-13et45j"></div>`);
   var root_11 = /* @__PURE__ */ template(`<img style="
                     background: url(/static/media/icons.8bb5446ebbbd07050285.gif) 0 -202px;
                     height: 14px;
@@ -5624,7 +5674,7 @@ button:focus-visible {\r
     }
     let isHovered = mutable_state(false);
     let isMoving = mutable_state(false);
-    let hoverView = new HoverView();
+    let hoverView = HoverView.getInstance();
     let overlayHolder = mutable_state();
     let overlayContent = mutable_state();
     let overlayContentHeight = mutable_state(0);
@@ -5771,7 +5821,7 @@ button:focus-visible {\r
             var node_4 = first_child(fragment_1);
             {
               var consequent_3 = ($$anchor4) => {
-                var img_2 = root_6();
+                var img_2 = root_6$1();
                 set_attribute(img_2, "data-src", picSrc);
                 bind_this(img_2, ($$value) => set(imgElement, $$value), () => get$1(imgElement));
                 template_effect(() => {
@@ -5831,9 +5881,17 @@ button:focus-visible {\r
         var div_11 = root_9();
         var img_5 = child(div_11);
         template_effect(() => set_attribute(img_5, "src", $$_import_CONFIG().ICON.PREVIEW));
+        event("click", div_11, () => {
+          hoverView.changeState();
+        });
         event("mouseover", div_11, (e) => {
           set(isHovered, true);
           hoverView.handleMouseOver(e, get$1(imgElement));
+        });
+        event("keydown", div_11, (e) => {
+          if (e.key === "Escape") {
+            hoverView.clearPreview();
+          }
         });
         append($$anchor2, div_11);
       };
@@ -6414,7 +6472,7 @@ button:focus-visible {\r
     $$cleanup();
     return $$pop;
   }
-  let version = "0.3.8";
+  let version = "0.3.9";
   var root$7 = /* @__PURE__ */ ns_template(`<svg class="tgme_logo" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle cx="17" cy="17" fill="#40a9ff" r="17"></circle><path d="m7.06510669 16.9258959c5.22739451-2.1065178 8.71314291-3.4952633 10.45724521-4.1662364 4.9797665-1.9157646 6.0145193-2.2485535 6.6889567-2.2595423.1483363-.0024169.480005.0315855.6948461.192827.1814076.1361492.23132.3200675.2552048.4491519.0238847.1290844.0536269.4231419.0299841.65291-.2698553 2.6225356-1.4375148 8.986738-2.0315537 11.9240228-.2513602 1.2428753-.7499132 1.5088847-1.2290685 1.5496672-1.0413153.0886298-1.8284257-.4857912-2.8369905-1.0972863-1.5782048-.9568691-2.5327083-1.3984317-4.0646293-2.3321592-1.7703998-1.0790837-.212559-1.583655.7963867-2.5529189.2640459-.2536609 4.7753906-4.3097041 4.755976-4.431706-.0070494-.0442984-.1409018-.481649-.2457499-.5678447-.104848-.0861957-.2595946-.0567202-.3712641-.033278-.1582881.0332286-2.6794907 1.5745492-7.5636077 4.6239616-.715635.4545193-1.3638349.6759763-1.9445998.6643712-.64024672-.0127938-1.87182452-.334829-2.78737602-.6100966-1.12296117-.3376271-1.53748501-.4966332-1.45976769-1.0700283.04048-.2986597.32581586-.610598.8560076-.935815z" fill="#fff"></path></g></svg>`);
   function Icon_telegram($$anchor, $$props) {
     let height = prop($$props, "height", 8, 34);
@@ -6791,8 +6849,9 @@ button:focus-visible {\r
   }
   var root_2 = /* @__PURE__ */ template(`<div><!></div> <div class="flowBtn_text svelte-1gujon8">瀑布</div>`, 1);
   var root_3 = /* @__PURE__ */ template(`<div><!></div> <div class="flowBtn_text svelte-1gujon8">列表</div>`, 1);
-  var root_5 = /* @__PURE__ */ template(`<div class="config-item svelte-1gujon8"><span> </span> <input type="range" min="0" max="40" step="1" class="svelte-1gujon8"></div>`);
-  var root_4 = /* @__PURE__ */ template(`<div class="config-menu-overlay svelte-1gujon8"><div class="config-menu svelte-1gujon8"><div class="config-menu-header svelte-1gujon8"><span style="font-size: 18px; font-weight: bold;">配置菜单</span> <button class="close-btn svelte-1gujon8">&times;</button></div> <div class="config-menu-content svelte-1gujon8"><h3 class="svelte-1gujon8"># 卡片布局</h3> <div class="config-item svelte-1gujon8"><span> </span> <input type="range" min="200" step="1" list="values" class="svelte-1gujon8"></div> <div class="config-item svelte-1gujon8"><span> </span> <input type="range" step="1" list="values" class="svelte-1gujon8"></div> <div class="config-item svelte-1gujon8"><span> </span> <input type="range" min="0" max="100" step="1" list="values" class="svelte-1gujon8"></div> <div class="config-item svelte-1gujon8"><span> </span> <!></div> <h3 class="svelte-1gujon8"># 卡片常驻信息展示</h3>  <div class="config-item svelte-1gujon8"><span> </span> <!></div> <div class="config-item svelte-1gujon8"><span> </span> <!></div> <div class="config-item svelte-1gujon8"><span> </span> <!></div> <div class="config-item svelte-1gujon8"><span> </span> <!></div> <div class="config-item svelte-1gujon8"><span> </span> <!></div> <div class="config-item svelte-1gujon8"><span> </span> <!></div> <div class="config-item svelte-1gujon8"><span> </span> <!></div> <div class="config-item svelte-1gujon8"><span> </span> <!></div> <div class="config-item svelte-1gujon8"><span> </span> <!></div> <div class="config-item svelte-1gujon8"><span> </span> <!></div> <h3 class="svelte-1gujon8"># 卡片屏蔽</h3> <div class="config-item svelte-1gujon8"><span> </span> <!></div> <h3 class="svelte-1gujon8"># 卡片样式</h3> <div class="config-item svelte-1gujon8"><span> </span> <!></div> <!></div></div></div>`);
+  var root_5 = /* @__PURE__ */ template(`<div class="config-item svelte-1gujon8"><span> </span> <!></div>`);
+  var root_6 = /* @__PURE__ */ template(`<div class="config-item svelte-1gujon8"><span> </span> <input type="range" min="0" max="40" step="1" class="svelte-1gujon8"></div>`);
+  var root_4 = /* @__PURE__ */ template(`<div class="config-menu-overlay svelte-1gujon8"><div class="config-menu svelte-1gujon8"><div class="config-menu-header svelte-1gujon8"><span style="font-size: 18px; font-weight: bold;">配置菜单</span> <button class="close-btn svelte-1gujon8">&times;</button></div> <div class="config-menu-content svelte-1gujon8"><h3 class="svelte-1gujon8"># 卡片布局</h3> <div class="config-item svelte-1gujon8"><span> </span> <input type="range" min="200" step="1" list="values" class="svelte-1gujon8"></div> <div class="config-item svelte-1gujon8"><span> </span> <input type="range" step="1" list="values" class="svelte-1gujon8"></div> <div class="config-item svelte-1gujon8"><span> </span> <input type="range" min="0" max="100" step="1" list="values" class="svelte-1gujon8"></div> <div class="config-item svelte-1gujon8"><span> </span> <!></div> <!> <h3 class="svelte-1gujon8"># 卡片常驻信息展示</h3>  <div class="config-item svelte-1gujon8"><span> </span> <!></div> <div class="config-item svelte-1gujon8"><span> </span> <!></div> <div class="config-item svelte-1gujon8"><span> </span> <!></div> <div class="config-item svelte-1gujon8"><span> </span> <!></div> <div class="config-item svelte-1gujon8"><span> </span> <!></div> <div class="config-item svelte-1gujon8"><span> </span> <!></div> <div class="config-item svelte-1gujon8"><span> </span> <!></div> <div class="config-item svelte-1gujon8"><span> </span> <!></div> <div class="config-item svelte-1gujon8"><span> </span> <!></div> <div class="config-item svelte-1gujon8"><span> </span> <!></div> <h3 class="svelte-1gujon8"># 卡片屏蔽</h3> <div class="config-item svelte-1gujon8"><span> </span> <!></div> <h3 class="svelte-1gujon8"># 卡片样式</h3> <div class="config-item svelte-1gujon8"><span> </span> <!></div> <!></div></div></div>`);
   var root$1 = /* @__PURE__ */ template(`<div class="flowP svelte-1gujon8"><div class="flowPDragger svelte-1gujon8" role="button" tabindex="0" aria-hidden="true"><!></div> <div class="flowPHolder ant-typography svelte-1gujon8"><button class="flowBtn svelte-1gujon8"><!></button> <button class="flowBtn svelte-1gujon8"><div><!></div> <div class="flowBtn_text svelte-1gujon8">配置</div></button> <button class="flowBtn svelte-1gujon8">清除悬浮预览图</button></div></div> <!>`, 1);
   function FlowPanel($$anchor, $$props) {
     push($$props, false);
@@ -6803,6 +6862,7 @@ button:focus-visible {\r
     const $_side_panel_switch = () => store_get(_side_panel_switch, "$_side_panel_switch", $$stores);
     const $_card_layout = () => store_get(_card_layout, "$_card_layout", $$stores);
     const $_show_hover_pic = () => store_get(_show_hover_pic, "$_show_hover_pic", $$stores);
+    const $_state_hover_pic = () => store_get(_state_hover_pic, "$_state_hover_pic", $$stores);
     const $_card_detail = () => store_get(_card_detail, "$_card_detail", $$stores);
     const $_block_gay = () => store_get(_block_gay, "$_block_gay", $$stores);
     const $_card_radius = () => store_get(_card_radius, "$_card_radius", $$stores);
@@ -6889,7 +6949,7 @@ button:focus-visible {\r
     bind_this(div, ($$value) => set(flowP, $$value), () => get$1(flowP));
     var node_5 = sibling(div, 2);
     {
-      var consequent_3 = ($$anchor2) => {
+      var consequent_4 = ($$anchor2) => {
         var div_6 = root_4();
         var div_7 = child(div_6);
         var div_8 = child(div_7);
@@ -6921,11 +6981,35 @@ button:focus-visible {\r
           },
           $$legacy: true
         });
-        var div_14 = sibling(div_13, 4);
-        var span_5 = child(div_14);
-        var text_4 = child(span_5);
-        var node_7 = sibling(span_5, 2);
-        Switch(node_7, {
+        var node_7 = sibling(div_13, 2);
+        {
+          var consequent_2 = ($$anchor3) => {
+            var div_14 = root_5();
+            var span_5 = child(div_14);
+            var text_4 = child(span_5);
+            var node_8 = sibling(span_5, 2);
+            Switch(node_8, {
+              get checked() {
+                mark_store_binding();
+                return $_state_hover_pic();
+              },
+              set checked($$value) {
+                store_set(_state_hover_pic, $$value);
+              },
+              $$legacy: true
+            });
+            template_effect(() => set_text(text_4, `预览大图默认状态: ${($_state_hover_pic() ? "尽量铺满" : "尽量原图大小") ?? ""}`));
+            append($$anchor3, div_14);
+          };
+          if_block(node_7, ($$render) => {
+            if ($_show_hover_pic()) $$render(consequent_2);
+          });
+        }
+        var div_15 = sibling(node_7, 4);
+        var span_6 = child(div_15);
+        var text_5 = child(span_6);
+        var node_9 = sibling(span_6, 2);
+        Switch(node_9, {
           get checked() {
             return $_card_detail().category;
           },
@@ -6934,11 +7018,11 @@ button:focus-visible {\r
           },
           $$legacy: true
         });
-        var div_15 = sibling(div_14, 2);
-        var span_6 = child(div_15);
-        var text_5 = child(span_6);
-        var node_8 = sibling(span_6, 2);
-        Switch(node_8, {
+        var div_16 = sibling(div_15, 2);
+        var span_7 = child(div_16);
+        var text_6 = child(span_7);
+        var node_10 = sibling(span_7, 2);
+        Switch(node_10, {
           get checked() {
             return $_card_detail().title;
           },
@@ -6947,11 +7031,11 @@ button:focus-visible {\r
           },
           $$legacy: true
         });
-        var div_16 = sibling(div_15, 2);
-        var span_7 = child(div_16);
-        var text_6 = child(span_7);
-        var node_9 = sibling(span_7, 2);
-        Switch(node_9, {
+        var div_17 = sibling(div_16, 2);
+        var span_8 = child(div_17);
+        var text_7 = child(span_8);
+        var node_11 = sibling(span_8, 2);
+        Switch(node_11, {
           get checked() {
             return $_card_detail().topping;
           },
@@ -6960,11 +7044,11 @@ button:focus-visible {\r
           },
           $$legacy: true
         });
-        var div_17 = sibling(div_16, 2);
-        var span_8 = child(div_17);
-        var text_7 = child(span_8);
-        var node_10 = sibling(span_8, 2);
-        Switch(node_10, {
+        var div_18 = sibling(div_17, 2);
+        var span_9 = child(div_18);
+        var text_8 = child(span_9);
+        var node_12 = sibling(span_9, 2);
+        Switch(node_12, {
           get checked() {
             return $_card_detail().free;
           },
@@ -6973,11 +7057,11 @@ button:focus-visible {\r
           },
           $$legacy: true
         });
-        var div_18 = sibling(div_17, 2);
-        var span_9 = child(div_18);
-        var text_8 = child(span_9);
-        var node_11 = sibling(span_9, 2);
-        Switch(node_11, {
+        var div_19 = sibling(div_18, 2);
+        var span_10 = child(div_19);
+        var text_9 = child(span_10);
+        var node_13 = sibling(span_10, 2);
+        Switch(node_13, {
           get checked() {
             return $_card_detail().size;
           },
@@ -6986,11 +7070,11 @@ button:focus-visible {\r
           },
           $$legacy: true
         });
-        var div_19 = sibling(div_18, 2);
-        var span_10 = child(div_19);
-        var text_9 = child(span_10);
-        var node_12 = sibling(span_10, 2);
-        Switch(node_12, {
+        var div_20 = sibling(div_19, 2);
+        var span_11 = child(div_20);
+        var text_10 = child(span_11);
+        var node_14 = sibling(span_11, 2);
+        Switch(node_14, {
           get checked() {
             return $_card_detail().sub_title;
           },
@@ -6999,11 +7083,11 @@ button:focus-visible {\r
           },
           $$legacy: true
         });
-        var div_20 = sibling(div_19, 2);
-        var span_11 = child(div_20);
-        var text_10 = child(span_11);
-        var node_13 = sibling(span_11, 2);
-        Switch(node_13, {
+        var div_21 = sibling(div_20, 2);
+        var span_12 = child(div_21);
+        var text_11 = child(span_12);
+        var node_15 = sibling(span_12, 2);
+        Switch(node_15, {
           get checked() {
             return $_card_detail().tags;
           },
@@ -7012,11 +7096,11 @@ button:focus-visible {\r
           },
           $$legacy: true
         });
-        var div_21 = sibling(div_20, 2);
-        var span_12 = child(div_21);
-        var text_11 = child(span_12);
-        var node_14 = sibling(span_12, 2);
-        Switch(node_14, {
+        var div_22 = sibling(div_21, 2);
+        var span_13 = child(div_22);
+        var text_12 = child(span_13);
+        var node_16 = sibling(span_13, 2);
+        Switch(node_16, {
           get checked() {
             return $_card_detail().download_collect;
           },
@@ -7025,11 +7109,11 @@ button:focus-visible {\r
           },
           $$legacy: true
         });
-        var div_22 = sibling(div_21, 2);
-        var span_13 = child(div_22);
-        var text_12 = child(span_13);
-        var node_15 = sibling(span_13, 2);
-        Switch(node_15, {
+        var div_23 = sibling(div_22, 2);
+        var span_14 = child(div_23);
+        var text_13 = child(span_14);
+        var node_17 = sibling(span_14, 2);
+        Switch(node_17, {
           get checked() {
             return $_card_detail().upload_time;
           },
@@ -7038,11 +7122,11 @@ button:focus-visible {\r
           },
           $$legacy: true
         });
-        var div_23 = sibling(div_22, 2);
-        var span_14 = child(div_23);
-        var text_13 = child(span_14);
-        var node_16 = sibling(span_14, 2);
-        Switch(node_16, {
+        var div_24 = sibling(div_23, 2);
+        var span_15 = child(div_24);
+        var text_14 = child(span_15);
+        var node_18 = sibling(span_15, 2);
+        Switch(node_18, {
           get checked() {
             return $_card_detail().statistics;
           },
@@ -7051,11 +7135,11 @@ button:focus-visible {\r
           },
           $$legacy: true
         });
-        var div_24 = sibling(div_23, 4);
-        var span_15 = child(div_24);
-        var text_14 = child(span_15);
-        var node_17 = sibling(span_15, 2);
-        Switch(node_17, {
+        var div_25 = sibling(div_24, 4);
+        var span_16 = child(div_25);
+        var text_15 = child(span_16);
+        var node_19 = sibling(span_16, 2);
+        Switch(node_19, {
           get checked() {
             mark_store_binding();
             return $_block_gay();
@@ -7065,11 +7149,11 @@ button:focus-visible {\r
           },
           $$legacy: true
         });
-        var div_25 = sibling(div_24, 4);
-        var span_16 = child(div_25);
-        var text_15 = child(span_16);
-        var node_18 = sibling(span_16, 2);
-        Switch(node_18, {
+        var div_26 = sibling(div_25, 4);
+        var span_17 = child(div_26);
+        var text_16 = child(span_17);
+        var node_20 = sibling(span_17, 2);
+        Switch(node_20, {
           get checked() {
             return $_card_radius().enabled;
           },
@@ -7078,19 +7162,19 @@ button:focus-visible {\r
           },
           $$legacy: true
         });
-        var node_19 = sibling(div_25, 2);
+        var node_21 = sibling(div_26, 2);
         {
-          var consequent_2 = ($$anchor3) => {
-            var div_26 = root_5();
-            var span_17 = child(div_26);
-            var text_16 = child(span_17);
-            var input_3 = sibling(span_17, 2);
-            template_effect(() => set_text(text_16, `圆角大小: ${$_card_radius().value ?? ""} px`));
+          var consequent_3 = ($$anchor3) => {
+            var div_27 = root_6();
+            var span_18 = child(div_27);
+            var text_17 = child(span_18);
+            var input_3 = sibling(span_18, 2);
+            template_effect(() => set_text(text_17, `圆角大小: ${$_card_radius().value ?? ""} px`));
             bind_value(input_3, () => $_card_radius().value, ($$value) => store_mutate(_card_radius, untrack($_card_radius).value = $$value, untrack($_card_radius)));
-            append($$anchor3, div_26);
+            append($$anchor3, div_27);
           };
-          if_block(node_19, ($$render) => {
-            if ($_card_radius().enabled) $$render(consequent_2);
+          if_block(node_21, ($$render) => {
+            if ($_card_radius().enabled) $$render(consequent_3);
           });
         }
         template_effect(
@@ -7104,18 +7188,18 @@ button:focus-visible {\r
             set_attribute(input_1, "max", $4);
             set_text(text_2, `卡片间隔: ${$_card_layout().gap ?? ""} px`);
             set_text(text_3, `显示鼠标悬浮预览大图: ${$_show_hover_pic() ?? ""}`);
-            set_text(text_4, `分区: ${$_card_detail().category ?? ""}`);
-            set_text(text_5, `标题: ${$_card_detail().title ?? ""}`);
-            set_text(text_6, `置顶: ${$_card_detail().topping ?? ""}`);
-            set_text(text_7, `免费: ${$_card_detail().free ?? ""}`);
-            set_text(text_8, `大小: ${$_card_detail().size ?? ""}`);
-            set_text(text_9, `副标题: ${$_card_detail().sub_title ?? ""}`);
-            set_text(text_10, `标签: ${$_card_detail().tags ?? ""}`);
-            set_text(text_11, `下载&收藏: ${$_card_detail().download_collect ?? ""}`);
-            set_text(text_12, `上传时间: ${$_card_detail().upload_time ?? ""}`);
-            set_text(text_13, `评论/上传/下载: ${$_card_detail().statistics ?? ""}`);
-            set_text(text_14, `屏蔽 gay 区: ${$_block_gay() ?? ""}`);
-            set_text(text_15, `自定义圆角: ${$_card_radius().enabled ?? ""}`);
+            set_text(text_5, `分区: ${$_card_detail().category ?? ""}`);
+            set_text(text_6, `标题: ${$_card_detail().title ?? ""}`);
+            set_text(text_7, `置顶: ${$_card_detail().topping ?? ""}`);
+            set_text(text_8, `免费: ${$_card_detail().free ?? ""}`);
+            set_text(text_9, `大小: ${$_card_detail().size ?? ""}`);
+            set_text(text_10, `副标题: ${$_card_detail().sub_title ?? ""}`);
+            set_text(text_11, `标签: ${$_card_detail().tags ?? ""}`);
+            set_text(text_12, `下载&收藏: ${$_card_detail().download_collect ?? ""}`);
+            set_text(text_13, `上传时间: ${$_card_detail().upload_time ?? ""}`);
+            set_text(text_14, `评论/上传/下载: ${$_card_detail().statistics ?? ""}`);
+            set_text(text_15, `屏蔽 gay 区: ${$_block_gay() ?? ""}`);
+            set_text(text_16, `自定义圆角: ${$_card_radius().enabled ?? ""}`);
           },
           [
             () => getTextColor(getSiteConfig().get_bg_color()),
@@ -7135,7 +7219,7 @@ button:focus-visible {\r
         append($$anchor2, div_6);
       };
       if_block(node_5, ($$render) => {
-        if ($_side_panel_switch()) $$render(consequent_3);
+        if ($_side_panel_switch()) $$render(consequent_4);
       });
     }
     template_effect(() => {
@@ -7176,9 +7260,11 @@ button:focus-visible {\r
     }
     function key_closePanels(event2) {
       if (event2.key === "Escape") {
-        console.log(event2);
         store_set(_iframe_switch$1, 0);
         store_set(_side_panel_switch, false);
+        if (HoverView.getInstance()) {
+          HoverView.getInstance().clearPreview();
+        }
       }
     }
     ifMteam = true;
