@@ -99,7 +99,7 @@ export function getTextColor(background) {
     if (match) {
       const [, red, green, blue] = match;
       const brightness = (parseInt(red) * 299 + parseInt(green) * 587 + parseInt(blue) * 114) / 1000;
-      return brightness < 128 ? 'white' : 'black';
+      return brightness < 128 ? '#FFFFFF' : '#000000';
     }
   }
 
@@ -133,5 +133,5 @@ export function getTextColor(background) {
   const brightness = (red * 299 + green * 587 + blue * 114) / 1000;
 
   // 如果亮度低于阈值128，则返回白色；否则返回黑色
-  return brightness < 128 ? 'white' : 'black';
+  return brightness < 128 ? '#FFFFFF' : '#000000';
 }

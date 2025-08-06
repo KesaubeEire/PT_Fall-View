@@ -13,7 +13,7 @@
 -->
 <script>
   import { fade } from 'svelte/transition';
-  import { _iframe_switch, _iframe_url, _side_panel_switch } from './stores';
+  import { _iframe_switch, _iframe_url, _side_panel_switch, _textColor } from './stores';
   import { mount } from 'svelte';
   import EntryMteam from './views/Entry_Mteam.svelte';
   import FlowPanel from './component/flowPanel.svelte';
@@ -32,7 +32,46 @@
   // ------------------------------------------------
   /** 关闭 iframe */
   function closeIframe() {
-    $_iframe_switch = 0;
+    if (!isDragging) $_iframe_switch = 0;
+  }
+
+  // ------------------------------------------------
+  /** iframe 宽度状态 */
+  let iframeWidth = 1000;
+  /** 是否正在拖拽调整宽度 */
+  let isDragging = false;
+
+  let onMouseMove = () => {};
+
+  /** 开始拖拽调整宽度 */
+  function startResize(e, direction) {
+    // 记录初始状态
+    const startX = e.clientX;
+    const startWidth = iframeWidth;
+    isDragging = true;
+
+    onMouseMove = e => {
+      if (!isDragging) return;
+
+      // 计算移动距离
+      const delta = e.clientX - startX;
+
+      // 根据拖拽方向计算新宽度
+      const newWidth = direction === 'right' ? startWidth + delta * 2 : startWidth - delta * 2;
+
+      // 限制宽度范围：最小1000px，最大为窗口宽度的95%
+      iframeWidth = Math.max(1000, Math.min(newWidth, window.innerWidth * 0.95));
+      // console.log(`newWidth: ${newWidth}   调整后的宽度: ${iframeWidth}px`);
+    };
+
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+  }
+
+  function onMouseUp() {
+    isDragging = false;
+    window.removeEventListener('mousemove', onMouseMove);
+    window.removeEventListener('mouseup', onMouseUp);
   }
 
   /** esc 控制关闭所有面板 */
@@ -60,15 +99,11 @@
   ifMteam = true;
   if (ifMteam) {
     // ## m-team 专用流程
-    const app = mount(EntryMteam, {
-      target: _app
-    });
+    const app = mount(EntryMteam, { target: _app });
   }
 
   // ## 侧边栏
-  const app = mount(FlowPanel, {
-    target: _app
-  });
+  const app = mount(FlowPanel, { target: _app });
 
   //  -----------⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆ 主流程 ⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆-----------
 
@@ -78,16 +113,20 @@
 
 <!-- iframe 详情 -->
 {#if $_iframe_switch}
+  <div class="_iframe_back"></div>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <!-- svelte-ignore a11y_no_static_element_interactions -->
-  <div id="_iframe" on:click={closeIframe} transition:fade={{ duration: 300 }}>
-    <div class="_iframe">
+  <div id="_iframe" on:click|self={closeIframe} transition:fade={{ duration: 300 }}>
+    <div class="_iframe" style:--textColor1={$_textColor.t1} style:--textColor2={$_textColor.t1 + '90'}>
+      <!-- 左侧调整按钮 -->
+      <div class="resize-handle resize-handle-left" on:mousedown={e => startResize(e, 'left')}></div>
+
       <!-- svelte-ignore element_invalid_self_closing_tag -->
       <iframe
         src={$_iframe_url}
         frameborder="0"
         title={$_iframe_url}
-        style="width: 1000px;"
+        style="width: {iframeWidth}px;"
         on:load={e => {
           // 获取iframe的内容文档
           const iframeContent = e.target.contentDocument || e.target.contentWindow.document;
@@ -116,14 +155,21 @@
           // 首次立即检查
           checkElement();
         }}
-        on:click|stopPropagation={e => {
+        on:click={e => {
+          onMouseUp();
           e.stopPropagation();
+        }}
+        on:mouseup={e => {
+          onMouseUp();
         }}
       />
       <div class="_iframeCloseBtn" on:click={closeIframe}>
         <!-- svg 关闭 icon -->
         <IconRoundClose></IconRoundClose>
       </div>
+
+      <!-- 右侧调整按钮 -->
+      <div class="resize-handle resize-handle-right" on:mousedown={e => startResize(e, 'right')}></div>
     </div>
   </div>
 {/if}
@@ -149,6 +195,8 @@
     /* width: 1246px; */
     height: 96%;
     margin: auto;
+    display: flex;
+    align-items: center;
   }
 
   div._iframe iframe {
@@ -169,6 +217,8 @@
     border-radius: 40px;
     transition: all 0.5s;
 
+    z-index: 30001;
+
     /* 悬浮 */
     &:hover {
       opacity: 0.7;
@@ -179,5 +229,47 @@
       opacity: 0.9;
       transform: scale(1.9);
     }
+  }
+
+  .resize-handle {
+    position: absolute;
+    width: 24px;
+    height: 100%;
+    background: var(--textColor2);
+    cursor: col-resize;
+    transition: all 0.2s ease;
+    z-index: 1;
+    opacity: 1;
+
+    &:hover {
+      opacity: 0.5;
+    }
+
+    &:active {
+      background: var(--textColor1);
+    }
+
+    /* 中间显示一条线 */
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+
+      background: var(--textColor1);
+      transform: translateX(-50%);
+    }
+  }
+
+  .resize-handle-left {
+    left: 12px;
+    border-radius: 6px 0 0 6px;
+  }
+
+  .resize-handle-right {
+    right: 12px;
+    border-radius: 0 6px 6px 0;
   }
 </style>
