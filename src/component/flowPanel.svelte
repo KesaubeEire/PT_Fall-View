@@ -181,19 +181,19 @@
         <!-- 特殊配置 -->
         <h3># 特殊配置</h3>
         <div class="config-item">
-          <span>图片不存在时显示: {$_pic_failed_showInfo}</span>
+          <div class="_single_item"><span>图片加载失败时显示标题</span></div>
           <Switch bind:checked={$_pic_failed_showInfo} />
         </div>
 
         <!-- 显示鼠标悬浮预览大图 -->
         <div class="config-item">
-          <span>显示鼠标悬浮预览大图: {$_show_hover_pic}</span>
+          <div class="_single_item"><span>显示鼠标悬浮预览大图</span></div>
           <Switch bind:checked={$_show_hover_pic} />
         </div>
 
         {#if $_show_hover_pic}
           <div class="config-item">
-            <span>预览大图默认状态: {$_state_hover_pic ? '尽量铺满' : '尽量原图大小'}</span>
+            <div class="_single_item"><span>预览大图默认状态: {$_state_hover_pic ? '尽量铺满' : '尽量原图大小'}</span></div>
             <Switch bind:checked={$_state_hover_pic} />
           </div>
         {/if}
@@ -202,75 +202,75 @@
         <!-- 添加更多配置项 -->
         <!-- 分区 -->
         <div class="config-item">
-          <span>分区: {$_card_detail.category}</span>
+          <div class="_single_item"><span>分区</span></div>
           <Switch bind:checked={$_card_detail.category} />
         </div>
 
         <!-- 标题 -->
         <div class="config-item">
-          <span>标题: {$_card_detail.title}</span>
+          <div class="_single_item"><span>标题</span></div>
           <Switch bind:checked={$_card_detail.title} />
         </div>
 
         <!-- 置顶 -->
         <div class="config-item">
-          <span>置顶: {$_card_detail.topping}</span>
+          <div class="_single_item"><span>置顶</span></div>
           <Switch bind:checked={$_card_detail.topping} />
         </div>
 
         <!-- 免费 -->
         <div class="config-item">
-          <span>免费: {$_card_detail.free}</span>
+          <div class="_single_item"><span>免费</span></div>
           <Switch bind:checked={$_card_detail.free} />
         </div>
 
         <!-- 大小 -->
         <div class="config-item">
-          <span>大小: {$_card_detail.size}</span>
+          <div class="_single_item"><span>大小</span></div>
           <Switch bind:checked={$_card_detail.size} />
         </div>
 
         <!-- 副标题 -->
         <div class="config-item">
-          <span>副标题: {$_card_detail.sub_title}</span>
+          <div class="_single_item"><span>副标题</span></div>
           <Switch bind:checked={$_card_detail.sub_title} />
         </div>
 
         <!-- 标签 -->
         <div class="config-item">
-          <span>标签: {$_card_detail.tags}</span>
+          <div class="_single_item"><span>标签</span></div>
           <Switch bind:checked={$_card_detail.tags} />
         </div>
 
         <!-- 大小&下载&收藏 -->
         <div class="config-item">
-          <span>下载&收藏: {$_card_detail.download_collect}</span>
+          <div class="_single_item"><span>下载&收藏</span></div>
           <Switch bind:checked={$_card_detail.download_collect} />
         </div>
 
         <!-- 上传时间 -->
         <div class="config-item">
-          <span>上传时间: {$_card_detail.upload_time}</span>
+          <div class="_single_item"><span>上传时间</span></div>
           <Switch bind:checked={$_card_detail.upload_time} />
         </div>
 
         <!-- 评论/上传/下载/完成 -->
         <div class="config-item">
-          <span>评论/上传/下载: {$_card_detail.statistics}</span>
+          <div class="_single_item"><span>评论/上传/下载</span></div>
           <Switch bind:checked={$_card_detail.statistics} />
         </div>
 
         <h3># 卡片屏蔽</h3>
         <!-- 屏蔽 gay 区 -->
         <div class="config-item">
-          <span>屏蔽 gay 区: {$_block_gay}</span>
+          <div class="_single_item"><span>屏蔽 gay 区</span></div>
           <Switch bind:checked={$_block_gay} />
         </div>
 
         <h3># 卡片样式</h3>
         <!-- 自定义圆角 -->
         <div class="config-item">
-          <span>自定义圆角: {$_card_radius.enabled}</span>
+          <div class="_single_item"><span>自定义圆角</span></div>
           <Switch bind:checked={$_card_radius.enabled} />
         </div>
 
@@ -447,6 +447,16 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+
+  .config-item span {
+    display: flex;
+    justify-content: end;
+  }
+
+  .config-item ._single_item {
+    padding-right: 8px;
+    flex: 1;
   }
 
   .config-item input {

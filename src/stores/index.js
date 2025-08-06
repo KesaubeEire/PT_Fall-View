@@ -73,7 +73,7 @@ export const _panelPos = persistStore('_panelPos', { x: 0, y: 0 });
 export const _show_hover_pic = persistStore('_show_hover_pic', 1);
 
 /** 鼠标悬浮预览大图默认状态 0: 尽可能默认大小(scale-down) 1: 铺满(contain) */
-export const _state_hover_pic = persistStore('_state_hover_pic', 1);
+export const _state_hover_pic = persistStore('_state_hover_pic', false);
 
 /** 在图片加载失败的情况下显示 标题 & 副标题 */
 export const _pic_failed_showInfo = persistStore('_pic_failed_showInfo', 1);
@@ -125,7 +125,7 @@ export const _block_gay = persistStore('_block_gay', 1);
 /** 卡片圆角设置 */
 export const _card_radius = persistStore('_card_radius', {
   // 是否启用自定义圆角
-  enabled: false,
+  enabled: true,
   // 圆角值 (0-40px)
   value: 16
 });
