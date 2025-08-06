@@ -67,6 +67,7 @@ export function __JsonParse(data) {
   // 其他类型直接返回
   return data;
 }
+window.__JsonParse = __JsonParse; // 全局暴露
 
 /** 根据背景颜色动态调整文字黑白
  * @param background 背景颜色(支持 #RGB, #RRGGBB, #RRGGBBAA, rgba() 等格式)
