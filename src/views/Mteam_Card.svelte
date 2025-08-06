@@ -73,7 +73,7 @@ let _torrentInfo =  {
   import { fade } from 'svelte/transition';
   import { notyf_lt } from '@/lib/notyf';
   import { onMount, onDestroy } from 'svelte';
-  import { _card_detail, _iframe_switch, _iframe_url, _show_hover_pic, _block_gay, _card_radius, _mt_label, _mt_categories } from '@/stores';
+  import { _card_detail, _iframe_switch, _iframe_url, _show_hover_pic, _block_gay, _card_radius, _mt_label, _mt_categories, _pic_failed_showInfo } from '@/stores';
   import { cate_pic_baseUrl, CONFIG } from '@/siteConfig/mteam';
   import IconComment from '@/assets/icon_comment.svelte';
   import { HoverView } from '@/lib/hoverView';
@@ -296,6 +296,8 @@ let _torrentInfo =  {
   //---------------------------------------------
   /** 本地: 图片是否加载错误*/
   let _picError = false;
+  /** 本地: 图片是否不存在*/
+  let _picNone = false;
   // M-Team 特别处理: 对 Gay 区做图片处理
   const static_gay_warn = '/static/cate/gayhd.gif';
 
@@ -315,6 +317,11 @@ let _torrentInfo =  {
       }
     }
   }
+
+  //---------------------------------------------
+  // ## 种子信息: 卡片详情显示
+  let _card_detail_show = false;
+  $: _card_detail_show = $_card_detail.sub_title || $_card_detail.tags || $_card_detail.download_collect || $_card_detail.upload_time || $_card_detail.statistics;
 
   //---------------------------------------------
   // ## lazy_load 图片懒加载
@@ -355,10 +362,6 @@ let _torrentInfo =  {
   }
 
   //---------------------------------------------
-  /** 新页面高亮 */
-  let showHighlight = true;
-
-  //---------------------------------------------
   onMount(() => {
     // lazy_load: 初始化观察器
     if (!isLoaded) {
@@ -383,11 +386,6 @@ let _torrentInfo =  {
           behavior: 'smooth' // 平滑滚动
         });
       }
-
-      // 新页面高亮3秒后消失
-      setTimeout(() => {
-        showHighlight = false;
-      }, 3000);
     }
 
     // 获得 dom -> overlayHolder 的高度
@@ -404,13 +402,6 @@ let _torrentInfo =  {
 </script>
 
 <div class="card_holder" bind:this={card_holder} style:--borderRadius={$_card_radius.enabled ? $_card_radius.value + 'px' : '0'}>
-  <!-- 切页第一个种子高亮 -->
-  <!-- 
-  {#if torrentInfo.pt_fall_highlight && showHighlight}
-    <div transition:fade={{ duration: 500 }} class="card_new_page_highlight">新页面 ({torrentInfo.index}+)</div>
-  {/if}
-   -->
-
   <!-- NOTE: 分区类别 -->
   {#if $_card_detail.category}
     <div
@@ -431,7 +422,7 @@ let _torrentInfo =  {
   {/if}
 
   <!-- 种子标题 -->
-  <div class="card_title">
+  <div class="card_title" style={`background-color: ${_cateColor + '10'}`}>
     <!-- 
         NOTE: 
         属性	            作用
@@ -439,7 +430,7 @@ let _torrentInfo =  {
         rel="noopener"	  阻断新页面通过 window.opener 访问原页面（现代浏览器默认行为）
         rel="noreferrer"	隐藏来源页面的 Referer 信息（增强隐私保护）
     -->
-    {#if $_card_detail.title}
+    {#if $_card_detail.title || ($_pic_failed_showInfo && (_picError || _picNone))}
       <a class="__main_title" href={'/detail/' + torrentInfo.id} target="_blank" rel="noopener noreferrer">
         <!-- NOTE: 暂且是种子描述优先 -->
         {torrentInfo.name}
@@ -482,7 +473,14 @@ let _torrentInfo =  {
         <!-- NOTE: 无图片 -->
         <div class="pic_error" style="">
           <div>
-            <img style="height: 100%;width: 100px;" src={_PicNoLOGO} alt="no pic" />
+            <img
+              style="height: 100%;width: 100px;"
+              src={_PicNoLOGO}
+              alt="no pic"
+              on:load={() => {
+                _picNone = true;
+              }}
+            />
           </div>
           <div>本种没有图片</div>
         </div>
@@ -497,8 +495,8 @@ let _torrentInfo =  {
       </div>
     {/if}
 
-    <!-- 局部悬浮预览 -->
-    {#if $_show_hover_pic && !_picError}
+    <!-- NOTE: 局部悬浮预览 -->
+    {#if $_show_hover_pic && !(_picError || _picNone)}
       <!-- svelte-ignore a11y_no_static_element_interactions -->
       <!-- svelte-ignore a11y_mouse_events_have_key_events -->
       <div
@@ -778,7 +776,7 @@ let _torrentInfo =  {
   </div>
 
   <!-- 种子信息 -->
-  {#if $_card_detail.sub_title || $_card_detail.tags || $_card_detail.download_collect || $_card_detail.upload_time || $_card_detail.statistics}
+  {#if _card_detail_show || ($_pic_failed_showInfo && (_picError || _picNone))}
     <div
       class="card_info"
       style="
@@ -788,8 +786,8 @@ let _torrentInfo =  {
       <!-- NOTE: 显示置顶和免费在图片 index 处 -->
 
       <!-- 种子信息_副标题 -->
-      {#if $_card_detail.sub_title}
-        <div class="card_info-item card_info__sub_title">
+      {#if $_card_detail.sub_title || ($_pic_failed_showInfo && (_picError || _picNone))}
+        <div class="card_info-item card_info__sub_title" style="padding-top: 4px;">
           <div>{torrentInfo.smallDescr}</div>
         </div>
       {/if}
@@ -938,10 +936,7 @@ let _torrentInfo =  {
     text-align: center;
     padding: 8px 8px;
   }
-  .card_pic img {
-    width: 100%;
-    height: 100%;
-  }
+
   .lazy-image {
     opacity: 0.2;
     transition: opacity 0.5s ease;
@@ -990,11 +985,15 @@ let _torrentInfo =  {
 
   .__main_title {
     white-space: pre-wrap;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-
+    /* word-wrap: break-word; */
+    /* overflow-wrap: break-word; */
     /* font-size: 16px; */
     font-weight: bold;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 
     &:hover {
       text-decoration: underline;
@@ -1048,7 +1047,14 @@ let _torrentInfo =  {
     display: flex;
     align-items: center;
     justify-content: center;
+    /* flex-direction: column; */
+
     background-color: var(--cateColor);
+  }
+
+  .card_pic img {
+    width: 100%;
+    height: 100%;
   }
 
   .pic_error {
@@ -1184,8 +1190,8 @@ let _torrentInfo =  {
     & .__main_title {
       text-align: center;
       white-space: pre-wrap;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
+      /* word-wrap: break-word; */
+      /* overflow-wrap: break-word; */
 
       /* font-size: 16px; */
       font-weight: bold;
@@ -1197,8 +1203,8 @@ let _torrentInfo =  {
 
     & .__sub_title {
       white-space: pre-wrap;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
+      /* word-wrap: break-word; */
+      /* overflow-wrap: break-word; */
       overflow: hidden;
     }
 

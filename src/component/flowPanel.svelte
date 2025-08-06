@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { _panelPos, _isFallView, _card_layout, _card_detail, _show_hover_pic, _state_hover_pic, _iframe_switch, _side_panel_switch, _block_gay, _card_radius, _textColor } from '@/stores';
+  import { _panelPos, _isFallView, _card_layout, _card_detail, _show_hover_pic, _state_hover_pic, _iframe_switch, _side_panel_switch, _block_gay, _card_radius, _textColor, _pic_failed_showInfo } from '@/stores';
   import { getSiteConfig } from '@/siteConfig';
   import { fade } from 'svelte/transition';
   import Switch from '@/component/switch.svelte';
@@ -176,6 +176,13 @@
         <div class="config-item">
           <span>卡片间隔: {$_card_layout.gap} px</span>
           <input type="range" bind:value={$_card_layout.gap} min="0" max="100" step="1" list="values" />
+        </div>
+
+        <!-- 特殊配置 -->
+        <h3># 特殊配置</h3>
+        <div class="config-item">
+          <span>图片不存在时显示: {$_pic_failed_showInfo}</span>
+          <Switch bind:checked={$_pic_failed_showInfo} />
         </div>
 
         <!-- 显示鼠标悬浮预览大图 -->
