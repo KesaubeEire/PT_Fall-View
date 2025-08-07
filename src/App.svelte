@@ -40,6 +40,8 @@
   let iframeWidth = 1000;
   /** 是否正在拖拽调整宽度 */
   let isDragging = false;
+  /** iframe 遮罩层，拖拽时显示 */
+  let showOverlay = false;
 
   let onMouseMove = () => {};
 
@@ -49,6 +51,9 @@
     const startX = e.clientX;
     const startWidth = iframeWidth;
     isDragging = true;
+    showOverlay = true;
+    // 禁用文本选择
+    document.body.style.userSelect = 'none';
 
     onMouseMove = e => {
       if (!isDragging) return;
@@ -70,6 +75,9 @@
 
   function onMouseUp() {
     isDragging = false;
+    showOverlay = false;
+    // 恢复文本选择
+    document.body.style.userSelect = '';
     window.removeEventListener('mousemove', onMouseMove);
     window.removeEventListener('mouseup', onMouseUp);
   }
@@ -113,14 +121,17 @@
 
 <!-- iframe 详情 -->
 {#if $_iframe_switch}
-  <div class="_iframe_back"></div>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <!-- svelte-ignore a11y_no_static_element_interactions -->
-  <div id="_iframe" on:click|self={closeIframe} transition:fade={{ duration: 300 }}>
-    <div class="_iframe" style:--textColor1={$_textColor.t1} style:--textColor2={$_textColor.t1 + '90'}>
+  <div id="_iframe_holder" transition:fade={{ duration: 300 }}>
+    <div class="_iframe_back" on:click|self|capture={closeIframe}></div>
+    <div class="_iframe_parent" style:--textColor1={$_textColor.t1} style:--textColor2={$_textColor.t1 + '90'}>
       <!-- 左侧调整按钮 -->
       <div class="resize-handle resize-handle-left" on:mousedown={e => startResize(e, 'left')}></div>
 
+      {#if showOverlay}
+        <div class="iframe-overlay"></div>
+      {/if}
       <!-- svelte-ignore element_invalid_self_closing_tag -->
       <iframe
         src={$_iframe_url}
@@ -178,7 +189,7 @@
 <svelte:window on:keydown|capture={key_closePanels} />
 
 <style>
-  div#_iframe {
+  div#_iframe_holder {
     position: fixed;
     top: 0;
     left: 0;
@@ -190,7 +201,13 @@
     display: flex;
   }
 
-  div._iframe {
+  div._iframe_back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+  div._iframe_parent {
     position: relative;
     /* width: 1246px; */
     height: 96%;
@@ -199,9 +216,10 @@
     align-items: center;
   }
 
-  div._iframe iframe {
+  div._iframe_parent iframe {
     height: 100%;
     border-radius: 20px;
+    user-select: none;
   }
 
   ._iframeCloseBtn {
@@ -233,43 +251,41 @@
 
   .resize-handle {
     position: absolute;
-    width: 24px;
+    width: 16px;
     height: 100%;
     background: var(--textColor2);
     cursor: col-resize;
     transition: all 0.2s ease;
     z-index: 1;
-    opacity: 1;
+    opacity: 0.4;
 
     &:hover {
-      opacity: 0.5;
+      opacity: 0.6;
     }
 
     &:active {
+      opacity: 0.8;
       background: var(--textColor1);
-    }
-
-    /* 中间显示一条线 */
-    &::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      width: 2px;
-      height: 100%;
-
-      background: var(--textColor1);
-      transform: translateX(-50%);
     }
   }
 
   .resize-handle-left {
-    left: 12px;
+    left: -16px;
     border-radius: 6px 0 0 6px;
   }
 
   .resize-handle-right {
-    right: 12px;
+    right: -16px;
     border-radius: 0 6px 6px 0;
+  }
+
+  .iframe-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 30001;
+    user-select: none;
   }
 </style>
