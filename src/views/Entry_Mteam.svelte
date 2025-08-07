@@ -37,6 +37,11 @@
   Fall_DOM.classList.add('Fall_DOM');
 
   // ------------------------------------------
+  // ## 主流程 劫持 XHR 和 Fetch 请求
+  console.log('=====> 启动劫持 XHR 和 Fetch 请求 <=====');
+  Launch_Hijack();
+
+  // ------------------------------------------
   // ## 主流程: 加载瀑布流 dom
   Tool_Watch_Dom(CONFIG.TL_Selector, launchFallView);
 
@@ -145,9 +150,8 @@
       console.log('元素已找到，正在插入兄弟节点:', el);
       // el.parentNode.insertBefore(Fall_DOM, el);
 
-      // ## Hijack 劫持 XHR 请求
-      Launch_Hijack();
       const param = { path: '/search', method: 'POST' };
+
       /** 劫持请求 */
       window.addEventListener('req>POST->/search', e => {
         console.log(`<PT-Fall>[Request]  (${param.method} -> ${param.path})\n`, e.detail);
