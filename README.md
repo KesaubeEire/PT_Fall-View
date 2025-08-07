@@ -59,7 +59,7 @@ TODO:(这里的介绍旧版本直接拿过来的, 待更新)
 
 ## Telegram 群新版本推送
 
-PT_Fall-View[0.3.10]
+PT_Fall-View[0.3.11]
 
 feat: 添加 iframe 宽度调整功能.
 feat: 增加图片加载失败时显示标题和副标题的配置选项.

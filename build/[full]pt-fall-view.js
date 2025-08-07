@@ -2,7 +2,7 @@
 // @name            PT瀑布流视图
 // @name:en         PT_Fall-View
 // @namespace       vite-plugin-monkey
-// @version         0.3.10
+// @version         0.3.11
 // @author          Kesa
 // @description     PT瀑布流视图(2025重构)
 // @description:en  PT Fall/Masonry View (restructured 2025)
@@ -779,7 +779,7 @@ button:focus-visible {\r
   }\r
 
 \r
-  div#_iframe.svelte-1jjey07 {\r
+  div#_iframe_holder.svelte-126sfo0 {\r
     position: fixed;\r
     top: 0;\r
     left: 0;\r
@@ -791,7 +791,13 @@ button:focus-visible {\r
     display: flex;\r
   }\r
 \r
-  div._iframe.svelte-1jjey07 {\r
+  div._iframe_back.svelte-126sfo0 {\r
+    position: absolute;\r
+    width: 100%;\r
+    height: 100%;\r
+  }\r
+\r
+  div._iframe_parent.svelte-126sfo0 {\r
     position: relative;\r
     /* width: 1246px; */\r
     height: 96%;\r
@@ -800,12 +806,13 @@ button:focus-visible {\r
     align-items: center;\r
   }\r
 \r
-  div._iframe.svelte-1jjey07 iframe:where(.svelte-1jjey07) {\r
+  div._iframe_parent.svelte-126sfo0 iframe:where(.svelte-126sfo0) {\r
     height: 100%;\r
     border-radius: 20px;\r
+    user-select: none;\r
   }\r
 \r
-  ._iframeCloseBtn.svelte-1jjey07 {\r
+  ._iframeCloseBtn.svelte-126sfo0 {\r
     width: 40px;\r
     height: 40px;\r
     background: white;\r
@@ -832,46 +839,44 @@ button:focus-visible {\r
     }\r
   }\r
 \r
-  .resize-handle.svelte-1jjey07 {\r
+  .resize-handle.svelte-126sfo0 {\r
     position: absolute;\r
-    width: 24px;\r
+    width: 16px;\r
     height: 100%;\r
     background: var(--textColor2);\r
     cursor: col-resize;\r
     transition: all 0.2s ease;\r
     z-index: 1;\r
-    opacity: 1;\r
+    opacity: 0.4;\r
 \r
     &:hover {\r
-      opacity: 0.5;\r
+      opacity: 0.6;\r
     }\r
 \r
     &:active {\r
+      opacity: 0.8;\r
       background: var(--textColor1);\r
-    }\r
-\r
-    /* \u4E2D\u95F4\u663E\u793A\u4E00\u6761\u7EBF */\r
-    &::after {\r
-      content: '';\r
-      position: absolute;\r
-      top: 0;\r
-      left: 50%;\r
-      width: 2px;\r
-      height: 100%;\r
-\r
-      background: var(--textColor1);\r
-      transform: translateX(-50%);\r
     }\r
   }\r
 \r
-  .resize-handle-left.svelte-1jjey07 {\r
-    left: 12px;\r
+  .resize-handle-left.svelte-126sfo0 {\r
+    left: -16px;\r
     border-radius: 6px 0 0 6px;\r
   }\r
 \r
-  .resize-handle-right.svelte-1jjey07 {\r
-    right: 12px;\r
+  .resize-handle-right.svelte-126sfo0 {\r
+    right: -16px;\r
     border-radius: 0 6px 6px 0;\r
+  }\r
+\r
+  .iframe-overlay.svelte-126sfo0 {\r
+    position: absolute;\r
+    top: 0;\r
+    left: 0;\r
+    width: 100%;\r
+    height: 100%;\r
+    z-index: 30001;\r
+    user-select: none;\r
   } `);
 
 (function () {
@@ -5591,7 +5596,7 @@ button:focus-visible {\r
   const _PicNoLOGO = "data:image/svg+xml,%3csvg%20viewBox='-2.4%20-2.4%2028.80%2028.80'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%20stroke='%23000000'%20%3e%3cg%20id='SVGRepo_bgCarrier'%20stroke-width='0'%20/%3e%3cg%20id='SVGRepo_iconCarrier'%3e%3cpath%20d='M15.6%2015.6C15.6%2015.6%2014.25%2013.8%2012%2013.8C9.75%2013.8%208.4%2015.6%208.4%2015.6M14.7%209.3H14.709M9.3%209.3H9.309M21%2012C21%2016.9706%2016.9706%2021%2012%2021C7.02944%2021%203%2016.9706%203%2012C3%207.02944%207.02944%203%2012%203C16.9706%203%2021%207.02944%2021%2012ZM15.15%209.3C15.15%209.54853%2014.9485%209.75%2014.7%209.75C14.4515%209.75%2014.25%209.54853%2014.25%209.3C14.25%209.05147%2014.4515%208.85%2014.7%208.85C14.9485%208.85%2015.15%209.05147%2015.15%209.3ZM9.75%209.3C9.75%209.54853%209.54853%209.75%209.3%209.75C9.05147%209.75%208.85%209.54853%208.85%209.3C8.85%209.05147%209.05147%208.85%209.3%208.85C9.54853%208.85%209.75%209.05147%209.75%209.3Z'%20stroke='%23000000'%20stroke-width='1.8'%20stroke-linecap='round'%20stroke-linejoin='round'%20/%3e%3c/g%3e%3c/svg%3e";
   var $$_import_CONFIG = reactive_import(() => CONFIG);
   var root_1$2 = /* @__PURE__ */ template(`<div class="card-category svelte-1q2qbu1"><img class="card_category-img svelte-1q2qbu1"> </div>`);
-  var root_2$2 = /* @__PURE__ */ template(`<a class="__main_title svelte-1q2qbu1" target="_blank" rel="noopener noreferrer"> </a>`);
+  var root_2$3 = /* @__PURE__ */ template(`<a class="__main_title svelte-1q2qbu1" target="_blank" rel="noopener noreferrer"> </a>`);
   var root_4$1 = /* @__PURE__ */ template(`<div class="pic_error svelte-1q2qbu1"><div><img style="height: 100%; width:60px; border-radius:20px;" alt="pic error" class="svelte-1q2qbu1"></div> <div class="ant-typography" style="color: white; font-size:16px;">GAY WARNING<br>同志警告</div></div>`);
   var root_6$1 = /* @__PURE__ */ template(`<img class="lazy-image svelte-1q2qbu1">`);
   var root_7 = /* @__PURE__ */ template(`<div class="pic_error svelte-1q2qbu1" style=""><div><img style="height: 100%;width: 100px;" alt="no pic" class="svelte-1q2qbu1"></div> <div>本种没有图片</div></div>`);
@@ -5856,7 +5861,7 @@ button:focus-visible {\r
     var node_1 = child(div_2);
     {
       var consequent_1 = ($$anchor2) => {
-        var a = root_2$2();
+        var a = root_2$3();
         var text_1 = child(a);
         template_effect(() => {
           set_attribute(a, "href", "/detail/" + torrentInfo().id);
@@ -6543,7 +6548,7 @@ button:focus-visible {\r
     $$cleanup();
     return $$pop;
   }
-  let version = "0.3.10";
+  let version = "0.3.11";
   var root$7 = /* @__PURE__ */ ns_template(`<svg class="tgme_logo" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle cx="17" cy="17" fill="#40a9ff" r="17"></circle><path d="m7.06510669 16.9258959c5.22739451-2.1065178 8.71314291-3.4952633 10.45724521-4.1662364 4.9797665-1.9157646 6.0145193-2.2485535 6.6889567-2.2595423.1483363-.0024169.480005.0315855.6948461.192827.1814076.1361492.23132.3200675.2552048.4491519.0238847.1290844.0536269.4231419.0299841.65291-.2698553 2.6225356-1.4375148 8.986738-2.0315537 11.9240228-.2513602 1.2428753-.7499132 1.5088847-1.2290685 1.5496672-1.0413153.0886298-1.8284257-.4857912-2.8369905-1.0972863-1.5782048-.9568691-2.5327083-1.3984317-4.0646293-2.3321592-1.7703998-1.0790837-.212559-1.583655.7963867-2.5529189.2640459-.2536609 4.7753906-4.3097041 4.755976-4.431706-.0070494-.0442984-.1409018-.481649-.2457499-.5678447-.104848-.0861957-.2595946-.0567202-.3712641-.033278-.1582881.0332286-2.6794907 1.5745492-7.5636077 4.6239616-.715635.4545193-1.3638349.6759763-1.9445998.6643712-.64024672-.0127938-1.87182452-.334829-2.78737602-.6100966-1.12296117-.3376271-1.53748501-.4966332-1.45976769-1.0700283.04048-.2986597.32581586-.610598.8560076-.935815z" fill="#fff"></path></g></svg>`);
   function Icon_telegram($$anchor, $$props) {
     let height = prop($$props, "height", 8, 34);
@@ -6556,7 +6561,7 @@ button:focus-visible {\r
     append($$anchor, svg);
   }
   var root_1$1 = /* @__PURE__ */ template(`<div class="modal-overlay svelte-1a87xm5" role="button" aria-hidden="true"><div class="modal-content svelte-1a87xm5" role="button" aria-hidden="true"><div class="modal-header svelte-1a87xm5"><h3 class="svelte-1a87xm5">关于 PT-Fall</h3> <button class="close-btn svelte-1a87xm5">&times;</button></div> <div class="modal-body svelte-1a87xm5"><h4 class="svelte-1a87xm5">PT-Fall 是一个专为 M-team 站点量身定制的瀑布流视图插件</h4> <p class="svelte-1a87xm5">Github: <a href="https://github.com/KesaubeEire/PT_Fall-View" target="_blank">https://github.com/KesaubeEire/PT_Fall-View</a></p> <p class="svelte-1a87xm5">GreaseFork: <a href="https://greasyfork.org/zh-CN/scripts/543925" target="_blank">https://greasyfork.org/zh-CN/scripts/543925</a></p></div></div></div>`);
-  var root_2$1 = /* @__PURE__ */ template(`<div class="modal-overlay svelte-1a87xm5" role="button" aria-hidden="true"><div class="modal-content svelte-1a87xm5" role="button" aria-hidden="true"><div class="modal-header svelte-1a87xm5"><h3 class="svelte-1a87xm5">FAQ - 常见问题</h3> <button class="close-btn svelte-1a87xm5">&times;</button></div> <div class="modal-body svelte-1a87xm5"><h4 class="svelte-1a87xm5">Q: 如何联系反馈问题</h4> <p class="svelte-1a87xm5"><a class="__btn __btnWide svelte-1a87xm5" href="https://t.me/+Nd_qIisDjQ80ZTc9" target="_blank"><!> &nbsp;Telegram</a></p> <h4 class="svelte-1a87xm5">Q: 找不到悬浮框</h4> <button class="__btn svelte-1a87xm5">重置悬浮框位置</button> <p class="svelte-1a87xm5"><br>可以通过拖拽悬浮框顶部的颜色条来移动悬浮框的位置 <br>从 PTPP 那里来的灵感 ( 感恩 ||T|| 佬 )</p> <h4 class="svelte-1a87xm5">Q: 插件没有生效怎么办</h4> <p class="svelte-1a87xm5">可能是浏览器缓存了请求<br>尝试使用 Ctrl+Shift+R / Ctrl+F5 强制刷新页面</p> <h4 class="svelte-1a87xm5">Q: 如何切换瀑布流视图</h4> <p class="svelte-1a87xm5">点击悬浮面板中的第一个图标(瀑布/列表)按钮<br>即可在瀑布流和原列表视图间切换</p> <h4 class="svelte-1a87xm5">Q: 如何调整卡片布局</h4> <p class="svelte-1a87xm5">点击悬浮面板中的"配置"按钮<br>可以调整卡片的最小 / 最大宽度、间隔等参数</p> <h4 class="svelte-1a87xm5">Q: 快捷键</h4> <p class="svelte-1a87xm5"><span class="modal-code svelte-1a87xm5">x</span> 可以切换瀑布流视图</p> <p class="svelte-1a87xm5"><span class="modal-code svelte-1a87xm5">ESC</span> 可以从 次级菜单 / 配置菜单 / iframe 中退出</p> <h4 class="svelte-1a87xm5">Q: 深色模式颜色有些不对劲怎么办?</h4> <p class="svelte-1a87xm5">先刷新一下试试, 有些字体颜色不能即时更改<br>刷新后就可以了<br>还有颜色不对劲的 telegram 上截图告诉我</p></div></div></div>`);
+  var root_2$2 = /* @__PURE__ */ template(`<div class="modal-overlay svelte-1a87xm5" role="button" aria-hidden="true"><div class="modal-content svelte-1a87xm5" role="button" aria-hidden="true"><div class="modal-header svelte-1a87xm5"><h3 class="svelte-1a87xm5">FAQ - 常见问题</h3> <button class="close-btn svelte-1a87xm5">&times;</button></div> <div class="modal-body svelte-1a87xm5"><h4 class="svelte-1a87xm5">Q: 如何联系反馈问题</h4> <p class="svelte-1a87xm5"><a class="__btn __btnWide svelte-1a87xm5" href="https://t.me/+Nd_qIisDjQ80ZTc9" target="_blank"><!> &nbsp;Telegram</a></p> <h4 class="svelte-1a87xm5">Q: 找不到悬浮框</h4> <button class="__btn svelte-1a87xm5">重置悬浮框位置</button> <p class="svelte-1a87xm5"><br>可以通过拖拽悬浮框顶部的颜色条来移动悬浮框的位置 <br>从 PTPP 那里来的灵感 ( 感恩 ||T|| 佬 )</p> <h4 class="svelte-1a87xm5">Q: 插件没有生效怎么办</h4> <p class="svelte-1a87xm5">可能是浏览器缓存了请求<br>尝试使用 Ctrl+Shift+R / Ctrl+F5 强制刷新页面</p> <h4 class="svelte-1a87xm5">Q: 如何切换瀑布流视图</h4> <p class="svelte-1a87xm5">点击悬浮面板中的第一个图标(瀑布/列表)按钮<br>即可在瀑布流和原列表视图间切换</p> <h4 class="svelte-1a87xm5">Q: 如何调整卡片布局</h4> <p class="svelte-1a87xm5">点击悬浮面板中的"配置"按钮<br>可以调整卡片的最小 / 最大宽度、间隔等参数</p> <h4 class="svelte-1a87xm5">Q: 快捷键</h4> <p class="svelte-1a87xm5"><span class="modal-code svelte-1a87xm5">x</span> 可以切换瀑布流视图</p> <p class="svelte-1a87xm5"><span class="modal-code svelte-1a87xm5">ESC</span> 可以从 次级菜单 / 配置菜单 / iframe 中退出</p> <h4 class="svelte-1a87xm5">Q: 深色模式颜色有些不对劲怎么办?</h4> <p class="svelte-1a87xm5">先刷新一下试试, 有些字体颜色不能即时更改<br>刷新后就可以了<br>还有颜色不对劲的 telegram 上截图告诉我</p></div></div></div>`);
   var root$6 = /* @__PURE__ */ template(`<div class="entry_mteam"><div class="ant-typography" style="line-height: 1.5; text-align: center;"><button class="__btn svelte-1a87xm5" id="_ptFall_about">PT-Fall<br><span style="font-weight: 600;"></span></button> <button class="__btn svelte-1a87xm5" id="_ptFall_faq">常见问题<br>FAQ</button></div></div> <!> <!>`, 1);
   function Readme($$anchor, $$props) {
     push($$props, false);
@@ -6624,7 +6629,7 @@ button:focus-visible {\r
     var node_1 = sibling(node, 2);
     {
       var consequent_1 = ($$anchor2) => {
-        var div_5 = root_2$1();
+        var div_5 = root_2$2();
         var div_6 = child(div_5);
         var div_7 = child(div_6);
         var button_3 = sibling(child(div_7), 2);
@@ -6689,6 +6694,8 @@ button:focus-visible {\r
     let observer;
     const Fall_DOM = mutable_state(document.createElement("div"));
     get$1(Fall_DOM).classList.add("Fall_DOM");
+    console.log("=====> 启动劫持 XHR 和 Fetch 请求 <=====");
+    Launch_Hijack();
     Tool_Watch_Dom(CONFIG.TL_Selector, launchFallView);
     Tool_Watch_Dom('a[href="/index"][target="_self"]', (el) => {
       if (!Readme_Svelte) {
@@ -6745,7 +6752,6 @@ button:focus-visible {\r
     function launchFallView(el) {
       if (el.parentNode) {
         console.log("元素已找到，正在插入兄弟节点:", el);
-        Launch_Hijack();
         const param = { path: "/search", method: "POST" };
         window.addEventListener("req>POST->/search", (e) => {
           console.log(`<PT-Fall>[Request]  (${param.method} -> ${param.path})
@@ -6918,7 +6924,7 @@ button:focus-visible {\r
     var svg = root$2();
     append($$anchor, svg);
   }
-  var root_2 = /* @__PURE__ */ template(`<div><!></div> <div class="flowBtn_text svelte-4gkzar">瀑布</div>`, 1);
+  var root_2$1 = /* @__PURE__ */ template(`<div><!></div> <div class="flowBtn_text svelte-4gkzar">瀑布</div>`, 1);
   var root_3 = /* @__PURE__ */ template(`<div><!></div> <div class="flowBtn_text svelte-4gkzar">列表</div>`, 1);
   var root_5 = /* @__PURE__ */ template(`<div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar"> </span></div> <!></div>`);
   var root_6 = /* @__PURE__ */ template(`<div class="config-item svelte-4gkzar"><span class="svelte-4gkzar"> </span> <input type="range" min="0" max="40" step="1" class="svelte-4gkzar"></div>`);
@@ -6995,7 +7001,7 @@ button:focus-visible {\r
     var node_1 = child(button);
     {
       var consequent_1 = ($$anchor2) => {
-        var fragment_1 = root_2();
+        var fragment_1 = root_2$1();
         var div_3 = first_child(fragment_1);
         var node_2 = child(div_3);
         Icon_masonry(node_2);
@@ -7293,7 +7299,8 @@ button:focus-visible {\r
     var svg = root();
     append($$anchor, svg);
   }
-  var root_1 = /* @__PURE__ */ template(`<div class="_iframe_back"></div>  <div id="_iframe" class="svelte-1jjey07"><div class="_iframe svelte-1jjey07"><div class="resize-handle resize-handle-left svelte-1jjey07"></div> <iframe frameborder="0" class="svelte-1jjey07"></iframe> <div class="_iframeCloseBtn svelte-1jjey07"><!></div> <div class="resize-handle resize-handle-right svelte-1jjey07"></div></div></div>`, 1);
+  var root_2 = /* @__PURE__ */ template(`<div class="iframe-overlay svelte-126sfo0"></div>`);
+  var root_1 = /* @__PURE__ */ template(`<div id="_iframe_holder" class="svelte-126sfo0"><div class="_iframe_back svelte-126sfo0"></div> <div class="_iframe_parent svelte-126sfo0"><div class="resize-handle resize-handle-left svelte-126sfo0"></div> <!> <iframe frameborder="0" class="svelte-126sfo0"></iframe> <div class="_iframeCloseBtn svelte-126sfo0"><!></div> <div class="resize-handle resize-handle-right svelte-126sfo0"></div></div></div>`);
   function App($$anchor, $$props) {
     push($$props, false);
     const [$$stores, $$cleanup] = setup_stores();
@@ -7307,12 +7314,15 @@ button:focus-visible {\r
     }
     let iframeWidth = mutable_state(1e3);
     let isDragging = false;
+    let showOverlay = mutable_state(false);
     let onMouseMove = () => {
     };
     function startResize(e, direction) {
       const startX = e.clientX;
       const startWidth = get$1(iframeWidth);
       isDragging = true;
+      set(showOverlay, true);
+      document.body.style.userSelect = "none";
       onMouseMove = (e2) => {
         if (!isDragging) return;
         const delta = e2.clientX - startX;
@@ -7324,6 +7334,8 @@ button:focus-visible {\r
     }
     function onMouseUp() {
       isDragging = false;
+      set(showOverlay, false);
+      document.body.style.userSelect = "";
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseup", onMouseUp);
     }
@@ -7347,24 +7359,35 @@ button:focus-visible {\r
     event("keydown", $window, key_closePanels, true);
     var node = first_child(fragment);
     {
-      var consequent = ($$anchor2) => {
-        var fragment_1 = root_1();
-        var div = sibling(first_child(fragment_1), 2);
+      var consequent_1 = ($$anchor2) => {
+        var div = root_1();
         var div_1 = child(div);
-        var div_2 = child(div_1);
-        var iframe = sibling(div_2, 2);
-        var div_3 = sibling(iframe, 2);
-        var node_1 = child(div_3);
-        Icon_roundClose(node_1);
-        var div_4 = sibling(div_3, 2);
+        var div_2 = sibling(div_1, 2);
+        var div_3 = child(div_2);
+        var node_1 = sibling(div_3, 2);
+        {
+          var consequent = ($$anchor3) => {
+            var div_4 = root_2();
+            append($$anchor3, div_4);
+          };
+          if_block(node_1, ($$render) => {
+            if (get$1(showOverlay)) $$render(consequent);
+          });
+        }
+        var iframe = sibling(node_1, 2);
+        var div_5 = sibling(iframe, 2);
+        var node_2 = child(div_5);
+        Icon_roundClose(node_2);
+        var div_6 = sibling(div_5, 2);
         template_effect(() => {
-          set_style(div_1, "--textColor1", $_textColor().t1);
-          set_style(div_1, "--textColor2", $_textColor().t1 + "90");
+          set_style(div_2, "--textColor1", $_textColor().t1);
+          set_style(div_2, "--textColor2", $_textColor().t1 + "90");
           set_attribute(iframe, "src", $_iframe_url());
           set_attribute(iframe, "title", $_iframe_url());
           set_attribute(iframe, "style", `width: ${get$1(iframeWidth) ?? ""}px;`);
         });
-        event("mousedown", div_2, (e) => startResize(e, "left"));
+        event("click", div_1, self(closeIframe), true);
+        event("mousedown", div_3, (e) => startResize(e, "left"));
         event("load", iframe, (e) => {
           const iframeContent = e.target.contentDocument || e.target.contentWindow.document;
           if (!iframeContent) {
@@ -7390,14 +7413,13 @@ button:focus-visible {\r
         event("mouseup", iframe, (e) => {
           onMouseUp();
         });
-        event("click", div_3, closeIframe);
-        event("mousedown", div_4, (e) => startResize(e, "right"));
-        event("click", div, self(closeIframe));
+        event("click", div_5, closeIframe);
+        event("mousedown", div_6, (e) => startResize(e, "right"));
         transition(3, div, () => fade, () => ({ duration: 300 }));
-        append($$anchor2, fragment_1);
+        append($$anchor2, div);
       };
       if_block(node, ($$render) => {
-        if ($_iframe_switch()) $$render(consequent);
+        if ($_iframe_switch()) $$render(consequent_1);
       });
     }
     append($$anchor, fragment);
