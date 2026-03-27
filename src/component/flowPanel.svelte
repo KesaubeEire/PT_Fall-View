@@ -130,6 +130,64 @@
       清除悬浮预览图
     </button>
 
+    {#if import.meta.env.MODE === 'development'}
+      <button
+        class="flowBtn"
+        on:click={() => {
+          /** 注入测试数据（仅开发环境） */
+          if (import.meta.env.MODE !== 'development') return;
+
+          const testData = [
+            // 正常数据
+            {
+              id: 'normal-1',
+              name: '正常种子',
+              category: '402',
+              imageList: ['https://example.com/image.jpg'],
+              size: 1024,
+              status: { /* 完整状态 */ },
+              // ... 其他正常字段
+            },
+            // 异常数据：null
+            null,
+            // 异常数据：缺少status
+            {
+              id: 'no-status',
+              name: '无状态种子'
+            },
+            // 异常数据：图片加载失败
+            {
+              id: 'bad-image',
+              name: '坏图片种子',
+              category: '402',
+              imageList: ['https://invalid-url-that-will-fail.com/image.jpg'],
+              size: 2048,
+              status: { /* 状态 */ }
+            },
+            // 正常数据
+            {
+              id: 'normal-2',
+              name: '另一个正常种子',
+              category: '403',
+              imageList: ['https://example.com/image2.jpg'],
+              size: 3072,
+              status: { /* 完整状态 */ }
+            }
+          ];
+
+          // 直接使用全局暴露的瀑布流组件实例
+          if (window.MteamFall_Svelte?.updateList) {
+            window.MteamFall_Svelte.updateList({ data: testData }, false);
+            console.log('测试数据已注入');
+          } else {
+            console.error('无法找到瀑布流组件实例或updateList方法，请确保瀑布流视图已加载');
+          }
+        }}
+      >
+        <span style="color:green">开发:</span>注入测试数据
+      </button>
+    {/if}
+
     <!-- debug 用的俩按钮, 不用显示出来 -->
     <!-- 
 

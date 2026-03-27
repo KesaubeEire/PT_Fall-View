@@ -116,33 +116,33 @@ let __torrentInfo =  {
         createdDate: '',
         index: 0
       };
+    } else {
+      // 创建安全的 _torrentInfo，确保关键属性存在
+      torrentInfo = {
+        ..._torrentInfo,
+        id: _torrentInfo.id || 'unknown',
+        name: _torrentInfo.name || '未知种子',
+        category: _torrentInfo.category || '0',
+        imageList: Array.isArray(_torrentInfo.imageList) ? _torrentInfo.imageList : [],
+        labelsNew: Array.isArray(_torrentInfo.labelsNew) ? _torrentInfo.labelsNew : [],
+        size: typeof _torrentInfo.size === 'number' ? _torrentInfo.size :
+              typeof _torrentInfo.size === 'string' ? Number(_torrentInfo.size) || 0 : 0,
+        status: {
+          toppingLevel: _torrentInfo.status?.toppingLevel || '0',
+          discount: _torrentInfo.status?.discount || 'NORMAL',
+          discountEndTime: _torrentInfo.status?.discountEndTime || null,
+          comments: _torrentInfo.status?.comments || '0',
+          seeders: _torrentInfo.status?.seeders || '0',
+          leechers: _torrentInfo.status?.leechers || '0',
+          timesCompleted: _torrentInfo.status?.timesCompleted || '0',
+          ..._torrentInfo.status
+        },
+        smallDescr: _torrentInfo.smallDescr || '',
+        labels: _torrentInfo.labels || '0',
+        createdDate: _torrentInfo.createdDate || '',
+        index: typeof _torrentInfo.index === 'number' ? _torrentInfo.index : 0
+      };
     }
-
-    // 创建安全的 _torrentInfo，确保关键属性存在
-    torrentInfo = {
-      ..._torrentInfo,
-      id: _torrentInfo.id || 'unknown',
-      name: _torrentInfo.name || '未知种子',
-      category: _torrentInfo.category || '0',
-      imageList: Array.isArray(_torrentInfo.imageList) ? _torrentInfo.imageList : [],
-      labelsNew: Array.isArray(_torrentInfo.labelsNew) ? _torrentInfo.labelsNew : [],
-      size: typeof _torrentInfo.size === 'number' ? _torrentInfo.size :
-            typeof _torrentInfo.size === 'string' ? Number(_torrentInfo.size) || 0 : 0,
-      status: {
-        toppingLevel: _torrentInfo.status?.toppingLevel || '0',
-        discount: _torrentInfo.status?.discount || 'NORMAL',
-        discountEndTime: _torrentInfo.status?.discountEndTime || null,
-        comments: _torrentInfo.status?.comments || '0',
-        seeders: _torrentInfo.status?.seeders || '0',
-        leechers: _torrentInfo.status?.leechers || '0',
-        timesCompleted: _torrentInfo.status?.timesCompleted || '0',
-        ..._torrentInfo.status
-      },
-      smallDescr: _torrentInfo.smallDescr || '',
-      labels: _torrentInfo.labels || '0',
-      createdDate: _torrentInfo.createdDate || '',
-      index: typeof _torrentInfo.index === 'number' ? _torrentInfo.index : 0
-    };
   }
 
   // 内部信息显示

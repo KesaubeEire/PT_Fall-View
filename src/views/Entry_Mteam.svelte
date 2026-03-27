@@ -136,6 +136,11 @@
     cleanupCallbacks.forEach(cb => cb());
     cleanupCallbacks = [];
 
+    // 清理全局引用
+    if (window.MteamFall_Svelte) {
+      delete window.MteamFall_Svelte;
+    }
+
     pageDestroy();
   });
 
@@ -267,6 +272,11 @@
             target: Fall_DOM,
             props: { infoList }
           });
+        }
+
+        // 开发模式下更新全局引用
+        if (import.meta.env.MODE == 'development'){
+          window.MteamFall_Svelte = MteamFall_Svelte;
         }
 
         // 移动 .ant-pagination 元素

@@ -11,7 +11,7 @@
   export let infoList;
 
   /** 列表内容数据 */
-  let listContent = infoList.data;
+  let listContent = Array.isArray(infoList?.data) ? infoList.data.filter(item => item && typeof item === 'object') : [];
   const listLength = listContent.length;
 
   /** 瀑布流 container */
@@ -26,7 +26,9 @@
   // 遍历所有子对象并添加index
   // NOTE: 这里暂时没有考虑增页
   Object.keys(listContent).forEach((key, index) => {
-    listContent[key].index = index + 1;
+    if (listContent[key]) {
+      listContent[key].index = index + 1;
+    }
   });
 
   // ## 更新 list
@@ -42,30 +44,36 @@
    * @param clearPage 是否清空已有瀑布流视图
    */
   export function updateList(newInfoList, clearPage = true) {
-    let list = newInfoList.data;
-    console.log('Mteam_Fall:New:\t' + list.length);
-    // console.log(list);
+    // 防御性处理：确保 data 是数组
+    let list = Array.isArray(newInfoList?.data) ? newInfoList.data : [];
+
+    // 过滤掉 null、undefined 和非对象数据，防止组件崩溃
+    const validList = list.filter(item => item && typeof item === 'object');
+    console.log('Mteam_Fall:New:\t' + list.length + ' (有效数据: ' + validList.length + ')');
+
+    if (validList.length === 0) {
+      console.warn('Mteam_Fall: 没有有效数据，跳过更新');
+      return;
+    }
 
     // 切页: 清空后加载
     if (clearPage) {
       clearList();
-      Object.keys(list).forEach((key, index) => {
-        list[key].index = index + 1;
-
+      validList.forEach((item, index) => {
+        item.index = index + 1;
         // 切换页面时聚焦到新的页面的第一个
-        if (index == 0) list[key].pt_fall_highlight = true;
+        if (index == 0) item.pt_fall_highlight = true;
       });
-      listContent = [...list];
+      listContent = [...validList];
     }
     // 不清空: 直接继续加载
     else {
-      Object.keys(list).forEach((key, index) => {
-        list[key].index = index + 1 + listContent.length;
-
+      validList.forEach((item, index) => {
+        item.index = index + 1 + listContent.length;
         // 切换页面时聚焦到新的页面的第一个
-        if (index == 0) list[key].pt_fall_highlight = true;
+        if (index == 0) item.pt_fall_highlight = true;
       });
-      listContent = [...listContent, ...list];
+      listContent = [...listContent, ...validList];
     }
   }
   /** 清空列表信息 */
