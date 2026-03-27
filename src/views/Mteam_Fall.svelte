@@ -141,7 +141,7 @@
   <div class="fall_holder" style="">
     {#if items.length}
       <Masonry animate={true} {items} minColWidth={$_card_layout.min} maxColWidth={$_card_layout.max} gap={$_card_layout.gap} let:item>
-        <MteamCard torrentInfo={item}></MteamCard>
+        <MteamCard _torrentInfo={item}></MteamCard>
       </Masonry>
     {:else}
       <p class="text_center">没有结果捏</p>

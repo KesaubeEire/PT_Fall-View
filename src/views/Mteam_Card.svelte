@@ -1,7 +1,7 @@
 <!-- 卡片的展示处理
 标准格式截止时间: 2025.01.30
 
-let _torrentInfo =  {
+let __torrentInfo =  {
     "id": "899862",
     "createdDate": "2025-01-30 00:06:23",
     "lastModifiedDate": "2025-01-30 00:07:08",
@@ -83,19 +83,87 @@ let _torrentInfo =  {
 
   //---------------------------------------------
   /** 父传值: 种子信息*/
-  export let torrentInfo;
+  export let _torrentInfo;
+
+  // 错误状态
+  let hasError = false;
+  let errorMessage = '';
+
+  // 安全的 _torrentInfo 数据，防止访问 undefined 属性
+  let torrentInfo;
+  $: {
+    // 如果 _torrentInfo 无效，返回安全的默认对象
+    if (!_torrentInfo || typeof _torrentInfo !== 'object') {
+      console.warn('Mteam_Card: _torrentInfo 数据格式错误', _torrentInfo);
+      torrentInfo = {
+        id: 'error',
+        name: '数据错误',
+        category: '0',
+        imageList: [],
+        labelsNew: [],
+        size: 0,
+        status: {
+          toppingLevel: '0',
+          discount: 'NORMAL',
+          discountEndTime: null,
+          comments: '0',
+          seeders: '0',
+          leechers: '0',
+          timesCompleted: '0'
+        },
+        smallDescr: '',
+        labels: '0',
+        createdDate: '',
+        index: 0
+      };
+    }
+
+    // 创建安全的 _torrentInfo，确保关键属性存在
+    torrentInfo = {
+      ..._torrentInfo,
+      id: _torrentInfo.id || 'unknown',
+      name: _torrentInfo.name || '未知种子',
+      category: _torrentInfo.category || '0',
+      imageList: Array.isArray(_torrentInfo.imageList) ? _torrentInfo.imageList : [],
+      labelsNew: Array.isArray(_torrentInfo.labelsNew) ? _torrentInfo.labelsNew : [],
+      size: typeof _torrentInfo.size === 'number' ? _torrentInfo.size :
+            typeof _torrentInfo.size === 'string' ? Number(_torrentInfo.size) || 0 : 0,
+      status: {
+        toppingLevel: _torrentInfo.status?.toppingLevel || '0',
+        discount: _torrentInfo.status?.discount || 'NORMAL',
+        discountEndTime: _torrentInfo.status?.discountEndTime || null,
+        comments: _torrentInfo.status?.comments || '0',
+        seeders: _torrentInfo.status?.seeders || '0',
+        leechers: _torrentInfo.status?.leechers || '0',
+        timesCompleted: _torrentInfo.status?.timesCompleted || '0',
+        ..._torrentInfo.status
+      },
+      smallDescr: _torrentInfo.smallDescr || '',
+      labels: _torrentInfo.labels || '0',
+      createdDate: _torrentInfo.createdDate || '',
+      index: typeof _torrentInfo.index === 'number' ? _torrentInfo.index : 0
+    };
+  }
 
   // 内部信息显示
   let _inner_info_show = false;
   // 置顶相关
-  let toppingLevelArray;
-  if (torrentInfo.status.toppingLevel) {
-    toppingLevelArray = Array(Number(torrentInfo.status.toppingLevel)).fill();
+  let toppingLevelArray = [];
+  $: {
+    if (torrentInfo.status.toppingLevel && torrentInfo.status.toppingLevel !== '0') {
+      toppingLevelArray = Array(Number(torrentInfo.status.toppingLevel)).fill();
+    } else {
+      toppingLevelArray = [];
+    }
   }
 
   // 下载免费打折相关
-  const _discount = torrentInfo.status.discount;
-  const _discountEndTime = torrentInfo.status.discountEndTime;
+  let _discount = 'NORMAL';
+  let _discountEndTime = null;
+  $: {
+    _discount = torrentInfo.status.discount;
+    _discountEndTime = torrentInfo.status.discountEndTime;
+  }
   const _discountText = {
     FREE: '免费',
     PERCENT_50: '50%'
@@ -113,76 +181,85 @@ let _torrentInfo =  {
 
   //---------------------------------------------
   // ## 分类本地处理
-  /** 分类颜色*/
-  let _cateColor;
   const _defaultColor = 'rgba(255, 255, 255, 0.5)';
+  /** 分类颜色*/
+  let _cateColor = _defaultColor;
   /** 分类名称*/
-  let _cateAlt;
+  let _cateAlt = '未知分类';
   /** 分类图片*/
-  let _catePic;
+  let _catePic = '';
   /** 分类地址 */
-  const _cateLink = `https://${location.host}/browse?cat=` + torrentInfo.category;
+  let _cateLink = '';
+  /** 分类字体颜色 */
+  let _cateFontColor = 'black';
 
-  // 判断 torrentInfo.category 是否在 CONFIG.CATEGORY 中
-  if (!CONFIG.CATEGORY[torrentInfo.category]) {
-    // NOTE: 未知分类, 用 svg 占位, 并通知用户
-    _cateColor = _defaultColor;
-    notyf_lt.open({
-      type: 'warning',
-      message: `存在未知分类: ${torrentInfo.category}`
-    });
-    CONFIG.CATEGORY[torrentInfo.category] = {
-      src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2ZmMDAwMCIvPjwvc3ZnPg==',
-      alt: '未知分类(TG或论坛联系我)',
-      color: _defaultColor
-    };
+  $: {
+    // 分类地址
+    _cateLink = `https://${location.host}/browse?cat=` + torrentInfo.category;
+
+    // 判断分类是否在 CONFIG.CATEGORY 中
+    if (!CONFIG.CATEGORY[torrentInfo.category]) {
+      // NOTE: 未知分类, 用 svg 占位, 并通知用户
+      notyf_lt.open({
+        type: 'warning',
+        message: `存在未知分类: ${torrentInfo.category}`
+      });
+      CONFIG.CATEGORY[torrentInfo.category] = {
+        src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2ZmMDAwMCIvPjwvc3ZnPg==',
+        alt: '未知分类(TG或论坛联系我)',
+        color: _defaultColor
+      };
+    }
+
+    _cateAlt = $_mt_categories[torrentInfo.category]?.nameChs ?? CONFIG.CATEGORY[torrentInfo.category]?.alt ?? '未知分类';
+    _catePic = $_mt_categories[torrentInfo.category]?.image ? cate_pic_baseUrl + $_mt_categories[torrentInfo.category].image : CONFIG.CATEGORY[torrentInfo.category]?.src ?? '';
+    _cateColor = CONFIG.CATEGORY[torrentInfo.category]?.color ?? _defaultColor;
+    _cateFontColor = _cateColor ? getTextColor(_cateColor) : 'black';
   }
-
-  _cateAlt = $_mt_categories[torrentInfo.category].nameChs ?? CONFIG.CATEGORY[torrentInfo.category].alt;
-  _catePic = $_mt_categories[torrentInfo.category].image ? cate_pic_baseUrl + $_mt_categories[torrentInfo.category].image : CONFIG.CATEGORY[torrentInfo.category].src;
-  _cateColor = CONFIG.CATEGORY[torrentInfo.category].color ?? _defaultColor;
-  const _cateFontColor = _cateColor ? getTextColor(_cateColor) : 'black';
 
   //---------------------------------------------
   // ## NOTE: "labelsNew" (tag) 处理, 旧 tag 保持原样
   // 处理新标签
   let _labelsNew = [];
-  if (torrentInfo.labelsNew.length) {
-    // console.log(torrentInfo.labelsNew);
+  $: {
+    _labelsNew = [];
+    if (torrentInfo.labelsNew.length) {
+      // console.log(torrentInfo.labelsNew);
 
-    _labelsNew = torrentInfo.labelsNew
-      .map(labelKey => {
-        if (CONFIG.TAG[labelKey]) {
-          return {
-            key: labelKey,
-            config: CONFIG.TAG[labelKey]
-          };
-        } else if ($_mt_label) {
-          console.warn('[FALL]: 存在本地没有的 tag: ', labelKey);
-
-          let res;
-          for (const key in $_mt_label) {
-            if (labelKey == $_mt_label[key].tag) {
-              res = $_mt_label[key];
-              break;
-            }
-          }
-
-          if (res) {
-            // console.log(res);
-            // console.log($_mt_label);
-
+      _labelsNew = torrentInfo.labelsNew
+        .map(labelKey => {
+          if (CONFIG.TAG[labelKey]) {
             return {
               key: labelKey,
-              config: res
+              config: CONFIG.TAG[labelKey]
             };
-          }
-        }
-        return null;
-      })
-      .filter(Boolean);
+          } else if ($_mt_label) {
+            console.warn('[FALL]: 存在本地没有的 tag: ', labelKey);
 
-    // console.log(_labelsNew);
+            let res;
+            for (const key in $_mt_label) {
+              if (labelKey == $_mt_label[key].tag) {
+                res = $_mt_label[key];
+                break;
+              }
+            }
+
+            if (res) {
+              // console.log(res);
+              // console.log($_mt_label);
+
+              return {
+                key: labelKey,
+                config: res
+              };
+            }
+          }
+          return null;
+        })
+        .filter(Boolean);
+
+      // console.log(_labelsNew);
+    }
   }
 
   //---------------------------------------------
@@ -328,7 +405,10 @@ let _torrentInfo =  {
   /** lazy_load: 默认pic */
   const placeholder = 'https://static.m-team.cc/static/media/logo.80b63235eaf702e44a8d.png';
   /** lazy_load: 真实pic */
-  let picSrc = torrentInfo.imageList[0] || placeholder;
+  let picSrc = placeholder;
+  $: {
+    picSrc = torrentInfo.imageList[0] || placeholder;
+  }
   /** lazy_load: pic dom */
   let imgElement;
   /** lazy_load: observer */
