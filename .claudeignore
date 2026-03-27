@@ -1,0 +1,4 @@
+#please add some patterns to ignore
+node_modules
+build
+论语.md

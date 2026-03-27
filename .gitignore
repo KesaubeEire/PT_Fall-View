@@ -25,3 +25,6 @@ dist-ssr
 
 # git some
 pnpm-lock.yaml
+
+# claude
+论语.md

@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "claude-ignore",
+            "stdin": "tool_input",
+            "cwd": "project_root"
+          }
+        ]
+      }
+    ]
+  }
+}

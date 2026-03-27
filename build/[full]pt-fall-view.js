@@ -2,7 +2,7 @@
 // @name            PT瀑布流视图
 // @name:en         PT_Fall-View
 // @namespace       vite-plugin-monkey
-// @version         0.3.11
+// @version         0.3.12
 // @author          Kesa
 // @description     PT瀑布流视图(2025重构)
 // @description:en  PT Fall/Masonry View (restructured 2025)
@@ -27,40 +27,40 @@
 // @grant           none
 // ==/UserScript==
 
-(r=>{if(typeof GM_addStyle=="function"){GM_addStyle(r);return}const n=document.createElement("style");n.textContent=r,document.head.append(n)})(` button:focus,\r
-button:focus-visible {\r
-  /* outline: 2px auto -webkit-focus-ring-color; */\r
-  /* outline: none; */\r
-  outline: 3px solid var(--bg-3);\r
-}\r
-\r
-.Fall_DOM{\r
-  padding-bottom: 10px; /* \u786E\u4FDD\u5E95\u90E8\u6709\u8DB3\u591F\u7684\u7A7A\u95F4 */\r
-  background-color: var(--bg-1);\r
-}\r
-\r
-#_fallHolder {\r
-  position: absolute;\r
-  top: 0;\r
-  left: 0;\r
-  width: 100%;\r
-  min-height: 10px;\r
-  z-index: 101;\r
-}\r
-\r
-#_shield {\r
-  position: absolute;\r
-  top: 0;\r
-  left: 0;\r
-  width: 100%;\r
-  height: 100%;\r
-  background-color: rgba(0, 0, 0, 0.5);\r
-  z-index: 100;\r
-  cursor: help;\r
-  transition: background-color 0.3s ease;\r
-}\r
-#_shield:hover {\r
-  background-color: rgba(0, 0, 0, 0.9);\r
+(n=>{if(typeof GM_addStyle=="function"){GM_addStyle(n);return}const e=document.createElement("style");e.textContent=n,document.head.append(e)})(` button:focus,
+button:focus-visible {
+  /* outline: 2px auto -webkit-focus-ring-color; */
+  /* outline: none; */
+  outline: 3px solid var(--bg-3);
+}
+
+.Fall_DOM{
+  padding-bottom: 10px; /* \u786E\u4FDD\u5E95\u90E8\u6709\u8DB3\u591F\u7684\u7A7A\u95F4 */
+  background-color: var(--bg-1);
+}
+
+#_fallHolder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 10px;
+  z-index: 101;
+}
+
+#_shield {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  cursor: help;
+  transition: background-color 0.3s ease;
+}
+#_shield:hover {
+  background-color: rgba(0, 0, 0, 0.9);
 }
 
   :where(div.masonry.svelte-b2jtby) {
@@ -76,807 +76,807 @@ button:focus-visible {\r
   }
 
 @-webkit-keyframes notyf-fadeinup{0%{opacity:0;transform:translateY(25%)}to{opacity:1;transform:translateY(0)}}@keyframes notyf-fadeinup{0%{opacity:0;transform:translateY(25%)}to{opacity:1;transform:translateY(0)}}@-webkit-keyframes notyf-fadeinleft{0%{opacity:0;transform:translateX(25%)}to{opacity:1;transform:translateX(0)}}@keyframes notyf-fadeinleft{0%{opacity:0;transform:translateX(25%)}to{opacity:1;transform:translateX(0)}}@-webkit-keyframes notyf-fadeoutright{0%{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(25%)}}@keyframes notyf-fadeoutright{0%{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(25%)}}@-webkit-keyframes notyf-fadeoutdown{0%{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(25%)}}@keyframes notyf-fadeoutdown{0%{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(25%)}}@-webkit-keyframes ripple{0%{transform:scale(0) translateY(-45%) translateX(13%)}to{transform:scale(1) translateY(-45%) translateX(13%)}}@keyframes ripple{0%{transform:scale(0) translateY(-45%) translateX(13%)}to{transform:scale(1) translateY(-45%) translateX(13%)}}.notyf{position:fixed;top:0;left:0;height:100%;width:100%;color:#fff;z-index:9999;display:flex;flex-direction:column;align-items:flex-end;justify-content:flex-end;pointer-events:none;box-sizing:border-box;padding:20px}.notyf__icon--error,.notyf__icon--success{height:21px;width:21px;background:#fff;border-radius:50%;display:block;margin:0 auto;position:relative}.notyf__icon--error:after,.notyf__icon--error:before{content:"";background:currentColor;display:block;position:absolute;width:3px;border-radius:3px;left:9px;height:12px;top:5px}.notyf__icon--error:after{transform:rotate(-45deg)}.notyf__icon--error:before{transform:rotate(45deg)}.notyf__icon--success:after,.notyf__icon--success:before{content:"";background:currentColor;display:block;position:absolute;width:3px;border-radius:3px}.notyf__icon--success:after{height:6px;transform:rotate(-45deg);top:9px;left:6px}.notyf__icon--success:before{height:11px;transform:rotate(45deg);top:5px;left:10px}.notyf__toast{display:block;overflow:hidden;pointer-events:auto;-webkit-animation:notyf-fadeinup .3s ease-in forwards;animation:notyf-fadeinup .3s ease-in forwards;box-shadow:0 3px 7px 0 rgba(0,0,0,.25);position:relative;padding:0 15px;border-radius:2px;max-width:300px;transform:translateY(25%);box-sizing:border-box;flex-shrink:0}.notyf__toast--disappear{transform:translateY(0);-webkit-animation:notyf-fadeoutdown .3s forwards;animation:notyf-fadeoutdown .3s forwards;-webkit-animation-delay:.25s;animation-delay:.25s}.notyf__toast--disappear .notyf__icon,.notyf__toast--disappear .notyf__message{-webkit-animation:notyf-fadeoutdown .3s forwards;animation:notyf-fadeoutdown .3s forwards;opacity:1;transform:translateY(0)}.notyf__toast--disappear .notyf__dismiss{-webkit-animation:notyf-fadeoutright .3s forwards;animation:notyf-fadeoutright .3s forwards;opacity:1;transform:translateX(0)}.notyf__toast--disappear .notyf__message{-webkit-animation-delay:.05s;animation-delay:.05s}.notyf__toast--upper{margin-bottom:20px}.notyf__toast--lower{margin-top:20px}.notyf__toast--dismissible .notyf__wrapper{padding-right:30px}.notyf__ripple{height:400px;width:400px;position:absolute;transform-origin:bottom right;right:0;top:0;border-radius:50%;transform:scale(0) translateY(-51%) translateX(13%);z-index:5;-webkit-animation:ripple .4s ease-out forwards;animation:ripple .4s ease-out forwards}.notyf__wrapper{display:flex;align-items:center;padding-top:17px;padding-bottom:17px;padding-right:15px;border-radius:3px;position:relative;z-index:10}.notyf__icon{width:22px;text-align:center;font-size:1.3em;opacity:0;-webkit-animation:notyf-fadeinup .3s forwards;animation:notyf-fadeinup .3s forwards;-webkit-animation-delay:.3s;animation-delay:.3s;margin-right:13px}.notyf__dismiss{position:absolute;top:0;right:0;height:100%;width:26px;margin-right:-15px;-webkit-animation:notyf-fadeinleft .3s forwards;animation:notyf-fadeinleft .3s forwards;-webkit-animation-delay:.35s;animation-delay:.35s;opacity:0}.notyf__dismiss-btn{background-color:rgba(0,0,0,.25);border:none;cursor:pointer;transition:opacity .2s ease,background-color .2s ease;outline:none;opacity:.35;height:100%;width:100%}.notyf__dismiss-btn:after,.notyf__dismiss-btn:before{content:"";background:#fff;height:12px;width:2px;border-radius:3px;position:absolute;left:calc(50% - 1px);top:calc(50% - 5px)}.notyf__dismiss-btn:after{transform:rotate(-45deg)}.notyf__dismiss-btn:before{transform:rotate(45deg)}.notyf__dismiss-btn:hover{opacity:.7;background-color:rgba(0,0,0,.15)}.notyf__dismiss-btn:active{opacity:.8}.notyf__message{vertical-align:middle;position:relative;opacity:0;-webkit-animation:notyf-fadeinup .3s forwards;animation:notyf-fadeinup .3s forwards;-webkit-animation-delay:.25s;animation-delay:.25s;line-height:1.5em}@media only screen and (max-width:480px){.notyf{padding:0}.notyf__ripple{height:600px;width:600px;-webkit-animation-duration:.5s;animation-duration:.5s}.notyf__toast{max-width:none;border-radius:0;box-shadow:0 -2px 7px 0 rgba(0,0,0,.13);width:100%}.notyf__dismiss{width:56px}}
-\r
-  .card_holder.svelte-1q2qbu1 {\r
-    border-radius: var(--borderRadius);\r
-    overflow: hidden;\r
-  }\r
-\r
-  /* \u5361\u7247\u5206\u7C7B */\r
-  .card-category.svelte-1q2qbu1 {\r
-    height: 20px;\r
-    padding: 0 2px;\r
-    border: 1px;\r
-    background: black;\r
-    color: white;\r
-    font-weight: 900;\r
-    overflow: hidden;\r
-    white-space: nowrap;\r
-    text-overflow: ellipsis;\r
-\r
-    display: flex;\r
-    align-items: center;\r
-    justify-content: center;\r
-  }\r
-\r
-  /* \u5361\u7247\u79CD\u7C7Btag\u9884\u89C8\u56FE */\r
-  .card_category-img.svelte-1q2qbu1 {\r
-    /* height: 18px; */\r
-    height: 35px;\r
-    width: 28px;\r
-\r
-    /* background-size: 100% 141%; */\r
-    background-position: center top;\r
-\r
-    /* padding-left: 5%; */\r
-    padding-top: 6px;\r
-  }\r
-\r
-  .card_category_square.svelte-1q2qbu1 {\r
-    width: 40px;\r
-    height: 40px;\r
-    padding-top: 0;\r
-    border-radius: 10px;\r
-  }\r
-\r
-  /* (unused) .card_new_page_highlight {\r
-    /* position: absolute; *\\/\r
-    top: 0;\r
-    left: 0;\r
-    width: 100%;\r
-    height: 100%;\r
-    background-color: rgba(8, 68, 0, 0.5);\r
-    color: white;\r
-    text-align: center;\r
-    padding: 8px 8px;\r
-  }*/\r
-\r
-  .lazy-image.svelte-1q2qbu1 {\r
-    opacity: 0.2;\r
-    transition: opacity 0.5s ease;\r
-  }\r
-  /* FIXME: \u4E0D\u77E5\u9053\u4E3A\u5565\u8FD9\u91CC\u4E0D\u8D77\u4F5C\u7528 */\r
-  /* (unused) .lazy-image.loaded {\r
-    opacity: 1;\r
-  }*/\r
-  .card_info.svelte-1q2qbu1 {\r
-    display: flex;\r
-    justify-content: center;\r
-    align-items: center;\r
-    flex-direction: column;\r
-\r
-    padding: 0px 8px;\r
-\r
-    & .card_info-item:where(.svelte-1q2qbu1) {\r
-      display: flex;\r
-      justify-content: space-around;\r
-      align-items: center;\r
-\r
-      /* min-height: 32px; */\r
-      width: 100%;\r
-    }\r
-\r
-    & .card_info__dl_and_cl:where(.svelte-1q2qbu1) {\r
-      display: flex;\r
-      justify-content: center;\r
-      align-items: center;\r
-\r
-      height: 32px;\r
-    }\r
-\r
-    & .card_info__statistics:where(.svelte-1q2qbu1) {\r
-      display: flex;\r
-      justify-content: center;\r
-      align-items: center;\r
-    }\r
-  }\r
-\r
-  .card_info__topping.svelte-1q2qbu1 {\r
-    display: flex;\r
-    /* justify-content: center; */\r
-    align-items: center;\r
-  }\r
-\r
-  .__main_title.svelte-1q2qbu1 {\r
-    white-space: pre-wrap;\r
-    /* word-wrap: break-word; */\r
-    /* overflow-wrap: break-word; */\r
-    /* font-size: 16px; */\r
-    font-weight: bold;\r
-    text-align: center;\r
-    display: flex;\r
-    justify-content: center;\r
-    padding-left: 0.5rem;\r
-    padding-right: 0.5rem;\r
-\r
-    &:hover {\r
-      text-decoration: underline;\r
-    }\r
-  }\r
-\r
-  /* \u6807\u7B7E */\r
-  .cl-tags.svelte-1q2qbu1 {\r
-    display: flex;\r
-    justify-content: center;\r
-    align-items: center;\r
-    flex-wrap: wrap;\r
-\r
-    gap: 2px;\r
-\r
-    padding-top: 4px;\r
-    padding-bottom: 4px;\r
-  }\r
-  ._tag.svelte-1q2qbu1 {\r
-    /* padding: 1px 6px; */\r
-    height: 1.3em;\r
-    line-height: 1.3em;\r
-    padding: 0 0.5em;\r
-    border-radius: 6px;\r
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';\r
-    font-size: 12px;\r
-  }\r
-  ._tag_diy.svelte-1q2qbu1 {\r
-    color: #ffffff;\r
-    background-color: rgb(90, 189, 72);\r
-  }\r
-  ._tag_dub.svelte-1q2qbu1 {\r
-    color: #ffffff;\r
-    background-color: rgb(90, 59, 20);\r
-  }\r
-  ._tag_sub.svelte-1q2qbu1 {\r
-    color: #ffffff;\r
-    background-color: rgb(59, 74, 127);\r
-  }\r
-  ._tag_discount_50.svelte-1q2qbu1 {\r
-    background-color: rgb(255, 85, 0);\r
-    color: #ffffff;\r
-  }\r
-  ._tag_discount_free.svelte-1q2qbu1 {\r
-    background-color: rgb(16, 142, 233);\r
-    color: #ffffff;\r
-  }\r
-\r
-  .card_pic.svelte-1q2qbu1 {\r
-    position: relative;\r
-    display: flex;\r
-    align-items: center;\r
-    justify-content: center;\r
-    /* flex-direction: column; */\r
-\r
-    background-color: var(--cateColor);\r
-  }\r
-\r
-  .card_pic.svelte-1q2qbu1 img:where(.svelte-1q2qbu1) {\r
-    width: 100%;\r
-    height: 100%;\r
-  }\r
-\r
-  .pic_error.svelte-1q2qbu1 {\r
-    display: flex;\r
-    justify-content: center;\r
-    align-items: center;\r
-    width: 100%;\r
-    height: 100%;\r
-    padding: 10px;\r
-    gap: 10px;\r
-    line-height: 24px;\r
-  }\r
-\r
-  /* \u5361\u7247\u7D22\u5F15 */\r
-  .card-index.svelte-1q2qbu1 {\r
-    position: absolute;\r
-    top: 0;\r
-    left: 0;\r
-    padding: 4px 9px 4px 9px;\r
-    margin: 0;\r
-    /* height: 20px; */\r
-    line-height: 16px;\r
-    font-size: 16px;\r
-    font-weight: bold;\r
-\r
-    background-color: rgba(0, 0, 0, 0.5);\r
-    color: white;\r
-    /* border-top-right-radius: 100px; */\r
-    /* border-bottom-right-radius: 100px; */\r
-\r
-    z-index: 2;\r
-\r
-    display: flex;\r
-    align-items: center;\r
-\r
-    pointer-events: none;\r
-  }\r
-\r
-  /* \u5361\u7247\u7D22\u5F15_\u53F3 */\r
-  .card-index-right.svelte-1q2qbu1 {\r
-    left: initial;\r
-    right: 0;\r
-    padding: 4px 4px 4px 8px;\r
-\r
-    background-color: rgb(0, 0, 0);\r
-    color: white;\r
-\r
-    /* border-top-left-radius: 20px; */\r
-    /* border-bottom-left-radius: 20px; */\r
-  }\r
-\r
-  /* \u60AC\u6D6E\u9884\u89C8: \u5C40\u90E8\u89E6\u53D1\u5668 */\r
-  .hover-trigger.svelte-1q2qbu1 {\r
-    position: absolute;\r
-    top: 28px;\r
-    right: 8px;\r
-    /* padding-right: 19px; */\r
-    /* padding-left: 2px; */\r
-    padding: 0;\r
-    width: 42px;\r
-    margin: 0;\r
-    height: 40px;\r
-    line-height: 16px;\r
-    font-size: 16px;\r
-\r
-    /* background-color: rgb(255, 187, 16); */\r
-\r
-    opacity: 0.5;\r
-\r
-    /* color: yellow; */\r
-    /* border-top-right-radius: 0px; */\r
-    /* border-bottom-left-radius: 100px; */\r
-    border-radius: 9999px;\r
-\r
-    display: flex;\r
-    align-items: center;\r
-\r
-    /* pointer-events: none; */\r
-\r
-    z-index: 2;\r
-    transition: opacity 0.3s ease;\r
-\r
-    &:hover {\r
-      opacity: 0.8;\r
-    }\r
-  }\r
-\r
-  /* \u6DFB\u52A0\u60AC\u6D6E\u6548\u679C\u76F8\u5173\u6837\u5F0F */\r
-  .hover-overlay.svelte-1q2qbu1 {\r
-    position: absolute;\r
-    bottom: 0;\r
-    left: 0;\r
-    width: 100%;\r
-    height: 100%;\r
-    background: rgba(0, 0, 0, 0.5);\r
-    opacity: 0;\r
-    transition: opacity 0.3s ease;\r
-    /* pointer-events: none; */\r
-    z-index: 1;\r
-  }\r
-\r
-  .overlay-content.svelte-1q2qbu1 {\r
-    width: 100%;\r
-    position: absolute;\r
-    bottom: 0;\r
-    left: 50%;\r
-    transform: translateX(-50%);\r
-\r
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9) 20%, transparent 100%);\r
-    background: rgba(255, 255, 255, 0.9);\r
-    /* background-color: rgba(0, 0, 0, 0.5); */\r
-\r
-    padding: 0 0px 2px;\r
-    /* border-radius: 4px; */\r
-    color: #333;\r
-    font-size: 14px;\r
-    white-space: nowrap;\r
-\r
-    display: flex;\r
-    flex-direction: column;\r
-\r
-    & .card_info-item:where(.svelte-1q2qbu1) {\r
-      display: flex;\r
-      justify-content: center;\r
-      align-items: center;\r
-\r
-      padding: 2px;\r
-\r
-      padding-left: 8px;\r
-      padding-right: 8px;\r
-    }\r
-\r
-    & .__main_title:where(.svelte-1q2qbu1) {\r
-      text-align: center;\r
-      white-space: pre-wrap;\r
-      /* word-wrap: break-word; */\r
-      /* overflow-wrap: break-word; */\r
-\r
-      /* font-size: 16px; */\r
-      font-weight: bold;\r
-\r
-      &:hover {\r
-        text-decoration: underline;\r
-      }\r
-    }\r
-\r
-    & .__sub_title:where(.svelte-1q2qbu1) {\r
-      white-space: pre-wrap;\r
-      /* word-wrap: break-word; */\r
-      /* overflow-wrap: break-word; */\r
-      overflow: hidden;\r
-    }\r
-\r
-    & .card_info__statistics:where(.svelte-1q2qbu1) {\r
-      display: flex;\r
-      justify-content: space-evenly;\r
-      align-items: center;\r
-\r
-      height: 32px;\r
-    }\r
-  }\r
-\r
-  .__center.svelte-1q2qbu1 {\r
-    display: flex;\r
-    justify-content: center;\r
-    align-items: center;\r
-  }\r
-\r
-  .__inner_index_and_size.svelte-1q2qbu1 {\r
-    display: flex;\r
-    justify-content: space-between;\r
-    align-items: center;\r
-    position: absolute;\r
-    width: 100%;\r
-    left: 0;\r
-    top: -24px;\r
-  }\r
-\r
-  .__inner_index.svelte-1q2qbu1 {\r
-    position: relative;\r
-    width: fit-content;\r
-\r
-    display: flex;\r
-    justify-content: flex-start;\r
-    align-items: center;\r
-  }\r
-\r
-  .__inner_size.svelte-1q2qbu1 {\r
-    position: relative;\r
-    width: fit-content;\r
-\r
-    display: flex;\r
-    justify-content: flex-end;\r
-    align-items: center;\r
-  }\r
-\r
-  .__iframe_button.svelte-1q2qbu1 {\r
-    flex: 1;\r
-    height: 24px;\r
-    padding: 4px 8px;\r
-    margin: 0;\r
-    border: none;\r
-    background: none;\r
-    outline: none;\r
-    appearance: none;\r
-    box-sizing: border-box;\r
-    white-space: nowrap;\r
-    opacity: 1;\r
-    transition: opacity 0.3s ease;\r
-\r
-    &:hover {\r
-      opacity: 0.7;\r
-    }\r
-  }\r
 
-\r
-  .fall_holder.svelte-1vmncc1 {\r
-    background-color: var(--bg-1);\r
-\r
-    overflow: hidden;\r
-  }\r
-\r
-  .text_center.svelte-1vmncc1 {\r
-    text-align: center;\r
-    padding: 8px 0;\r
-    margin: 0;\r
-  }\r
+  .card_holder.svelte-1q2qbu1 {
+    border-radius: var(--borderRadius);
+    overflow: hidden;
+  }
 
-\r
-  .__btn.svelte-1a87xm5 {\r
-    background-color: var(--bg-2);\r
-    color: white;\r
-    border: none;\r
-    padding: 4px 8px;\r
-    border-radius: 4px;\r
-    font-size: 14px;\r
-    transition: background-color 0.3s;\r
-    cursor: pointer;\r
-  }\r
-\r
-  .__btnWide.svelte-1a87xm5 {\r
-    height: 40px;\r
-    display: flex;\r
-    align-items: center;\r
-    justify-content: center;\r
-  }\r
-\r
-  .__btn.svelte-1a87xm5:hover {\r
-    background-color: var(--hover);\r
-  }\r
-\r
-  .modal-overlay.svelte-1a87xm5 {\r
-    position: fixed;\r
-    top: 0;\r
-    left: 0;\r
-    right: 0;\r
-    bottom: 0;\r
-    background-color: rgba(0, 0, 0, 0.5);\r
-    display: flex;\r
-    justify-content: center;\r
-    align-items: center;\r
-    z-index: 25000;\r
-  }\r
-\r
-  .modal-content.svelte-1a87xm5 {\r
-    background: var(--bg-3);\r
-    border-radius: 8px;\r
-    border: 4px solid var(--bg-2);\r
-    /* padding: 12px; */\r
-    width: 500px;\r
-    max-width: 90vw;\r
-    max-height: 80vh;\r
-    overflow-y: auto;\r
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\r
-  }\r
-\r
-  .modal-header.svelte-1a87xm5 {\r
-    display: flex;\r
-    justify-content: space-between;\r
-    align-items: center;\r
-    padding: 16px 20px;\r
-    border-bottom: 4px solid var(--bg-2);\r
-  }\r
-\r
-  .modal-header.svelte-1a87xm5 h3:where(.svelte-1a87xm5) {\r
-    margin: 0;\r
-    font-size: 16px;\r
-  }\r
-\r
-  .close-btn.svelte-1a87xm5 {\r
-    background: none;\r
-    border: none;\r
-    font-size: 24px;\r
-    cursor: pointer;\r
-    padding: 0;\r
-    width: 24px;\r
-    height: 24px;\r
-    display: flex;\r
-    align-items: center;\r
-    justify-content: center;\r
-  }\r
-\r
-  .modal-body.svelte-1a87xm5 {\r
-    padding: 0px 20px 10px;\r
-    line-height: 1.6;\r
-  }\r
-\r
-  .modal-body.svelte-1a87xm5 h4:where(.svelte-1a87xm5) {\r
-    margin: 16px 0 8px 0;\r
-    color: #1890ff;\r
-  }\r
-\r
-  .modal-body.svelte-1a87xm5 p:where(.svelte-1a87xm5) {\r
-    margin: 0 0 12px 0;\r
-  }\r
-\r
-  .modal-code.svelte-1a87xm5 {\r
-    background-color: var(--bg-1);\r
-    padding: 4px;\r
-    border-radius: 4px;\r
-  }\r
+  /* \u5361\u7247\u5206\u7C7B */
+  .card-category.svelte-1q2qbu1 {
+    height: 20px;
+    padding: 0 2px;
+    border: 1px;
+    background: black;
+    color: white;
+    font-weight: 900;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 
-\r
-  .switch-container.svelte-18ntgfp {\r
-    display: inline-block;\r
-    cursor: pointer;\r
-  }\r
-\r
-  .switch-background.svelte-18ntgfp {\r
-    position: relative;\r
-    width: 48px;\r
-    height: 24px;\r
-    background-color: #e0e0e0;\r
-    border-radius: 12px;\r
-    transition: background-color 0.2s;\r
-  }\r
-\r
-  .switch-slider.svelte-18ntgfp {\r
-    position: absolute;\r
-    width: 20px;\r
-    height: 20px;\r
-    background-color: white;\r
-    border-radius: 50%;\r
-    top: 2px;\r
-    left: 2px;\r
-    transition: all 0.2s;\r
-  }\r
-\r
-  .switch-slider.checked.svelte-18ntgfp {\r
-    transform: translateX(24px);\r
-    /* // \u6DFB\u52A0\u84DD\u8272\u80CC\u666F */\r
-    background-color: #2196f3;\r
-  }\r
-\r
-  .switch-background.svelte-18ntgfp:hover {\r
-    background-color: #d0d0d0;\r
-  }\r
-\r
-  .switch-container.svelte-18ntgfp:active .switch-slider:where(.svelte-18ntgfp) {\r
-    transform: translateX(24px) scale(0.95);\r
-  }\r
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-\r
-  .flowP.svelte-4gkzar {\r
-    position: fixed;\r
-\r
-    width: 80px;\r
-    max-height: 300px;\r
-\r
-    border-radius: 12px;\r
-    overflow: hidden;\r
-\r
-    padding-bottom: 8px;\r
-    padding: 0px 0px 8px;\r
-\r
-    /* background-color: #fff4; */\r
-    background-color: var(--bg-1);\r
-    transition:\r
-      opacity 0.3s,\r
-      border 0.3s;\r
-\r
-    font-size: 16px;\r
-\r
-    opacity: 0.7;\r
-\r
-    z-index: 15000;\r
-\r
-    border: 2px solid transparent;\r
-    &:hover {\r
-      opacity: 1;\r
-      border: 2px solid var(--isFallView);\r
-    }\r
-  }\r
-\r
-  .flowPDragger.svelte-4gkzar {\r
-    display: flex;\r
-    align-items: center;\r
-    justify-content: center;\r
-    line-height: 14px;\r
-    font-size: 12px;\r
-    height: 14px;\r
-    transition: background-color 0.3s ease-in-out;\r
-    background-color: var(--isFallView);\r
-\r
-    &:hover {\r
-      cursor: move; /* \u8BBE\u7F6E\u9F20\u6807\u60AC\u505C\u65F6\u7684\u56FE\u6807\u4E3A\u79FB\u52A8 */\r
-    }\r
-  }\r
-\r
-  .flowPHolder.svelte-4gkzar {\r
-    /* position: relative; */\r
-    display: flex;\r
-    flex-direction: column;\r
-    justify-content: center;\r
-    align-items: center;\r
-    padding-top: 2px;\r
-    gap: 4px;\r
-  }\r
-\r
-  .flowBtn.svelte-4gkzar {\r
-    padding: 4px;\r
-    border-radius: 4px;\r
-    border: 2px solid transparent;\r
-    transition: all 0.2s;\r
-\r
-    font-size: 14px;\r
-    /* font-weight: bold; */\r
-\r
-    width: 72px;\r
-\r
-    background-color: var(--bg-2);\r
-    color: var(--get-text-color);\r
-\r
-    &:hover {\r
-      border-color: var(--bg-3);\r
-    }\r
-\r
-    &:active {\r
-      transform: translateY(4px);\r
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);\r
-    }\r
-\r
-    & .flowBtn_text:where(.svelte-4gkzar) {\r
-      padding-top: 3px;\r
-      padding-bottom: 3px;\r
-    }\r
-\r
-    /* @media (prefers-color-scheme: dark) {\r
-      background-color: #2a2a2a;\r
-      color: #ffffff;\r
-\r
-      &:hover {\r
-        background-color: #3a3a3a;\r
-        color: #ffffff;\r
-      }\r
-    } */\r
-  }\r
-\r
-  /* \u914D\u7F6E\u83DC\u5355\u6837\u5F0F */\r
-  .config-menu-overlay.svelte-4gkzar {\r
-    color: var(--get-text-color);\r
-    position: fixed;\r
-    top: 0;\r
-    left: 0;\r
-    right: 0;\r
-    bottom: 0;\r
-    background-color: rgba(0, 0, 0, 0.5);\r
-    display: flex;\r
-    justify-content: flex-end;\r
-    z-index: 20000;\r
-  }\r
-\r
-  .config-menu.svelte-4gkzar {\r
-    background-color: #ffffff;\r
-    width: 300px;\r
-    height: 100vh;\r
-    padding: 20px;\r
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);\r
-    overflow-y: auto;\r
-  }\r
-\r
-  .config-menu-header.svelte-4gkzar {\r
-    display: flex;\r
-    justify-content: space-between;\r
-    align-items: center;\r
-    margin-bottom: 12px;\r
-  }\r
-\r
-  .close-btn.svelte-4gkzar {\r
-    background: none;\r
-    border: none;\r
-    font-size: 24px;\r
-    cursor: pointer;\r
-    padding: 0 8px;\r
-    transform: translateY(-4px);\r
-  }\r
-\r
-  .config-menu-content.svelte-4gkzar {\r
-    display: flex;\r
-    flex-direction: column;\r
-    gap: 4px;\r
-\r
-    font-size: 14px;\r
-\r
-    & h3:where(.svelte-4gkzar) {\r
-      margin-top: 28px;\r
-    }\r
-  }\r
-\r
-  .config-item.svelte-4gkzar {\r
-    display: flex;\r
-    align-items: center;\r
-    justify-content: space-between;\r
-  }\r
-\r
-  .config-item.svelte-4gkzar span:where(.svelte-4gkzar) {\r
-    display: flex;\r
-    justify-content: end;\r
-  }\r
-\r
-  .config-item.svelte-4gkzar ._single_item:where(.svelte-4gkzar) {\r
-    padding-right: 8px;\r
-    flex: 1;\r
-  }\r
-\r
-  .config-item.svelte-4gkzar input:where(.svelte-4gkzar) {\r
-    width: 120px;\r
-  }\r
+  /* \u5361\u7247\u79CD\u7C7Btag\u9884\u89C8\u56FE */
+  .card_category-img.svelte-1q2qbu1 {
+    /* height: 18px; */
+    height: 35px;
+    width: 28px;
 
-\r
-  div#_iframe_holder.svelte-126sfo0 {\r
-    position: fixed;\r
-    top: 0;\r
-    left: 0;\r
-    width: 100vw;\r
-    height: 100vh;\r
-    background-color: rgba(0, 38, 38, 0.607);\r
-    z-index: 30000;\r
-\r
-    display: flex;\r
-  }\r
-\r
-  div._iframe_back.svelte-126sfo0 {\r
-    position: absolute;\r
-    width: 100%;\r
-    height: 100%;\r
-  }\r
-\r
-  div._iframe_parent.svelte-126sfo0 {\r
-    position: relative;\r
-    /* width: 1246px; */\r
-    height: 96%;\r
-    margin: auto;\r
-    display: flex;\r
-    align-items: center;\r
-  }\r
-\r
-  div._iframe_parent.svelte-126sfo0 iframe:where(.svelte-126sfo0) {\r
-    height: 100%;\r
-    border-radius: 20px;\r
-    user-select: none;\r
-  }\r
-\r
-  ._iframeCloseBtn.svelte-126sfo0 {\r
-    width: 40px;\r
-    height: 40px;\r
-    background: white;\r
-\r
-    position: absolute;\r
-\r
-    top: 10px;\r
-    right: 10px;\r
-\r
-    border-radius: 40px;\r
-    transition: all 0.5s;\r
-\r
-    z-index: 30001;\r
-\r
-    /* \u60AC\u6D6E */\r
-    &:hover {\r
-      opacity: 0.7;\r
-      transform: scale(1.2);\r
-    }\r
-    /* \u70B9\u51FB(\u957F\u6309\u624D\u660E\u663E) */\r
-    &:active {\r
-      opacity: 0.9;\r
-      transform: scale(1.9);\r
-    }\r
-  }\r
-\r
-  .resize-handle.svelte-126sfo0 {\r
-    position: absolute;\r
-    width: 16px;\r
-    height: 100%;\r
-    background: var(--textColor2);\r
-    cursor: col-resize;\r
-    transition: all 0.2s ease;\r
-    z-index: 1;\r
-    opacity: 0.4;\r
-\r
-    &:hover {\r
-      opacity: 0.6;\r
-    }\r
-\r
-    &:active {\r
-      opacity: 0.8;\r
-      background: var(--textColor1);\r
-    }\r
-  }\r
-\r
-  .resize-handle-left.svelte-126sfo0 {\r
-    left: -16px;\r
-    border-radius: 6px 0 0 6px;\r
-  }\r
-\r
-  .resize-handle-right.svelte-126sfo0 {\r
-    right: -16px;\r
-    border-radius: 0 6px 6px 0;\r
-  }\r
-\r
-  .iframe-overlay.svelte-126sfo0 {\r
-    position: absolute;\r
-    top: 0;\r
-    left: 0;\r
-    width: 100%;\r
-    height: 100%;\r
-    z-index: 30001;\r
-    user-select: none;\r
+    /* background-size: 100% 141%; */
+    background-position: center top;
+
+    /* padding-left: 5%; */
+    padding-top: 6px;
+  }
+
+  .card_category_square.svelte-1q2qbu1 {
+    width: 40px;
+    height: 40px;
+    padding-top: 0;
+    border-radius: 10px;
+  }
+
+  /* (unused) .card_new_page_highlight {
+    /* position: absolute; *\\/
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(8, 68, 0, 0.5);
+    color: white;
+    text-align: center;
+    padding: 8px 8px;
+  }*/
+
+  .lazy-image.svelte-1q2qbu1 {
+    opacity: 0.2;
+    transition: opacity 0.5s ease;
+  }
+  /* FIXME: \u4E0D\u77E5\u9053\u4E3A\u5565\u8FD9\u91CC\u4E0D\u8D77\u4F5C\u7528 */
+  /* (unused) .lazy-image.loaded {
+    opacity: 1;
+  }*/
+  .card_info.svelte-1q2qbu1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    padding: 0px 8px;
+
+    & .card_info-item:where(.svelte-1q2qbu1) {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+
+      /* min-height: 32px; */
+      width: 100%;
+    }
+
+    & .card_info__dl_and_cl:where(.svelte-1q2qbu1) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      height: 32px;
+    }
+
+    & .card_info__statistics:where(.svelte-1q2qbu1) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .card_info__topping.svelte-1q2qbu1 {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+  }
+
+  .__main_title.svelte-1q2qbu1 {
+    white-space: pre-wrap;
+    /* word-wrap: break-word; */
+    /* overflow-wrap: break-word; */
+    /* font-size: 16px; */
+    font-weight: bold;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  /* \u6807\u7B7E */
+  .cl-tags.svelte-1q2qbu1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 2px;
+
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+  ._tag.svelte-1q2qbu1 {
+    /* padding: 1px 6px; */
+    height: 1.3em;
+    line-height: 1.3em;
+    padding: 0 0.5em;
+    border-radius: 6px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    font-size: 12px;
+  }
+  ._tag_diy.svelte-1q2qbu1 {
+    color: #ffffff;
+    background-color: rgb(90, 189, 72);
+  }
+  ._tag_dub.svelte-1q2qbu1 {
+    color: #ffffff;
+    background-color: rgb(90, 59, 20);
+  }
+  ._tag_sub.svelte-1q2qbu1 {
+    color: #ffffff;
+    background-color: rgb(59, 74, 127);
+  }
+  ._tag_discount_50.svelte-1q2qbu1 {
+    background-color: rgb(255, 85, 0);
+    color: #ffffff;
+  }
+  ._tag_discount_free.svelte-1q2qbu1 {
+    background-color: rgb(16, 142, 233);
+    color: #ffffff;
+  }
+
+  .card_pic.svelte-1q2qbu1 {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* flex-direction: column; */
+
+    background-color: var(--cateColor);
+  }
+
+  .card_pic.svelte-1q2qbu1 img:where(.svelte-1q2qbu1) {
+    width: 100%;
+    height: 100%;
+  }
+
+  .pic_error.svelte-1q2qbu1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    gap: 10px;
+    line-height: 24px;
+  }
+
+  /* \u5361\u7247\u7D22\u5F15 */
+  .card-index.svelte-1q2qbu1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 4px 9px 4px 9px;
+    margin: 0;
+    /* height: 20px; */
+    line-height: 16px;
+    font-size: 16px;
+    font-weight: bold;
+
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    /* border-top-right-radius: 100px; */
+    /* border-bottom-right-radius: 100px; */
+
+    z-index: 2;
+
+    display: flex;
+    align-items: center;
+
+    pointer-events: none;
+  }
+
+  /* \u5361\u7247\u7D22\u5F15_\u53F3 */
+  .card-index-right.svelte-1q2qbu1 {
+    left: initial;
+    right: 0;
+    padding: 4px 4px 4px 8px;
+
+    background-color: rgb(0, 0, 0);
+    color: white;
+
+    /* border-top-left-radius: 20px; */
+    /* border-bottom-left-radius: 20px; */
+  }
+
+  /* \u60AC\u6D6E\u9884\u89C8: \u5C40\u90E8\u89E6\u53D1\u5668 */
+  .hover-trigger.svelte-1q2qbu1 {
+    position: absolute;
+    top: 28px;
+    right: 8px;
+    /* padding-right: 19px; */
+    /* padding-left: 2px; */
+    padding: 0;
+    width: 42px;
+    margin: 0;
+    height: 40px;
+    line-height: 16px;
+    font-size: 16px;
+
+    /* background-color: rgb(255, 187, 16); */
+
+    opacity: 0.5;
+
+    /* color: yellow; */
+    /* border-top-right-radius: 0px; */
+    /* border-bottom-left-radius: 100px; */
+    border-radius: 9999px;
+
+    display: flex;
+    align-items: center;
+
+    /* pointer-events: none; */
+
+    z-index: 2;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  /* \u6DFB\u52A0\u60AC\u6D6E\u6548\u679C\u76F8\u5173\u6837\u5F0F */
+  .hover-overlay.svelte-1q2qbu1 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    /* pointer-events: none; */
+    z-index: 1;
+  }
+
+  .overlay-content.svelte-1q2qbu1 {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9) 20%, transparent 100%);
+    background: rgba(255, 255, 255, 0.9);
+    /* background-color: rgba(0, 0, 0, 0.5); */
+
+    padding: 0 0px 2px;
+    /* border-radius: 4px; */
+    color: #333;
+    font-size: 14px;
+    white-space: nowrap;
+
+    display: flex;
+    flex-direction: column;
+
+    & .card_info-item:where(.svelte-1q2qbu1) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      padding: 2px;
+
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+
+    & .__main_title:where(.svelte-1q2qbu1) {
+      text-align: center;
+      white-space: pre-wrap;
+      /* word-wrap: break-word; */
+      /* overflow-wrap: break-word; */
+
+      /* font-size: 16px; */
+      font-weight: bold;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    & .__sub_title:where(.svelte-1q2qbu1) {
+      white-space: pre-wrap;
+      /* word-wrap: break-word; */
+      /* overflow-wrap: break-word; */
+      overflow: hidden;
+    }
+
+    & .card_info__statistics:where(.svelte-1q2qbu1) {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+
+      height: 32px;
+    }
+  }
+
+  .__center.svelte-1q2qbu1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .__inner_index_and_size.svelte-1q2qbu1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: -24px;
+  }
+
+  .__inner_index.svelte-1q2qbu1 {
+    position: relative;
+    width: fit-content;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .__inner_size.svelte-1q2qbu1 {
+    position: relative;
+    width: fit-content;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .__iframe_button.svelte-1q2qbu1 {
+    flex: 1;
+    height: 24px;
+    padding: 4px 8px;
+    margin: 0;
+    border: none;
+    background: none;
+    outline: none;
+    appearance: none;
+    box-sizing: border-box;
+    white-space: nowrap;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+
+  .fall_holder.svelte-1vmncc1 {
+    background-color: var(--bg-1);
+
+    overflow: hidden;
+  }
+
+  .text_center.svelte-1vmncc1 {
+    text-align: center;
+    padding: 8px 0;
+    margin: 0;
+  }
+
+
+  .__btn.svelte-1a87xm5 {
+    background-color: var(--bg-2);
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+  }
+
+  .__btnWide.svelte-1a87xm5 {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .__btn.svelte-1a87xm5:hover {
+    background-color: var(--hover);
+  }
+
+  .modal-overlay.svelte-1a87xm5 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 25000;
+  }
+
+  .modal-content.svelte-1a87xm5 {
+    background: var(--bg-3);
+    border-radius: 8px;
+    border: 4px solid var(--bg-2);
+    /* padding: 12px; */
+    width: 500px;
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .modal-header.svelte-1a87xm5 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 4px solid var(--bg-2);
+  }
+
+  .modal-header.svelte-1a87xm5 h3:where(.svelte-1a87xm5) {
+    margin: 0;
+    font-size: 16px;
+  }
+
+  .close-btn.svelte-1a87xm5 {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-body.svelte-1a87xm5 {
+    padding: 0px 20px 10px;
+    line-height: 1.6;
+  }
+
+  .modal-body.svelte-1a87xm5 h4:where(.svelte-1a87xm5) {
+    margin: 16px 0 8px 0;
+    color: #1890ff;
+  }
+
+  .modal-body.svelte-1a87xm5 p:where(.svelte-1a87xm5) {
+    margin: 0 0 12px 0;
+  }
+
+  .modal-code.svelte-1a87xm5 {
+    background-color: var(--bg-1);
+    padding: 4px;
+    border-radius: 4px;
+  }
+
+
+  .switch-container.svelte-18ntgfp {
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .switch-background.svelte-18ntgfp {
+    position: relative;
+    width: 48px;
+    height: 24px;
+    background-color: #e0e0e0;
+    border-radius: 12px;
+    transition: background-color 0.2s;
+  }
+
+  .switch-slider.svelte-18ntgfp {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: all 0.2s;
+  }
+
+  .switch-slider.checked.svelte-18ntgfp {
+    transform: translateX(24px);
+    /* // \u6DFB\u52A0\u84DD\u8272\u80CC\u666F */
+    background-color: #2196f3;
+  }
+
+  .switch-background.svelte-18ntgfp:hover {
+    background-color: #d0d0d0;
+  }
+
+  .switch-container.svelte-18ntgfp:active .switch-slider:where(.svelte-18ntgfp) {
+    transform: translateX(24px) scale(0.95);
+  }
+
+
+  .flowP.svelte-4gkzar {
+    position: fixed;
+
+    width: 80px;
+    max-height: 300px;
+
+    border-radius: 12px;
+    overflow: hidden;
+
+    padding-bottom: 8px;
+    padding: 0px 0px 8px;
+
+    /* background-color: #fff4; */
+    background-color: var(--bg-1);
+    transition:
+      opacity 0.3s,
+      border 0.3s;
+
+    font-size: 16px;
+
+    opacity: 0.7;
+
+    z-index: 15000;
+
+    border: 2px solid transparent;
+    &:hover {
+      opacity: 1;
+      border: 2px solid var(--isFallView);
+    }
+  }
+
+  .flowPDragger.svelte-4gkzar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 14px;
+    font-size: 12px;
+    height: 14px;
+    transition: background-color 0.3s ease-in-out;
+    background-color: var(--isFallView);
+
+    &:hover {
+      cursor: move; /* \u8BBE\u7F6E\u9F20\u6807\u60AC\u505C\u65F6\u7684\u56FE\u6807\u4E3A\u79FB\u52A8 */
+    }
+  }
+
+  .flowPHolder.svelte-4gkzar {
+    /* position: relative; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2px;
+    gap: 4px;
+  }
+
+  .flowBtn.svelte-4gkzar {
+    padding: 4px;
+    border-radius: 4px;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+
+    font-size: 14px;
+    /* font-weight: bold; */
+
+    width: 72px;
+
+    background-color: var(--bg-2);
+    color: var(--get-text-color);
+
+    &:hover {
+      border-color: var(--bg-3);
+    }
+
+    &:active {
+      transform: translateY(4px);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    & .flowBtn_text:where(.svelte-4gkzar) {
+      padding-top: 3px;
+      padding-bottom: 3px;
+    }
+
+    /* @media (prefers-color-scheme: dark) {
+      background-color: #2a2a2a;
+      color: #ffffff;
+
+      &:hover {
+        background-color: #3a3a3a;
+        color: #ffffff;
+      }
+    } */
+  }
+
+  /* \u914D\u7F6E\u83DC\u5355\u6837\u5F0F */
+  .config-menu-overlay.svelte-4gkzar {
+    color: var(--get-text-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: flex-end;
+    z-index: 20000;
+  }
+
+  .config-menu.svelte-4gkzar {
+    background-color: #ffffff;
+    width: 300px;
+    height: 100vh;
+    padding: 20px;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+  }
+
+  .config-menu-header.svelte-4gkzar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .close-btn.svelte-4gkzar {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0 8px;
+    transform: translateY(-4px);
+  }
+
+  .config-menu-content.svelte-4gkzar {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    font-size: 14px;
+
+    & h3:where(.svelte-4gkzar) {
+      margin-top: 28px;
+    }
+  }
+
+  .config-item.svelte-4gkzar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .config-item.svelte-4gkzar span:where(.svelte-4gkzar) {
+    display: flex;
+    justify-content: end;
+  }
+
+  .config-item.svelte-4gkzar ._single_item:where(.svelte-4gkzar) {
+    padding-right: 8px;
+    flex: 1;
+  }
+
+  .config-item.svelte-4gkzar input:where(.svelte-4gkzar) {
+    width: 120px;
+  }
+
+
+  div#_iframe_holder.svelte-126sfo0 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 38, 38, 0.607);
+    z-index: 30000;
+
+    display: flex;
+  }
+
+  div._iframe_back.svelte-126sfo0 {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+  div._iframe_parent.svelte-126sfo0 {
+    position: relative;
+    /* width: 1246px; */
+    height: 96%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+  }
+
+  div._iframe_parent.svelte-126sfo0 iframe:where(.svelte-126sfo0) {
+    height: 100%;
+    border-radius: 20px;
+    user-select: none;
+  }
+
+  ._iframeCloseBtn.svelte-126sfo0 {
+    width: 40px;
+    height: 40px;
+    background: white;
+
+    position: absolute;
+
+    top: 10px;
+    right: 10px;
+
+    border-radius: 40px;
+    transition: all 0.5s;
+
+    z-index: 30001;
+
+    /* \u60AC\u6D6E */
+    &:hover {
+      opacity: 0.7;
+      transform: scale(1.2);
+    }
+    /* \u70B9\u51FB(\u957F\u6309\u624D\u660E\u663E) */
+    &:active {
+      opacity: 0.9;
+      transform: scale(1.9);
+    }
+  }
+
+  .resize-handle.svelte-126sfo0 {
+    position: absolute;
+    width: 16px;
+    height: 100%;
+    background: var(--textColor2);
+    cursor: col-resize;
+    transition: all 0.2s ease;
+    z-index: 1;
+    opacity: 0.4;
+
+    &:hover {
+      opacity: 0.6;
+    }
+
+    &:active {
+      opacity: 0.8;
+      background: var(--textColor1);
+    }
+  }
+
+  .resize-handle-left.svelte-126sfo0 {
+    left: -16px;
+    border-radius: 6px 0 0 6px;
+  }
+
+  .resize-handle-right.svelte-126sfo0 {
+    right: -16px;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .iframe-overlay.svelte-126sfo0 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 30001;
+    user-select: none;
   } `);
 
 (function () {
@@ -896,7 +896,6 @@ button:focus-visible {\r
   var _listeners, _observer, _options, _ResizeObserverSingleton_instances, getObserver_fn;
   const DEV = false;
   var is_array = Array.isArray;
-  var index_of = Array.prototype.indexOf;
   var array_from = Array.from;
   var define_property = Object.defineProperty;
   var get_descriptor = Object.getOwnPropertyDescriptor;
@@ -994,7 +993,6 @@ button:focus-visible {\r
     }
   }
   let legacy_mode_flag = false;
-  let tracing_mode_flag = false;
   function enable_legacy_mode_flag() {
     legacy_mode_flag = true;
   }
@@ -1021,8 +1019,7 @@ button:focus-visible {\r
       v,
       reactions: null,
       equals,
-      rv: 0,
-      wv: 0
+      version: 0
     };
     return signal;
   }
@@ -1043,7 +1040,7 @@ button:focus-visible {\r
   }
   // @__NO_SIDE_EFFECTS__
   function push_derived_source(source2) {
-    if (active_reaction !== null && !untracking && (active_reaction.f & DERIVED) !== 0) {
+    if (active_reaction !== null && (active_reaction.f & DERIVED) !== 0) {
       if (derived_sources === null) {
         set_derived_sources([source2]);
       } else {
@@ -1060,7 +1057,7 @@ button:focus-visible {\r
     return value;
   }
   function set(source2, value) {
-    if (active_reaction !== null && !untracking && is_runes() && (active_reaction.f & (DERIVED | BLOCK_EFFECT)) !== 0 && // If the source was created locally within the current derived, then
+    if (active_reaction !== null && is_runes() && (active_reaction.f & (DERIVED | BLOCK_EFFECT)) !== 0 && // If the source was created locally within the current derived, then
     // we allow the mutation.
     (derived_sources === null || !derived_sources.includes(source2))) {
       state_unsafe_mutation();
@@ -1069,15 +1066,19 @@ button:focus-visible {\r
   }
   function internal_set(source2, value) {
     if (!source2.equals(value)) {
-      source2.v;
       source2.v = value;
-      source2.wv = increment_write_version();
+      source2.version = increment_version();
       mark_reactions(source2, DIRTY);
-      if (is_runes() && active_effect !== null && (active_effect.f & CLEAN) !== 0 && (active_effect.f & (BRANCH_EFFECT | ROOT_EFFECT)) === 0) {
-        if (untracked_writes === null) {
-          set_untracked_writes([source2]);
+      if (is_runes() && active_effect !== null && (active_effect.f & CLEAN) !== 0 && (active_effect.f & BRANCH_EFFECT) === 0) {
+        if (new_deps !== null && new_deps.includes(source2)) {
+          set_signal_status(active_effect, DIRTY);
+          schedule_effect(active_effect);
         } else {
-          untracked_writes.push(source2);
+          if (untracked_writes === null) {
+            set_untracked_writes([source2]);
+          } else {
+            untracked_writes.push(source2);
+          }
         }
       }
     }
@@ -1138,7 +1139,7 @@ button:focus-visible {\r
             state_descriptors_fixed();
           }
           var s = sources.get(prop2);
-          if (s === undefined) {
+          if (s === void 0) {
             s = source(descriptor.value);
             sources.set(prop2, s);
           } else {
@@ -1148,7 +1149,7 @@ button:focus-visible {\r
         },
         deleteProperty(target, prop2) {
           var s = sources.get(prop2);
-          if (s === undefined) {
+          if (s === void 0) {
             if (prop2 in target) {
               sources.set(prop2, source(UNINITIALIZED));
             }
@@ -1175,13 +1176,13 @@ button:focus-visible {\r
           }
           var s = sources.get(prop2);
           var exists = prop2 in target;
-          if (s === undefined && (!exists || ((_a = get_descriptor(target, prop2)) == null ? undefined : _a.writable))) {
+          if (s === void 0 && (!exists || ((_a = get_descriptor(target, prop2)) == null ? void 0 : _a.writable))) {
             s = source(proxy(exists ? target[prop2] : UNINITIALIZED, metadata));
             sources.set(prop2, s);
           }
-          if (s !== undefined) {
+          if (s !== void 0) {
             var v = get$1(s);
-            return v === UNINITIALIZED ? undefined : v;
+            return v === UNINITIALIZED ? void 0 : v;
           }
           return Reflect.get(target, prop2, receiver);
         },
@@ -1190,10 +1191,10 @@ button:focus-visible {\r
           if (descriptor && "value" in descriptor) {
             var s = sources.get(prop2);
             if (s) descriptor.value = get$1(s);
-          } else if (descriptor === undefined) {
+          } else if (descriptor === void 0) {
             var source2 = sources.get(prop2);
-            var value2 = source2 == null ? undefined : source2.v;
-            if (source2 !== undefined && value2 !== UNINITIALIZED) {
+            var value2 = source2 == null ? void 0 : source2.v;
+            if (source2 !== void 0 && value2 !== UNINITIALIZED) {
               return {
                 enumerable: true,
                 configurable: true,
@@ -1210,9 +1211,9 @@ button:focus-visible {\r
             return true;
           }
           var s = sources.get(prop2);
-          var has = s !== undefined && s.v !== UNINITIALIZED || Reflect.has(target, prop2);
-          if (s !== undefined || active_effect !== null && (!has || ((_a = get_descriptor(target, prop2)) == null ? undefined : _a.writable))) {
-            if (s === undefined) {
+          var has = s !== void 0 && s.v !== UNINITIALIZED || Reflect.has(target, prop2);
+          if (s !== void 0 || active_effect !== null && (!has || ((_a = get_descriptor(target, prop2)) == null ? void 0 : _a.writable))) {
+            if (s === void 0) {
               s = source(has ? proxy(target[prop2], metadata) : UNINITIALIZED);
               sources.set(prop2, s);
             }
@@ -1231,7 +1232,7 @@ button:focus-visible {\r
             for (var i = value2; i < /** @type {Source<number>} */
             s.v; i += 1) {
               var other_s = sources.get(i + "");
-              if (other_s !== undefined) {
+              if (other_s !== void 0) {
                 set(other_s, UNINITIALIZED);
               } else if (i in target) {
                 other_s = source(UNINITIALIZED);
@@ -1239,9 +1240,9 @@ button:focus-visible {\r
               }
             }
           }
-          if (s === undefined) {
-            if (!has || ((_a = get_descriptor(target, prop2)) == null ? undefined : _a.writable)) {
-              s = source(undefined);
+          if (s === void 0) {
+            if (!has || ((_a = get_descriptor(target, prop2)) == null ? void 0 : _a.writable)) {
+              s = source(void 0);
               set(s, proxy(value2, metadata));
               sources.set(prop2, s);
             }
@@ -1250,7 +1251,7 @@ button:focus-visible {\r
             set(s, proxy(value2, metadata));
           }
           var descriptor = Reflect.getOwnPropertyDescriptor(target, prop2);
-          if (descriptor == null ? undefined : descriptor.set) {
+          if (descriptor == null ? void 0 : descriptor.set) {
             descriptor.set.call(receiver, value2);
           }
           if (!has) {
@@ -1272,7 +1273,7 @@ button:focus-visible {\r
           get$1(version2);
           var own_keys = Reflect.ownKeys(target).filter((key2) => {
             var source3 = sources.get(key2);
-            return source3 === undefined || source3.v !== UNINITIALIZED;
+            return source3 === void 0 || source3.v !== UNINITIALIZED;
           });
           for (var [key, source2] of sources) {
             if (source2.v !== UNINITIALIZED && !(key in target)) {
@@ -1294,7 +1295,7 @@ button:focus-visible {\r
   var first_child_getter;
   var next_sibling_getter;
   function init_operations() {
-    if ($window !== undefined) {
+    if ($window !== void 0) {
       return;
     }
     $window = window;
@@ -1302,12 +1303,12 @@ button:focus-visible {\r
     var node_prototype = Node.prototype;
     first_child_getter = get_descriptor(node_prototype, "firstChild").get;
     next_sibling_getter = get_descriptor(node_prototype, "nextSibling").get;
-    element_prototype.__click = undefined;
+    element_prototype.__click = void 0;
     element_prototype.__className = "";
     element_prototype.__attributes = null;
     element_prototype.__styles = null;
-    element_prototype.__e = undefined;
-    Text.prototype.__t = undefined;
+    element_prototype.__e = void 0;
+    Text.prototype.__t = void 0;
   }
   function create_text(value = "") {
     return document.createTextNode(value);
@@ -1371,12 +1372,11 @@ button:focus-visible {\r
       f: flags,
       fn,
       reactions: null,
-      rv: 0,
       v: (
         /** @type {V} */
         null
       ),
-      wv: 0,
+      version: 0,
       parent: parent_derived ?? active_effect
     };
     if (parent_derived !== null) {
@@ -1443,7 +1443,7 @@ button:focus-visible {\r
     set_signal_status(derived2, status);
     if (!derived2.equals(value)) {
       derived2.v = value;
-      derived2.wv = increment_write_version();
+      derived2.version = increment_version();
     }
   }
   function destroy_derived(derived2) {
@@ -1491,7 +1491,7 @@ button:focus-visible {\r
       prev: null,
       teardown: null,
       transitions: null,
-      wv: 0
+      version: 0
     };
     if (sync) {
       var previously_flushing_effect = is_flushing_effect;
@@ -1508,7 +1508,7 @@ button:focus-visible {\r
     } else if (fn !== null) {
       schedule_effect(effect2);
     }
-    var inert = sync && effect2.deps === null && effect2.first === null && effect2.nodes_start === null && effect2.teardown === null && (effect2.f & (EFFECT_HAS_DERIVED | BOUNDARY_EFFECT)) === 0;
+    var inert = sync && effect2.deps === null && effect2.first === null && effect2.nodes_start === null && effect2.teardown === null && (effect2.f & EFFECT_HAS_DERIVED) === 0;
     if (!inert && !is_root && push2) {
       if (parent_effect !== null) {
         push_effect(effect2, parent_effect);
@@ -1558,11 +1558,11 @@ button:focus-visible {\r
         if (options.outro) {
           pause_effect(effect2, () => {
             destroy_effect(effect2);
-            fulfil(undefined);
+            fulfil(void 0);
           });
         } else {
           destroy_effect(effect2);
-          fulfil(undefined);
+          fulfil(void 0);
         }
       });
     };
@@ -1608,10 +1608,8 @@ button:focus-visible {\r
   function render_effect(fn) {
     return create_effect(RENDER_EFFECT, fn, true);
   }
-  function template_effect(fn, thunks = [], d = derived) {
-    const deriveds = thunks.map(d);
-    const effect2 = () => fn(...deriveds.map(get$1));
-    return block(effect2);
+  function template_effect(fn) {
+    return block(fn);
   }
   function block(fn, flags = 0) {
     return create_effect(RENDER_EFFECT | BLOCK_EFFECT | flags, fn, true);
@@ -1747,14 +1745,10 @@ button:focus-visible {\r
   }
   function resume_children(effect2, local) {
     if ((effect2.f & INERT) === 0) return;
-    effect2.f ^= INERT;
-    if ((effect2.f & CLEAN) === 0) {
-      effect2.f ^= CLEAN;
-    }
     if (check_dirtiness(effect2)) {
-      set_signal_status(effect2, DIRTY);
-      schedule_effect(effect2);
+      update_effect(effect2);
     }
+    effect2.f ^= INERT;
     var child2 = effect2.first;
     while (child2 !== null) {
       var sibling2 = child2.next;
@@ -1809,7 +1803,6 @@ button:focus-visible {\r
   let queued_root_effects = [];
   let flush_count = 0;
   let active_reaction = null;
-  let untracking = false;
   function set_active_reaction(reaction) {
     active_reaction = reaction;
   }
@@ -1827,18 +1820,17 @@ button:focus-visible {\r
   function set_untracked_writes(value) {
     untracked_writes = value;
   }
-  let write_version = 1;
-  let read_version = 0;
+  let current_version = 1;
   let skip_reaction = false;
   let component_context = null;
-  function increment_write_version() {
-    return ++write_version;
+  function increment_version() {
+    return ++current_version;
   }
   function is_runes() {
     return !legacy_mode_flag || component_context !== null && component_context.l === null;
   }
   function check_dirtiness(reaction) {
-    var _a;
+    var _a, _b;
     var flags = reaction.f;
     if ((flags & DIRTY) !== 0) {
       return true;
@@ -1848,23 +1840,14 @@ button:focus-visible {\r
       var is_unowned = (flags & UNOWNED) !== 0;
       if (dependencies !== null) {
         var i;
-        var dependency;
-        var is_disconnected = (flags & DISCONNECTED) !== 0;
-        var is_unowned_connected = is_unowned && active_effect !== null && !skip_reaction;
-        var length = dependencies.length;
-        if (is_disconnected || is_unowned_connected) {
-          for (i = 0; i < length; i++) {
-            dependency = dependencies[i];
-            if (is_disconnected || !((_a = dependency == null ? undefined : dependency.reactions) == null ? undefined : _a.includes(reaction))) {
-              (dependency.reactions ?? (dependency.reactions = [])).push(reaction);
-            }
+        if ((flags & DISCONNECTED) !== 0) {
+          for (i = 0; i < dependencies.length; i++) {
+            ((_a = dependencies[i]).reactions ?? (_a.reactions = [])).push(reaction);
           }
-          if (is_disconnected) {
-            reaction.f ^= DISCONNECTED;
-          }
+          reaction.f ^= DISCONNECTED;
         }
-        for (i = 0; i < length; i++) {
-          dependency = dependencies[i];
+        for (i = 0; i < dependencies.length; i++) {
+          var dependency = dependencies[i];
           if (check_dirtiness(
             /** @type {Derived} */
             dependency
@@ -1874,7 +1857,10 @@ button:focus-visible {\r
               dependency
             );
           }
-          if (dependency.wv > reaction.wv) {
+          if (is_unowned && active_effect !== null && !skip_reaction && !((_b = dependency == null ? void 0 : dependency.reactions) == null ? void 0 : _b.includes(reaction))) {
+            (dependency.reactions ?? (dependency.reactions = [])).push(reaction);
+          }
+          if (dependency.version > reaction.version) {
             return true;
           }
         }
@@ -1922,31 +1908,6 @@ button:focus-visible {\r
       return;
     }
   }
-  function schedule_possible_effect_self_invalidation(signal, effect2, depth = 0) {
-    var reactions = signal.reactions;
-    if (reactions === null) return;
-    for (var i = 0; i < reactions.length; i++) {
-      var reaction = reactions[i];
-      if ((reaction.f & DERIVED) !== 0) {
-        schedule_possible_effect_self_invalidation(
-          /** @type {Derived} */
-          reaction,
-          effect2,
-          depth + 1
-        );
-      } else if (effect2 === reaction) {
-        if (depth === 0) {
-          set_signal_status(reaction, DIRTY);
-        } else if ((reaction.f & CLEAN) !== 0) {
-          set_signal_status(reaction, MAYBE_DIRTY);
-        }
-        schedule_effect(
-          /** @type {Effect} */
-          reaction
-        );
-      }
-    }
-  }
   function update_reaction(reaction) {
     var _a;
     var previous_deps = new_deps;
@@ -1956,7 +1917,6 @@ button:focus-visible {\r
     var previous_skip_reaction = skip_reaction;
     var prev_derived_sources = derived_sources;
     var previous_component_context = component_context;
-    var previous_untracking = untracking;
     var flags = reaction.f;
     new_deps = /** @type {null | Value[]} */
     null;
@@ -1966,8 +1926,6 @@ button:focus-visible {\r
     skip_reaction = !is_flushing_effect && (flags & UNOWNED) !== 0;
     derived_sources = null;
     component_context = reaction.ctx;
-    untracking = false;
-    read_version++;
     try {
       var result = (
         /** @type {Function} */
@@ -1994,19 +1952,6 @@ button:focus-visible {\r
         remove_reactions(reaction, skipped_deps);
         deps.length = skipped_deps;
       }
-      if (is_runes() && untracked_writes !== null && (reaction.f & (DERIVED | MAYBE_DIRTY | DIRTY)) === 0) {
-        for (i = 0; i < /** @type {Source[]} */
-        untracked_writes.length; i++) {
-          schedule_possible_effect_self_invalidation(
-            untracked_writes[i],
-            /** @type {Effect} */
-            reaction
-          );
-        }
-      }
-      if (previous_reaction !== null) {
-        read_version++;
-      }
       return result;
     } finally {
       new_deps = previous_deps;
@@ -2016,13 +1961,12 @@ button:focus-visible {\r
       skip_reaction = previous_skip_reaction;
       derived_sources = prev_derived_sources;
       component_context = previous_component_context;
-      untracking = previous_untracking;
     }
   }
   function remove_reaction(signal, dependency) {
     let reactions = dependency.reactions;
     if (reactions !== null) {
-      var index2 = index_of.call(reactions, signal);
+      var index2 = reactions.indexOf(signal);
       if (index2 !== -1) {
         var new_length = reactions.length - 1;
         if (new_length === 0) {
@@ -2074,10 +2018,7 @@ button:focus-visible {\r
       execute_effect_teardown(effect2);
       var teardown2 = update_reaction(effect2);
       effect2.teardown = typeof teardown2 === "function" ? teardown2 : null;
-      effect2.wv = write_version;
-      var deps = effect2.deps;
-      var dep;
-      if (DEV && tracing_mode_flag && (effect2.f & DIRTY) !== 0 && deps !== null) ;
+      effect2.version = current_version;
       if (DEV) ;
     } catch (error) {
       handle_error(error, effect2, previous_effect, previous_component_context || effect2.ctx);
@@ -2246,20 +2187,21 @@ button:focus-visible {\r
       );
       return value;
     }
-    if (active_reaction !== null && !untracking) {
+    if (active_reaction !== null) {
       if (derived_sources !== null && derived_sources.includes(signal)) {
         state_unsafe_local_read();
       }
       var deps = active_reaction.deps;
-      if (signal.rv < read_version) {
-        signal.rv = read_version;
-        if (new_deps === null && deps !== null && deps[skipped_deps] === signal) {
-          skipped_deps++;
-        } else if (new_deps === null) {
-          new_deps = [signal];
-        } else {
-          new_deps.push(signal);
-        }
+      if (new_deps === null && deps !== null && deps[skipped_deps] === signal) {
+        skipped_deps++;
+      } else if (new_deps === null) {
+        new_deps = [signal];
+      } else {
+        new_deps.push(signal);
+      }
+      if (untracked_writes !== null && active_effect !== null && (active_effect.f & CLEAN) !== 0 && (active_effect.f & BRANCH_EFFECT) === 0 && untracked_writes.includes(signal)) {
+        set_signal_status(active_effect, DIRTY);
+        schedule_effect(active_effect);
       }
     } else if (is_derived && /** @type {Derived} */
     signal.deps === null) {
@@ -2282,7 +2224,7 @@ button:focus-visible {\r
             /** @type {Effect} */
             parent
           );
-          if (!((_a = parent_effect.deriveds) == null ? undefined : _a.includes(target))) {
+          if (!((_a = parent_effect.deriveds) == null ? void 0 : _a.includes(target))) {
             (parent_effect.deriveds ?? (parent_effect.deriveds = [])).push(target);
           }
           break;
@@ -2299,12 +2241,12 @@ button:focus-visible {\r
     return signal.v;
   }
   function untrack(fn) {
-    var previous_untracking = untracking;
+    const previous_reaction = active_reaction;
     try {
-      untracking = true;
+      active_reaction = null;
       return fn();
     } finally {
-      untracking = previous_untracking;
+      active_reaction = previous_reaction;
     }
   }
   const STATUS_MASK = -7169;
@@ -2333,7 +2275,7 @@ button:focus-visible {\r
   function pop(component) {
     const context_stack_item = component_context;
     if (context_stack_item !== null) {
-      if (component !== undefined) {
+      if (component !== void 0) {
         context_stack_item.x = component;
       }
       const component_effects = context_stack_item.e;
@@ -2421,7 +2363,7 @@ button:focus-visible {\r
                 /**@type {HTMLFormElement} */
                 evt.target.elements
               ) {
-                (_a = e.__on_r) == null ? undefined : _a.call(e);
+                (_a = e.__on_r) == null ? void 0 : _a.call(e);
               }
             }
           });
@@ -2458,14 +2400,14 @@ button:focus-visible {\r
   }
   const all_registered_events = /* @__PURE__ */ new Set();
   const root_event_handles = /* @__PURE__ */ new Set();
-  function create_event(event_name, dom, handler, options = {}) {
+  function create_event(event_name, dom, handler, options) {
     function target_handler(event2) {
       if (!options.capture) {
         handle_event_propagation.call(dom, event2);
       }
       if (!event2.cancelBubble) {
         return without_reactive_context(() => {
-          return handler == null ? void 0 : handler.call(this, event2);
+          return handler.call(this, event2);
         });
       }
     }
@@ -2495,7 +2437,7 @@ button:focus-visible {\r
       handler_element.ownerDocument
     );
     var event_name = event2.type;
-    var path = ((_a = event2.composedPath) == null ? undefined : _a.call(event2)) || [];
+    var path = ((_a = event2.composedPath) == null ? void 0 : _a.call(event2)) || [];
     var current_target = (
       /** @type {null | Element} */
       path[0] || event2.target
@@ -2596,7 +2538,7 @@ button:focus-visible {\r
     var node;
     var has_start = !content.startsWith("<!>");
     return () => {
-      if (node === undefined) {
+      if (node === void 0) {
         node = create_fragment_from_html(has_start ? content : "<!>" + content);
         if (!is_fragment) node = /** @type {Node} */
         /* @__PURE__ */ get_first_child(node);
@@ -2691,7 +2633,7 @@ button:focus-visible {\r
         var passive = is_passive_event(event_name);
         target.addEventListener(event_name, handle_event_propagation, { passive });
         var n = document_listeners.get(event_name);
-        if (n === undefined) {
+        if (n === void 0) {
           document.addEventListener(event_name, handle_event_propagation, { passive });
           document_listeners.set(event_name, 1);
         } else {
@@ -2701,7 +2643,7 @@ button:focus-visible {\r
     };
     event_handle(array_from(all_registered_events));
     root_event_handles.add(event_handle);
-    var component = undefined;
+    var component = void 0;
     var unmount = component_root(() => {
       var anchor_node = anchor ?? target.appendChild(create_text());
       branch(() => {
@@ -2740,7 +2682,7 @@ button:focus-visible {\r
         }
         root_event_handles.delete(event_handle);
         if (anchor_node !== anchor) {
-          (_a = anchor_node.parentNode) == null ? undefined : _a.removeChild(anchor_node);
+          (_a = anchor_node.parentNode) == null ? void 0 : _a.removeChild(anchor_node);
         }
       };
     });
@@ -2842,12 +2784,9 @@ button:focus-visible {\r
     }
     var fallback = null;
     var was_empty = false;
-    var each_array = /* @__PURE__ */ derived_safe_equal(() => {
-      var collection = get_collection();
-      return is_array(collection) ? collection : collection == null ? [] : array_from(collection);
-    });
     block(() => {
-      var array = get$1(each_array);
+      var collection = get_collection();
+      var array = is_array(collection) ? collection : collection == null ? [] : array_from(collection);
       var length = array.length;
       if (was_empty && length === 0) {
         return;
@@ -2865,8 +2804,7 @@ button:focus-visible {\r
           render_fn,
           flags,
           (effect2.f & INERT) !== 0,
-          get_key,
-          get_collection
+          get_key
         );
       }
       if (fallback_fn !== null) {
@@ -2882,7 +2820,7 @@ button:focus-visible {\r
           });
         }
       }
-      get$1(each_array);
+      get_collection();
     });
   }
   function reconcile(array, state, anchor, render_fn, flags, is_inert, get_key, get_collection) {
@@ -2907,8 +2845,8 @@ button:focus-visible {\r
         value = array[i];
         key = get_key(value, i);
         item = items.get(key);
-        if (item !== undefined) {
-          (_a = item.a) == null ? undefined : _a.measure();
+        if (item !== void 0) {
+          (_a = item.a) == null ? void 0 : _a.measure();
           (to_animate ?? (to_animate = /* @__PURE__ */ new Set())).add(item);
         }
       }
@@ -2917,7 +2855,7 @@ button:focus-visible {\r
       value = array[i];
       key = get_key(value, i);
       item = items.get(key);
-      if (item === undefined) {
+      if (item === void 0) {
         var child_anchor = current ? (
           /** @type {TemplateNode} */
           current.e.nodes_start
@@ -2931,8 +2869,7 @@ button:focus-visible {\r
           key,
           i,
           render_fn,
-          flags,
-          get_collection
+          flags
         );
         items.set(key, prev);
         matched = [];
@@ -2946,12 +2883,12 @@ button:focus-visible {\r
       if ((item.e.f & INERT) !== 0) {
         resume_effect(item.e);
         if (is_animated) {
-          (_b = item.a) == null ? undefined : _b.unfix();
+          (_b = item.a) == null ? void 0 : _b.unfix();
           (to_animate ?? (to_animate = /* @__PURE__ */ new Set())).delete(item);
         }
       }
       if (item !== current) {
-        if (seen !== undefined && seen.has(item)) {
+        if (seen !== void 0 && seen.has(item)) {
           if (matched.length < stashed.length) {
             var start = stashed[0];
             var j;
@@ -3000,8 +2937,8 @@ button:focus-visible {\r
       prev = item;
       current = item.next;
     }
-    if (current !== null || seen !== undefined) {
-      var to_destroy = seen === undefined ? [] : array_from(seen);
+    if (current !== null || seen !== void 0) {
+      var to_destroy = seen === void 0 ? [] : array_from(seen);
       while (current !== null) {
         if (is_inert || (current.e.f & INERT) === 0) {
           to_destroy.push(current);
@@ -3013,10 +2950,10 @@ button:focus-visible {\r
         var controlled_anchor = (flags & EACH_IS_CONTROLLED) !== 0 && length === 0 ? anchor : null;
         if (is_animated) {
           for (i = 0; i < destroy_length; i += 1) {
-            (_c = to_destroy[i].a) == null ? undefined : _c.measure();
+            (_c = to_destroy[i].a) == null ? void 0 : _c.measure();
           }
           for (i = 0; i < destroy_length; i += 1) {
-            (_d = to_destroy[i].a) == null ? undefined : _d.fix();
+            (_d = to_destroy[i].a) == null ? void 0 : _d.fix();
           }
         }
         pause_effects(state, to_destroy, controlled_anchor, items);
@@ -3025,9 +2962,9 @@ button:focus-visible {\r
     if (is_animated) {
       queue_micro_task(() => {
         var _a2;
-        if (to_animate === undefined) return;
+        if (to_animate === void 0) return;
         for (item of to_animate) {
-          (_a2 = item.a) == null ? undefined : _a2.apply();
+          (_a2 = item.a) == null ? void 0 : _a2.apply();
         }
       });
     }
@@ -3066,7 +3003,7 @@ button:focus-visible {\r
     };
     current_each_item = item;
     try {
-      item.e = branch(() => render_fn(anchor, v, i, get_collection), hydrating);
+      item.e = branch(() => render_fn(anchor, v, i), hydrating);
       item.e.prev = prev && prev.e;
       item.e.next = next && next.e;
       if (prev === null) {
@@ -3120,13 +3057,13 @@ button:focus-visible {\r
   }
   function slot(anchor, $$props, name, slot_props, fallback_fn) {
     var _a;
-    var slot_fn = (_a = $$props.$$slots) == null ? undefined : _a[name];
+    var slot_fn = (_a = $$props.$$slots) == null ? void 0 : _a[name];
     var is_interop = false;
     if (slot_fn === true) {
       slot_fn = $$props["children"];
       is_interop = true;
     }
-    if (slot_fn === undefined) {
+    if (slot_fn === void 0) {
       if (fallback_fn !== null) {
         fallback_fn(anchor);
       }
@@ -3263,7 +3200,7 @@ button:focus-visible {\r
     const parts = css.split(";");
     for (const part of parts) {
       const [property, value] = part.split(":");
-      if (!property || value === undefined) break;
+      if (!property || value === void 0) break;
       const formatted_property = css_property_to_camelcase(property.trim());
       keyframe[formatted_property] = value.trim();
     }
@@ -3285,13 +3222,13 @@ button:focus-visible {\r
         from = this.element.getBoundingClientRect();
       },
       apply() {
-        animation2 == null ? undefined : animation2.abort();
+        animation2 == null ? void 0 : animation2.abort();
         to = this.element.getBoundingClientRect();
         if (from.left !== to.left || from.right !== to.right || from.top !== to.top || from.bottom !== to.bottom) {
-          const options = get_fn()(this.element, { from, to }, get_params == null ? undefined : get_params());
-          animation2 = animate(this.element, options, undefined, 1, () => {
-            animation2 == null ? undefined : animation2.abort();
-            animation2 = undefined;
+          const options = get_fn()(this.element, { from, to }, get_params == null ? void 0 : get_params());
+          animation2 = animate(this.element, options, void 0, 1, () => {
+            animation2 == null ? void 0 : animation2.abort();
+            animation2 = void 0;
           });
         }
       },
@@ -3342,7 +3279,6 @@ button:focus-visible {\r
     var direction = is_both ? "both" : is_intro ? "in" : "out";
     var current_options;
     var inert = element.inert;
-    var overflow = element.style.overflow;
     var intro;
     var outro;
     function get_options() {
@@ -3366,37 +3302,36 @@ button:focus-visible {\r
         var _a;
         element.inert = inert;
         if (!is_intro) {
-          outro == null ? undefined : outro.abort();
-          (_a = outro == null ? undefined : outro.reset) == null ? undefined : _a.call(outro);
+          outro == null ? void 0 : outro.abort();
+          (_a = outro == null ? void 0 : outro.reset) == null ? void 0 : _a.call(outro);
           return;
         }
         if (!is_outro) {
-          intro == null ? undefined : intro.abort();
+          intro == null ? void 0 : intro.abort();
         }
         dispatch_event(element, "introstart");
         intro = animate(element, get_options(), outro, 1, () => {
           dispatch_event(element, "introend");
-          intro == null ? undefined : intro.abort();
-          intro = current_options = undefined;
-          element.style.overflow = overflow;
+          intro == null ? void 0 : intro.abort();
+          intro = current_options = void 0;
         });
       },
       out(fn) {
         if (!is_outro) {
-          fn == null ? undefined : fn();
-          current_options = undefined;
+          fn == null ? void 0 : fn();
+          current_options = void 0;
           return;
         }
         element.inert = true;
         dispatch_event(element, "outrostart");
         outro = animate(element, get_options(), intro, 0, () => {
           dispatch_event(element, "outroend");
-          fn == null ? undefined : fn();
+          fn == null ? void 0 : fn();
         });
       },
       stop: () => {
-        intro == null ? undefined : intro.abort();
-        outro == null ? undefined : outro.abort();
+        intro == null ? void 0 : intro.abort();
+        outro == null ? void 0 : outro.abort();
       }
     };
     var e = (
@@ -3438,15 +3373,15 @@ button:focus-visible {\r
       return {
         abort: () => {
           aborted = true;
-          a == null ? undefined : a.abort();
+          a == null ? void 0 : a.abort();
         },
         deactivate: () => a.deactivate(),
         reset: () => a.reset(),
         t: () => a.t()
       };
     }
-    counterpart == null ? undefined : counterpart.deactivate();
-    if (!(options == null ? undefined : options.duration)) {
+    counterpart == null ? void 0 : counterpart.deactivate();
+    if (!(options == null ? void 0 : options.duration)) {
       on_finish();
       return {
         abort: noop,
@@ -3457,7 +3392,7 @@ button:focus-visible {\r
     }
     const { delay = 0, css, tick, easing = linear$1 } = options;
     var keyframes = [];
-    if (is_intro && counterpart === undefined) {
+    if (is_intro && counterpart === void 0) {
       if (tick) {
         tick(0, 1);
       }
@@ -3469,8 +3404,8 @@ button:focus-visible {\r
     var get_t = () => 1 - t2;
     var animation2 = element.animate(keyframes, { duration: delay });
     animation2.onfinish = () => {
-      var t1 = (counterpart == null ? undefined : counterpart.t()) ?? 1 - t2;
-      counterpart == null ? undefined : counterpart.abort();
+      var t1 = (counterpart == null ? void 0 : counterpart.t()) ?? 1 - t2;
+      counterpart == null ? void 0 : counterpart.abort();
       var delta = t2 - t1;
       var duration = (
         /** @type {number} */
@@ -3478,18 +3413,13 @@ button:focus-visible {\r
       );
       var keyframes2 = [];
       if (duration > 0) {
-        var needs_overflow_hidden = false;
         if (css) {
           var n = Math.ceil(duration / (1e3 / 60));
           for (var i = 0; i <= n; i += 1) {
             var t = t1 + delta * easing(i / n);
-            var styles2 = css_to_keyframe(css(t, 1 - t));
-            keyframes2.push(styles2);
-            needs_overflow_hidden || (needs_overflow_hidden = styles2.overflow === "hidden");
+            var styles2 = css(t, 1 - t);
+            keyframes2.push(css_to_keyframe(styles2));
           }
-        }
-        if (needs_overflow_hidden) {
-          element.style.overflow = "hidden";
         }
         get_t = () => {
           var time = (
@@ -3511,7 +3441,7 @@ button:focus-visible {\r
       animation2 = element.animate(keyframes2, { duration, fill: "forwards" });
       animation2.onfinish = () => {
         get_t = () => t2;
-        tick == null ? undefined : tick(t2, 1 - t2);
+        tick == null ? void 0 : tick(t2, 1 - t2);
         on_finish();
       };
     };
@@ -3528,7 +3458,7 @@ button:focus-visible {\r
       },
       reset: () => {
         if (t2 === 0) {
-          tick == null ? undefined : tick(1, 0);
+          tick == null ? void 0 : tick(1, 0);
         }
       },
       t: () => get_t()
@@ -3650,7 +3580,7 @@ button:focus-visible {\r
     });
   }
   function is_bound_this(bound_value, element_or_component) {
-    return bound_value === element_or_component || (bound_value == null ? undefined : bound_value[STATE_SYMBOL]) === element_or_component;
+    return bound_value === element_or_component || (bound_value == null ? void 0 : bound_value[STATE_SYMBOL]) === element_or_component;
   }
   function bind_this(element_or_component = {}, update, get_value, get_parts) {
     effect(() => {
@@ -3685,7 +3615,7 @@ button:focus-visible {\r
         args[0]
       );
       if (event2.target === this) {
-        fn == null ? undefined : fn.apply(this, args);
+        fn == null ? void 0 : fn.apply(this, args);
       }
     };
   }
@@ -3696,7 +3626,7 @@ button:focus-visible {\r
         args[0]
       );
       event2.stopPropagation();
-      return fn == null ? undefined : fn.apply(this, args);
+      return fn == null ? void 0 : fn.apply(this, args);
     };
   }
   function init(immutable = false) {
@@ -3772,7 +3702,7 @@ button:focus-visible {\r
     var _a;
     var events = (
       /** @type {Record<string, Function[] | Function>} */
-      (_a = $$props.$$events) == null ? undefined : _a[event2.type]
+      (_a = $$props.$$events) == null ? void 0 : _a[event2.type]
     );
     var callbacks = is_array(events) ? events.slice() : events == null ? [] : [events];
     for (var fn of callbacks) {
@@ -3781,7 +3711,7 @@ button:focus-visible {\r
   }
   function subscribe_to_store(store, run2, invalidate) {
     if (store == null) {
-      run2(undefined);
+      run2(void 0);
       return noop;
     }
     const unsub = untrack(
@@ -3793,72 +3723,18 @@ button:focus-visible {\r
     );
     return unsub.unsubscribe ? () => unsub.unsubscribe() : unsub;
   }
-  const subscriber_queue = [];
-  function writable(value, start = noop) {
-    let stop = null;
-    const subscribers = /* @__PURE__ */ new Set();
-    function set2(new_value) {
-      if (safe_not_equal(value, new_value)) {
-        value = new_value;
-        if (stop) {
-          const run_queue = !subscriber_queue.length;
-          for (const subscriber of subscribers) {
-            subscriber[1]();
-            subscriber_queue.push(subscriber, value);
-          }
-          if (run_queue) {
-            for (let i = 0; i < subscriber_queue.length; i += 2) {
-              subscriber_queue[i][0](subscriber_queue[i + 1]);
-            }
-            subscriber_queue.length = 0;
-          }
-        }
-      }
-    }
-    function update(fn) {
-      set2(fn(
-        /** @type {T} */
-        value
-      ));
-    }
-    function subscribe(run2, invalidate = noop) {
-      const subscriber = [run2, invalidate];
-      subscribers.add(subscriber);
-      if (subscribers.size === 1) {
-        stop = start(set2, update) || noop;
-      }
-      run2(
-        /** @type {T} */
-        value
-      );
-      return () => {
-        subscribers.delete(subscriber);
-        if (subscribers.size === 0 && stop) {
-          stop();
-          stop = null;
-        }
-      };
-    }
-    return { set: set2, update, subscribe };
-  }
-  function get(store) {
-    let value;
-    subscribe_to_store(store, (_) => value = _)();
-    return value;
-  }
   let is_store_binding = false;
-  let IS_UNMOUNTED = Symbol();
   function store_get(store, store_name, stores) {
     const entry = stores[store_name] ?? (stores[store_name] = {
       store: null,
-      source: /* @__PURE__ */ mutable_source(undefined),
+      source: /* @__PURE__ */ mutable_source(void 0),
       unsubscribe: noop
     });
-    if (entry.store !== store && !(IS_UNMOUNTED in stores)) {
+    if (entry.store !== store) {
       entry.unsubscribe();
       entry.store = store ?? null;
       if (store == null) {
-        entry.source.v = undefined;
+        entry.source.v = void 0;
         entry.unsubscribe = noop;
       } else {
         var is_synchronous_callback = true;
@@ -3872,9 +3748,6 @@ button:focus-visible {\r
         is_synchronous_callback = false;
       }
     }
-    if (store && IS_UNMOUNTED in stores) {
-      return get(store);
-    }
     return get$1(entry.source);
   }
   function store_set(store, value) {
@@ -3883,19 +3756,13 @@ button:focus-visible {\r
   }
   function setup_stores() {
     const stores = {};
-    function cleanup() {
-      teardown(() => {
-        for (var store_name in stores) {
-          const ref = stores[store_name];
-          ref.unsubscribe();
-        }
-        define_property(stores, IS_UNMOUNTED, {
-          enumerable: false,
-          value: true
-        });
-      });
-    }
-    return [stores, cleanup];
+    teardown(() => {
+      for (var store_name in stores) {
+        const ref = stores[store_name];
+        ref.unsubscribe();
+      }
+    });
+    return stores;
   }
   function store_mutate(store, expression, new_value) {
     store.set(new_value);
@@ -3944,7 +3811,7 @@ button:focus-visible {\r
       props[key];
     }
     var is_entry_props = STATE_SYMBOL in props || LEGACY_PROPS in props;
-    var setter = bindable && (((_a = get_descriptor(props, key)) == null ? undefined : _a.set) ?? (is_entry_props && key in props && ((v) => props[key] = v))) || undefined;
+    var setter = ((_a = get_descriptor(props, key)) == null ? void 0 : _a.set) ?? (is_entry_props && bindable && key in props ? (v) => props[key] = v : void 0);
     var fallback_value = (
       /** @type {V} */
       fallback
@@ -3967,7 +3834,7 @@ button:focus-visible {\r
       }
       return fallback_value;
     };
-    if (prop_value === undefined && fallback !== undefined) {
+    if (prop_value === void 0 && fallback !== void 0) {
       if (setter && runes) {
         props_invalid_value();
       }
@@ -3981,7 +3848,7 @@ button:focus-visible {\r
           /** @type {V} */
           props[key]
         );
-        if (value === undefined) return get_fallback();
+        if (value === void 0) return get_fallback();
         fallback_dirty = true;
         fallback_used = false;
         return value;
@@ -3996,9 +3863,9 @@ button:focus-visible {\r
       derived_getter.f |= LEGACY_DERIVED_PROP;
       getter = () => {
         var value = get$1(derived_getter);
-        if (value !== undefined) fallback_value = /** @type {V} */
-        undefined;
-        return value === undefined ? fallback_value : value;
+        if (value !== void 0) fallback_value = /** @type {V} */
+        void 0;
+        return value === void 0 ? fallback_value : value;
       };
     }
     if ((flags & PROPS_IS_UPDATED) === 0) {
@@ -4040,7 +3907,7 @@ button:focus-visible {\r
         if (!current_value.equals(new_value)) {
           from_child = true;
           set(inner_current_value, new_value);
-          if (fallback_used && fallback_value !== undefined) {
+          if (fallback_used && fallback_value !== void 0) {
             fallback_value = new_value;
           }
           untrack(() => get$1(current_value));
@@ -4112,6 +3979,9 @@ button:focus-visible {\r
       childList: true,
       subtree: true
     });
+    return () => {
+      observer.disconnect();
+    };
   }
   function __JsonParse(data) {
     if (typeof data === "string") {
@@ -4179,6 +4049,59 @@ button:focus-visible {\r
     }
     const brightness = (red * 299 + green * 587 + blue * 114) / 1e3;
     return brightness < 128 ? "#FFFFFF" : "#000000";
+  }
+  const subscriber_queue = [];
+  function writable(value, start = noop) {
+    let stop = null;
+    const subscribers = /* @__PURE__ */ new Set();
+    function set2(new_value) {
+      if (safe_not_equal(value, new_value)) {
+        value = new_value;
+        if (stop) {
+          const run_queue = !subscriber_queue.length;
+          for (const subscriber of subscribers) {
+            subscriber[1]();
+            subscriber_queue.push(subscriber, value);
+          }
+          if (run_queue) {
+            for (let i = 0; i < subscriber_queue.length; i += 2) {
+              subscriber_queue[i][0](subscriber_queue[i + 1]);
+            }
+            subscriber_queue.length = 0;
+          }
+        }
+      }
+    }
+    function update(fn) {
+      set2(fn(
+        /** @type {T} */
+        value
+      ));
+    }
+    function subscribe(run2, invalidate = noop) {
+      const subscriber = [run2, invalidate];
+      subscribers.add(subscriber);
+      if (subscribers.size === 1) {
+        stop = start(set2, update) || noop;
+      }
+      run2(
+        /** @type {T} */
+        value
+      );
+      return () => {
+        subscribers.delete(subscriber);
+        if (subscribers.size === 0 && stop) {
+          stop();
+          stop = null;
+        }
+      };
+    }
+    return { set: set2, update, subscribe };
+  }
+  function get(store) {
+    let value;
+    subscribe_to_store(store, (_) => value = _)();
+    return value;
   }
   const PERSIST_NAME = "Kesa:Fall";
   const getPersistedData = () => {
@@ -4276,22 +4199,22 @@ button:focus-visible {\r
     };
     XMLHttpRequest.prototype.send = function(body) {
       var _a;
-      if ((_a = this._requestMetadata) == null ? undefined : _a.isTarget) {
+      if ((_a = this._requestMetadata) == null ? void 0 : _a.isTarget) {
         const originalOnReadyStateChange = this.onreadystatechange;
         const originalOnLoad = this.onload;
         this.addEventListener("readystatechange", () => {
           if (this.readyState === 4) {
             this._captureResponseData();
           }
-          originalOnReadyStateChange == null ? undefined : originalOnReadyStateChange.call(this);
+          originalOnReadyStateChange == null ? void 0 : originalOnReadyStateChange.call(this);
         });
         this.onload = (e) => {
           this._captureResponseData();
-          originalOnLoad == null ? undefined : originalOnLoad.call(this, e);
+          originalOnLoad == null ? void 0 : originalOnLoad.call(this, e);
         };
         const reqBody = {
           url: this._requestMetadata.url,
-          body: body instanceof Document ? body.documentElement.outerHTML : body
+          body: body instanceof Document ? body.documentElement.textContent || "[Document]" : body
         };
         const event2 = new CustomEvent(`req>${param.method}->${param.path}`, { detail: reqBody });
         window.dispatchEvent(event2);
@@ -4321,7 +4244,7 @@ button:focus-visible {\r
           case "json":
             return this.response;
           case "document":
-            return (_a = this.responseXML) == null ? void 0 : _a.documentElement.outerHTML;
+            return ((_a = this.responseXML) == null ? void 0 : _a.documentElement.textContent) || null;
           case "arraybuffer":
             return new Uint8Array(this.response);
           case "blob":
@@ -4339,23 +4262,15 @@ button:focus-visible {\r
     return f * f * f + 1;
   }
   function flip(node, { from, to }, params = {}) {
-    var { delay = 0, duration = (d) => Math.sqrt(d) * 120, easing = cubicOut } = params;
     var style = getComputedStyle(node);
+    var zoom = get_zoom(node);
     var transform = style.transform === "none" ? "" : style.transform;
     var [ox, oy] = style.transformOrigin.split(" ").map(parseFloat);
-    ox /= node.clientWidth;
-    oy /= node.clientHeight;
-    var zoom = get_zoom(node);
-    var sx = node.clientWidth / to.width / zoom;
-    var sy = node.clientHeight / to.height / zoom;
-    var fx = from.left + from.width * ox;
-    var fy = from.top + from.height * oy;
-    var tx = to.left + to.width * ox;
-    var ty = to.top + to.height * oy;
-    var dx = (fx - tx) * sx;
-    var dy = (fy - ty) * sy;
     var dsx = from.width / to.width;
     var dsy = from.height / to.height;
+    var dx = (from.left + dsx * ox - (to.left + ox)) / zoom;
+    var dy = (from.top + dsy * oy - (to.top + oy)) / zoom;
+    var { delay = 0, duration = (d) => Math.sqrt(d) * 120, easing = cubicOut } = params;
     return {
       delay,
       duration: typeof duration === "function" ? duration(Math.sqrt(dx * dx + dy * dy)) : duration,
@@ -4363,9 +4278,9 @@ button:focus-visible {\r
       css: (t, u) => {
         var x = u * dx;
         var y = u * dy;
-        var sx2 = t + u * dsx;
-        var sy2 = t + u * dsy;
-        return `transform: ${transform} translate(${x}px, ${y}px) scale(${sx2}, ${sy2});`;
+        var sx = t + u * dsx;
+        var sy = t + u * dsy;
+        return `transform: ${transform} scale(${sx}, ${sy}) translate(${x}px, ${y}px);`;
       }
     };
   }
@@ -4385,9 +4300,9 @@ button:focus-visible {\r
     }
     return zoom;
   }
-  var root_4$2 = /* @__PURE__ */ template(`<span class="svelte-b2jtby"> </span>`);
+  var root_4$1 = /* @__PURE__ */ template(`<span class="svelte-b2jtby"> </span>`);
   var root_3$2 = /* @__PURE__ */ template(`<div class="svelte-b2jtby"><!></div>`);
-  var root_7$1 = /* @__PURE__ */ template(`<span class="svelte-b2jtby"> </span>`);
+  var root_7$2 = /* @__PURE__ */ template(`<span class="svelte-b2jtby"> </span>`);
   var root_1$3 = /* @__PURE__ */ template(`<div><!></div>`);
   var root$b = /* @__PURE__ */ template(`<div></div>`);
   function Masonry($$anchor, $$props) {
@@ -4457,7 +4372,7 @@ button:focus-visible {\r
                 }
               },
               ($$anchor5) => {
-                var span = root_4$2();
+                var span = root_4$1();
                 var text = child(span);
                 template_effect(() => set_text(text, item()));
                 append($$anchor5, span);
@@ -4491,7 +4406,7 @@ button:focus-visible {\r
                 }
               },
               ($$anchor5) => {
-                var span_1 = root_7$1();
+                var span_1 = root_7$2();
                 var text_1 = child(span_1);
                 template_effect(() => set_text(text_1, item()));
                 append($$anchor5, span_1);
@@ -4521,6 +4436,20 @@ button:focus-visible {\r
     append($$anchor, div);
     pop();
   }
+  /*! *****************************************************************************
+  Copyright (c) Microsoft Corporation.
+
+  Permission to use, copy, modify, and/or distribute this software for any
+  purpose with or without fee is hereby granted.
+
+  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+  REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+  AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+  INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+  LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+  OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+  PERFORMANCE OF THIS SOFTWARE.
+  ***************************************************************************** */
   var __assign = function() {
     __assign = Object.assign || function __assign2(t) {
       for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -4696,11 +4625,11 @@ button:focus-visible {\r
       };
       NotyfView2.prototype.getXPosition = function(options) {
         var _a;
-        return ((_a = options === null || options === undefined ? undefined : options.position) === null || _a === undefined ? undefined : _a.x) || "right";
+        return ((_a = options === null || options === void 0 ? void 0 : options.position) === null || _a === void 0 ? void 0 : _a.x) || "right";
       };
       NotyfView2.prototype.getYPosition = function(options) {
         var _a;
-        return ((_a = options === null || options === undefined ? undefined : options.position) === null || _a === undefined ? undefined : _a.y) || "bottom";
+        return ((_a = options === null || options === void 0 ? void 0 : options.position) === null || _a === void 0 ? void 0 : _a.y) || "bottom";
       };
       NotyfView2.prototype.adjustContainerAlignment = function(options) {
         var align = this.X_POSITION_FLEX_MAP[this.getXPosition(options)];
@@ -4725,7 +4654,7 @@ button:focus-visible {\r
           if (typeof iconOpts === "string" || iconOpts instanceof String)
             iconContainer.innerHTML = new String(iconOpts).valueOf();
           if (typeof iconOpts === "object") {
-            var _a = iconOpts.tagName, tagName = _a === undefined ? "i" : _a, className_1 = iconOpts.className, text = iconOpts.text, _b = iconOpts.color, color = _b === undefined ? mainColor : _b;
+            var _a = iconOpts.tagName, tagName = _a === void 0 ? "i" : _a, className_1 = iconOpts.className, text = iconOpts.text, _b = iconOpts.color, color = _b === void 0 ? mainColor : _b;
             var iconElement = this._createHTMLElement({ tagName, className: className_1, text });
             if (color)
               iconElement.style.color = color;
@@ -4754,13 +4683,13 @@ button:focus-visible {\r
           notificationElem.classList.add("notyf__toast--dismissible");
           dismissButton.addEventListener("click", function(event2) {
             var _a2, _b2;
-            (_b2 = (_a2 = _this.events)[NotyfEvent.Dismiss]) === null || _b2 === undefined ? undefined : _b2.call(_a2, { target: notification, event: event2 });
+            (_b2 = (_a2 = _this.events)[NotyfEvent.Dismiss]) === null || _b2 === void 0 ? void 0 : _b2.call(_a2, { target: notification, event: event2 });
             event2.stopPropagation();
           });
         }
         notificationElem.addEventListener("click", function(event2) {
           var _a2, _b2;
-          return (_b2 = (_a2 = _this.events)[NotyfEvent.Click]) === null || _b2 === undefined ? undefined : _b2.call(_a2, { target: notification, event: event2 });
+          return (_b2 = (_a2 = _this.events)[NotyfEvent.Click]) === null || _b2 === void 0 ? void 0 : _b2.call(_a2, { target: notification, event: event2 });
         });
         var className = this.getYPosition(options) === "top" ? "upper" : "lower";
         notificationElem.classList.add("notyf__toast--" + className);
@@ -4808,7 +4737,7 @@ button:focus-visible {\r
         };
         var t;
         for (t in transitions) {
-          if (el.style[t] !== undefined) {
+          if (el.style[t] !== void 0) {
             return transitions[t];
           }
         }
@@ -4873,7 +4802,7 @@ button:focus-visible {\r
       Notyf2.prototype._pushNotification = function(notification) {
         var _this = this;
         this.notifications.push(notification);
-        var duration = notification.options.duration !== undefined ? notification.options.duration : this.options.duration;
+        var duration = notification.options.duration !== void 0 ? notification.options.duration : this.options.duration;
         if (duration) {
           setTimeout(function() {
             return _this._removeNotification(notification);
@@ -5023,7 +4952,7 @@ button:focus-visible {\r
         403: {
           src: cate_pic_baseUrl + "tvsd.png",
           alt: "影劇/綜藝/SD",
-          color: "#c74854"
+          color: "#00a0e9"
         },
         404: {
           src: cate_pic_baseUrl + "bbc.png",
@@ -5223,7 +5152,7 @@ button:focus-visible {\r
     //   421: '#00a0e9', // Movie BluRay
     //   439: '#1b2a51', // Movie Remux
     //   105: '#276fb8', // TV影剧综艺 父
-    //   403: '#c74854', // TV影剧综艺 SD
+    //   403: '#00a0e9', // TV影剧综艺 SD
     //   402: '#276fb8', // TV影剧综艺 HD
     //   435: '#4dbebd', // TV影剧综艺 DVD
     //   438: '#1897d6', // TV影剧综艺 BluRay
@@ -5597,9 +5526,9 @@ button:focus-visible {\r
   var $$_import_CONFIG = reactive_import(() => CONFIG);
   var root_1$2 = /* @__PURE__ */ template(`<div class="card-category svelte-1q2qbu1"><img class="card_category-img svelte-1q2qbu1"> </div>`);
   var root_2$3 = /* @__PURE__ */ template(`<a class="__main_title svelte-1q2qbu1" target="_blank" rel="noopener noreferrer"> </a>`);
-  var root_4$1 = /* @__PURE__ */ template(`<div class="pic_error svelte-1q2qbu1"><div><img style="height: 100%; width:60px; border-radius:20px;" alt="pic error" class="svelte-1q2qbu1"></div> <div class="ant-typography" style="color: white; font-size:16px;">GAY WARNING<br>同志警告</div></div>`);
+  var root_4 = /* @__PURE__ */ template(`<div class="pic_error svelte-1q2qbu1"><div><img style="height: 100%; width:60px; border-radius:20px;" alt="pic error" class="svelte-1q2qbu1"></div> <div class="ant-typography" style="color: white; font-size:16px;">GAY WARNING<br>同志警告</div></div>`);
   var root_6$1 = /* @__PURE__ */ template(`<img class="lazy-image svelte-1q2qbu1">`);
-  var root_7 = /* @__PURE__ */ template(`<div class="pic_error svelte-1q2qbu1" style=""><div><img style="height: 100%;width: 100px;" alt="no pic" class="svelte-1q2qbu1"></div> <div>本种没有图片</div></div>`);
+  var root_7$1 = /* @__PURE__ */ template(`<div class="pic_error svelte-1q2qbu1" style=""><div><img style="height: 100%;width: 100px;" alt="no pic" class="svelte-1q2qbu1"></div> <div>本种没有图片</div></div>`);
   var root_8 = /* @__PURE__ */ template(`<div class="pic_error svelte-1q2qbu1" style=""><div><img style="height: 100%;width: 100px;" alt="pic error" class="svelte-1q2qbu1"></div> <div class="ant-typography">图片加载失败</div></div>`);
   var root_9 = /* @__PURE__ */ template(`<div class="hover-trigger svelte-1q2qbu1" role="button" aria-label="悬浮预览" tabindex="0"><img style="pointer-events: none;" alt="PREVIEW" class="svelte-1q2qbu1"></div>`);
   var root_11 = /* @__PURE__ */ template(`<img style="
@@ -5635,7 +5564,7 @@ button:focus-visible {\r
                 background-color: inherit; border-color:transparent">下载&收藏</button></div></div></div></div> <!> <!></div> <!></div>`);
   function Mteam_Card($$anchor, $$props) {
     push($$props, false);
-    const [$$stores, $$cleanup] = setup_stores();
+    const $$stores = setup_stores();
     const $_mt_categories = () => store_get(_mt_categories, "$_mt_categories", $$stores);
     const $_mt_label = () => store_get(_mt_label, "$_mt_label", $$stores);
     const $_block_gay = () => store_get(_block_gay, "$_block_gay", $$stores);
@@ -5643,67 +5572,27 @@ button:focus-visible {\r
     const $_card_radius = () => store_get(_card_radius, "$_card_radius", $$stores);
     const $_pic_failed_showInfo = () => store_get(_pic_failed_showInfo, "$_pic_failed_showInfo", $$stores);
     const $_show_hover_pic = () => store_get(_show_hover_pic, "$_show_hover_pic", $$stores);
-    let torrentInfo = prop($$props, "torrentInfo", 8);
+    let _torrentInfo = prop($$props, "_torrentInfo", 8);
+    let torrentInfo = mutable_state();
     let _inner_info_show = mutable_state(false);
-    let toppingLevelArray = mutable_state();
-    if (torrentInfo().status.toppingLevel) {
-      set(toppingLevelArray, Array(Number(torrentInfo().status.toppingLevel)).fill());
-    }
-    const _discount = torrentInfo().status.discount;
-    const _discountEndTime = torrentInfo().status.discountEndTime;
+    let toppingLevelArray = mutable_state([]);
+    let _discount = mutable_state("NORMAL");
+    let _discountEndTime = mutable_state(null);
     const _discountText = { FREE: "免费", PERCENT_50: "50%" };
     const _discountCalcTime = () => {
       const now2 = /* @__PURE__ */ new Date();
-      const end = new Date(_discountEndTime);
+      const end = new Date(get$1(_discountEndTime));
       const res = Math.floor((end.getTime() - now2.getTime()) / (1e3 * 3600));
       return res;
     };
     let card_holder = mutable_state();
-    let _cateColor = mutable_state();
     const _defaultColor = "rgba(255, 255, 255, 0.5)";
-    let _cateAlt = mutable_state();
-    let _catePic = mutable_state();
-    const _cateLink = `https://${location.host}/browse?cat=` + torrentInfo().category;
-    if (!$$_import_CONFIG().CATEGORY[torrentInfo().category]) {
-      set(_cateColor, _defaultColor);
-      notyf_lt.open({
-        type: "warning",
-        message: `存在未知分类: ${torrentInfo().category}`
-      });
-      $$_import_CONFIG($$_import_CONFIG().CATEGORY[torrentInfo().category] = {
-        src: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2ZmMDAwMCIvPjwvc3ZnPg==",
-        alt: "未知分类(TG或论坛联系我)",
-        color: _defaultColor
-      });
-    }
-    set(_cateAlt, $_mt_categories()[torrentInfo().category].nameChs ?? $$_import_CONFIG().CATEGORY[torrentInfo().category].alt);
-    set(_catePic, $_mt_categories()[torrentInfo().category].image ? cate_pic_baseUrl + $_mt_categories()[torrentInfo().category].image : $$_import_CONFIG().CATEGORY[torrentInfo().category].src);
-    set(_cateColor, $$_import_CONFIG().CATEGORY[torrentInfo().category].color ?? _defaultColor);
-    const _cateFontColor = get$1(_cateColor) ? getTextColor(get$1(_cateColor)) : "black";
+    let _cateColor = mutable_state(_defaultColor);
+    let _cateAlt = mutable_state("未知分类");
+    let _catePic = mutable_state("");
+    let _cateLink = mutable_state("");
+    let _cateFontColor = mutable_state("black");
     let _labelsNew = mutable_state([]);
-    if (torrentInfo().labelsNew.length) {
-      set(_labelsNew, torrentInfo().labelsNew.map((labelKey) => {
-        if ($$_import_CONFIG().TAG[labelKey]) {
-          return {
-            key: labelKey,
-            config: $$_import_CONFIG().TAG[labelKey]
-          };
-        } else if ($_mt_label()) {
-          console.warn("[FALL]: 存在本地没有的 tag: ", labelKey);
-          let res;
-          for (const key in $_mt_label()) {
-            if (labelKey == $_mt_label()[key].tag) {
-              res = $_mt_label()[key];
-              break;
-            }
-          }
-          if (res) {
-            return { key: labelKey, config: res };
-          }
-        }
-        return null;
-      }).filter(Boolean));
-    }
     function getFileSize(size) {
       if (size === 0) {
         return "0 B";
@@ -5758,14 +5647,14 @@ button:focus-visible {\r
     const static_gay_warn = "/static/cate/gayhd.gif";
     let _card_detail_show = mutable_state(false);
     const placeholder = "https://static.m-team.cc/static/media/logo.80b63235eaf702e44a8d.png";
-    let picSrc = torrentInfo().imageList[0] || placeholder;
+    let picSrc = mutable_state(placeholder);
     let imgElement = mutable_state();
     let observer;
     let isLoaded = mutable_state(false);
     const loadRealImage = () => {
-      if (!get$1(isLoaded)) {
+      if (get$1(picSrc) && !get$1(isLoaded)) {
         mutate(imgElement, get$1(imgElement).style.width = "100%");
-        mutate(imgElement, get$1(imgElement).src = picSrc);
+        mutate(imgElement, get$1(imgElement).src = get$1(picSrc));
         get$1(imgElement).classList.add("loaded");
         mutate(imgElement, get$1(imgElement).style.opacity = 1);
         set(isLoaded, true);
@@ -5775,7 +5664,7 @@ button:focus-visible {\r
       }
     };
     function openIframe() {
-      store_set(_iframe_url$1, "https://" + location.host + "/detail/" + torrentInfo().id);
+      store_set(_iframe_url$1, "https://" + location.host + "/detail/" + get$1(torrentInfo).id);
       store_set(_iframe_switch$1, 1);
     }
     onMount(() => {
@@ -5795,7 +5684,7 @@ button:focus-visible {\r
           }
         );
         if (get$1(imgElement) && !get$1(isLoaded)) observer.observe(get$1(imgElement));
-        if (torrentInfo().pt_fall_highlight) {
+        if (get$1(torrentInfo).pt_fall_highlight) {
           get$1(card_holder).scrollIntoView({
             behavior: "smooth"
             // 平滑滚动
@@ -5808,18 +5697,134 @@ button:focus-visible {\r
     onDestroy(() => {
       if (observer) observer.disconnect();
     });
+    legacy_pre_effect(() => deep_read_state(_torrentInfo()), () => {
+      var _a, _b, _c, _d, _e, _f, _g;
+      if (!_torrentInfo() || typeof _torrentInfo() !== "object") {
+        console.warn("Mteam_Card: _torrentInfo 数据格式错误", _torrentInfo());
+        set(torrentInfo, {
+          id: "error",
+          name: "数据错误",
+          category: "0",
+          imageList: [],
+          labelsNew: [],
+          size: 0,
+          status: {
+            toppingLevel: "0",
+            discount: "NORMAL",
+            discountEndTime: null,
+            comments: "0",
+            seeders: "0",
+            leechers: "0",
+            timesCompleted: "0"
+          },
+          smallDescr: "",
+          labels: "0",
+          createdDate: "",
+          index: 0
+        });
+      } else {
+        set(torrentInfo, {
+          ..._torrentInfo(),
+          id: _torrentInfo().id || "unknown",
+          name: _torrentInfo().name || "未知种子",
+          category: _torrentInfo().category || "0",
+          imageList: Array.isArray(_torrentInfo().imageList) ? _torrentInfo().imageList : [],
+          labelsNew: Array.isArray(_torrentInfo().labelsNew) ? _torrentInfo().labelsNew : [],
+          size: typeof _torrentInfo().size === "number" ? _torrentInfo().size : typeof _torrentInfo().size === "string" ? Number(_torrentInfo().size) || 0 : 0,
+          status: {
+            toppingLevel: ((_a = _torrentInfo().status) == null ? void 0 : _a.toppingLevel) || "0",
+            discount: ((_b = _torrentInfo().status) == null ? void 0 : _b.discount) || "NORMAL",
+            discountEndTime: ((_c = _torrentInfo().status) == null ? void 0 : _c.discountEndTime) || null,
+            comments: ((_d = _torrentInfo().status) == null ? void 0 : _d.comments) || "0",
+            seeders: ((_e = _torrentInfo().status) == null ? void 0 : _e.seeders) || "0",
+            leechers: ((_f = _torrentInfo().status) == null ? void 0 : _f.leechers) || "0",
+            timesCompleted: ((_g = _torrentInfo().status) == null ? void 0 : _g.timesCompleted) || "0",
+            ..._torrentInfo().status
+          },
+          smallDescr: _torrentInfo().smallDescr || "",
+          labels: _torrentInfo().labels || "0",
+          createdDate: _torrentInfo().createdDate || "",
+          index: typeof _torrentInfo().index === "number" ? _torrentInfo().index : 0
+        });
+      }
+    });
+    legacy_pre_effect(() => get$1(torrentInfo), () => {
+      if (get$1(torrentInfo).status.toppingLevel && get$1(torrentInfo).status.toppingLevel !== "0") {
+        set(toppingLevelArray, Array(Number(get$1(torrentInfo).status.toppingLevel)).fill());
+      } else {
+        set(toppingLevelArray, []);
+      }
+    });
+    legacy_pre_effect(() => get$1(torrentInfo), () => {
+      set(_discount, get$1(torrentInfo).status.discount);
+      set(_discountEndTime, get$1(torrentInfo).status.discountEndTime);
+    });
+    legacy_pre_effect(
+      () => (get$1(torrentInfo), $$_import_CONFIG(), $_mt_categories(), get$1(_cateColor), getTextColor),
+      () => {
+        var _a, _b, _c, _d, _e;
+        set(_cateLink, `https://${location.host}/browse?cat=` + get$1(torrentInfo).category);
+        if (!$$_import_CONFIG().CATEGORY[get$1(torrentInfo).category]) {
+          notyf_lt.open({
+            type: "warning",
+            message: `存在未知分类: ${get$1(torrentInfo).category}`
+          });
+          $$_import_CONFIG($$_import_CONFIG().CATEGORY[get$1(torrentInfo).category] = {
+            src: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2ZmMDAwMCIvPjwvc3ZnPg==",
+            alt: "未知分类(TG或论坛联系我)",
+            color: _defaultColor
+          });
+        }
+        set(_cateAlt, ((_a = $_mt_categories()[get$1(torrentInfo).category]) == null ? void 0 : _a.nameChs) ?? ((_b = $$_import_CONFIG().CATEGORY[get$1(torrentInfo).category]) == null ? void 0 : _b.alt) ?? "未知分类");
+        set(_catePic, ((_c = $_mt_categories()[get$1(torrentInfo).category]) == null ? void 0 : _c.image) ? cate_pic_baseUrl + $_mt_categories()[get$1(torrentInfo).category].image : ((_d = $$_import_CONFIG().CATEGORY[get$1(torrentInfo).category]) == null ? void 0 : _d.src) ?? "");
+        set(_cateColor, ((_e = $$_import_CONFIG().CATEGORY[get$1(torrentInfo).category]) == null ? void 0 : _e.color) ?? _defaultColor);
+        set(_cateFontColor, get$1(_cateColor) ? getTextColor(get$1(_cateColor)) : "black");
+      }
+    );
+    legacy_pre_effect(
+      () => (get$1(torrentInfo), $$_import_CONFIG(), $_mt_label()),
+      () => {
+        set(_labelsNew, []);
+        if (get$1(torrentInfo).labelsNew.length) {
+          set(_labelsNew, get$1(torrentInfo).labelsNew.map((labelKey) => {
+            if ($$_import_CONFIG().TAG[labelKey]) {
+              return {
+                key: labelKey,
+                config: $$_import_CONFIG().TAG[labelKey]
+              };
+            } else if ($_mt_label()) {
+              console.warn("[FALL]: 存在本地没有的 tag: ", labelKey);
+              let res;
+              for (const key in $_mt_label()) {
+                if (labelKey == $_mt_label()[key].tag) {
+                  res = $_mt_label()[key];
+                  break;
+                }
+              }
+              if (res) {
+                return { key: labelKey, config: res };
+              }
+            }
+            return null;
+          }).filter(Boolean));
+        }
+      }
+    );
     legacy_pre_effect(() => get$1(overlayContent), () => {
       if (get$1(overlayContent)) {
         getOverlayContentHeight();
       }
     });
+    legacy_pre_effect(() => get$1(torrentInfo), () => {
+      set(picSrc, get$1(torrentInfo).imageList[0] || placeholder);
+    });
     legacy_pre_effect(
-      () => (deep_read_state(torrentInfo()), $_block_gay(), get$1(imgElement), get$1(overlayContent)),
+      () => (get$1(torrentInfo), $_block_gay(), get$1(imgElement), get$1(picSrc), get$1(overlayContent)),
       () => {
-        if (torrentInfo().category == 440 && $_block_gay() == 0) {
+        if (get$1(torrentInfo).category == 440 && $_block_gay() == 0) {
           if (get$1(imgElement)) {
             mutate(imgElement, get$1(imgElement).style.width = "100%");
-            mutate(imgElement, get$1(imgElement).src = picSrc);
+            mutate(imgElement, get$1(imgElement).src = get$1(picSrc));
             get$1(imgElement).classList.add("loaded");
             mutate(imgElement, get$1(imgElement).style.opacity = 1);
             set(isLoaded, true);
@@ -5840,13 +5845,13 @@ button:focus-visible {\r
     {
       var consequent = ($$anchor2) => {
         var div_1 = root_1$2();
-        set_attribute(div_1, "data-href", _cateLink);
         var img = child(div_1);
         var text = sibling(img);
         template_effect(() => {
+          set_attribute(div_1, "data-href", get$1(_cateLink));
           set_attribute(div_1, "style", `
-      background-color: ${get$1(_cateColor) ?? "transparent"};
-      color: ${_cateFontColor ?? ""}`);
+      background-color: ${get$1(_cateColor) ?? "transparent" ?? ""};
+      color: ${get$1(_cateFontColor) ?? ""}`);
           set_attribute(img, "src", get$1(_catePic));
           set_attribute(img, "alt", get$1(_cateAlt));
           set_text(text, `    ${get$1(_cateAlt) ?? ""}`);
@@ -5864,8 +5869,8 @@ button:focus-visible {\r
         var a = root_2$3();
         var text_1 = child(a);
         template_effect(() => {
-          set_attribute(a, "href", "/detail/" + torrentInfo().id);
-          set_text(text_1, torrentInfo().name);
+          set_attribute(a, "href", "/detail/" + get$1(torrentInfo).id);
+          set_text(text_1, get$1(torrentInfo).name);
         });
         append($$anchor2, a);
       };
@@ -5881,7 +5886,7 @@ button:focus-visible {\r
         var node_3 = first_child(fragment);
         {
           var consequent_2 = ($$anchor3) => {
-            var div_4 = root_4$1();
+            var div_4 = root_4();
             var div_5 = child(div_4);
             var img_1 = child(div_5);
             set_attribute(img_1, "src", static_gay_warn);
@@ -5894,22 +5899,22 @@ button:focus-visible {\r
             {
               var consequent_3 = ($$anchor4) => {
                 var img_2 = root_6$1();
-                set_attribute(img_2, "data-src", picSrc);
                 bind_this(img_2, ($$value) => set(imgElement, $$value), () => get$1(imgElement));
                 template_effect(() => {
-                  set_attribute(img_2, "src", get$1(isLoaded) ? picSrc : placeholder);
-                  set_attribute(img_2, "alt", torrentInfo().id);
+                  set_attribute(img_2, "src", get$1(isLoaded) ? get$1(picSrc) : placeholder);
+                  set_attribute(img_2, "data-src", get$1(picSrc));
+                  set_attribute(img_2, "alt", get$1(torrentInfo).id);
                 });
                 event("error", img_2, () => {
                   set(_picError, true);
                   if (!get$1(imgElement)) {
-                    console.log(`<${torrentInfo().index}>[${torrentInfo().id}] imgElement 丢失.`);
+                    console.log(`<${get$1(torrentInfo).index}>[${get$1(torrentInfo).id}] imgElement 丢失.`);
                   }
                 });
                 append($$anchor4, img_2);
               };
               var alternate = ($$anchor4) => {
-                var div_6 = root_7();
+                var div_6 = root_7$1();
                 var div_7 = child(div_6);
                 var img_3 = child(div_7);
                 set_attribute(img_3, "src", _PicNoLOGO);
@@ -5921,7 +5926,7 @@ button:focus-visible {\r
               if_block(
                 node_4,
                 ($$render) => {
-                  if (torrentInfo().imageList[0]) $$render(consequent_3);
+                  if (get$1(torrentInfo).imageList[0]) $$render(consequent_3);
                   else $$render(alternate, false);
                 },
                 true
@@ -5930,7 +5935,7 @@ button:focus-visible {\r
             append($$anchor3, fragment_1);
           };
           if_block(node_3, ($$render) => {
-            if ($_block_gay() && torrentInfo().category == 440) $$render(consequent_2);
+            if ($_block_gay() && get$1(torrentInfo).category == 440) $$render(consequent_2);
             else $$render(alternate_1, false);
           });
         }
@@ -5942,7 +5947,8 @@ button:focus-visible {\r
         var img_4 = child(div_9);
         set_attribute(img_4, "src", _PicErrorLOGO);
         var div_10 = sibling(div_9, 2);
-        template_effect(($0) => set_attribute(div_10, "style", `color: ${$0 ?? ""}; font-size:16px;`), [() => getTextColor(get$1(_cateColor))], derived_safe_equal);
+        const style_derived = /* @__PURE__ */ derived_safe_equal(() => `color: ${getTextColor(get$1(_cateColor)) ?? ""}; font-size:16px;`);
+        template_effect(() => set_attribute(div_10, "style", get$1(style_derived)));
         append($$anchor2, div_8);
       };
       if_block(node_2, ($$render) => {
@@ -5991,7 +5997,7 @@ button:focus-visible {\r
         append($$anchor2, fragment_2);
       };
       if_block(node_6, ($$render) => {
-        if (torrentInfo().status.toppingLevel != "0") $$render(consequent_6);
+        if (get$1(torrentInfo).status.toppingLevel != "0") $$render(consequent_6);
       });
     }
     var text_2 = sibling(node_6);
@@ -5999,27 +6005,23 @@ button:focus-visible {\r
     {
       var consequent_7 = ($$anchor2) => {
         var div_17 = root_12();
-        toggle_class(div_17, "_tag_discount_free", _discount == "FREE");
-        toggle_class(div_17, "_tag_discount_50", _discount == "PERCENT_50");
         var text_3 = child(div_17);
-        template_effect(
-          ($0) => set_text(text_3, `${_discountText[_discount] ?? ""}${$0 ?? ""}`),
-          [
-            () => _discountEndTime ? ":" + _discountCalcTime() + "小时" : ""
-          ],
-          derived_safe_equal
-        );
+        template_effect(() => set_text(text_3, `${_discountText[get$1(_discount)] ?? ""}${(get$1(_discountEndTime) ? ":" + _discountCalcTime() + "小时" : "") ?? ""}`));
+        template_effect(() => {
+          toggle_class(div_17, "_tag_discount_free", get$1(_discount) == "FREE");
+          toggle_class(div_17, "_tag_discount_50", get$1(_discount) == "PERCENT_50");
+        });
         append($$anchor2, div_17);
       };
       if_block(node_7, ($$render) => {
-        if (_discount != "NORMAL") $$render(consequent_7);
+        if (get$1(_discount) != "NORMAL") $$render(consequent_7);
       });
     }
     var button_1 = sibling(div_15, 2);
     var div_18 = sibling(button_1, 2);
     var text_4 = child(div_18);
+    template_effect(() => set_text(text_4, getFileSize(get$1(torrentInfo).size)));
     var div_19 = sibling(div_14, 2);
-    set_attribute(div_19, "data-href", _cateLink);
     var img_7 = child(div_19);
     var text_5 = sibling(img_7);
     var div_20 = sibling(div_19, 2);
@@ -6039,7 +6041,7 @@ button:focus-visible {\r
             append($$anchor3, div_24);
           };
           if_block(node_9, ($$render) => {
-            if ((Number(torrentInfo().labels) & 1) === 1) $$render(consequent_8);
+            if ((Number(get$1(torrentInfo).labels) & 1) === 1) $$render(consequent_8);
           });
         }
         var node_10 = sibling(node_9, 2);
@@ -6049,7 +6051,7 @@ button:focus-visible {\r
             append($$anchor3, div_25);
           };
           if_block(node_10, ($$render) => {
-            if ((Number(torrentInfo().labels) & 2) === 2) $$render(consequent_9);
+            if ((Number(get$1(torrentInfo).labels) & 2) === 2) $$render(consequent_9);
           });
         }
         var node_11 = sibling(node_10, 2);
@@ -6059,7 +6061,7 @@ button:focus-visible {\r
             append($$anchor3, div_26);
           };
           if_block(node_11, ($$render) => {
-            if ((Number(torrentInfo().labels) & 4) === 4) $$render(consequent_10);
+            if ((Number(get$1(torrentInfo).labels) & 4) === 4) $$render(consequent_10);
           });
         }
         var node_12 = sibling(node_11, 2);
@@ -6085,7 +6087,7 @@ button:focus-visible {\r
         append($$anchor2, div_23);
       };
       if_block(node_8, ($$render) => {
-        if (Number(torrentInfo().labels) || get$1(_labelsNew).length) $$render(consequent_12);
+        if (Number(get$1(torrentInfo).labels) || get$1(_labelsNew).length) $$render(consequent_12);
       });
     }
     var div_28 = sibling(node_8, 2);
@@ -6127,7 +6129,7 @@ button:focus-visible {\r
             append($$anchor3, fragment_4);
           };
           if_block(node_16, ($$render) => {
-            if ($_card_detail().topping && torrentInfo().status.toppingLevel != "0") $$render(consequent_13);
+            if ($_card_detail().topping && get$1(torrentInfo).status.toppingLevel != "0") $$render(consequent_13);
           });
         }
         var text_13 = sibling(node_16);
@@ -6135,23 +6137,19 @@ button:focus-visible {\r
         {
           var consequent_14 = ($$anchor3) => {
             var div_37 = root_22();
-            toggle_class(div_37, "_tag_discount_free", _discount == "FREE");
-            toggle_class(div_37, "_tag_discount_50", _discount == "PERCENT_50");
             var text_14 = child(div_37);
-            template_effect(
-              ($0) => set_text(text_14, `${_discountText[_discount] ?? ""}${$0 ?? ""}`),
-              [
-                () => _discountEndTime ? ":" + _discountCalcTime() + "小时" : ""
-              ],
-              derived_safe_equal
-            );
+            template_effect(() => set_text(text_14, `${_discountText[get$1(_discount)] ?? ""}${(get$1(_discountEndTime) ? ":" + _discountCalcTime() + "小时" : "") ?? ""}`));
+            template_effect(() => {
+              toggle_class(div_37, "_tag_discount_free", get$1(_discount) == "FREE");
+              toggle_class(div_37, "_tag_discount_50", get$1(_discount) == "PERCENT_50");
+            });
             append($$anchor3, div_37);
           };
           if_block(node_17, ($$render) => {
-            if ($_card_detail().free && _discount != "NORMAL") $$render(consequent_14);
+            if ($_card_detail().free && get$1(_discount) != "NORMAL") $$render(consequent_14);
           });
         }
-        template_effect(() => set_text(text_13, ` ${torrentInfo().index ?? ""}
+        template_effect(() => set_text(text_13, ` ${get$1(torrentInfo).index ?? ""}
 
           `));
         append($$anchor2, div_35);
@@ -6165,14 +6163,8 @@ button:focus-visible {\r
       var consequent_16 = ($$anchor2) => {
         var div_38 = root_23();
         var text_15 = child(div_38);
-        template_effect(
-          ($0) => {
-            set_attribute(div_38, "style", `background-color: ${get$1(_cateColor) ?? "transparent"}; color:${_cateFontColor ?? ""}`);
-            set_text(text_15, $0);
-          },
-          [() => getFileSize(torrentInfo().size)],
-          derived_safe_equal
-        );
+        template_effect(() => set_text(text_15, getFileSize(get$1(torrentInfo).size)));
+        template_effect(() => set_attribute(div_38, "style", `background-color: ${get$1(_cateColor) ?? "transparent" ?? ""}; color:${get$1(_cateFontColor) ?? ""}`));
         append($$anchor2, div_38);
       };
       if_block(node_18, ($$render) => {
@@ -6189,7 +6181,7 @@ button:focus-visible {\r
             var div_40 = root_25();
             var div_41 = child(div_40);
             var text_16 = child(div_41);
-            template_effect(() => set_text(text_16, torrentInfo().smallDescr));
+            template_effect(() => set_text(text_16, get$1(torrentInfo).smallDescr));
             append($$anchor3, div_40);
           };
           if_block(node_20, ($$render) => {
@@ -6207,7 +6199,7 @@ button:focus-visible {\r
                 append($$anchor4, div_43);
               };
               if_block(node_22, ($$render) => {
-                if ((torrentInfo().labels & 1) === 1) $$render(consequent_18);
+                if ((get$1(torrentInfo).labels & 1) === 1) $$render(consequent_18);
               });
             }
             var node_23 = sibling(node_22, 2);
@@ -6217,7 +6209,7 @@ button:focus-visible {\r
                 append($$anchor4, div_44);
               };
               if_block(node_23, ($$render) => {
-                if ((torrentInfo().labels & 2) === 2) $$render(consequent_19);
+                if ((get$1(torrentInfo).labels & 2) === 2) $$render(consequent_19);
               });
             }
             var node_24 = sibling(node_23, 2);
@@ -6227,7 +6219,7 @@ button:focus-visible {\r
                 append($$anchor4, div_45);
               };
               if_block(node_24, ($$render) => {
-                if ((torrentInfo().labels & 4) === 4) $$render(consequent_20);
+                if ((get$1(torrentInfo).labels & 4) === 4) $$render(consequent_20);
               });
             }
             var node_25 = sibling(node_24, 2);
@@ -6253,7 +6245,7 @@ button:focus-visible {\r
             append($$anchor3, div_42);
           };
           if_block(node_21, ($$render) => {
-            if ($_card_detail().tags && (Number(torrentInfo().labels) || get$1(_labelsNew).length)) $$render(consequent_22);
+            if ($_card_detail().tags && (Number(get$1(torrentInfo).labels) || get$1(_labelsNew).length)) $$render(consequent_22);
           });
         }
         var node_27 = sibling(node_21, 2);
@@ -6264,13 +6256,13 @@ button:focus-visible {\r
             bind_this(div_47, ($$value) => set(dlclElement_outer, $$value), () => get$1(dlclElement_outer));
             template_effect(() => set_attribute(button_3, "style", `
               background-color: ${(get$1(_cateColor) ? get$1(_cateColor) : "transparent") ?? ""};
-              color: ${_cateFontColor ?? ""} ;
+              color: ${get$1(_cateFontColor) ?? ""} ;
               border: 3px solid transparent;
               border-radius: 14px;
               overflow: hidden;
             `));
             event("click", button_3, (e) => {
-              get__DOWN_and_COLLET__Dom(torrentInfo().id, get$1(dlclElement_outer));
+              get__DOWN_and_COLLET__Dom(get$1(torrentInfo).id, get$1(dlclElement_outer));
               e.target.style.display = "none";
             });
             append($$anchor3, div_47);
@@ -6285,7 +6277,7 @@ button:focus-visible {\r
             var div_48 = root_33();
             var div_49 = child(div_48);
             var text_18 = child(div_49);
-            template_effect(() => set_text(text_18, `上传时间:${torrentInfo().createdDate ?? ""}`));
+            template_effect(() => set_text(text_18, `上传时间:${get$1(torrentInfo).createdDate ?? ""}`));
             append($$anchor3, div_48);
           };
           if_block(node_28, ($$render) => {
@@ -6307,11 +6299,11 @@ button:focus-visible {\r
             var b_5 = sibling(img_12, 2);
             var text_21 = child(b_5);
             template_effect(() => {
-              set_text(text_19, torrentInfo().status.comments);
+              set_text(text_19, get$1(torrentInfo).status.comments);
               set_attribute(img_11, "src", $$_import_CONFIG().ICON.SEEDERS);
-              set_text(text_20, torrentInfo().status.seeders);
+              set_text(text_20, get$1(torrentInfo).status.seeders);
               set_attribute(img_12, "src", $$_import_CONFIG().ICON.LEECHERS);
-              set_text(text_21, torrentInfo().status.leechers);
+              set_text(text_21, get$1(torrentInfo).status.leechers);
             });
             append($$anchor3, div_50);
           };
@@ -6321,7 +6313,7 @@ button:focus-visible {\r
         }
         template_effect(() => set_attribute(div_39, "style", `
         background-color: ${(get$1(_cateColor) ? get$1(_cateColor) + "b0" : "transparent") ?? ""};
-        color: ${_cateFontColor ?? ""}`));
+        color: ${get$1(_cateFontColor) ?? ""}`));
         append($$anchor2, div_39);
       };
       if_block(node_19, ($$render) => {
@@ -6329,45 +6321,41 @@ button:focus-visible {\r
       });
     }
     bind_this(div, ($$value) => set(card_holder, $$value), () => get$1(card_holder));
-    template_effect(
-      ($0) => {
-        set_style(div, "--borderRadius", $_card_radius().enabled ? $_card_radius().value + "px" : "0");
-        set_attribute(div_2, "style", `background-color: ${get$1(_cateColor) + "10"}`);
-        set_attribute(div_3, "style", `min-height: ${get$1(overlayContentHeight) + 24}px;`);
-        set_style(div_3, "--cateColor", get$1(_cateColor) + "b0");
-        set_text(text_2, ` ${torrentInfo().index ?? ""}
+    template_effect(() => {
+      set_style(div, "--borderRadius", $_card_radius().enabled ? $_card_radius().value + "px" : "0");
+      set_attribute(div_2, "style", `background-color: ${get$1(_cateColor) + "10"}`);
+      set_attribute(div_3, "style", `min-height: ${get$1(overlayContentHeight) + 24}px;`);
+      set_style(div_3, "--cateColor", get$1(_cateColor) + "b0");
+      set_text(text_2, ` ${get$1(torrentInfo).index ?? ""}
 
               `);
-        set_attribute(button_1, "style", `background-color: ${get$1(_cateColor) ?? "transparent"}; color:${_cateFontColor ?? ""}`);
-        set_attribute(div_18, "style", `background-color: ${get$1(_cateColor) ?? "transparent"}; color:${_cateFontColor ?? ""}`);
-        set_text(text_4, $0);
-        set_attribute(div_19, "style", `
+      set_attribute(button_1, "style", `background-color: ${get$1(_cateColor) ?? "transparent" ?? ""}; color:${get$1(_cateFontColor) ?? ""}`);
+      set_attribute(div_18, "style", `background-color: ${get$1(_cateColor) ?? "transparent" ?? ""}; color:${get$1(_cateFontColor) ?? ""}`);
+      set_attribute(div_19, "data-href", get$1(_cateLink));
+      set_attribute(div_19, "style", `
             height: 40px;
-            background-color: ${get$1(_cateColor) ?? "transparent"};
-            color: ${_cateFontColor ?? ""}`);
-        set_attribute(img_7, "src", get$1(_catePic));
-        set_attribute(img_7, "alt", get$1(_cateAlt));
-        set_text(text_5, `    ${get$1(_cateAlt) ?? ""}`);
-        set_attribute(a_1, "href", "/detail/" + torrentInfo().id);
-        set_attribute(a_1, "title", torrentInfo().name);
-        set_text(text_6, torrentInfo().name);
-        set_text(text_7, torrentInfo().smallDescr);
-        set_text(text_9, `上传时间:${torrentInfo().createdDate ?? ""}`);
-        set_text(text_10, torrentInfo().status.comments);
-        set_attribute(img_8, "src", $$_import_CONFIG().ICON.SEEDERS);
-        set_text(text_11, torrentInfo().status.seeders);
-        set_attribute(img_9, "src", $$_import_CONFIG().ICON.LEECHERS);
-        set_text(text_12, torrentInfo().status.leechers);
-        set_attribute(div_34, "style", `
+            background-color: ${get$1(_cateColor) ?? "transparent" ?? ""};
+            color: ${get$1(_cateFontColor) ?? ""}`);
+      set_attribute(img_7, "src", get$1(_catePic));
+      set_attribute(img_7, "alt", get$1(_cateAlt));
+      set_text(text_5, `    ${get$1(_cateAlt) ?? ""}`);
+      set_attribute(a_1, "href", "/detail/" + get$1(torrentInfo).id);
+      set_attribute(a_1, "title", get$1(torrentInfo).name);
+      set_text(text_6, get$1(torrentInfo).name);
+      set_text(text_7, get$1(torrentInfo).smallDescr);
+      set_text(text_9, `上传时间:${get$1(torrentInfo).createdDate ?? ""}`);
+      set_text(text_10, get$1(torrentInfo).status.comments);
+      set_attribute(img_8, "src", $$_import_CONFIG().ICON.SEEDERS);
+      set_text(text_11, get$1(torrentInfo).status.seeders);
+      set_attribute(img_9, "src", $$_import_CONFIG().ICON.LEECHERS);
+      set_text(text_12, get$1(torrentInfo).status.leechers);
+      set_attribute(div_34, "style", `
               background-color: ${(get$1(_cateColor) ? get$1(_cateColor) : "transparent") ?? ""};
-              color: ${_cateFontColor ?? ""} ;
+              color: ${get$1(_cateFontColor) ?? ""} ;
               border-radius: 14px;
               overflow: hidden;
             `);
-      },
-      [() => getFileSize(torrentInfo().size)],
-      derived_safe_equal
-    );
+    });
     event("click", button_1, openIframe);
     event("mousedown", div_20, stopPropagation((e) => {
       e.stopPropagation();
@@ -6376,7 +6364,7 @@ button:focus-visible {\r
       e.stopPropagation();
     }));
     event("click", button_2, stopPropagation((e) => {
-      get__DOWN_and_COLLET__Dom(torrentInfo().id, get$1(dlclElement_inner));
+      get__DOWN_and_COLLET__Dom(get$1(torrentInfo).id, get$1(dlclElement_inner));
       e.target.style.display = "none";
     }));
     event("mouseenter", div_12, () => {
@@ -6403,41 +6391,47 @@ button:focus-visible {\r
     event("mousedown", div_12, self(openIframe));
     append($$anchor, div);
     pop();
-    $$cleanup();
   }
   var root_3$1 = /* @__PURE__ */ template(`<p class="text_center svelte-1vmncc1">没有结果捏</p>`);
   var root$8 = /* @__PURE__ */ template(`<main><div class="fall_holder svelte-1vmncc1" style=""><!></div></main>`);
   function Mteam_Fall($$anchor, $$props) {
-    var _a, _b, _c, _d;
+    var _a, _b, _c, _d, _e;
     push($$props, false);
-    const [$$stores, $$cleanup] = setup_stores();
+    const $$stores = setup_stores();
     const $_card_layout = () => store_get(_card_layout, "$_card_layout", $$stores);
     const items = mutable_state();
     let infoList = prop($$props, "infoList", 8);
-    let listContent = mutable_state(infoList().data);
+    let listContent = mutable_state(Array.isArray((_a = infoList()) == null ? void 0 : _a.data) ? infoList().data.filter((item) => item && typeof item === "object") : []);
     get$1(listContent).length;
     let fallContainer = mutable_state();
     CONFIG.get_bg_color();
     Object.keys(get$1(listContent)).forEach((key, index2) => {
-      mutate(listContent, get$1(listContent)[key].index = index2 + 1);
+      if (get$1(listContent)[key]) {
+        mutate(listContent, get$1(listContent)[key].index = index2 + 1);
+      }
     });
     console.log("Mteam_Fall:First	" + get$1(listContent).length);
     function updateList(newInfoList, clearPage = true) {
-      let list = newInfoList.data;
-      console.log("Mteam_Fall:New:	" + list.length);
+      let list = Array.isArray(newInfoList == null ? void 0 : newInfoList.data) ? newInfoList.data : [];
+      const validList = list.filter((item) => item && typeof item === "object");
+      console.log("Mteam_Fall:New:	" + list.length + " (有效数据: " + validList.length + ")");
+      if (validList.length === 0) {
+        console.warn("Mteam_Fall: 没有有效数据，跳过更新");
+        return;
+      }
       if (clearPage) {
         clearList();
-        Object.keys(list).forEach((key, index2) => {
-          list[key].index = index2 + 1;
-          if (index2 == 0) list[key].pt_fall_highlight = true;
+        validList.forEach((item, index2) => {
+          item.index = index2 + 1;
+          if (index2 == 0) item.pt_fall_highlight = true;
         });
-        set(listContent, [...list]);
+        set(listContent, [...validList]);
       } else {
-        Object.keys(list).forEach((key, index2) => {
-          list[key].index = index2 + 1 + get$1(listContent).length;
-          if (index2 == 0) list[key].pt_fall_highlight = true;
+        validList.forEach((item, index2) => {
+          item.index = index2 + 1 + get$1(listContent).length;
+          if (index2 == 0) item.pt_fall_highlight = true;
         });
-        set(listContent, [...get$1(listContent), ...list]);
+        set(listContent, [...get$1(listContent), ...validList]);
       }
     }
     function clearList() {
@@ -6485,8 +6479,8 @@ button:focus-visible {\r
     let store_categories;
     try {
       mt__ls__p_p = __JsonParse(localStorage.getItem("persist:persist"));
-      store_label = (_b = (_a = mt__ls__p_p.sysinfo) == null ? void 0 : _a.sysConf) == null ? void 0 : _b.TORRENT_LABEL_CONFIG;
-      store_categories = (_d = (_c = mt__ls__p_p.sysinfo) == null ? void 0 : _c.categoryList) == null ? void 0 : _d.categorys;
+      store_label = (_c = (_b = mt__ls__p_p.sysinfo) == null ? void 0 : _b.sysConf) == null ? void 0 : _c.TORRENT_LABEL_CONFIG;
+      store_categories = (_e = (_d = mt__ls__p_p.sysinfo) == null ? void 0 : _d.categoryList) == null ? void 0 : _e.categorys;
       if (store_label) store_set(_mt_label, store_label);
       if (store_categories) store_set(_mt_categories, store_categories);
     } catch (error) {
@@ -6522,7 +6516,7 @@ button:focus-visible {\r
             default: ($$anchor3, $$slotProps) => {
               const item = /* @__PURE__ */ derived_safe_equal(() => $$slotProps.item);
               Mteam_Card($$anchor3, {
-                get torrentInfo() {
+                get _torrentInfo() {
                   return get$1(item);
                 }
               });
@@ -6544,11 +6538,9 @@ button:focus-visible {\r
     bind_prop($$props, "updateList", updateList);
     bind_prop($$props, "clearList", clearList);
     bind_prop($$props, "focusFall", focusFall);
-    var $$pop = pop({ updateList, clearList, focusFall });
-    $$cleanup();
-    return $$pop;
+    return pop({ updateList, clearList, focusFall });
   }
-  let version = "0.3.11";
+  let version = "0.3.12";
   var root$7 = /* @__PURE__ */ ns_template(`<svg class="tgme_logo" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle cx="17" cy="17" fill="#40a9ff" r="17"></circle><path d="m7.06510669 16.9258959c5.22739451-2.1065178 8.71314291-3.4952633 10.45724521-4.1662364 4.9797665-1.9157646 6.0145193-2.2485535 6.6889567-2.2595423.1483363-.0024169.480005.0315855.6948461.192827.1814076.1361492.23132.3200675.2552048.4491519.0238847.1290844.0536269.4231419.0299841.65291-.2698553 2.6225356-1.4375148 8.986738-2.0315537 11.9240228-.2513602 1.2428753-.7499132 1.5088847-1.2290685 1.5496672-1.0413153.0886298-1.8284257-.4857912-2.8369905-1.0972863-1.5782048-.9568691-2.5327083-1.3984317-4.0646293-2.3321592-1.7703998-1.0790837-.212559-1.583655.7963867-2.5529189.2640459-.2536609 4.7753906-4.3097041 4.755976-4.431706-.0070494-.0442984-.1409018-.481649-.2457499-.5678447-.104848-.0861957-.2595946-.0567202-.3712641-.033278-.1582881.0332286-2.6794907 1.5745492-7.5636077 4.6239616-.715635.4545193-1.3638349.6759763-1.9445998.6643712-.64024672-.0127938-1.87182452-.334829-2.78737602-.6100966-1.12296117-.3376271-1.53748501-.4966332-1.45976769-1.0700283.04048-.2986597.32581586-.610598.8560076-.935815z" fill="#fff"></path></g></svg>`);
   function Icon_telegram($$anchor, $$props) {
     let height = prop($$props, "height", 8, 34);
@@ -6565,7 +6557,7 @@ button:focus-visible {\r
   var root$6 = /* @__PURE__ */ template(`<div class="entry_mteam"><div class="ant-typography" style="line-height: 1.5; text-align: center;"><button class="__btn svelte-1a87xm5" id="_ptFall_about">PT-Fall<br><span style="font-weight: 600;"></span></button> <button class="__btn svelte-1a87xm5" id="_ptFall_faq">常见问题<br>FAQ</button></div></div> <!> <!>`, 1);
   function Readme($$anchor, $$props) {
     push($$props, false);
-    const [$$stores, $$cleanup] = setup_stores();
+    const $$stores = setup_stores();
     const $_isFallView = () => store_get(_isFallView, "$_isFallView", $$stores);
     const $_textColor = () => store_get(_textColor, "$_textColor", $$stores);
     let _modalFAQ = mutable_state(false);
@@ -6678,11 +6670,10 @@ button:focus-visible {\r
     event("click", button_1, openFAQ);
     append($$anchor, fragment);
     pop();
-    $$cleanup();
   }
   function Entry_Mteam($$anchor, $$props) {
     push($$props, false);
-    const [$$stores, $$cleanup] = setup_stores();
+    const $$stores = setup_stores();
     const $_isFallView = () => store_get(_isFallView, "$_isFallView", $$stores);
     const $_textColor = () => store_get(_textColor, "$_textColor", $$stores);
     let Readme_Svelte;
@@ -6692,21 +6683,28 @@ button:focus-visible {\r
     let isAcceptSearch = false;
     let varColor_bg2 = getComputedStyle(document.documentElement).getPropertyValue("--bg-2").trim();
     let observer;
+    let reqEventListener = null;
+    let resEventListener = null;
+    let shieldClickListener = null;
+    let cleanupCallbacks = [];
     const Fall_DOM = mutable_state(document.createElement("div"));
     get$1(Fall_DOM).classList.add("Fall_DOM");
     console.log("=====> 启动劫持 XHR 和 Fetch 请求 <=====");
     Launch_Hijack();
-    Tool_Watch_Dom(CONFIG.TL_Selector, launchFallView);
-    Tool_Watch_Dom('a[href="/index"][target="_self"]', (el) => {
+    const cleanup1 = Tool_Watch_Dom(CONFIG.TL_Selector, launchFallView);
+    if (cleanup1) cleanupCallbacks.push(cleanup1);
+    const cleanup2 = Tool_Watch_Dom('a[href="/index"][target="_self"]', (el) => {
       if (!Readme_Svelte) {
-        el.insertAdjacentHTML("afterend", '<div class="ptFallReadme"></div>');
-        const readmeNode = el.parentNode.querySelector(".ptFallReadme");
+        const readmeNode = document.createElement("div");
+        readmeNode.className = "ptFallReadme";
+        el.parentNode.insertBefore(readmeNode, el.nextSibling);
         Readme_Svelte = mount(Readme, { target: readmeNode });
       } else {
         notyf_lt.error("未找到目标链接元素");
         console.warn("[FALL]: 未找到目标链接元素");
       }
     });
+    if (cleanup2) cleanupCallbacks.push(cleanup2);
     onMount(() => {
       _changeStoreTextColor();
       console.log("=====> 启动劫持 pushState 方法 <=====");
@@ -6727,6 +6725,29 @@ button:focus-visible {\r
     });
     onDestroy(() => {
       if (observer) observer.disconnect();
+      if (reqEventListener) {
+        window.removeEventListener("req>POST->/search", reqEventListener);
+        reqEventListener = null;
+      }
+      if (resEventListener) {
+        window.removeEventListener("res>POST->/search", resEventListener);
+        resEventListener = null;
+      }
+      if (originalPushState) {
+        history.pushState = originalPushState;
+      }
+      if (shieldClickListener) {
+        const shield = document.querySelector("#_shield");
+        if (shield) {
+          shield.removeEventListener("click", shieldClickListener);
+        }
+        shieldClickListener = null;
+      }
+      cleanupCallbacks.forEach((cb) => cb());
+      cleanupCallbacks = [];
+      if (window.MteamFall_Svelte) {
+        delete window.MteamFall_Svelte;
+      }
       pageDestroy();
     });
     let pagination = mutable_state();
@@ -6753,7 +6774,7 @@ button:focus-visible {\r
       if (el.parentNode) {
         console.log("元素已找到，正在插入兄弟节点:", el);
         const param = { path: "/search", method: "POST" };
-        window.addEventListener("req>POST->/search", (e) => {
+        reqEventListener = (e) => {
           console.log(`<PT-Fall>[Request]  (${param.method} -> ${param.path})
 `, e.detail);
           if (e.detail.url.includes("api/torrent/search") && !e.detail.body.includes('"mode":"waterfall"')) {
@@ -6768,8 +6789,9 @@ button:focus-visible {\r
             if (MteamFall_Svelte) MteamFall_Svelte.focusFall("bottom");
           }
           pageDestroy();
-        });
-        window.addEventListener(`res>POST->/search`, (e) => {
+        };
+        window.addEventListener("req>POST->/search", reqEventListener);
+        resEventListener = (e) => {
           const rawObject = JSON.parse(e.detail.data);
           if (!isAcceptSearch) {
             console.warn(`<PT-Fall>[未被接受的Response] (${param.method}->${param.path})[通过事件捕获]:
@@ -6791,7 +6813,8 @@ button:focus-visible {\r
             });
           }
           pageInit();
-        });
+        };
+        window.addEventListener(`res>POST->/search`, resEventListener);
       } else {
         notyf_lt.error("找不到指定节点\n若总是如此请报告bug");
         console.error("无法插入：目标元素没有父节点");
@@ -6801,11 +6824,12 @@ button:focus-visible {\r
       const contentNode = el.parentNode.querySelector(".ant-spin-nested-loading");
       const shield = document.createElement("div");
       shield.id = "_shield";
-      shield.addEventListener("click", () => {
+      shieldClickListener = () => {
         if (confirm("[PT-Fall]\n如果你认为你被阻挡了请点击确认\n这个阻挡效果会被取消\n这可能导致显示错误\n请确认您不在一般的瀑布流视图下\n比如您在逛论坛或者在发种之类的被遮挡了再点")) {
           shield.style.display = "none";
         }
-      });
+      };
+      shield.addEventListener("click", shieldClickListener);
       if (!contentNode.querySelector("#_shield")) {
         contentNode.appendChild(shield);
       }
@@ -6879,7 +6903,6 @@ button:focus-visible {\r
     legacy_pre_effect_reset();
     init();
     pop();
-    $$cleanup();
   }
   function getSiteConfig(domain) {
     if (location.hostname.includes("m-team")) {
@@ -6926,13 +6949,13 @@ button:focus-visible {\r
   }
   var root_2$1 = /* @__PURE__ */ template(`<div><!></div> <div class="flowBtn_text svelte-4gkzar">瀑布</div>`, 1);
   var root_3 = /* @__PURE__ */ template(`<div><!></div> <div class="flowBtn_text svelte-4gkzar">列表</div>`, 1);
-  var root_5 = /* @__PURE__ */ template(`<div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar"> </span></div> <!></div>`);
-  var root_6 = /* @__PURE__ */ template(`<div class="config-item svelte-4gkzar"><span class="svelte-4gkzar"> </span> <input type="range" min="0" max="40" step="1" class="svelte-4gkzar"></div>`);
-  var root_4 = /* @__PURE__ */ template(`<div class="config-menu-overlay svelte-4gkzar"><div class="config-menu svelte-4gkzar"><div class="config-menu-header svelte-4gkzar"><span style="font-size: 18px; font-weight: bold;">配置菜单</span> <button class="close-btn svelte-4gkzar">&times;</button></div> <div class="config-menu-content svelte-4gkzar"><h3 class="svelte-4gkzar"># 卡片布局</h3> <div class="config-item svelte-4gkzar"><span class="svelte-4gkzar"> </span> <input type="range" min="200" step="1" list="values" class="svelte-4gkzar"></div> <div class="config-item svelte-4gkzar"><span class="svelte-4gkzar"> </span> <input type="range" step="1" list="values" class="svelte-4gkzar"></div> <div class="config-item svelte-4gkzar"><span class="svelte-4gkzar"> </span> <input type="range" min="0" max="100" step="1" list="values" class="svelte-4gkzar"></div> <h3 class="svelte-4gkzar"># 特殊配置</h3> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">图片加载失败时显示标题</span></div> <!></div> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">显示鼠标悬浮预览大图</span></div> <!></div> <!> <h3 class="svelte-4gkzar"># 卡片常驻信息展示</h3>  <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">分区</span></div> <!></div> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">标题</span></div> <!></div> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">置顶</span></div> <!></div> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">免费</span></div> <!></div> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">大小</span></div> <!></div> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">副标题</span></div> <!></div> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">标签</span></div> <!></div> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">下载&收藏</span></div> <!></div> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">上传时间</span></div> <!></div> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">评论/上传/下载</span></div> <!></div> <h3 class="svelte-4gkzar"># 卡片屏蔽</h3> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">屏蔽 gay 区</span></div> <!></div> <h3 class="svelte-4gkzar"># 卡片样式</h3> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">自定义圆角</span></div> <!></div> <!></div></div></div>`);
-  var root$1 = /* @__PURE__ */ template(`<div class="flowP svelte-4gkzar"><div class="flowPDragger svelte-4gkzar" role="button" tabindex="0" aria-hidden="true"><!></div> <div class="flowPHolder ant-typography svelte-4gkzar"><button class="flowBtn svelte-4gkzar"><!></button> <button class="flowBtn svelte-4gkzar"><div><!></div> <div class="flowBtn_text svelte-4gkzar">配置</div></button> <button class="flowBtn svelte-4gkzar">清除悬浮预览图</button></div></div> <!>`, 1);
+  var root_6 = /* @__PURE__ */ template(`<div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar"> </span></div> <!></div>`);
+  var root_7 = /* @__PURE__ */ template(`<div class="config-item svelte-4gkzar"><span class="svelte-4gkzar"> </span> <input type="range" min="0" max="40" step="1" class="svelte-4gkzar"></div>`);
+  var root_5 = /* @__PURE__ */ template(`<div class="config-menu-overlay svelte-4gkzar"><div class="config-menu svelte-4gkzar"><div class="config-menu-header svelte-4gkzar"><span style="font-size: 18px; font-weight: bold;">配置菜单</span> <button class="close-btn svelte-4gkzar">&times;</button></div> <div class="config-menu-content svelte-4gkzar"><h3 class="svelte-4gkzar"># 卡片布局</h3> <div class="config-item svelte-4gkzar"><span class="svelte-4gkzar"> </span> <input type="range" min="200" step="1" list="values" class="svelte-4gkzar"></div> <div class="config-item svelte-4gkzar"><span class="svelte-4gkzar"> </span> <input type="range" step="1" list="values" class="svelte-4gkzar"></div> <div class="config-item svelte-4gkzar"><span class="svelte-4gkzar"> </span> <input type="range" min="0" max="100" step="1" list="values" class="svelte-4gkzar"></div> <h3 class="svelte-4gkzar"># 特殊配置</h3> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">图片加载失败时显示标题</span></div> <!></div> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">显示鼠标悬浮预览大图</span></div> <!></div> <!> <h3 class="svelte-4gkzar"># 卡片常驻信息展示</h3>  <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">分区</span></div> <!></div> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">标题</span></div> <!></div> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">置顶</span></div> <!></div> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">免费</span></div> <!></div> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">大小</span></div> <!></div> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">副标题</span></div> <!></div> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">标签</span></div> <!></div> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">下载&收藏</span></div> <!></div> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">上传时间</span></div> <!></div> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">评论/上传/下载</span></div> <!></div> <h3 class="svelte-4gkzar"># 卡片屏蔽</h3> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">屏蔽 gay 区</span></div> <!></div> <h3 class="svelte-4gkzar"># 卡片样式</h3> <div class="config-item svelte-4gkzar"><div class="_single_item svelte-4gkzar"><span class="svelte-4gkzar">自定义圆角</span></div> <!></div> <!></div></div></div>`);
+  var root$1 = /* @__PURE__ */ template(`<div class="flowP svelte-4gkzar"><div class="flowPDragger svelte-4gkzar" role="button" tabindex="0" aria-hidden="true"><!></div> <div class="flowPHolder ant-typography svelte-4gkzar"><button class="flowBtn svelte-4gkzar"><!></button> <button class="flowBtn svelte-4gkzar"><div><!></div> <div class="flowBtn_text svelte-4gkzar">配置</div></button> <button class="flowBtn svelte-4gkzar">清除悬浮预览图</button> <!></div></div> <!>`, 1);
   function FlowPanel($$anchor, $$props) {
     push($$props, false);
-    const [$$stores, $$cleanup] = setup_stores();
+    const $$stores = setup_stores();
     const $_panelPos = () => store_get(_panelPos, "$_panelPos", $$stores);
     const $_isFallView = () => store_get(_isFallView, "$_isFallView", $$stores);
     const $_textColor = () => store_get(_textColor, "$_textColor", $$stores);
@@ -7024,30 +7047,41 @@ button:focus-visible {\r
     var node_4 = child(div_5);
     Icon_config(node_4);
     var button_2 = sibling(button_1, 2);
-    bind_this(div, ($$value) => set(flowP, $$value), () => get$1(flowP));
-    var node_5 = sibling(div, 2);
+    var node_5 = sibling(button_2, 2);
     {
-      var consequent_4 = ($$anchor2) => {
-        var div_6 = root_4();
+      if_block(node_5, ($$render) => {
+      });
+    }
+    bind_this(div, ($$value) => set(flowP, $$value), () => get$1(flowP));
+    var node_6 = sibling(div, 2);
+    {
+      var consequent_5 = ($$anchor2) => {
+        var div_6 = root_5();
+        const style_directive = /* @__PURE__ */ derived_safe_equal(() => getTextColor(getSiteConfig().get_bg_color()));
+        template_effect(() => set_style(div_6, "--get-text-color", get$1(style_directive)));
         var div_7 = child(div_6);
+        const style_derived = /* @__PURE__ */ derived_safe_equal(() => `background-color: ${getSiteConfig().get_bg_color() ?? ""};`);
         var div_8 = child(div_7);
-        var button_3 = sibling(child(div_8), 2);
+        var button_4 = sibling(child(div_8), 2);
         var div_9 = sibling(div_8, 2);
         var div_10 = sibling(child(div_9), 2);
         var span_1 = child(div_10);
         var text = child(span_1);
         var input = sibling(span_1, 2);
+        template_effect(() => set_attribute(input, "max", Math.max(400, $_card_layout().max)));
         var div_11 = sibling(div_10, 2);
         var span_2 = child(div_11);
         var text_1 = child(span_2);
         var input_1 = sibling(span_2, 2);
+        template_effect(() => set_attribute(input_1, "min", Math.min(200, $_card_layout().min)));
+        template_effect(() => set_attribute(input_1, "max", Math.max(800, $_card_layout().min * 2)));
         var div_12 = sibling(div_11, 2);
         var span_3 = child(div_12);
         var text_2 = child(span_3);
         var input_2 = sibling(span_3, 2);
         var div_13 = sibling(div_12, 4);
-        var node_6 = sibling(child(div_13), 2);
-        Switch(node_6, {
+        var node_7 = sibling(child(div_13), 2);
+        Switch(node_7, {
           get checked() {
             mark_store_binding();
             return $_pic_failed_showInfo();
@@ -7058,8 +7092,8 @@ button:focus-visible {\r
           $$legacy: true
         });
         var div_14 = sibling(div_13, 2);
-        var node_7 = sibling(child(div_14), 2);
-        Switch(node_7, {
+        var node_8 = sibling(child(div_14), 2);
+        Switch(node_8, {
           get checked() {
             mark_store_binding();
             return $_show_hover_pic();
@@ -7069,15 +7103,15 @@ button:focus-visible {\r
           },
           $$legacy: true
         });
-        var node_8 = sibling(div_14, 2);
+        var node_9 = sibling(div_14, 2);
         {
-          var consequent_2 = ($$anchor3) => {
-            var div_15 = root_5();
+          var consequent_3 = ($$anchor3) => {
+            var div_15 = root_6();
             var div_16 = child(div_15);
             var span_4 = child(div_16);
             var text_3 = child(span_4);
-            var node_9 = sibling(div_16, 2);
-            Switch(node_9, {
+            var node_10 = sibling(div_16, 2);
+            Switch(node_10, {
               get checked() {
                 mark_store_binding();
                 return $_state_hover_pic();
@@ -7090,13 +7124,13 @@ button:focus-visible {\r
             template_effect(() => set_text(text_3, `预览大图默认状态: ${($_state_hover_pic() ? "尽量铺满" : "尽量原图大小") ?? ""}`));
             append($$anchor3, div_15);
           };
-          if_block(node_8, ($$render) => {
-            if ($_show_hover_pic()) $$render(consequent_2);
+          if_block(node_9, ($$render) => {
+            if ($_show_hover_pic()) $$render(consequent_3);
           });
         }
-        var div_17 = sibling(node_8, 4);
-        var node_10 = sibling(child(div_17), 2);
-        Switch(node_10, {
+        var div_17 = sibling(node_9, 4);
+        var node_11 = sibling(child(div_17), 2);
+        Switch(node_11, {
           get checked() {
             return $_card_detail().category;
           },
@@ -7106,8 +7140,8 @@ button:focus-visible {\r
           $$legacy: true
         });
         var div_18 = sibling(div_17, 2);
-        var node_11 = sibling(child(div_18), 2);
-        Switch(node_11, {
+        var node_12 = sibling(child(div_18), 2);
+        Switch(node_12, {
           get checked() {
             return $_card_detail().title;
           },
@@ -7117,8 +7151,8 @@ button:focus-visible {\r
           $$legacy: true
         });
         var div_19 = sibling(div_18, 2);
-        var node_12 = sibling(child(div_19), 2);
-        Switch(node_12, {
+        var node_13 = sibling(child(div_19), 2);
+        Switch(node_13, {
           get checked() {
             return $_card_detail().topping;
           },
@@ -7128,8 +7162,8 @@ button:focus-visible {\r
           $$legacy: true
         });
         var div_20 = sibling(div_19, 2);
-        var node_13 = sibling(child(div_20), 2);
-        Switch(node_13, {
+        var node_14 = sibling(child(div_20), 2);
+        Switch(node_14, {
           get checked() {
             return $_card_detail().free;
           },
@@ -7139,8 +7173,8 @@ button:focus-visible {\r
           $$legacy: true
         });
         var div_21 = sibling(div_20, 2);
-        var node_14 = sibling(child(div_21), 2);
-        Switch(node_14, {
+        var node_15 = sibling(child(div_21), 2);
+        Switch(node_15, {
           get checked() {
             return $_card_detail().size;
           },
@@ -7150,8 +7184,8 @@ button:focus-visible {\r
           $$legacy: true
         });
         var div_22 = sibling(div_21, 2);
-        var node_15 = sibling(child(div_22), 2);
-        Switch(node_15, {
+        var node_16 = sibling(child(div_22), 2);
+        Switch(node_16, {
           get checked() {
             return $_card_detail().sub_title;
           },
@@ -7161,8 +7195,8 @@ button:focus-visible {\r
           $$legacy: true
         });
         var div_23 = sibling(div_22, 2);
-        var node_16 = sibling(child(div_23), 2);
-        Switch(node_16, {
+        var node_17 = sibling(child(div_23), 2);
+        Switch(node_17, {
           get checked() {
             return $_card_detail().tags;
           },
@@ -7172,8 +7206,8 @@ button:focus-visible {\r
           $$legacy: true
         });
         var div_24 = sibling(div_23, 2);
-        var node_17 = sibling(child(div_24), 2);
-        Switch(node_17, {
+        var node_18 = sibling(child(div_24), 2);
+        Switch(node_18, {
           get checked() {
             return $_card_detail().download_collect;
           },
@@ -7183,8 +7217,8 @@ button:focus-visible {\r
           $$legacy: true
         });
         var div_25 = sibling(div_24, 2);
-        var node_18 = sibling(child(div_25), 2);
-        Switch(node_18, {
+        var node_19 = sibling(child(div_25), 2);
+        Switch(node_19, {
           get checked() {
             return $_card_detail().upload_time;
           },
@@ -7194,8 +7228,8 @@ button:focus-visible {\r
           $$legacy: true
         });
         var div_26 = sibling(div_25, 2);
-        var node_19 = sibling(child(div_26), 2);
-        Switch(node_19, {
+        var node_20 = sibling(child(div_26), 2);
+        Switch(node_20, {
           get checked() {
             return $_card_detail().statistics;
           },
@@ -7205,8 +7239,8 @@ button:focus-visible {\r
           $$legacy: true
         });
         var div_27 = sibling(div_26, 4);
-        var node_20 = sibling(child(div_27), 2);
-        Switch(node_20, {
+        var node_21 = sibling(child(div_27), 2);
+        Switch(node_21, {
           get checked() {
             mark_store_binding();
             return $_block_gay();
@@ -7217,8 +7251,8 @@ button:focus-visible {\r
           $$legacy: true
         });
         var div_28 = sibling(div_27, 4);
-        var node_21 = sibling(child(div_28), 2);
-        Switch(node_21, {
+        var node_22 = sibling(child(div_28), 2);
+        Switch(node_22, {
           get checked() {
             return $_card_radius().enabled;
           },
@@ -7227,10 +7261,10 @@ button:focus-visible {\r
           },
           $$legacy: true
         });
-        var node_22 = sibling(div_28, 2);
+        var node_23 = sibling(div_28, 2);
         {
-          var consequent_3 = ($$anchor3) => {
-            var div_29 = root_6();
+          var consequent_4 = ($$anchor3) => {
+            var div_29 = root_7();
             var span_5 = child(div_29);
             var text_4 = child(span_5);
             var input_3 = sibling(span_5, 2);
@@ -7238,31 +7272,17 @@ button:focus-visible {\r
             bind_value(input_3, () => $_card_radius().value, ($$value) => store_mutate(_card_radius, untrack($_card_radius).value = $$value, untrack($_card_radius)));
             append($$anchor3, div_29);
           };
-          if_block(node_22, ($$render) => {
-            if ($_card_radius().enabled) $$render(consequent_3);
+          if_block(node_23, ($$render) => {
+            if ($_card_radius().enabled) $$render(consequent_4);
           });
         }
-        template_effect(
-          ($0, $1, $2, $3, $4) => {
-            set_style(div_6, "--get-text-color", $0);
-            set_attribute(div_7, "style", `background-color: ${$1 ?? ""};`);
-            set_text(text, `最小宽度: ${$_card_layout().min ?? ""} px`);
-            set_attribute(input, "max", $2);
-            set_text(text_1, `最大宽度: ${$_card_layout().max ?? ""} px`);
-            set_attribute(input_1, "min", $3);
-            set_attribute(input_1, "max", $4);
-            set_text(text_2, `卡片间隔: ${$_card_layout().gap ?? ""} px`);
-          },
-          [
-            () => getTextColor(getSiteConfig().get_bg_color()),
-            () => getSiteConfig().get_bg_color(),
-            () => Math.max(400, $_card_layout().max),
-            () => Math.min(200, $_card_layout().min),
-            () => Math.max(800, $_card_layout().min * 2)
-          ],
-          derived_safe_equal
-        );
-        event("click", button_3, () => store_set(_side_panel_switch, false));
+        template_effect(() => {
+          set_attribute(div_7, "style", get$1(style_derived));
+          set_text(text, `最小宽度: ${$_card_layout().min ?? ""} px`);
+          set_text(text_1, `最大宽度: ${$_card_layout().max ?? ""} px`);
+          set_text(text_2, `卡片间隔: ${$_card_layout().gap ?? ""} px`);
+        });
+        event("click", button_4, () => store_set(_side_panel_switch, false));
         bind_value(input, () => $_card_layout().min, ($$value) => store_mutate(_card_layout, untrack($_card_layout).min = $$value, untrack($_card_layout)));
         bind_value(input_1, () => $_card_layout().max, ($$value) => store_mutate(_card_layout, untrack($_card_layout).max = $$value, untrack($_card_layout)));
         bind_value(input_2, () => $_card_layout().gap, ($$value) => store_mutate(_card_layout, untrack($_card_layout).gap = $$value, untrack($_card_layout)));
@@ -7270,8 +7290,8 @@ button:focus-visible {\r
         event("click", div_6, self(() => store_set(_side_panel_switch, false)));
         append($$anchor2, div_6);
       };
-      if_block(node_5, ($$render) => {
-        if ($_side_panel_switch()) $$render(consequent_4);
+      if_block(node_6, ($$render) => {
+        if ($_side_panel_switch()) $$render(consequent_5);
       });
     }
     template_effect(() => {
@@ -7292,7 +7312,6 @@ button:focus-visible {\r
     });
     append($$anchor, fragment);
     pop();
-    $$cleanup();
   }
   var root = /* @__PURE__ */ ns_template(`<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_iconCarrier"><circle cx="12" cy="12" r="10" stroke="#1C274C" stroke-width="1.5"></circle><path d="M14.5 9.50002L9.5 14.5M9.49998 9.5L14.5 14.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path></g></svg>`);
   function Icon_roundClose($$anchor) {
@@ -7303,7 +7322,7 @@ button:focus-visible {\r
   var root_1 = /* @__PURE__ */ template(`<div id="_iframe_holder" class="svelte-126sfo0"><div class="_iframe_back svelte-126sfo0"></div> <div class="_iframe_parent svelte-126sfo0"><div class="resize-handle resize-handle-left svelte-126sfo0"></div> <!> <iframe frameborder="0" class="svelte-126sfo0"></iframe> <div class="_iframeCloseBtn svelte-126sfo0"><!></div> <div class="resize-handle resize-handle-right svelte-126sfo0"></div></div></div>`);
   function App($$anchor, $$props) {
     push($$props, false);
-    const [$$stores, $$cleanup] = setup_stores();
+    const $$stores = setup_stores();
     const $_iframe_switch = () => store_get(_iframe_switch$1, "$_iframe_switch", $$stores);
     const $_textColor = () => store_get(_textColor, "$_textColor", $$stores);
     const $_iframe_url = () => store_get(_iframe_url$1, "$_iframe_url", $$stores);
@@ -7424,7 +7443,6 @@ button:focus-visible {\r
     }
     append($$anchor, fragment);
     pop();
-    $$cleanup();
   }
   const _app = document.createElement("div");
   document.body.append(_app);
