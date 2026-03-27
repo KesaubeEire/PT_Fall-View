@@ -28,6 +28,14 @@
   let varColor_bg2 = getComputedStyle(document.documentElement).getPropertyValue('--bg-2').trim();
   let observer;
 
+  // 事件监听器引用
+  let reqEventListener = null;
+  let resEventListener = null;
+  // shield 点击事件引用
+  let shieldClickListener = null;
+  // 清理回调数组
+  let cleanupCallbacks = [];
+
   // ------------------------------------------
 
   /** 主列表 dom */
@@ -43,11 +51,12 @@
 
   // ------------------------------------------
   // ## 主流程: 加载瀑布流 dom
-  Tool_Watch_Dom(CONFIG.TL_Selector, launchFallView);
+  const cleanup1 = Tool_Watch_Dom(CONFIG.TL_Selector, launchFallView);
+  if (cleanup1) cleanupCallbacks.push(cleanup1);
 
   // ------------------------------------------
   // ## 主流程 PT-Fall 网页顶部提示插件加载
-  Tool_Watch_Dom('a[href="/index"][target="_self"]', el => {
+  const cleanup2 = Tool_Watch_Dom('a[href="/index"][target="_self"]', el => {
     if (!Readme_Svelte) {
       // 不使用 insertAdjacentHTML 以防 xss 攻击
       const readmeNode = document.createElement('div');
@@ -61,6 +70,7 @@
       console.warn('[FALL]: 未找到目标链接元素');
     }
   });
+  if (cleanup2) cleanupCallbacks.push(cleanup2);
 
   onMount(() => {
     // 初始化 _textColor
@@ -97,6 +107,34 @@
   onDestroy(() => {
     // 销毁 Readme_Svelte
     if (observer) observer.disconnect();
+
+    // 移除 window 事件监听器
+    if (reqEventListener) {
+      window.removeEventListener('req>POST->/search', reqEventListener);
+      reqEventListener = null;
+    }
+    if (resEventListener) {
+      window.removeEventListener('res>POST->/search', resEventListener);
+      resEventListener = null;
+    }
+
+    // 恢复原始的 pushState 方法
+    if (originalPushState) {
+      history.pushState = originalPushState;
+    }
+
+    // 清理 shield 点击事件监听器
+    if (shieldClickListener) {
+      const shield = document.querySelector('#_shield');
+      if (shield) {
+        shield.removeEventListener('click', shieldClickListener);
+      }
+      shieldClickListener = null;
+    }
+
+    // 执行所有清理回调
+    cleanupCallbacks.forEach(cb => cb());
+    cleanupCallbacks = [];
 
     pageDestroy();
   });
@@ -155,7 +193,7 @@
       const param = { path: '/search', method: 'POST' };
 
       /** 劫持请求 */
-      window.addEventListener('req>POST->/search', e => {
+      reqEventListener = e => {
         console.log(`<PT-Fall>[Request]  (${param.method} -> ${param.path})\n`, e.detail);
 
         // NOTE: 这里判断下 url 是否包含 /api/torrent/search, 包含就接受, 不包含就拒绝
@@ -187,10 +225,11 @@
 
         // 移除 .ant-pagination 元素
         pageDestroy();
-      });
+      };
+      window.addEventListener('req>POST->/search', reqEventListener);
 
       /** 劫持响应 */
-      window.addEventListener(`res>POST->/search`, e => {
+      resEventListener = e => {
         const rawObject = JSON.parse(e.detail.data);
 
         // 请求如果被判断为不是需要的 /search (非种子列表的请求), 就不响应
@@ -232,7 +271,8 @@
 
         // 移动 .ant-pagination 元素
         pageInit();
-      });
+      };
+      window.addEventListener(`res>POST->/search`, resEventListener);
     } else {
       notyf_lt.error('找不到指定节点\n若总是如此请报告bug');
       console.error('无法插入：目标元素没有父节点');
@@ -251,12 +291,13 @@
     shield.id = '_shield';
 
     // 点击 #_shield 弹一个带确认和取消按钮的 modal 框
-    shield.addEventListener('click', () => {
+    shieldClickListener = () => {
       // NOTE: 用 confirm 试了下, 发现 confirm 是阻塞的, 导致页面会卡住, 所以还是用个 modal 框吧
       if (confirm('[PT-Fall]\n如果你认为你被阻挡了请点击确认\n这个阻挡效果会被取消\n这可能导致显示错误\n请确认您不在一般的瀑布流视图下\n比如您在逛论坛或者在发种之类的被遮挡了再点')) {
         shield.style.display = 'none';
       }
-    });
+    };
+    shield.addEventListener('click', shieldClickListener);
 
     if (!contentNode.querySelector('#_shield')) {
       contentNode.appendChild(shield);

@@ -28,6 +28,11 @@ export function Tool_Watch_Dom(selector, func = () => {}) {
     childList: true,
     subtree: true
   });
+
+  // 返回清理函数
+  return () => {
+    observer.disconnect();
+  };
 }
 
 /**
