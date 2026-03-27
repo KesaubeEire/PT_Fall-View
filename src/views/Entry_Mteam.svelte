@@ -49,8 +49,10 @@
   // ## 主流程 PT-Fall 网页顶部提示插件加载
   Tool_Watch_Dom('a[href="/index"][target="_self"]', el => {
     if (!Readme_Svelte) {
-      el.insertAdjacentHTML('afterend', '<div class="ptFallReadme"></div>');
-      const readmeNode = el.parentNode.querySelector('.ptFallReadme');
+      // 不使用 insertAdjacentHTML 以防 xss 攻击
+      const readmeNode = document.createElement('div');
+      readmeNode.className = 'ptFallReadme';
+      el.parentNode.insertBefore(readmeNode, el.nextSibling);     
       Readme_Svelte = mount(Readme, {
         target: readmeNode
       });

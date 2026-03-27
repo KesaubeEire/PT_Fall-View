@@ -39,7 +39,7 @@ export function Launch_Hijack(param = { path: '/search', method: 'POST' }) {
 
       const reqBody = {
         url: this._requestMetadata.url,
-        body: body instanceof Document ? body.documentElement.outerHTML : body
+        body: body instanceof Document ? body.documentElement.textContent || '[Document]' : body
       };
 
       // 记录请求体
@@ -84,7 +84,7 @@ export function Launch_Hijack(param = { path: '/search', method: 'POST' }) {
         case 'json':
           return this.response;
         case 'document':
-          return this.responseXML?.documentElement.outerHTML;
+          return this.responseXML?.documentElement.textContent || null;
         case 'arraybuffer':
           return new Uint8Array(this.response);
         case 'blob':
