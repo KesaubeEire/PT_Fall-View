@@ -107,7 +107,7 @@ export const CONFIG = {
       403: {
         src: cate_pic_baseUrl + 'tvsd.png',
         alt: '影劇/綜藝/SD',
-        color: '#c74854'
+        color: '#00a0e9'
       },
       404: {
         src: cate_pic_baseUrl + 'bbc.png',
@@ -310,7 +310,7 @@ export const CONFIG = {
   //   421: '#00a0e9', // Movie BluRay
   //   439: '#1b2a51', // Movie Remux
   //   105: '#276fb8', // TV影剧综艺 父
-  //   403: '#c74854', // TV影剧综艺 SD
+  //   403: '#00a0e9', // TV影剧综艺 SD
   //   402: '#276fb8', // TV影剧综艺 HD
   //   435: '#4dbebd', // TV影剧综艺 DVD
   //   438: '#1897d6', // TV影剧综艺 BluRay
