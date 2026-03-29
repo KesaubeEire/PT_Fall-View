@@ -55,7 +55,7 @@ export function config(mode) {
     ],
 
     // 暂时弃用这个设计, 可能没啥用还容易导致 bug
-    // "run-at": "document-start",
+    "run-at": "document-start",
     // "run-at": "document-idle",
 
     grant: 'none',

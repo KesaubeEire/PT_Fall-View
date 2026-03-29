@@ -8,9 +8,16 @@ export function Launch_Hijack(param = { path: '/search', method: 'POST' }) {
   const path = param.path || '/search';
   const method = param.method || 'POST';
 
+  // 确保必要的API可用（在document-start阶段检查）
+  if (typeof XMLHttpRequest === 'undefined') {
+    console.warn('[PT-Fall] XMLHttpRequest not available, skipping hijack');
+    return () => {}; // 返回空清理函数
+  }
+
   // 保存原生方法
   const nativeOpen = XMLHttpRequest.prototype.open;
   const nativeSend = XMLHttpRequest.prototype.send;
+  const nativeFetch = window.fetch;
 
   // 使用WeakMap存储每个XHR实例的元数据，避免污染原型
   const requestMetadataMap = new WeakMap();
@@ -71,6 +78,7 @@ export function Launch_Hijack(param = { path: '/search', method: 'POST' }) {
 
   // 劫持open方法
   XMLHttpRequest.prototype.open = function(method, url) {
+    console.log(`[PT-Fall] XHR.open: ${method} ${url}`, performance.now());
     const metadata = {
       method: method.toUpperCase(),
       url: url,
@@ -116,9 +124,73 @@ export function Launch_Hijack(param = { path: '/search', method: 'POST' }) {
     return nativeSend.apply(this, arguments);
   };
 
+  // 劫持fetch方法（如果可用）
+  if (nativeFetch) {
+    window.fetch = async function(...args) {
+      const [input, init = {}] = args;
+      const url = typeof input === 'string' ? input : (input instanceof Request ? input.url : String(input));
+      const requestMethod = (init.method || 'GET').toUpperCase();
+      const requestBody = init.body;
+
+      // 检查是否为目标请求
+      const isTarget = isTargetRequest(url, requestMethod);
+
+      // 触发请求事件
+      if (isTarget) {
+        console.log(`[PT-Fall] fetch: ${requestMethod} ${url}`, performance.now());
+        const reqBody = {
+          url: url,
+          body: requestBody instanceof Document ? requestBody.documentElement.textContent || '[Document]' : requestBody
+        };
+        const event = new CustomEvent(`req>${method}->${path}`, { detail: reqBody });
+        window.dispatchEvent(event);
+      }
+
+      // 调用原生fetch
+      return nativeFetch.apply(this, args).then(response => {
+        if (isTarget) {
+          // 克隆响应以便读取
+          const responseClone = response.clone();
+
+          // 提取响应数据
+          const contentType = response.headers.get('content-type') || '';
+          const isJson = contentType.includes('application/json');
+
+          return responseClone[isJson ? 'json' : 'text']().then(data => {
+            // 触发响应事件
+            const responseData = {
+              status: response.status,
+              headers: Array.from(response.headers.entries()).reduce((obj, [key, value]) => {
+                obj[key] = value;
+                return obj;
+              }, /** @type {Record<string, string>} */ ({})),
+              data: isJson ? JSON.stringify(data) : data
+            };
+
+            const event = new CustomEvent(`res>${method}->${path}`, { detail: responseData });
+            window.dispatchEvent(event);
+
+            // 返回原始响应
+            return response;
+          }).catch(error => {
+            console.error('<PT-Fall> Failed to parse fetch response:', error);
+            return response;
+          });
+        }
+
+        return response;
+      });
+    };
+  } else {
+    console.warn('[PT-Fall] fetch API not available, skipping fetch hijack');
+  }
+
   // 返回清理函数
   return function cleanup() {
     XMLHttpRequest.prototype.open = nativeOpen;
     XMLHttpRequest.prototype.send = nativeSend;
+    if (nativeFetch) {
+      window.fetch = nativeFetch;
+    }
   };
 }
