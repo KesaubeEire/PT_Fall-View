@@ -24,10 +24,6 @@ export const CONFIG = {
   /** 加载图片等待时的默认图片 */
   LOADING_PIC: '/static/media/logo.80b63235eaf702e44a8d.png',
 
-  /** 网站 host*/
-  /** FIXME: 没用的字段了*/
-  HOST: 'https://test2.m-team.cc',
-
   /** 网站 api */
   API: {
     /** 查询 */

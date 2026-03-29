@@ -1021,7 +1021,6 @@ let __torrentInfo =  {
     opacity: 0.2;
     transition: opacity 0.5s ease;
   }
-  /* FIXME: 不知道为啥这里不起作用 */
   .lazy-image.loaded {
     opacity: 1;
   }
