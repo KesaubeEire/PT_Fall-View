@@ -5,20 +5,24 @@
 
  */
 export function Tool_Watch_Dom(selector, func = () => {}) {
-  if (!selector) return;
+  if (!selector) return () => {};
 
   // 立即检查元素是否存在
   const targetElement = document.querySelector(selector);
   if (targetElement) {
     func(targetElement);
-    return;
+    return () => {}; // 返回空清理函数，保持一致性
   }
 
   // 创建观察者监听 DOM 变化
+  let disconnected = false;
   const observer = new MutationObserver((mutations, obs) => {
     const el = document.querySelector(selector);
     if (el) {
-      obs.disconnect(); // 停止监听
+      if (!disconnected) {
+        obs.disconnect(); // 停止监听
+        disconnected = true;
+      }
       func(el);
     }
   });
@@ -31,7 +35,10 @@ export function Tool_Watch_Dom(selector, func = () => {}) {
 
   // 返回清理函数
   return () => {
-    observer.disconnect();
+    if (!disconnected) {
+      observer.disconnect();
+      disconnected = true;
+    }
   };
 }
 

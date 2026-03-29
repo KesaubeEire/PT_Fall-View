@@ -14,7 +14,7 @@
 <script>
   import { fade } from 'svelte/transition';
   import { _iframe_switch, _iframe_url, _side_panel_switch, _textColor } from './stores';
-  import { mount } from 'svelte';
+  import { mount, onDestroy } from 'svelte';
   import EntryMteam from './views/Entry_Mteam.svelte';
   import FlowPanel from './component/flowPanel.svelte';
   import IconRoundClose from '@/assets/icon_roundClose.svelte';
@@ -42,6 +42,8 @@
   let isDragging = false;
   /** iframe 遮罩层，拖拽时显示 */
   let showOverlay = false;
+  /** iframe 滚动检查定时器 */
+  let scrollCheckInterval = null;
 
   let onMouseMove = () => {};
 
@@ -117,6 +119,19 @@
 
   // Log
   console.log('-------------->  PT_Fall Launch   <--------------');
+
+  // 组件销毁时清理资源
+  onDestroy(() => {
+    // 清理滚动检查定时器
+    if (scrollCheckInterval) {
+      clearInterval(scrollCheckInterval);
+      scrollCheckInterval = null;
+    }
+
+    // 移除事件监听器
+    window.removeEventListener('mousemove', onMouseMove);
+    window.removeEventListener('mouseup', onMouseUp);
+  });
 </script>
 
 <!-- iframe 详情 -->
@@ -141,6 +156,12 @@
         title={$_iframe_url}
         style="width: {iframeWidth}px;"
         on:load={e => {
+          // 清理之前的滚动检查定时器
+          if (scrollCheckInterval) {
+            clearInterval(scrollCheckInterval);
+            scrollCheckInterval = null;
+          }
+
           // 获取iframe的内容文档
           const iframeContent = e.target.contentDocument || e.target.contentWindow.document;
 
@@ -158,12 +179,13 @@
               // 滚动到目标元素
               targetElement.scrollIntoView({ behavior: 'smooth' });
               console.log('成功滚动到目标元素！');
-              clearInterval(checkInterval);
+              clearInterval(scrollCheckInterval);
+              scrollCheckInterval = null;
             }
           };
 
           // 每500ms检查一次，直到找到元素
-          const checkInterval = setInterval(checkElement, 500);
+          scrollCheckInterval = setInterval(checkElement, 500);
 
           // 首次立即检查
           checkElement();

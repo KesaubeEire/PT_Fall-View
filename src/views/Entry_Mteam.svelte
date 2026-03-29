@@ -35,6 +35,10 @@
   let shieldClickListener = null;
   // 清理回调数组
   let cleanupCallbacks = [];
+  // pageInit 清理函数
+  let pageInitCleanup = null;
+  // changeFallView 清理函数数组
+  let fallViewCleanups = [];
 
   // ------------------------------------------
 
@@ -137,6 +141,10 @@
     cleanupCallbacks.forEach(cb => cb());
     cleanupCallbacks = [];
 
+    // 清理 fallView 观察者
+    fallViewCleanups.forEach(cleanup => cleanup());
+    fallViewCleanups = [];
+
     // 清理全局引用
     if (window.MteamFall_Svelte) {
       delete window.MteamFall_Svelte;
@@ -163,7 +171,7 @@
 
   /** 页面初始化: 监听 .ant-pagination 元素 */
   function pageInit() {
-    Tool_Watch_Dom('.ant-pagination', el => {
+    return Tool_Watch_Dom('.ant-pagination', el => {
       if (el && el.parentNode && el.parentNode !== Fall_DOM) {
         pageFather = el.parentNode;
       }
@@ -180,6 +188,12 @@
 
   /** 页面销毁: 移除 .ant-pagination 元素 */
   function pageDestroy() {
+    // 清理 pageInit 观察者
+    if (pageInitCleanup) {
+      pageInitCleanup();
+      pageInitCleanup = null;
+    }
+
     if (pagination && pagination.parentNode) {
       pagination.parentNode.removeChild(pagination);
       // pagination = null;
@@ -281,7 +295,8 @@
         }
 
         // 移动 .ant-pagination 元素
-        pageInit();
+        if (pageInitCleanup) pageInitCleanup();
+        pageInitCleanup = pageInit();
       };
       window.addEventListener(`res>POST->/search`, resEventListener);
     } else {
@@ -333,17 +348,25 @@
   let _mx_next_max_width = ''; // next 风格记录 maxWidth 值, 用于切换瀑布流时还原 maxWidth 值
   let _mx_next_padding = ''; // next 风格记录 padding-left 值, 用于切换瀑布流时还原 padding-left 值
   function changeFallView(isFallView) {
+    // 清理之前的观察者
+    fallViewCleanups.forEach(cleanup => cleanup());
+    fallViewCleanups = [];
+
     // 切换瀑布流视图
     Fall_DOM.style.display = isFallView ? 'block' : 'none';
-    Tool_Watch_Dom('#_fallHolder', el => {
+
+    const cleanup1 = Tool_Watch_Dom('#_fallHolder', el => {
       el.style.display = isFallView ? 'block' : 'none';
     });
-    Tool_Watch_Dom('#_shield', el => {
+    fallViewCleanups.push(cleanup1);
+
+    const cleanup2 = Tool_Watch_Dom('#_shield', el => {
       el.style.display = isFallView ? 'block' : 'none';
     });
+    fallViewCleanups.push(cleanup2);
 
     // 新风格
-    Tool_Watch_Dom(CONFIG.TL_Selector + '.flex', el => {
+    const cleanup3 = Tool_Watch_Dom(CONFIG.TL_Selector + '.flex', el => {
       if (!_mx_next_max_width) {
         _mx_next_max_width = getComputedStyle(el).getPropertyValue('max-width');
         _mx_next_padding = getComputedStyle(el).getPropertyValue('padding-left');
@@ -352,12 +375,14 @@
       el.style.paddingLeft = isFallView ? '80px' : _mx_next_padding;
       el.style.paddingRight = isFallView ? '80px' : _mx_next_padding;
     });
+    fallViewCleanups.push(cleanup3);
 
     // 旧风格
-    Tool_Watch_Dom(CONFIG.TL_Selector + ' .mx-auto', el => {
+    const cleanup4 = Tool_Watch_Dom(CONFIG.TL_Selector + ' .mx-auto', el => {
       if (!_mx_margin_back) _mx_margin_back = el.style.margin;
       el.style.margin = isFallView ? 0 : _mx_margin_back;
     });
+    fallViewCleanups.push(cleanup4);
   }
   window.changeFallView = changeFallView;
 
