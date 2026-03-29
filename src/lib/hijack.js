@@ -1,114 +1,124 @@
 /**
- * 拦截指定 API
+ * 拦截指定 API（改进版：避免原型污染，使用WeakMap）
  * @param {Object} param 指定的 path & method, 默认是 POST->'/search'
+ * @returns {Function} 清理函数，调用后可恢复原始XHR行为
  */
 export function Launch_Hijack(param = { path: '/search', method: 'POST' }) {
-  /* 保存原生 XMLHttpRequest 原型方法 */
+  // 提取参数并设置默认值
+  const path = param.path || '/search';
+  const method = param.method || 'POST';
+
+  // 保存原生方法
   const nativeOpen = XMLHttpRequest.prototype.open;
   const nativeSend = XMLHttpRequest.prototype.send;
 
-  // 劫持 open 方法记录请求信息
-  XMLHttpRequest.prototype.open = function (method, url) {
-    this._requestMetadata = {
+  // 使用WeakMap存储每个XHR实例的元数据，避免污染原型
+  const requestMetadataMap = new WeakMap();
+  const capturedFlags = new WeakSet();
+
+  // 检查是否为目标请求
+  /** @type {(url: string, requestMethod: string) => boolean} */
+  function isTargetRequest(url, requestMethod) {
+    if (!url.includes(path)) return false;
+    if (requestMethod.toUpperCase() !== method.toUpperCase()) return false;
+    return true;
+  }
+
+  // 解析响应内容
+  /** @type {(xhr: XMLHttpRequest) => any} */
+  function parseResponse(xhr) {
+    try {
+      switch (xhr.responseType) {
+        case 'json':
+          return xhr.response;
+        case 'document':
+          return xhr.responseXML?.documentElement.textContent || null;
+        case 'arraybuffer':
+          return new Uint8Array(xhr.response);
+        case 'blob':
+          return URL.createObjectURL(xhr.response);
+        default:
+          return xhr.responseText;
+      }
+    } catch {
+      return xhr.responseText;
+    }
+  }
+
+  // 捕获响应数据
+  /** @type {(xhr: XMLHttpRequest) => void} */
+  function captureResponseData(xhr) {
+    const metadata = requestMetadataMap.get(xhr);
+    if (!metadata || !metadata.isTarget || capturedFlags.has(xhr)) {
+      return;
+    }
+
+    try {
+      const responseData = {
+        status: xhr.status,
+        headers: xhr.getAllResponseHeaders(),
+        data: parseResponse(xhr)
+      };
+
+      // 触发自定义事件
+      const event = new CustomEvent(`res>${method}->${path}`, { detail: responseData });
+      window.dispatchEvent(event);
+      capturedFlags.add(xhr);
+    } catch (e) {
+      console.error('<PT-Fall> Capture failed:', e);
+    }
+  }
+
+  // 劫持open方法
+  XMLHttpRequest.prototype.open = function(method, url) {
+    const metadata = {
       method: method.toUpperCase(),
       url: url,
-      isTarget: url.includes(param.path) && method.toUpperCase() === param.method
+      isTarget: isTargetRequest(url, method)
     };
+    requestMetadataMap.set(this, metadata);
     return nativeOpen.apply(this, arguments);
   };
 
-  // 劫持 send 方法注入响应监听
-  XMLHttpRequest.prototype.send = function (body) {
-    if (this._requestMetadata?.isTarget) {
+  // 劫持send方法
+  XMLHttpRequest.prototype.send = function(body) {
+    const metadata = requestMetadataMap.get(this);
+
+    if (metadata?.isTarget) {
       const originalOnReadyStateChange = this.onreadystatechange;
       const originalOnLoad = this.onload;
 
-      // 监听所有状态变化
-      this.addEventListener('readystatechange', () => {
+      // 监听readystatechange
+      this.addEventListener('readystatechange', function() {
         if (this.readyState === 4) {
-          this._captureResponseData();
+          captureResponseData(this);
         }
         originalOnReadyStateChange?.call(this);
       });
 
-      // 兼容 onload 直接监听
-      this.onload = e => {
-        this._captureResponseData();
+      // 兼容onload
+      this.onload = function(e) {
+        captureResponseData(this);
         originalOnLoad?.call(this, e);
       };
 
+      // 记录请求体
       const reqBody = {
-        url: this._requestMetadata.url,
+        url: metadata.url,
         body: body instanceof Document ? body.documentElement.textContent || '[Document]' : body
       };
 
-      // 记录请求体
-      // console.log(`<PT-Fall>[Request]  (${param.method} -> ${param.path})\n`, reqBody);
-
-      // 触发自定义事件（使用）
-      const event = new CustomEvent(`req>${param.method}->${param.path}`, { detail: reqBody });
+      // 触发请求事件
+      const event = new CustomEvent(`req>${method}->${path}`, { detail: reqBody });
       window.dispatchEvent(event);
     }
 
     return nativeSend.apply(this, arguments);
   };
 
-  // 响应数据捕获方法
-  XMLHttpRequest.prototype._captureResponseData = function () {
-    if (!this._hasCaptured && this._requestMetadata.isTarget) {
-      try {
-        const responseData = {
-          status: this.status,
-          headers: this.getAllResponseHeaders(),
-          data: this._parseResponse()
-        };
-
-        // 输出到控制台
-        // const { data } = responseData;
-        // console.log(`<PT-Fall>[Response] (${param.method} -> ${param.path})\n`, JSON.parse(data));
-
-        // 触发自定义事件（使用）
-        const event = new CustomEvent(`res>${param.method}->${param.path}`, { detail: responseData });
-        window.dispatchEvent(event);
-      } catch (e) {
-        console.error('<PT-Fall> Capture failed:', e);
-      }
-      this._hasCaptured = true; // 防止重复触发
-    }
+  // 返回清理函数
+  return function cleanup() {
+    XMLHttpRequest.prototype.open = nativeOpen;
+    XMLHttpRequest.prototype.send = nativeSend;
   };
-
-  // 自动解析响应内容
-  XMLHttpRequest.prototype._parseResponse = function () {
-    try {
-      switch (this.responseType) {
-        case 'json':
-          return this.response;
-        case 'document':
-          return this.responseXML?.documentElement.textContent || null;
-        case 'arraybuffer':
-          return new Uint8Array(this.response);
-        case 'blob':
-          return URL.createObjectURL(this.response);
-        default:
-          return this.responseText;
-      }
-    } catch {
-      return this.responseText;
-    }
-  };
-
-  /******************** 使用示例 ********************/
-  // 监听捕获事件（使用）
-  // window.addEventListener(`${param.method}->${param.path}`, e => {
-  //   const { data } = e.detail;
-  //   console.log(`<PT-Fall>[Response] (${param.method}->${param.path})[通过事件捕获]:\n`, JSON.parse(data));
-  // });
-
-  // 原始请求示例
-  // const xhr = new XMLHttpRequest();
-  // xhr.open('POST', '/search');
-  // xhr.onload = function () {
-  //   console.log('原始回调收到的响应:', this.response); // 未被修改
-  // };
-  // xhr.send(JSON.stringify({ query: 'test' }));
 }

@@ -47,7 +47,8 @@
   // ------------------------------------------
   // ## 主流程 劫持 XHR 和 Fetch 请求
   console.log('=====> 启动劫持 XHR 和 Fetch 请求 <=====');
-  Launch_Hijack();
+  const xhrCleanup = Launch_Hijack();
+  if (xhrCleanup) cleanupCallbacks.push(xhrCleanup);
 
   // ------------------------------------------
   // ## 主流程: 加载瀑布流 dom

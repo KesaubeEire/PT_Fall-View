@@ -135,6 +135,8 @@
       <!-- svelte-ignore element_invalid_self_closing_tag -->
       <iframe
         src={$_iframe_url}
+        sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+        allow="fullscreen"
         frameborder="0"
         title={$_iframe_url}
         style="width: {iframeWidth}px;"
