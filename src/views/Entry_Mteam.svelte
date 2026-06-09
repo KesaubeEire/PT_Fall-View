@@ -310,7 +310,7 @@
    */
   function add_Fall_DOM(el) {
     // 找到 el.parentNode 的 .ant-spin-nested-loading 这个子结点
-    const contentNode = el.parentNode.querySelector('.ant-spin-nested-loading');
+    const contentNode = el.parentNode.querySelector('.ant-spin-container');
 
     // 给 contentNode 这个元素上一个防止触摸并透明度减半的护罩
     const shield = document.createElement('div');
